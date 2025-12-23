@@ -1,0 +1,3227 @@
+\documentclass[12pt]{article}
+
+\usepackage[a4paper,margin=2.2cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xeCJK}
+
+\graphicspath{{assets/figs_used/}}
+
+\setCJKmainfont{Source Han Serif CN}
+\setCJKsansfont{Source Han Sans CN}
+\setCJKmonofont{Source Han Sans CN}
+\setlist[itemize]{leftmargin=*,nosep}
+\setlist[enumerate]{leftmargin=*,nosep}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!55!black,
+  urlcolor=blue!55!black,
+  citecolor=blue!55!black
+}
+
+% 定义示例环境
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable}
+\newtcolorbox{example}[1][]{
+  colback=blue!5!white,
+  colframe=blue!75!black,
+  title=\textbf{例题},
+  breakable,
+  #1
+}
+
+\newtcolorbox{derivation}[1][]{
+  colback=green!5!white,
+  colframe=green!75!black,
+  title=\textbf{推导},
+  breakable,
+  #1
+}
+
+\title{量子信息导论：模块1——数学基础（精简重构版）}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section*{【了解】希腊字母读音表}
+\begin{center}
+\begin{tabular}{llll}
+\toprule
+\textbf{大写} & \textbf{小写} & \textbf{英文名} & \textbf{读音（汉语拼音）} \\
+\midrule
+$\Psi$ & $\psi$ & psi & sai（赛）\\
+$\Phi$ & $\phi, \varphi$ & phi & fai（fei）\\
+$\Theta$ & $\theta$ & theta & sita（西塔）\\
+$\Lambda$ & $\lambda$ & lambda & lamuda（兰姆达）\\
+$\Sigma$ & $\sigma$ & sigma & xigema（西格玛）\\
+$\Omega$ & $\omega$ & omega & omiga（欧米伽）\\
+$\Delta$ & $\delta$ & delta & delta（德尔塔）\\
+$\Gamma$ & $\gamma$ & gamma & gama（伽玛）\\
+$\Pi$ & $\pi$ & pi & pai（派）\\
+-- & $\alpha$ & alpha & aerfǎ（阿尔法）\\
+-- & $\beta$ & beta & beita（贝塔）\\
+-- & $\gamma$ & gamma & gama（伽玛）\\
+-- & $\epsilon, \varepsilon$ & epsilon & yipuxilóng（伊普西龙）\\
+-- & $\eta$ & eta & yita（伊塔）\\
+-- & $\kappa$ & kappa & kapa（卡帕）\\
+-- & $\mu$ & mu & miù（谬）\\
+-- & $\nu$ & nu & niǔ（纽）\\
+-- & $\rho$ & rho & ròu（肉）\\
+-- & $\tau$ & tau & tao（涛）\\
+-- & $\chi$ & chi & kǎi（凯）\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\paragraph{常见符号}
+\begin{itemize}
+  \item $|\psi\rangle$：量子态（ket），读作"ket-sai"或"态-赛"
+  \item $\langle\phi|$：对偶态（bra），读作"bra-fei"或"对偶-fei"
+  \item $\langle\phi|\psi\rangle$：内积，读作"bra-fei-ket-sai"
+  \item $\lambda$：本征值（eigenvalue），读作"兰姆达"
+  \item $\sigma$：Pauli矩阵，读作"西格玛"
+  \item $\dagger$：厄米共轭（Hermitian conjugate），读作"dagger"或"匕首"
+\end{itemize}
+
+\section*{【了解】学习目标}
+本模块专注于量子信息的数学语言。完成学习后，你应能：
+\begin{itemize}
+  \item 熟练进行复数运算（模、共轭、指数形式）
+  \item 掌握向量/矩阵的基本运算和Dirac记号
+  \item 理解线性组合、线性无关、基与维数
+  \item 理解内积、正交归一基、完备关系
+  \item 理解基变换与酉矩阵的关系
+  \item 熟悉矩阵常用操作（转置、迹、行列式、逆）
+  \item 计算厄米/酉矩阵的本征值与本征向量
+  \item 使用张量积描述复合量子系统
+  \item 判断算符是否对易或反对易并理解其物理意义
+  \item 计算基本测量概率并理解 Born 规则
+  \item 使用密度算子描述混态并进行偏迹
+\end{itemize}
+
+\tableofcontents
+
+\section{【背】复数（Complex Numbers）}
+
+\subsection{【背】定义与基本运算}
+
+\paragraph{定义} 复数 $z=x+iy$，其中 $x,y\in\mathbb{R}$，$i^2=-1$。
+
+\paragraph{核心运算}
+\begin{itemize}
+  \item \textbf{复共轭}：$z^\ast=x-iy$
+  \item \textbf{模}：$|z|=\sqrt{x^2+y^2}=\sqrt{zz^\ast}$
+  \item \textbf{逆}：$\displaystyle z^{-1}=\frac{z^\ast}{|z|^2}=\frac{x-iy}{x^2+y^2}$
+  \item \textbf{指数形式}：$z=|z|e^{i\theta}$，其中 $\theta=\arg(z)=\arctan(y/x)$
+\end{itemize}
+
+\paragraph{重要性质}
+\begin{align}
+  (z^\ast)^\ast &= z \\
+  (z+w)^\ast &= z^\ast+w^\ast \\
+  (z-w)^\ast &= z^\ast-w^\ast \\
+  (zw)^\ast &= z^\ast w^\ast \\
+  \left(\frac{z}{w}\right)^\ast &= \frac{z^\ast}{w^\ast}\quad (w\neq 0) \\
+  |zw| &= |z|\,|w| \\
+  |e^{i\theta}| &= 1 \\
+  (e^{i\theta})^\ast &= e^{-i\theta}
+\end{align}
+
+\paragraph{几何表示与欧拉公式}
+复数 $z=x+iy$ 对应复平面上一点 $(x,y)$，模长 $|z|$ 为到原点距离，幅角为 $\theta=\arg z$。
+欧拉公式给出
+\[
+e^{i\theta}=\cos\theta+i\sin\theta
+\]
+从而
+\[
+z=|z|(\cos\theta+i\sin\theta)=|z|e^{i\theta}
+\]
+由此得到 De Moivre 公式：
+\[
+(re^{i\theta})^n=r^n e^{in\theta}
+\]
+
+\begin{example}
+\textbf{计算 $(1+i)^8$}
+
+\textbf{解：}
+\begin{enumerate}
+  \item 写成指数形式：$1+i = \sqrt{2}\,e^{i\pi/4}$（因为 $|1+i|=\sqrt{2}$，$\arg(1+i)=\pi/4$）
+  \item 计算幂次：
+  \[
+  (1+i)^8 = (\sqrt{2})^8\,e^{i8\pi/4} = 2^4\,e^{i2\pi} = 16\cdot 1 = 16
+  \]
+\end{enumerate}
+\end{example}
+
+\begin{example}
+\textbf{求 $z=3+4i$ 的逆}
+
+\textbf{解：}
+\begin{enumerate}
+  \item $|z|^2=3^2+4^2=25$
+  \item $z^{-1}=\dfrac{3-4i}{25}=\dfrac{3}{25}-\dfrac{4}{25}i$
+\end{enumerate}
+\end{example}
+
+\section{【背】向量空间与Dirac记号}
+
+\paragraph{Dirac（狄拉克）记号}
+也称 bra-ket 记号，用 $\langle\cdot|$ 与 $|\cdot\rangle$ 统一书写向量与对偶向量，便于表达内积与算符作用。
+
+\paragraph{希尔伯特空间}
+量子态所在的数学空间是\textbf{复内积空间}，通常称为希尔伯特空间。有限维情形下可以等同于 $\mathbb{C}^n$，其向量、内积与线性算符的运算规则与线性代数一致。
+
+\subsection{【背】向量与矩阵}
+
+\paragraph{列向量（ket）}
+\[
+|\psi\rangle = \begin{pmatrix} a_1 \\ a_2 \\ \vdots \\ a_n \end{pmatrix}, \quad a_i\in\mathbb{C}
+\]
+
+\paragraph{行向量（bra）}
+\[
+\langle\psi| = (|\psi\rangle)^\dagger = \begin{pmatrix} a_1^\ast & a_2^\ast & \cdots & a_n^\ast \end{pmatrix}
+\]
+
+注：$\dagger$ 表示厄米共轭（conjugate transpose），即先复共轭再转置。
+
+\paragraph{常用 ket（计算基与相关基）}
+单比特计算基：
+\[
+|0\rangle=\begin{pmatrix}1\\0\end{pmatrix},\qquad
+|1\rangle=\begin{pmatrix}0\\1\end{pmatrix}
+\]
+Hadamard（哈达玛）基：
+\[
+|+\rangle=\frac{|0\rangle+|1\rangle}{\sqrt{2}},\qquad
+|-\rangle=\frac{|0\rangle-|1\rangle}{\sqrt{2}}
+\]
+$Y$ 基：
+\[
+|+i\rangle=\frac{|0\rangle+i|1\rangle}{\sqrt{2}},\qquad
+|-i\rangle=\frac{|0\rangle-i|1\rangle}{\sqrt{2}}
+\]
+常用两比特计算基（张量积）：
+\[
+|00\rangle=|0\rangle\otimes|0\rangle,\ 
+|01\rangle=|0\rangle\otimes|1\rangle,\ 
+|10\rangle=|1\rangle\otimes|0\rangle,\ 
+|11\rangle=|1\rangle\otimes|1\rangle
+\]
+\paragraph{常用纠缠态（Bell 态）}
+\[
+|\Phi^+\rangle=\frac{|00\rangle+|11\rangle}{\sqrt{2}},\quad
+|\Phi^-\rangle=\frac{|00\rangle-|11\rangle}{\sqrt{2}}
+\]
+\[
+|\Psi^+\rangle=\frac{|01\rangle+|10\rangle}{\sqrt{2}},\quad
+|\Psi^-\rangle=\frac{|01\rangle-|10\rangle}{\sqrt{2}}
+\]
+\paragraph{常用三比特计算基}
+\[
+|000\rangle,\ |001\rangle,\ |010\rangle,\ |011\rangle,\ |100\rangle,\ |101\rangle,\ |110\rangle,\ |111\rangle
+\]
+
+\paragraph{矩阵乘法} 若 $A$ 为 $m\times n$ 矩阵，$B$ 为 $n\times p$ 矩阵，则
+\[
+(AB)_{ij} = \sum_{k=1}^n A_{ik}B_{kj}
+\]
+
+\paragraph{矩阵的基本操作}
+\begin{itemize}
+  \item \textbf{转置}：$A^T$，满足 $(A^T)_{ij}=A_{ji}$
+  \item \textbf{共轭}：$A^\ast$，满足 $(A^\ast)_{ij}=(A_{ij})^\ast$
+  \item \textbf{迹}：$\mathrm{tr}(A)=\sum_i A_{ii}$，满足 $\mathrm{tr}(AB)=\mathrm{tr}(BA)$
+  \item \textbf{行列式}：$\det(A)$，若 $\det(A)\neq 0$ 则 $A$ 可逆
+  \item \textbf{不可交换性}：一般有 $AB\neq BA$
+\end{itemize}
+
+\paragraph{行列式与可逆性（补充）}\label{para:det-invertibility}
+齐次方程 $M x = 0$ 有非零解 $\Leftrightarrow$ $M$ 不可逆。
+线性代数结论：$M$ 可逆 $\Leftrightarrow$ $\det(M)\neq 0$，因此
+\[
+Mx=0 \text{ 有非零解 }\Leftrightarrow \det(M)=0
+\]
+行列式可理解为矩阵对体积的缩放因子：若 $\det\neq 0$，体积被缩放且矩阵可逆；若 $\det=0$，体积被压扁到更低维，矩阵不可逆，因此才可能有非零解。
+
+\paragraph{不可交换性的几何直觉}
+二维空间中“先旋转后剪切”与“先剪切后旋转”通常给出不同结果，
+反映了矩阵乘法的顺序依赖性。
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.45\linewidth]{fig_vector_rotation.png}
+  \caption{二维向量旋转/线性变换的几何直观示意。}
+\end{figure}
+
+\paragraph{常见矩阵类型}
+\begin{itemize}
+  \item \textbf{对角矩阵}：非对角元为 $0$，对角矩阵之间可交换
+  \item \textbf{单位矩阵}：$I=\mathrm{diag}(1,1,\ldots,1)$
+  \item \textbf{对称矩阵}：$A=A^T$（实矩阵情形）
+  \item \textbf{逆矩阵}：$AA^{-1}=A^{-1}A=I$（并非所有矩阵都有逆）
+\end{itemize}
+
+\paragraph{对角矩阵的投影分解（补充）}\label{para:diag-projector}
+设标准基 $\{|e_j\rangle\}$ 为“第 $j$ 个分量为 1，其余为 0”的向量，则任意对角矩阵
+\[
+D=\mathrm{diag}(d_1,\ldots,d_n)
+\]
+可写成
+\[
+D=\sum_{j=1}^n d_j\,|e_j\rangle\langle e_j|
+\]
+\textbf{理由：}对任意 $k$，有 $D|e_k\rangle=d_k|e_k\rangle$，而
+\[
+\left(\sum_{j} d_j|e_j\rangle\langle e_j|\right)|e_k\rangle
+=\sum_j d_j|e_j\rangle\langle e_j|e_k\rangle
+=d_k|e_k\rangle
+\]
+因此两算符对标准基作用相同，故相等。
+
+\textbf{数值例子：}取
+\[
+D=\mathrm{diag}(2,3)=\begin{pmatrix}2&0\\0&3\end{pmatrix},\quad
+|e_1\rangle=\begin{pmatrix}1\\0\end{pmatrix},\ |e_2\rangle=\begin{pmatrix}0\\1\end{pmatrix}
+\]
+则
+\[
+|e_1\rangle\langle e_1|=\begin{pmatrix}1&0\\0&0\end{pmatrix},\quad
+|e_2\rangle\langle e_2|=\begin{pmatrix}0&0\\0&1\end{pmatrix}
+\]
+所以
+\[
+2|e_1\rangle\langle e_1|+3|e_2\rangle\langle e_2|
+=\begin{pmatrix}2&0\\0&3\end{pmatrix}=D.
+\]
+
+\subsection{【背】线性空间的基本概念}
+
+\paragraph{线性组合与张成}\label{para:span}
+给定向量集合 $\{|v_1\rangle,\ldots,|v_k\rangle\}$，其线性组合为
+\[
+\sum_{j=1}^k c_j |v_j\rangle, \quad c_j\in\mathbb{C}
+\]
+所有线性组合的集合称为该集合的\textbf{张成}（span）。
+
+\paragraph{索引集（补充）}\label{para:index-set}
+索引集是\textbf{用来标记一族对象}的集合，例如 $\{v_k\}_{k\in\mathcal{I}}$ 表示“用 $k\in\mathcal{I}$ 来编号”的向量族。
+这里的 $\mathcal{I}$（有时也写作 $I$）就是\textbf{索引集合本身}，它可以是任意集合，常见如有限情形 $\{1,\ldots,n\}$ 或无限情形 $\mathbb{N}$。
+为避免与本文中的单位算符 $I$ 混淆，这里通常写作 $\mathcal{I}$。
+例如取 $\mathcal{I}=\{1,2,3\}$，则 $\{v_k\}_{k\in\mathcal{I}}=\{v_1,v_2,v_3\}$，表示用 1、2、3 给这三个向量编号。
+
+\paragraph{线性无关与线性相关}
+若
+\[
+\sum_{j=1}^k c_j |v_j\rangle = 0 \Rightarrow c_1=\cdots=c_k=0
+\]
+则 $\{|v_j\rangle\}$ 线性无关；否则线性相关。
+
+\paragraph{基与维数}
+一组向量若既线性无关又能张成整个空间，则称为\textbf{基}。基向量个数称为\textbf{维数}。
+
+\paragraph{坐标表示}
+在基 $\{|e_i\rangle\}$ 下，任意向量可表示为
+\[
+|\psi\rangle=\sum_i c_i|e_i\rangle
+\]
+若基为正交归一，则 $c_i=\langle e_i|\psi\rangle$。
+
+\subsection{【背】厄米共轭（Hermitian Conjugate）}
+
+\paragraph{定义}
+对于任意矩阵或算符 $A$，其\textbf{厄米共轭}（或称共轭转置）记作 $A^\dagger$，定义为先转置再对每个矩阵元取复共轭：
+\[
+(A^\dagger)_{ij} = (A_{ji})^\ast
+\]
+
+注意：对于向量，$\langle\psi| = (|\psi\rangle)^\dagger$ 就是将列向量做厄米共轭得到行向量。
+
+\paragraph{重要运算性质}
+\begin{enumerate}
+  \item \textbf{双重共轭}：$(A^\dagger)^\dagger = A$
+  \item \textbf{线性性质}：
+  \begin{itemize}
+    \item $(cA)^\dagger = c^\ast A^\dagger$（其中 $c$ 为复数）
+    \item $(A+B)^\dagger = A^\dagger + B^\dagger$
+  \end{itemize}
+  \item \textbf{乘积的共轭}：$(AB)^\dagger = B^\dagger A^\dagger$（注意顺序反转）
+  \item \textbf{内积关系}：$\langle\phi|A|\psi\rangle = \langle A^\dagger\phi|\psi\rangle = \langle\psi|A^\dagger|\phi\rangle^\ast$
+\end{enumerate}
+
+\begin{derivation}
+\textbf{内积关系的详细推导：}
+把态写成列向量，则 $\langle\phi|=(|\phi\rangle)^\dagger=\phi^\dagger$，
+\[
+\langle\phi|A|\psi\rangle = \phi^\dagger A \psi
+\]
+而伴随算符满足 $(A^\dagger \phi)^\dagger = \phi^\dagger A$，因此
+\[
+\phi^\dagger A \psi = (A^\dagger \phi)^\dagger \psi = \langle A^\dagger \phi|\psi\rangle
+\]
+\textbf{关于共轭：}对任意内积都有 $\langle u|v\rangle^\ast=\langle v|u\rangle$，于是
+\[
+(\langle A^\dagger \phi|\psi\rangle)^\ast
+= \langle \psi|A^\dagger \phi\rangle
+= \langle \psi|A^\dagger|\phi\rangle
+\]
+从而得到
+\[
+\langle\phi|A|\psi\rangle = \langle A^\dagger\phi|\psi\rangle = \langle\psi|A^\dagger|\phi\rangle^\ast
+\]
+\end{derivation}
+
+\begin{example}
+\textbf{验证乘积的共轭性质}
+
+设 $A=\begin{pmatrix}1&i\\0&1\end{pmatrix}$，$B=\begin{pmatrix}2&0\\1&3\end{pmatrix}$，验证 $(AB)^\dagger = B^\dagger A^\dagger$。
+
+\textbf{解：}
+\begin{align*}
+AB &= \begin{pmatrix}1&i\\0&1\end{pmatrix}\begin{pmatrix}2&0\\1&3\end{pmatrix} = \begin{pmatrix}2+i&3i\\1&3\end{pmatrix} \\
+(AB)^\dagger &= \begin{pmatrix}2-i&1\\-3i&3\end{pmatrix}
+\end{align*}
+
+另一方面：
+\begin{align*}
+A^\dagger &= \begin{pmatrix}1&0\\-i&1\end{pmatrix}, \quad B^\dagger = \begin{pmatrix}2&1\\0&3\end{pmatrix} \\
+B^\dagger A^\dagger &= \begin{pmatrix}2&1\\0&3\end{pmatrix}\begin{pmatrix}1&0\\-i&1\end{pmatrix} = \begin{pmatrix}2-i&1\\-3i&3\end{pmatrix}
+\end{align*}
+
+因此 $(AB)^\dagger = B^\dagger A^\dagger$ \checkmark
+\end{example}
+
+\subsection{【背】内积（Inner Product）}
+
+\paragraph{定义}
+\[
+\langle\phi|\psi\rangle = \sum_{k=1}^n a_k^\ast b_k \in \mathbb{C}
+\]
+其中 $|\phi\rangle=\begin{pmatrix}a_1\\\vdots\\a_n\end{pmatrix}$，$|\psi\rangle=\begin{pmatrix}b_1\\\vdots\\b_n\end{pmatrix}$。
+
+\paragraph{基本性质}
+\begin{enumerate}
+  \item \textbf{共轭对称}：$\langle\phi|\psi\rangle = \langle\psi|\phi\rangle^\ast$
+  \item \textbf{对第二变量线性}：$\langle\phi|(c_1|\psi_1\rangle+c_2|\psi_2\rangle) = c_1\langle\phi|\psi_1\rangle + c_2\langle\phi|\psi_2\rangle$
+  \item \textbf{对第一变量共轭线性}：$\langle c_1\phi_1+c_2\phi_2|\psi\rangle = c_1^\ast\langle\phi_1|\psi\rangle + c_2^\ast\langle\phi_2|\psi\rangle$
+  \item \textbf{正定性}：$\langle\psi|\psi\rangle \ge 0$，且 $\langle\psi|\psi\rangle=0 \Leftrightarrow |\psi\rangle=0$
+\end{enumerate}
+
+\paragraph{夹心表达式（矩阵元）性质}
+给定算符 $A$，夹心表达式（矩阵元）
+\[
+\langle\phi|A|\psi\rangle
+\]
+满足：
+\begin{itemize}
+  \item \textbf{对 ket 线性}：$\langle\phi|A(c_1|\psi_1\rangle+c_2|\psi_2\rangle)=c_1\langle\phi|A|\psi_1\rangle+c_2\langle\phi|A|\psi_2\rangle$
+  \item \textbf{对 bra 共轭线性}：$\langle c_1\phi_1+c_2\phi_2|A|\psi\rangle=c_1^\ast\langle\phi_1|A|\psi\rangle+c_2^\ast\langle\phi_2|A|\psi\rangle$
+  \item \textbf{共轭关系}：
+  \[
+  \big(\langle\phi|A|\psi\rangle\big)^\ast=\langle\psi|A^\dagger|\phi\rangle
+  \]
+  特别地，若 $A$ 为厄米算符（$A^\dagger=A$），则
+  \[
+  \langle\psi|A|\psi\rangle\in\mathbb{R}
+  \]
+\end{itemize}
+
+\paragraph{范数（norm）与归一化}
+\begin{itemize}
+  \item 范数：$\||\psi\rangle\| = \sqrt{\langle\psi|\psi\rangle}$
+  \item 归一化：若 $\langle\psi|\psi\rangle=1$，称 $|\psi\rangle$ 已归一化
+  \item 归一化方法：$\displaystyle |\tilde{\psi}\rangle = \frac{|\psi\rangle}{\||\psi\rangle\|}$
+\end{itemize}
+
+\begin{example}
+\textbf{归一化向量 $|\psi\rangle=\begin{pmatrix}1\\i\\1\end{pmatrix}$}
+
+\textbf{解：}
+\begin{enumerate}
+  \item 计算内积：
+  \[
+  \langle\psi|\psi\rangle = 1^\ast\cdot 1 + i^\ast\cdot i + 1^\ast\cdot 1 = 1 + (-i)(i) + 1 = 1+1+1 = 3
+  \]
+  \item 归一化：
+  \[
+  |\tilde{\psi}\rangle = \frac{1}{\sqrt{3}}\begin{pmatrix}1\\i\\1\end{pmatrix}
+  \]
+  \item 验证：$\langle\tilde{\psi}|\tilde{\psi}\rangle = \frac{1}{3}\cdot 3 = 1$ \checkmark
+\end{enumerate}
+\end{example}
+
+\subsection{【背】外积（Outer Product）与投影}
+
+\paragraph{定义}
+\[
+|u\rangle\langle v| \quad \text{是一个矩阵（算符）}
+\]
+
+\paragraph{作用规则}
+\[
+(|u\rangle\langle v|)\,|w\rangle = |u\rangle\,\langle v|w\rangle
+\]
+注意：$\langle v|w\rangle$ 是一个复数，所以结果是 $|u\rangle$ 乘以这个复数。
+
+\paragraph{矩阵元形式}
+若 $|u\rangle=(u_1,\ldots,u_n)^T$，$|v\rangle=(v_1,\ldots,v_n)^T$，则
+\[
+(|u\rangle\langle v|)_{ij}=u_i v_j^\ast
+\]
+这里的共轭来自 bra：$\langle v|=(|v\rangle)^\dagger=\sum_j v_j^\ast\langle j|$，
+所以矩阵元中对 $v_j$ 取共轭，而不是对 $u_i$ 取共轭。
+
+\paragraph{投影算符} 若 $|\psi\rangle$ 已归一化，则
+\[
+P_\psi = |\psi\rangle\langle\psi|
+\]
+满足 $P_\psi^2=P_\psi$（幂等性）和 $P_\psi^\dagger=P_\psi$（厄米性）。
+
+\subsection{【背】正交归一基（Orthonormal Basis）}\label{subsec:onb}
+
+\paragraph{Kronecker delta符号}
+定义 Kronecker delta（克罗内克 delta）符号：
+\[
+\delta_{ij} = \begin{cases} 1, & i=j \\ 0, & i\neq j \end{cases}
+\]
+这是一个非常常用的记号，用来简洁地表示"相等时为1，不等时为0"。
+
+\paragraph{正交与归一化}
+\begin{itemize}
+  \item \textbf{正交}：若 $\langle\phi|\psi\rangle=0$，则称 $|\phi\rangle$ 与 $|\psi\rangle$ 正交
+  \item \textbf{归一化}：若 $\langle\psi|\psi\rangle=1$，则称 $|\psi\rangle$ 已归一化
+\end{itemize}
+
+\paragraph{正交归一基（ONB）的定义}
+一组向量 $\{|e_1\rangle,\ldots,|e_n\rangle\}$ 称为\textbf{正交归一基}，如果它们满足：
+\[
+\boxed{\langle e_i|e_j\rangle = \delta_{ij}}
+\]
+即：
+\begin{itemize}
+  \item 当 $i\neq j$ 时，$\langle e_i|e_j\rangle=0$（互相正交）
+  \item 当 $i=j$ 时，$\langle e_i|e_i\rangle=1$（各自归一化）
+\end{itemize}
+
+\paragraph{单位算符（恒等算符）}
+单位算符 $I$（Identity operator）满足：对任意向量 $|\psi\rangle$，都有
+\[
+I|\psi\rangle = |\psi\rangle
+\]
+在有限维空间 $\mathbb{C}^n$ 中，$I$ 就是 $n\times n$ 单位矩阵：
+\[
+I = \begin{pmatrix}
+1 & 0 & \cdots & 0 \\
+0 & 1 & \cdots & 0 \\
+\vdots & \vdots & \ddots & \vdots \\
+0 & 0 & \cdots & 1
+\end{pmatrix}
+\]
+
+\paragraph{完备关系（单位分解）}
+若 $\{|e_1\rangle,\ldots,|e_n\rangle\}$ 是正交归一基，则单位算符可以表示为：
+\[
+\boxed{I = \sum_{j=1}^n |e_j\rangle\langle e_j|}
+\]
+这个公式称为\textbf{完备关系}或\textbf{单位分解}。
+
+\begin{derivation}
+\textbf{证明：}对任意 $|\psi\rangle$，设 $|\psi\rangle=\sum_k c_k|e_k\rangle$，则
+\begin{align*}
+\left(\sum_j |e_j\rangle\langle e_j|\right)|\psi\rangle
+&= \sum_j |e_j\rangle\langle e_j|\left(\sum_k c_k|e_k\rangle\right) \\
+&= \sum_{j,k} c_k|e_j\rangle\langle e_j|e_k\rangle \\
+&= \sum_{j,k} c_k|e_j\rangle\delta_{jk} \quad \text{（利用 $\langle e_j|e_k\rangle=\delta_{jk}$）} \\
+&= \sum_j c_j|e_j\rangle = |\psi\rangle
+\end{align*}
+因此 $\sum_j |e_j\rangle\langle e_j| = I$。
+\end{derivation}
+
+\paragraph{应用：展开系数计算}
+若 $|\psi\rangle=\sum_j c_j|e_j\rangle$，对等式两边左乘 $\langle e_k|$：
+\[
+\langle e_k|\psi\rangle = \sum_j c_j\langle e_k|e_j\rangle = \sum_j c_j\delta_{kj} = c_k
+\]
+因此 $\boxed{c_k = \langle e_k|\psi\rangle}$。
+
+\paragraph{测量概率与展开系数（补充）}
+在基 $\{|e_j\rangle\}$ 上测量，结果 $e_j$ 的概率为
+\[
+p(j)=|c_j|^2=|\langle e_j|\psi\rangle|^2
+\]
+测量后态塌缩为对应本征态 $|e_j\rangle$。
+
+\begin{example}
+\textbf{计算基展开}
+
+设计算基 $|0\rangle=\begin{pmatrix}1\\0\end{pmatrix}$，$|1\rangle=\begin{pmatrix}0\\1\end{pmatrix}$，求 $|\psi\rangle=\begin{pmatrix}3\\4i\end{pmatrix}$ 在该基下的展开系数。
+
+\textbf{解：}
+\begin{align*}
+c_0 &= \langle 0|\psi\rangle = (1\quad 0)\begin{pmatrix}3\\4i\end{pmatrix} = 3 \\
+c_1 &= \langle 1|\psi\rangle = (0\quad 1)\begin{pmatrix}3\\4i\end{pmatrix} = 4i
+\end{align*}
+因此 $|\psi\rangle = 3|0\rangle + 4i|1\rangle$。
+\end{example}
+
+\paragraph{正交归一本征基（补充）}
+若一组正交归一向量同时是某算符 $A$ 的本征向量，则称为 $A$ 的\textbf{正交归一本征基}。
+若本征值\textbf{不简并}，对应本征向量天然正交；若\textbf{简并}，可在该本征子空间内做 Gram--Schmidt 正交化得到正交归一基。
+本征值/本征向量的定义见\hyperref[sec:eigen]{本征值与本征向量}。
+
+\paragraph{正交归一基与酉矩阵}\label{para:orthonormal-unitary}
+若将正交归一基按列排成矩阵
+\[
+U=\big(|\phi_1\rangle\ |\phi_2\rangle\ \cdots\ |\phi_n\rangle\big)
+\]
+则 $U^\dagger U=I$，因此 $U$ 为酉矩阵。
+反之，任一酉矩阵的列向量构成正交归一基。
+
+\subsection{【背】基变换与酉矩阵}
+
+\paragraph{正交归一基之间的变换}
+设 $\{|e_i\rangle\}$ 与 $\{|f_j\rangle\}$ 是同一希尔伯特空间中的两组正交归一基，定义
+\[
+U_{ij}=\langle e_i|f_j\rangle
+\]
+则 $U$ 为\textbf{酉矩阵}，且
+\[
+|f_j\rangle=\sum_i U_{ij}|e_i\rangle
+\]
+若向量在基 $\{|e_i\rangle\}$ 下坐标为 $c$，在基 $\{|f_j\rangle\}$ 下坐标为 $c'$，则
+\[
+c' = U^\dagger c
+\]
+直观上，$U$ 的第 $j$ 列就是新基向量 $|f_j\rangle$ 在旧基 $\{|e_i\rangle\}$ 下的坐标；
+基变换必须保持内积与长度，因此对应的坐标变换矩阵必为酉矩阵。
+
+\begin{derivation}
+\textbf{由完备关系得到展开与酉性：}
+
+\textbf{1) 展开公式} 由于 $\{|e_i\rangle\}$ 为正交归一基，有完备关系
+\[
+I=\sum_i |e_i\rangle\langle e_i|
+\]
+因此
+\[
+|f_j\rangle = I|f_j\rangle
+=\sum_i |e_i\rangle\langle e_i|f_j\rangle
+=\sum_i U_{ij}|e_i\rangle
+\]
+这就得到 $|f_j\rangle=\sum_i U_{ij}|e_i\rangle$。
+
+\textbf{2) $U$ 为酉矩阵} 计算
+\begin{align*}
+(U^\dagger U)_{jk}
+&=\sum_i U_{ij}^\ast U_{ik}
+\;=\;\sum_i \langle f_j|e_i\rangle\langle e_i|f_k\rangle \\
+&=\langle f_j|\left(\sum_i |e_i\rangle\langle e_i|\right)|f_k\rangle
+\;=\;\langle f_j|f_k\rangle
+\;=\;\delta_{jk}
+\end{align*}
+因此 $U^\dagger U=I$。同理也可用 $\sum_j |f_j\rangle\langle f_j|=I$ 验证 $UU^\dagger=I$，故 $U$ 酉。
+\textbf{含义：}$U$ 恰好是“旧基 $\to$ 新基”的坐标变换矩阵，正交归一基之间的变换必保持内积与范数，这正是酉矩阵的定义。
+
+\textbf{3) 坐标变换公式} 令 $c_i=\langle e_i|\psi\rangle$，$c'_j=\langle f_j|\psi\rangle$，则
+\[
+c'_j=\sum_i \langle f_j|e_i\rangle\,c_i
+=\sum_i U^\dagger_{ji}\,c_i
+\]
+即矩阵形式 $c'=U^\dagger c$。
+\end{derivation}
+
+\paragraph{例：Hadamard（哈达玛）基}
+定义
+\[
+|+\rangle=\frac{|0\rangle+|1\rangle}{\sqrt{2}},\quad
+|-\rangle=\frac{|0\rangle-|1\rangle}{\sqrt{2}}
+\]
+这里的\textbf{计算基}指标准基 $\{|0\rangle,|1\rangle\}$，其中
+\[
+|0\rangle=\begin{pmatrix}1\\0\end{pmatrix},\qquad |1\rangle=\begin{pmatrix}0\\1\end{pmatrix}
+\]
+\textbf{变换矩阵}指“把新基向量在旧基下展开”的系数矩阵。若旧基为 $\{|e_i\rangle\}$、新基为 $\{|f_j\rangle\}$，
+则 $U_{ij}=\langle e_i|f_j\rangle$，并有
+\[
+|f_j\rangle=\sum_i U_{ij}|e_i\rangle
+\]
+因此矩阵 $U$ 的\textbf{第 $j$ 列}就是 $|f_j\rangle$ 在旧基下的坐标。
+
+对 Hadamard 基，令旧基 $|e_1\rangle=|0\rangle,|e_2\rangle=|1\rangle$，新基 $|f_1\rangle=|+\rangle,|f_2\rangle=|-\rangle$。
+计算矩阵元：
+\[
+U_{11}=\langle 0|+\rangle=\frac{1}{\sqrt{2}},\quad
+U_{21}=\langle 1|+\rangle=\frac{1}{\sqrt{2}}
+\]
+\[
+U_{12}=\langle 0|-\rangle=\frac{1}{\sqrt{2}},\quad
+U_{22}=\langle 1|-\rangle=-\frac{1}{\sqrt{2}}
+\]
+所以 $\{|+\rangle,|-\rangle\}$ 为一组正交归一基，与计算基的变换矩阵为
+\[
+H=\frac{1}{\sqrt{2}}\begin{pmatrix}1&1\\1&-1\end{pmatrix}
+\]
+
+\paragraph{Hadamard（哈达玛）门的用途与用法}
+Hadamard 门（又称哈达玛门，记为 $H$）\textbf{既是厄米的也是酉的}，即
+\[
+H^\dagger=H,\qquad H^\dagger H=I
+\]
+因此 $H^2=I$。它最常见的作用是\textbf{在计算基与 Hadamard 基之间切换}，以及\textbf{生成叠加态}：
+\[
+H|0\rangle=|+\rangle=\frac{|0\rangle+|1\rangle}{\sqrt{2}},\qquad
+H|1\rangle=|-\rangle=\frac{|0\rangle-|1\rangle}{\sqrt{2}}
+\]
+因此 $H$ 把确定态变成等幅叠加态；反过来再施加一次 $H$ 会回到原态（$H^2=I$）。
+
+\paragraph{如何用：改变测量基}
+若想在 $X$ 基（$|+\rangle,|-\rangle$）测量，可先施加 $H$，再在计算基做 $Z$ 测量。
+因为
+\[
+HZH = X
+\]
+这表示“先变基再测量”等价于直接测量另一方向。
+
+\begin{example}
+\textbf{示例：用 $H$ 将 $Z$ 基测量变为 $X$ 基测量}
+
+设量子态为 $|\psi\rangle=\alpha|0\rangle+\beta|1\rangle$。若要测量 $X$ 基的概率：
+\begin{enumerate}
+  \item 先施加 $H$ 得到 $H|\psi\rangle$。
+  \item 再在计算基测量（$Z$ 基）。
+\end{enumerate}
+这样测得 $|0\rangle$ 的概率等于原态在 $|+\rangle$ 的概率，
+测得 $|1\rangle$ 的概率等于原态在 $|-\rangle$ 的概率。
+\end{example}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.45\linewidth]{fig_basis_change.png}
+  \caption{不同正交基之间的基变换示意（$\{|e_i\rangle\}$ 与 $\{|\tilde e_i\rangle\}$）。}
+\end{figure}
+
+\subsection{【了解】离散谱与连续谱（Dirac $\delta$ 归一化）}\label{subsec:discrete-continuous}
+
+\paragraph{离散基 vs 连续基}
+离散正交归一基满足 $\langle e_i|e_j\rangle=\delta_{ij}$，而连续谱的本征态满足
+\[
+\langle x|x'\rangle=\delta(x-x')
+\]
+其中 $\delta(x-x')$ 为狄拉克 $\delta$ 函数。两者都是“正交归一”的广义形式。
+
+\paragraph{连续完备性}
+连续基的完备关系写成积分形式：
+\[
+\int |x\rangle\langle x|\,dx = I,\qquad
+\int |p\rangle\langle p|\,dp = I
+\]
+
+\paragraph{波函数与归一化}
+\[
+\psi(x)=\langle x|\psi\rangle,\qquad
+\int |\psi(x)|^2\,dx = 1
+\]
+
+因此，“离散谱 $\leftrightarrow$ 求和”，“连续谱 $\leftrightarrow$ 积分”是同一数学结构在不同谱类型下的体现。
+\paragraph{离散与连续的统一表述（补充）}
+常将求和与积分统一写作
+\[
+I=\int |a\rangle\langle a|\,da
+\]
+其中对离散谱该符号代表求和，对连续谱代表积分。
+
+\section{【背】线性算符（Linear Operators）}
+
+\subsection{【了解】基本概念}
+
+\paragraph{算符作用}
+算符（operator）$A$ 是将一个向量映射到另一个向量的"函数"：
+\[
+A: |\psi\rangle \mapsto A|\psi\rangle
+\]
+在有限维空间中，算符就是矩阵。
+
+\paragraph{线性性}
+线性算符满足
+\[
+A\left(c_1|\psi_1\rangle + c_2|\psi_2\rangle\right)
+= c_1A|\psi_1\rangle + c_2A|\psi_2\rangle
+\]
+
+\paragraph{单位算符与逆算符}
+单位算符 $I$ 满足 $I|\psi\rangle=|\psi\rangle$。
+若存在 $A^{-1}$ 使得 $AA^{-1}=A^{-1}A=I$，则 $A$ 可逆。
+算符乘积一般不交换（$AB\neq BA$），其物理含义将在对易子部分进一步讨论。
+
+\paragraph{算符相等（补充）}
+若对任意态 $|\psi\rangle$ 都有 $A|\psi\rangle=B|\psi\rangle$，则 $A=B$。
+
+\paragraph{期望值}
+给定一个算符 $A$ 和一个归一化的态 $|\psi\rangle$（$\langle\psi|\psi\rangle=1$），定义 $A$ 在态 $|\psi\rangle$ 下的\textbf{期望值}（expectation value）为：
+\[
+\langle A \rangle_\psi := \langle\psi|A|\psi\rangle
+\]
+若在 $A$ 的本征基下 $A|a_j\rangle=a_j|a_j\rangle$ 且 $|\psi\rangle=\sum_j c_j|a_j\rangle$，则
+\[
+\langle A\rangle=\sum_j a_j |c_j|^2
+\]
+体现“\textbf{本征值按概率加权平均}”。
+这是一个复数。在量子力学中，期望值对应测量的平均值。
+
+\begin{example}
+\textbf{计算期望值}
+
+设 $|\psi\rangle = \frac{1}{\sqrt{2}}\begin{pmatrix}1\\1\end{pmatrix}$，$A=\begin{pmatrix}1&0\\0&-1\end{pmatrix}$，求 $\langle A\rangle_\psi$。
+
+\textbf{解：}
+\begin{align*}
+\langle A\rangle_\psi &= \langle\psi|A|\psi\rangle \\
+&= \frac{1}{\sqrt{2}}(1\quad 1)\begin{pmatrix}1&0\\0&-1\end{pmatrix}\frac{1}{\sqrt{2}}\begin{pmatrix}1\\1\end{pmatrix} \\
+&= \frac{1}{2}(1\quad 1)\begin{pmatrix}1\\-1\end{pmatrix} \\
+&= \frac{1}{2}(1-1) = 0
+\end{align*}
+\end{example}
+
+\subsection{【背】厄米算符（Hermitian Operators）}
+
+\paragraph{定义}
+若算符 $H$ 满足 $H=H^\dagger$，则称 $H$ 为\textbf{厄米算符}（或自伴算符）。
+
+\paragraph{物理意义}
+在量子力学中，所有可观测量（如能量、动量、位置）都用厄米算符表示，因为测量结果必须是实数。
+
+\paragraph{2×2厄米矩阵的通用形式}
+\[
+H = \begin{pmatrix} a & b \\ b^\ast & d \end{pmatrix}, \quad a,d\in\mathbb{R}, b\in\mathbb{C}
+\]
+即：对角元素必须是实数，非对角元素互为共轭。
+
+\paragraph{关键性质}
+\begin{enumerate}
+  \item \textbf{期望值为实数}：对任意归一化态 $|\psi\rangle$，$\langle\psi|H|\psi\rangle\in\mathbb{R}$
+  \item \textbf{本征值为实数}（下一节将定义本征值）
+  \item \textbf{不同本征值的本征向量正交}
+\end{enumerate}
+
+\paragraph{对角化形式（补充）}
+任意厄米算符都可被酉对角化：
+\[
+H=U\,\mathrm{diag}(\lambda_1,\ldots,\lambda_n)\,U^\dagger
+\]
+其中列向量为正交归一的本征态。
+
+\begin{derivation}
+\textbf{证明期望值为实数：}
+\begin{align*}
+\langle\psi|H|\psi\rangle^\ast
+&= \langle\psi|H^\dagger|\psi\rangle \quad \text{（共轭转置的性质）} \\
+&= \langle\psi|H|\psi\rangle \quad \text{（因为 $H=H^\dagger$）}
+\end{align*}
+因此 $\langle\psi|H|\psi\rangle$ 等于其自身的复共轭，故为实数。
+\end{derivation}
+
+\begin{example}
+\textbf{判断是否为厄米算符}
+判断 $\sigma_z = \begin{pmatrix}1&0\\0&-1\end{pmatrix}$ 是否为厄米算符。
+
+\textbf{解：}
+\[
+\sigma_z^\dagger = (\sigma_z^T)^\ast = \begin{pmatrix}1&0\\0&-1\end{pmatrix}^\ast = \begin{pmatrix}1&0\\0&-1\end{pmatrix} = \sigma_z
+\]
+因此 $\sigma_z$ 是厄米算符。
+\end{example}
+
+\subsection{【背】酉算符（Unitary / 幺正 Operators）}
+
+\paragraph{定义} 若 $U^\dagger U = UU^\dagger = I$，则称 $U$ 为酉算符（或幺正算符）。
+
+\paragraph{关键性质}
+\begin{enumerate}
+  \item \textbf{保持内积}：$\langle U\phi|U\psi\rangle = \langle\phi|\psi\rangle$
+  \item \textbf{保持范数}：$\|U|\psi\rangle\| = \||\psi\rangle\|$
+  \item \textbf{逆等于厄米共轭}：$U^{-1}=U^\dagger$
+  \item \textbf{列向量构成正交归一基}：设 $U$ 为 $n\times n$ 酉矩阵，记 $|u_j\rangle$ 为 $U$ 的第 $j$ 列（作为列向量），则这 $n$ 个列向量 $\{|u_1\rangle,|u_2\rangle,\ldots,|u_n\rangle\}$ 构成正交归一基，即满足 $\langle u_i|u_j\rangle = \delta_{ij}$（反之亦成立，见\hyperref[para:orthonormal-unitary]{正交归一基与酉矩阵}）
+\end{enumerate}
+
+\paragraph{谱性质（补充）}
+酉算符的本征值满足 $|\lambda|=1$（位于单位圆上），因此 $\det(U)$ 也满足 $|\det(U)|=1$。
+时间演化算符可写成
+\[
+U=\exp\!\left(-\frac{i}{\hbar}H\Delta t\right)
+\]
+其中 $H$ 为厄米算符。
+
+\begin{derivation}
+\textbf{证明保持内积：}
+\begin{align*}
+\langle U\phi|U\psi\rangle
+&= (U|\phi\rangle)^\dagger(U|\psi\rangle) \\
+&= \langle\phi|U^\dagger U|\psi\rangle \\
+&= \langle\phi|I|\psi\rangle = \langle\phi|\psi\rangle
+\end{align*}
+\end{derivation}
+
+\begin{example}
+\textbf{验证Hadamard门是酉算符}
+
+Hadamard门：$\displaystyle H = \frac{1}{\sqrt{2}}\begin{pmatrix}1&1\\1&-1\end{pmatrix}$
+
+\textbf{解：}因元素全为实数，$H^\dagger=H^T=H$。计算：
+\begin{align*}
+H^\dagger H &= H^2 = \frac{1}{2}\begin{pmatrix}1&1\\1&-1\end{pmatrix}\begin{pmatrix}1&1\\1&-1\end{pmatrix} \\
+&= \frac{1}{2}\begin{pmatrix}2&0\\0&2\end{pmatrix} = I
+\end{align*}
+因此 $H$ 是酉算符（同时也是厄米算符）。
+\end{example}
+
+\subsection{【背】算符的矩阵表示（Matrix Elements）}
+
+\paragraph{算符矩阵表示的直观}
+给定一组基后，算符就对应一个\textbf{算符矩阵}，其全部信息由矩阵元 $A_{ij}$ 给出。
+
+\paragraph{矩阵元定义}
+在一组正交归一基 $\{|e_i\rangle\}$ 下，算符 $A$ 的矩阵元定义为：
+\[
+ A_{ij}=\langle e_i|A|e_j\rangle
+\]
+
+\paragraph{算符的基展开（补充）}
+由矩阵元定义可得
+\[
+A=\sum_{i,j} A_{ij}\,|e_i\rangle\langle e_j|
+\]
+这说明“给定一组基 + 所有矩阵元”即可完全确定算符。
+
+\begin{derivation}
+\textbf{推导：}在正交归一基下插入完备关系
+\[
+I=\sum_i |e_i\rangle\langle e_i|
+\]
+于是
+\begin{align*}
+A &= IAI
+=\left(\sum_i |e_i\rangle\langle e_i|\right)A\left(\sum_j |e_j\rangle\langle e_j|\right) \\
+&= \sum_{i,j} |e_i\rangle\langle e_i|A|e_j\rangle\langle e_j|
+ = \sum_{i,j} A_{ij}\,|e_i\rangle\langle e_j|
+\end{align*}
+其中 $A_{ij}=\langle e_i|A|e_j\rangle$。
+\end{derivation}
+
+\paragraph{对态矢的作用}
+若 $|\psi\rangle=\sum_j c_j|e_j\rangle$，则
+\[
+A|\psi\rangle=\sum_{i,j}A_{ij}c_j|e_i\rangle
+\]
+即系数满足 $c'_i=\sum_j A_{ij}c_j$，这与矩阵乘法一致。
+
+\begin{derivation}
+\textbf{推导：}
+\begin{align*}
+A|\psi\rangle
+&=A\left(\sum_j c_j|e_j\rangle\right)
+=\sum_j c_j\,A|e_j\rangle \quad \text{（线性性）} \\
+A|e_j\rangle
+&=IA|e_j\rangle
+=\left(\sum_i |e_i\rangle\langle e_i|\right)A|e_j\rangle
+=\sum_i |e_i\rangle\langle e_i|A|e_j\rangle \\
+&=\sum_i A_{ij}|e_i\rangle
+\end{align*}
+代回得
+\[
+A|\psi\rangle=\sum_j c_j\sum_i A_{ij}|e_i\rangle
+=\sum_i\left(\sum_j A_{ij}c_j\right)|e_i\rangle
+\]
+因此新系数
+\[
+c'_i=\langle e_i|A|\psi\rangle=\sum_j A_{ij}c_j
+\]
+即在基 $\{|e_i\rangle\}$ 下坐标向量满足 $c' = A c$。
+\end{derivation}
+
+\paragraph{矩阵形式的期望值与演化（补充）}
+若 $c$ 为态在基 $\{|e_i\rangle\}$ 下的列向量，则
+\[
+\langle A\rangle = c^\dagger A c
+\]
+薛定谔方程在该基下写成矩阵微分方程：
+\[
+i\hbar\frac{d}{dt}c(t)=Hc(t)
+\]
+
+\begin{derivation}
+\textbf{期望值推导：}令 $|\psi\rangle=\sum_j c_j|e_j\rangle$，则
+\begin{align*}
+\langle A\rangle
+&=\langle\psi|A|\psi\rangle
+=\sum_{i,j} c_i^\ast c_j \langle e_i|A|e_j\rangle
+=\sum_{i,j} c_i^\ast A_{ij} c_j
+\\
+&= c^\dagger A c
+\end{align*}
+\textbf{演化推导：}将 $|\psi(t)\rangle=\sum_i c_i(t)|e_i\rangle$ 代入
+$i\hbar\partial_t|\psi\rangle=H|\psi\rangle$，并左乘 $\langle e_i|$ 得
+\[
+i\hbar\,\dot c_i(t)=\sum_j H_{ij}c_j(t)
+\]
+即矩阵形式 $i\hbar\,\dot c(t)=Hc(t)$。
+\end{derivation}
+
+\paragraph{厄米性与对角化}
+若 $A=A^\dagger$，则 $A_{ij}=A_{ji}^\ast$，矩阵为厄米矩阵。
+在 $A$ 的本征基下矩阵为对角矩阵，主对角元即本征值。
+
+\begin{derivation}
+\textbf{厄米矩阵元关系：}
+\[
+A_{ij}=\langle e_i|A|e_j\rangle
+=\langle e_i|A^\dagger|e_j\rangle
+=\langle e_j|A|e_i\rangle^\ast
+=A_{ji}^\ast
+\]
+\end{derivation}
+
+\paragraph{对角化与酉对角化（定义）}\label{para:diagonalization}
+\textbf{对角化：}若存在可逆矩阵 $P$ 使
+\[
+P^{-1}AP=D
+\]
+其中 $D$ 为对角矩阵，则称 $A$ \textbf{可对角化}，也可写成
+\[
+A=PDP^{-1}
+\]
+\textbf{含义：}$P$ 的列向量是一组线性无关本征向量，$D$ 的对角元就是对应本征值。
+换句话说，在“以本征向量为基”的表象中，算符矩阵变为对角矩阵。
+
+\textbf{酉对角化：}若存在\textbf{酉矩阵} $U$ 使
+\[
+U^\dagger A U = D
+\]
+则称 $A$ \textbf{酉对角化}。这等价于：$A$ 存在一组\textbf{正交归一}本征向量作为基。
+对厄米算符（以及更一般的正规算符）一定可以酉对角化。
+
+\paragraph{连续表象中的矩阵元}
+连续基下矩阵元是积分核：
+\[
+A(x,x')=\langle x|A|x'\rangle,\qquad
+(A\psi)(x)=\int A(x,x')\psi(x')\,dx'
+\]
+
+\begin{derivation}
+\textbf{推导：}插入连续完备关系 $\int |x'\rangle\langle x'|\,dx'=I$，
+\begin{align*}
+(A\psi)(x) &= \langle x|A|\psi\rangle
+ = \int \langle x|A|x'\rangle\langle x'|\psi\rangle\,dx' \\
+&= \int A(x,x')\,\psi(x')\,dx'
+\end{align*}
+其中 $\psi(x')=\langle x'|\psi\rangle$。
+\end{derivation}
+
+\subsection{【背】Pauli矩阵}
+
+\[
+\sigma_x = \begin{pmatrix}0&1\\1&0\end{pmatrix}, \quad
+\sigma_y = \begin{pmatrix}0&-i\\i&0\end{pmatrix}, \quad
+\sigma_z = \begin{pmatrix}1&0\\0&-1\end{pmatrix}
+\]
+
+\paragraph{性质}
+\begin{itemize}
+  \item 都是厄米的：$\sigma_i=\sigma_i^\dagger$
+  \item 都是酉的：$\sigma_i^2=I$
+  \item 无迹：$\text{tr}(\sigma_i)=0$
+  \item 反对易关系：$\{\sigma_i,\sigma_j\}=2\delta_{ij}I$
+  \item 对易关系：$[\sigma_x,\sigma_y]=2i\sigma_z$（及其循环）
+  \item 乘法公式：$\sigma_i\sigma_j=\delta_{ij}I+i\sum_k\varepsilon_{ijk}\sigma_k$
+\end{itemize}
+
+\paragraph{2×2厄米矩阵展开}
+任意 $2\times 2$ 厄米矩阵都可写成
+\[
+H=a_0 I + a_x\sigma_x + a_y\sigma_y + a_z\sigma_z,\quad a_0,a_x,a_y,a_z\in\mathbb{R}
+\]
+
+\paragraph{Pauli 矩阵的本征态（补充）}
+\[
+\sigma_z:\ |0\rangle,|1\rangle;\qquad
+\sigma_x:\ |+\rangle=\frac{|0\rangle+|1\rangle}{\sqrt{2}},\ |-\rangle=\frac{|0\rangle-|1\rangle}{\sqrt{2}}
+\]
+\[
+\sigma_y:\ |+i\rangle=\frac{|0\rangle+i|1\rangle}{\sqrt{2}},\ |-i\rangle=\frac{|0\rangle-i|1\rangle}{\sqrt{2}}
+\]
+\paragraph{与自旋的关系（补充）}
+对自旋 $1/2$ 粒子，$S_i=\frac{\hbar}{2}\sigma_i$，测量结果对应 $\pm\frac{\hbar}{2}$。
+
+\section{【背】本征值与本征向量（Eigenvalues \& Eigenvectors）}\label{sec:eigen}
+
+\subsection{【背】定义与几何意义}
+
+\paragraph{本征值问题}
+给定一个算符（矩阵）$A$，如果存在非零向量 $|\phi\rangle$ 和复数 $\lambda$ 使得
+\[
+\boxed{A|\phi\rangle = \lambda|\phi\rangle}
+\]
+则称：
+\begin{itemize}
+  \item $\lambda$ 为 $A$ 的\textbf{本征值}（eigenvalue，特征值）
+  \item $|\phi\rangle$ 为 $\lambda$ 对应的\textbf{本征向量}（eigenvector，特征向量）
+\end{itemize}
+
+\paragraph{几何意义}
+本征向量是那些被算符 $A$ 作用后\textbf{方向不变}（只是长度变为 $\lambda$ 倍）的特殊向量。
+
+\paragraph{前置概念（引用）}
+正交归一基与完备关系见\hyperref[subsec:onb]{正交归一基}；
+离散/连续谱见\hyperref[subsec:discrete-continuous]{离散谱与连续谱}。
+
+\paragraph{求解方法}
+要找本征值，需要解方程：
+\[
+A|\phi\rangle = \lambda|\phi\rangle \quad \Rightarrow \quad (A-\lambda I)|\phi\rangle = 0
+\]
+这要求 $\det(A-\lambda I)=0$（特征方程，也称久期方程），解出的 $\lambda$ 就是本征值。
+
+\paragraph{为什么要令 $\det(A-\lambda I)=0$？}
+见\hyperref[para:det-invertibility]{行列式与可逆性（补充）}。
+
+\paragraph{完整求解流程（必会，含细节与例子）}
+\begin{enumerate}
+  \item \textbf{写出特征方程}
+  \[
+  \det(A-\lambda I)=0
+  \]
+  \item \textbf{展开行列式并解 $\lambda$} 若 $A=\begin{pmatrix}a&b\\c&d\end{pmatrix}$，则
+  \[
+  \det(A-\lambda I)=\begin{vmatrix}a-\lambda&b\\c&d-\lambda\end{vmatrix}
+  =(a-\lambda)(d-\lambda)-bc=0
+  \]
+  解得
+  \[
+  \lambda_{\pm}=\frac{a+d}{2}\pm\sqrt{\left(\frac{a-d}{2}\right)^2+bc}
+  \]
+  \item \textbf{对每个 $\lambda$ 解本征向量} 以 $\lambda=\lambda_+$ 为例，解
+  \[
+  (A-\lambda_+ I)\begin{pmatrix}x\\y\end{pmatrix}=0
+  \]
+  只需取其中一行（另一行线性相关），如
+  \[
+  (a-\lambda_+)x+by=0 \Rightarrow x=-\frac{b}{a-\lambda_+}y
+  \]
+  取 $y=1$ 即可得到一个本征向量，再做归一化。
+  \item \textbf{归一化与正交化} 令 $|\phi\rangle=(x,y)^T$，归一化为
+  \[
+  |\tilde\phi\rangle=\frac{1}{\sqrt{|x|^2+|y|^2}}\begin{pmatrix}x\\y\end{pmatrix}
+  \]
+  若有简并，则对同一本征值的多个本征向量做 Gram--Schmidt 正交化。
+\end{enumerate}
+
+\begin{example}
+\textbf{2×2 实矩阵求本征值/向量}
+
+设
+\[
+A=\begin{pmatrix}2&1\\1&2\end{pmatrix}
+\]
+\textbf{特征方程：}
+\[
+\det\!\begin{pmatrix}2-\lambda&1\\1&2-\lambda\end{pmatrix}
+=(2-\lambda)^2-1=0
+\Rightarrow \lambda_1=3,\ \lambda_2=1
+\]
+\textbf{求本征向量：}
+\begin{itemize}
+  \item 对 $\lambda_1=3$：$(A-3I)\begin{pmatrix}x\\y\end{pmatrix}=0$
+  得 $-x+y=0 \Rightarrow x=y$，取 $(1,1)^T$，归一化为 $\frac{1}{\sqrt{2}}(1,1)^T$。
+  \item 对 $\lambda_2=1$：$(A-I)\begin{pmatrix}x\\y\end{pmatrix}=0$
+  得 $x+y=0 \Rightarrow x=-y$，取 $(1,-1)^T$，归一化为 $\frac{1}{\sqrt{2}}(1,-1)^T$。
+\end{itemize}
+\end{example}
+
+\paragraph{常见特殊矩阵的本征值（速记）}
+\begin{itemize}
+  \item \textbf{对角矩阵}：本征值就是对角元；本征向量为标准基。
+  \item \textbf{上/下三角矩阵}：本征值为对角元（证明由行列式展开）。
+  \item \textbf{酉矩阵}：本征值模长为 1（位于单位圆）。
+  \item \textbf{厄米矩阵}：本征值为实数，且不同本征值的本征向量正交。
+\end{itemize}
+
+\paragraph{对角化与酉对角化（引用）}
+见\hyperref[para:diagonalization]{对角化与酉对角化（定义）}。
+
+\paragraph{本征值/本征向量有什么用？}
+\begin{itemize}
+  \item \textbf{对角化与简化计算}：若 $A=U\Lambda U^\dagger$，则 $A^n=U\Lambda^n U^\dagger$，指数/函数也可直接在对角线上计算。
+  \item \textbf{量子测量}：厄米算符的本征值是测量可能结果，本征态是测后态。
+  \item \textbf{时间演化}：若 $H|\phi_n\rangle=E_n|\phi_n\rangle$，则 $e^{-iHt/\hbar}|\phi_n\rangle=e^{-iE_n t/\hbar}|\phi_n\rangle$。
+  \item \textbf{物理含义清晰}：本征态是“保持方向不变”的模式，很多物理量在其本征基下最直观。
+  \item \textbf{谱分解}：可把算符写成本征态投影的加权和，便于理解与计算。
+\end{itemize}
+
+\begin{example}
+\textbf{简单的本征值问题}
+
+求对角矩阵 $D=\begin{pmatrix}2&0\\0&3\end{pmatrix}$ 的本征值和本征向量。
+
+\textbf{解：}
+对角矩阵的本征值就是对角元素：$\lambda_1=2, \lambda_2=3$。
+
+对应的本征向量：
+\[
+D\begin{pmatrix}1\\0\end{pmatrix} = 2\begin{pmatrix}1\\0\end{pmatrix}, \quad
+D\begin{pmatrix}0\\1\end{pmatrix} = 3\begin{pmatrix}0\\1\end{pmatrix}
+\]
+所以 $|\phi_1\rangle=\begin{pmatrix}1\\0\end{pmatrix}$ 对应 $\lambda_1=2$，$|\phi_2\rangle=\begin{pmatrix}0\\1\end{pmatrix}$ 对应 $\lambda_2=3$。
+\end{example}
+
+\subsection{【背】厄米算符的谱定理}
+
+若 $H=H^\dagger$，则存在正交归一本征基 $\{|\phi_1\rangle,\ldots,|\phi_n\rangle\}$ 和实本征值 $\{\lambda_1,\ldots,\lambda_n\}$ 使得
+\[
+\boxed{H = \sum_{j=1}^n \lambda_j|\phi_j\rangle\langle\phi_j|}
+\]
+这称为 $H$ 的\textbf{谱分解（spectral decomposition）}。
+\paragraph{与对角矩阵投影分解的关系（理解用）}
+把 $H$ 在本征基下写成对角矩阵 $\Lambda$，再做相似变换回到原基：
+\[
+H=U\Lambda U^\dagger
+\]
+其中 $\Lambda$ 可由\hyperref[para:diag-projector]{对角矩阵的投影分解}写成
+\[
+\Lambda=\sum_j \lambda_j|e_j\rangle\langle e_j|
+\]
+于是
+\[
+H=\sum_j \lambda_j\,U|e_j\rangle\langle e_j|U^\dagger
+=\sum_j \lambda_j|\phi_j\rangle\langle\phi_j|
+\]
+也就是说，谱定理就是“\textbf{对角矩阵的投影分解}在本征基下成立，
+再用酉变换换回原基”的结果。
+\begin{derivation}
+\textbf{关键结论 1：厄米算符本征值为实数}
+
+设 $H|\phi\rangle=\lambda|\phi\rangle$，则
+\[
+\langle\phi|H|\phi\rangle=\lambda\langle\phi|\phi\rangle
+\]
+对两边取共轭并用 $H^\dagger=H$，
+\[
+\langle\phi|H|\phi\rangle^\ast=\langle\phi|H^\dagger|\phi\rangle=\langle\phi|H|\phi\rangle
+\]
+因此 $\langle\phi|H|\phi\rangle$ 为实数，又因 $\langle\phi|\phi\rangle>0$，可得 $\lambda\in\mathbb{R}$。
+
+\textbf{关键结论 2：不同本征值的本征向量正交}
+
+若 $H|\phi\rangle=\lambda|\phi\rangle$、$H|\psi\rangle=\mu|\psi\rangle$ 且 $\lambda\neq\mu$，则
+\[
+\langle\phi|H|\psi\rangle=\mu\langle\phi|\psi\rangle
+\]
+另一方面
+\[
+\langle\phi|H|\psi\rangle=\langle H\phi|\psi\rangle=\lambda\langle\phi|\psi\rangle
+\]
+两式相减得 $(\lambda-\mu)\langle\phi|\psi\rangle=0$，故 $\langle\phi|\psi\rangle=0$。
+
+\textbf{关键结论 3：存在正交归一本征基（有限维证明思路）}
+
+设 $H$ 为 $n$ 维厄米算符。由特征多项式可知 $H$ 至少有一个本征值 $\lambda_1$ 及对应本征向量 $|\phi_1\rangle$。
+将其归一化，使 $\langle\phi_1|\phi_1\rangle=1$。考虑正交补空间
+\[
+\mathcal{H}_1=\{|\psi\rangle:\langle\phi_1|\psi\rangle=0\}
+\]
+对任意 $|\psi\rangle\in\mathcal{H}_1$，
+\[
+\langle\phi_1|H|\psi\rangle=\langle H\phi_1|\psi\rangle=\lambda_1\langle\phi_1|\psi\rangle=0
+\]
+故 $H|\psi\rangle\in\mathcal{H}_1$，即 $\mathcal{H}_1$ 在 $H$ 作用下不变。
+将 $H$ 限制到 $\mathcal{H}_1$ 上，仍是厄米算符。对维数 $n-1$ 的空间重复上述步骤，
+用归纳法得到一组正交归一的本征向量 $\{|\phi_1\rangle,\ldots,|\phi_n\rangle\}$ 组成基。
+
+\textbf{关键结论 4：谱分解的构造}
+
+由前文\hyperref[para:orthonormal-unitary]{正交归一基与酉矩阵}可知，令
+\[
+U=\big(|\phi_1\rangle\ |\phi_2\rangle\ \cdots\ |\phi_n\rangle\big)
+\]
+则 $U$ 为酉矩阵。因为
+\[
+H|\phi_j\rangle=\lambda_j|\phi_j\rangle
+\]
+把各列“并排拼成矩阵”即可得到矩阵等式：矩阵乘法按列作用满足
+\[
+H\big(|\phi_1\rangle\ \cdots\ |\phi_n\rangle\big)
+=\big(H|\phi_1\rangle\ \cdots\ H|\phi_n\rangle\big),
+\]
+而 $\Lambda=\mathrm{diag}(\lambda_1,\ldots,\lambda_n)$ 为对角矩阵，因此
+\[
+\big(|\phi_1\rangle\ \cdots\ |\phi_n\rangle\big)\Lambda
+=\big(\lambda_1|\phi_1\rangle\ \cdots\ \lambda_n|\phi_n\rangle\big).
+\]
+逐列比较 $H|\phi_j\rangle=\lambda_j|\phi_j\rangle$ 即得
+\[
+H U = U \Lambda
+\]
+两边左乘 $U^\dagger$，得到
+\[
+U^\dagger H U=\Lambda=\mathrm{diag}(\lambda_1,\ldots,\lambda_n)
+\]
+其中 $\Lambda$ 表示由本征值组成的对角矩阵。
+下面说明 $U\Lambda U^\dagger$ 为何等于投影和形式。由\hyperref[para:diag-projector]{对角矩阵的投影分解}可知
+\[
+\Lambda=\sum_j \lambda_j |e_j\rangle\langle e_j|
+\]
+其中 $\{|e_j\rangle\}$ 为标准基。
+又因为 $U$ 的第 $j$ 列就是 $|\phi_j\rangle$，矩阵乘法“乘以 $|e_j\rangle$”会选出第 $j$ 列，
+所以 $U|e_j\rangle=|\phi_j\rangle$。于是
+\[
+U\Lambda U^\dagger
+=\sum_j \lambda_j\,U|e_j\rangle\langle e_j|U^\dagger
+=\sum_j \lambda_j|\phi_j\rangle\langle\phi_j|
+\]
+因此
+\[
+H=U\Lambda U^\dagger=\sum_j \lambda_j|\phi_j\rangle\langle\phi_j|
+\]
+并且满足完备关系
+\[
+\sum_j |\phi_j\rangle\langle\phi_j|=I
+\]
+\textbf{也可直接由完备关系推出谱分解}
+
+由于 $\{|\phi_j\rangle\}$ 是正交归一本征基，任意态 $|\psi\rangle$ 可展开为
+\[
+|\psi\rangle=\sum_j |\phi_j\rangle\langle\phi_j|\psi\rangle
+\]
+于是
+\[
+H|\psi\rangle=\sum_j H|\phi_j\rangle\langle\phi_j|\psi\rangle
+=\sum_j \lambda_j|\phi_j\rangle\langle\phi_j|\psi\rangle
+\]
+该式对任意 $|\psi\rangle$ 成立，因此算符恒等成立：
+\[
+H=\sum_j \lambda_j|\phi_j\rangle\langle\phi_j|
+\]
+\end{derivation}
+
+\paragraph{简并}
+若存在 $\lambda_i=\lambda_j\ (i\neq j)$，则称为\textbf{简并}；对应本征态可在该子空间内任意正交变换。
+
+\paragraph{谱投影形式（简并情形）}
+当本征值存在简并时，对应本征向量不唯一，但\textbf{简并子空间}是确定的。
+设 $\lambda$ 的简并子空间为
+\[
+\mathcal{E}_\lambda=\mathrm{span}\{|\phi_k\rangle:\lambda_k=\lambda\}
+\]
+其中 $\mathrm{span}\{\cdots\}$ 的含义见\hyperref[para:span]{线性组合与张成}；
+这里 $\lambda$ 为固定本征值，$\lambda_k$ 为第 $k$ 个本征向量对应的本征值。
+并定义索引集 $\mathcal{I}_\lambda$（索引集概念见\hyperref[para:index-set]{索引集}）
+\[
+\mathcal{I}_\lambda=\{\,k:\lambda_k=\lambda\,\}
+\]
+在该子空间内任选一组正交归一基 $\{|\phi_k\rangle\}_{k\in\mathcal{I}_\lambda}$，
+即可定义\textbf{投影算符}
+\[
+P_\lambda=\sum_{k\in \mathcal{I}_\lambda}|\phi_k\rangle\langle\phi_k|
+\]
+它把任意态的“\,$\lambda$ 子空间分量\,”投影出来：$P_\lambda|\psi\rangle\in\mathcal{E}_\lambda$。
+由于在简并子空间内的基变化只是一个酉变换，$P_\lambda$ 与基的选择无关。
+
+由正交归一性可直接验证
+\[
+P_\lambda^2=P_\lambda,\quad P_\lambda^\dagger=P_\lambda,\quad
+P_\lambda P_{\lambda'}=0\ (\lambda\neq\lambda'),\quad \sum_\lambda P_\lambda=I
+\]
+
+再由谱分解按相同本征值分组：
+\[
+H=\sum_j \lambda_j|\phi_j\rangle\langle\phi_j|
+  =\sum_{\lambda}\lambda\sum_{k\in\mathcal{I}_\lambda}|\phi_k\rangle\langle\phi_k|
+  =\sum_{\lambda}\lambda\,P_\lambda
+\]
+因此谱分解等价写为
+\[
+H=\sum_{\lambda}\lambda\,P_\lambda,\qquad P_\lambda P_{\lambda'}=\delta_{\lambda\lambda'}P_\lambda,\quad \sum_\lambda P_\lambda=I
+\]
+这在量子测量中尤其常用：$P_\lambda$ 就是测量结果 $\lambda$ 的投影算符。
+
+\begin{example}
+\textbf{简并谱的谱分解与投影算符}
+
+设
+\[
+H=\begin{pmatrix}
+2&0&0\\
+0&2&0\\
+0&0&3
+\end{pmatrix}
+\]
+\textbf{解：}
+取标准正交基
+\[
+|e_1\rangle=\begin{pmatrix}1\\0\\0\end{pmatrix},\quad
+|e_2\rangle=\begin{pmatrix}0\\1\\0\end{pmatrix},\quad
+|e_3\rangle=\begin{pmatrix}0\\0\\1\end{pmatrix}
+\]
+$\lambda=2$ 为二重简并，本征子空间由 $|e_1\rangle,|e_2\rangle$ 张成；$\lambda=3$ 的本征向量为 $|e_3\rangle$。
+因此
+\[
+P_{2}=|e_1\rangle\langle e_1|+|e_2\rangle\langle e_2|,\qquad
+P_{3}=|e_3\rangle\langle e_3|
+\]
+对应的矩阵形式为
+\[
+P_2=\begin{pmatrix}1&0&0\\0&1&0\\0&0&0\end{pmatrix},\qquad
+P_3=\begin{pmatrix}0&0&0\\0&0&0\\0&0&1\end{pmatrix}
+\]
+因此 $P_2+P_3=I$，且 $P_2P_3=0$。
+谱分解为
+\[
+H=2P_{2}+3P_{3}
+\]
+为了更直观，取具体态
+\[
+|\psi\rangle=\frac{1}{\sqrt{14}}\begin{pmatrix}1\\2\\3\end{pmatrix}
+\]
+则
+\[
+P_2|\psi\rangle=\frac{1}{\sqrt{14}}\begin{pmatrix}1\\2\\0\end{pmatrix},\quad
+P_3|\psi\rangle=\frac{1}{\sqrt{14}}\begin{pmatrix}0\\0\\3\end{pmatrix}
+\]
+并且
+\[
+H|\psi\rangle=2P_2|\psi\rangle+3P_3|\psi\rangle
+=\frac{1}{\sqrt{14}}\begin{pmatrix}2\\4\\9\end{pmatrix}
+\]
+在 $P_2$ 的子空间内，可用任意 $2\times 2$ 的酉矩阵重新组合基向量，但 $P_2$ 不变。
+\textbf{例：}取
+\[
+U=\frac{1}{\sqrt2}\begin{pmatrix}1&1\\-1&1\end{pmatrix}
+\]
+在子空间 $\mathrm{span}\{|e_1\rangle,|e_2\rangle\}$ 内做基变换，按
+\[
+|\tilde e_i\rangle=\sum_{j=1}^2 |e_j\rangle\,U_{ji}\quad (i=1,2)
+\]
+得到
+\[
+|\tilde e_1\rangle=\frac{1}{\sqrt2}\begin{pmatrix}1\\-1\\0\end{pmatrix},\quad
+|\tilde e_2\rangle=\frac{1}{\sqrt2}\begin{pmatrix}1\\1\\0\end{pmatrix}
+\]
+但
+\[
+|\tilde e_1\rangle\langle\tilde e_1|
+=\frac{1}{2}\begin{pmatrix}1&-1&0\\-1&1&0\\0&0&0\end{pmatrix},\quad
+|\tilde e_2\rangle\langle\tilde e_2|
+=\frac{1}{2}\begin{pmatrix}1&1&0\\1&1&0\\0&0&0\end{pmatrix}
+\]
+相加得到
+\[
+|\tilde e_1\rangle\langle\tilde e_1|+|\tilde e_2\rangle\langle\tilde e_2|
+=\begin{pmatrix}1&0&0\\0&1&0\\0&0&0\end{pmatrix}=P_2
+\]
+\end{example}
+
+\begin{example}
+\textbf{由本征对写出谱分解}
+
+已知 $H$ 的正交归一本征对为
+$\lambda_1=1,|\phi_1\rangle=\frac{1}{\sqrt2}\begin{pmatrix}1\\1\end{pmatrix}$，
+$\lambda_2=-1,|\phi_2\rangle=\frac{1}{\sqrt2}\begin{pmatrix}1\\-1\end{pmatrix}$。
+
+\textbf{解：}
+\[
+H=1\,|\phi_1\rangle\langle\phi_1|+(-1)\,|\phi_2\rangle\langle\phi_2|
+=\begin{pmatrix}0&1\\1&0\end{pmatrix}=\sigma_x
+\]
+\end{example}
+
+\subsection{【背】2×2厄米矩阵的本征值公式}
+
+对 $H=\begin{pmatrix}a&b\\b^\ast&d\end{pmatrix}$（$a,d\in\mathbb{R}$），本征值为
+\[
+\lambda_\pm = \frac{a+d}{2} \pm \sqrt{\left(\frac{a-d}{2}\right)^2 + |b|^2}
+\]
+
+\begin{example}
+\textbf{求 $\sigma_x$ 的本征值与本征向量}
+
+$\sigma_x=\begin{pmatrix}0&1\\1&0\end{pmatrix}$，这里 $a=d=0$，$b=1$，$|b|^2=1$。
+
+\textbf{本征值：}
+\[
+\lambda_\pm = 0 \pm \sqrt{0+1} = \pm 1
+\]
+
+\textbf{本征向量：}
+
+对 $\lambda_+=1$，解 $(\sigma_x-I)|v\rangle=0$：
+\[
+\begin{pmatrix}-1&1\\1&-1\end{pmatrix}\begin{pmatrix}x\\y\end{pmatrix}=0
+\Rightarrow -x+y=0 \Rightarrow x=y
+\]
+取 $|v_+\rangle = \frac{1}{\sqrt{2}}\begin{pmatrix}1\\1\end{pmatrix} = |+\rangle$
+
+对 $\lambda_-=-1$，解 $(\sigma_x+I)|v\rangle=0$：
+\[
+\begin{pmatrix}1&1\\1&1\end{pmatrix}\begin{pmatrix}x\\y\end{pmatrix}=0
+\Rightarrow x+y=0 \Rightarrow x=-y
+\]
+取 $|v_-\rangle = \frac{1}{\sqrt{2}}\begin{pmatrix}1\\-1\end{pmatrix} = |-\rangle$
+
+\textbf{验证正交：}$\langle+|-\rangle = \frac{1}{2}(1-1)=0$ \checkmark
+
+\textbf{谱分解：}$\sigma_x = (+1)|+\rangle\langle+| + (-1)|-\rangle\langle-|$
+\end{example}
+
+\begin{example}
+\textbf{完整本征分解}
+
+求 $H=\begin{pmatrix}1&i\\-i&3\end{pmatrix}$ 的本征值与归一化本征向量。
+
+\textbf{解：}
+\begin{enumerate}
+  \item 验证厄米性：$H^\dagger=\begin{pmatrix}1&-(-i)^\ast\\i^\ast&3\end{pmatrix}=\begin{pmatrix}1&i\\-i&3\end{pmatrix}=H$ \checkmark
+
+  \item 计算本征值（$a=1,d=3,b=i,|b|^2=1$）：
+  \[
+  \lambda_\pm = \frac{1+3}{2}\pm\sqrt{\left(\frac{1-3}{2}\right)^2+1} = 2\pm\sqrt{1+1} = 2\pm\sqrt{2}
+  \]
+
+  \item 对 $\lambda_-=2-\sqrt{2}$，解 $(H-\lambda_- I)|v\rangle=0$：
+  \[
+  \begin{pmatrix}
+  \sqrt{2}-1 & i \\
+  -i & 1+\sqrt{2}
+  \end{pmatrix}\begin{pmatrix}x\\y\end{pmatrix}=0
+  \]
+  从第一行：$(\sqrt{2}-1)x+iy=0 \Rightarrow x=\frac{-iy}{\sqrt{2}-1}=\frac{-iy(\sqrt{2}+1)}{1}=-iy(\sqrt{2}+1)$
+
+  取 $y=1$，得 $x=-i(\sqrt{2}+1)$，向量 $\begin{pmatrix}-i(\sqrt{2}+1)\\1\end{pmatrix}$
+
+  范数：$|x|^2+|y|^2=(\sqrt{2}+1)^2+1=3+2\sqrt{2}+1=4+2\sqrt{2}=2(2+\sqrt{2})$
+
+  归一化：$|\phi_-\rangle=\frac{1}{\sqrt{2(2+\sqrt{2})}}\begin{pmatrix}-i(\sqrt{2}+1)\\1\end{pmatrix}$
+
+  \item 类似方法求 $|\phi_+\rangle$ 或利用正交性构造
+\end{enumerate}
+\end{example}
+
+\section{【背】张量积（Tensor Product）}
+
+\subsection{【背】定义与维度}
+
+对两个向量空间 $V_1,V_2$，其张量积空间 $V_1\otimes V_2$ 满足
+\[
+\dim(V_1\otimes V_2) = \dim(V_1)\times\dim(V_2)
+\]
+
+\paragraph{向量的张量积}
+\[
+|v\rangle\otimes|w\rangle = \begin{pmatrix}v_1\\v_2\end{pmatrix}\otimes\begin{pmatrix}w_1\\w_2\end{pmatrix}
+= \begin{pmatrix}v_1w_1\\v_1w_2\\v_2w_1\\v_2w_2\end{pmatrix}
+\]
+
+\paragraph{矩阵的张量积（Kronecker 积）（补充）}
+若 $A=\begin{pmatrix}a_{11}&a_{12}\\a_{21}&a_{22}\end{pmatrix}$，$B$ 为任意矩阵，则
+\[
+A\otimes B=
+\begin{pmatrix}
+a_{11}B & a_{12}B\\
+a_{21}B & a_{22}B
+\end{pmatrix}
+\]
+它与向量张量积的定义一致，可用于构造多比特算符。
+
+\subsection{【背】运算规则}
+
+\paragraph{双线性性}
+\begin{align}
+(c|v\rangle)\otimes|w\rangle &= c(|v\rangle\otimes|w\rangle) = |v\rangle\otimes(c|w\rangle) \\
+(|v_1\rangle+|v_2\rangle)\otimes|w\rangle &= |v_1\rangle\otimes|w\rangle + |v_2\rangle\otimes|w\rangle \\
+|v\rangle\otimes(|w_1\rangle+|w_2\rangle) &= |v\rangle\otimes|w_1\rangle + |v\rangle\otimes|w_2\rangle
+\end{align}
+
+\paragraph{不可交换性}
+一般有 $|v\rangle\otimes|w\rangle \neq |w\rangle\otimes|v\rangle$。
+
+\paragraph{标量相乘}
+\[
+c|v\rangle\otimes|w\rangle = |v\rangle\otimes(c|w\rangle)
+\]
+
+\paragraph{内积规则}
+\[
+\boxed{\langle v_1\otimes w_1 | v_2\otimes w_2\rangle = \langle v_1|v_2\rangle \cdot \langle w_1|w_2\rangle}
+\]
+\paragraph{张量积基（补充）}
+若 $\{|e_i\rangle\}$ 与 $\{|f_j\rangle\}$ 分别为两空间的正交归一基，则
+$\{|e_i\rangle\otimes|f_j\rangle\}$ 构成张量积空间的正交归一基。
+
+\paragraph{算符作用规则}
+\[
+(A\otimes B)(|v\rangle\otimes|w\rangle) = (A|v\rangle)\otimes(B|w\rangle)
+\]
+
+\paragraph{算符复合}
+\[
+(A\otimes B)(C\otimes D) = (AC)\otimes(BD)
+\]
+特别地，
+\[
+(A\otimes I)(I\otimes B)=A\otimes B=(I\otimes B)(A\otimes I)
+\]
+
+\paragraph{共轭与迹（补充）}
+\[
+(A\otimes B)^\dagger=A^\dagger\otimes B^\dagger,\qquad
+\mathrm{tr}(A\otimes B)=\mathrm{tr}(A)\,\mathrm{tr}(B)
+\]
+\[
+\mathrm{tr}_B(A\otimes B)=\mathrm{tr}(B)\,A
+\]
+
+\paragraph{交换算符（Swap）（补充）}
+交换算符 $S$ 定义为 $S(|v\rangle\otimes|w\rangle)=|w\rangle\otimes|v\rangle$，
+满足 $S^2=I$。在多比特系统中，$S$ 用于改变张量积的次序。
+在计算基下可写为
+\[
+S=\sum_{i,j} |ij\rangle\langle ji|
+\]
+
+\subsection{【背】量子比特系统}
+
+\paragraph{单比特计算基} $|0\rangle=\begin{pmatrix}1\\0\end{pmatrix}$，$|1\rangle=\begin{pmatrix}0\\1\end{pmatrix}$
+
+\paragraph{两比特计算基}
+\begin{align*}
+|00\rangle &= |0\rangle\otimes|0\rangle = \begin{pmatrix}1\\0\\0\\0\end{pmatrix} \\
+|01\rangle &= |0\rangle\otimes|1\rangle = \begin{pmatrix}0\\1\\0\\0\end{pmatrix} \\
+|10\rangle &= |1\rangle\otimes|0\rangle = \begin{pmatrix}0\\0\\1\\0\end{pmatrix} \\
+|11\rangle &= |1\rangle\otimes|1\rangle = \begin{pmatrix}0\\0\\0\\1\end{pmatrix}
+\end{align*}
+
+\begin{example}
+\textbf{展开张量积}
+
+计算 $(|0\rangle+|1\rangle)\otimes(|0\rangle-|1\rangle)$
+
+\textbf{解：}利用双线性性：
+\begin{align*}
+&(|0\rangle+|1\rangle)\otimes(|0\rangle-|1\rangle) \\
+&= |0\rangle\otimes|0\rangle - |0\rangle\otimes|1\rangle + |1\rangle\otimes|0\rangle - |1\rangle\otimes|1\rangle \\
+&= |00\rangle - |01\rangle + |10\rangle - |11\rangle \\
+&= \begin{pmatrix}1\\-1\\1\\-1\end{pmatrix}
+\end{align*}
+\end{example}
+
+\begin{example}
+\textbf{算符作用}
+
+计算 $(\sigma_x\otimes I)|01\rangle$
+
+\textbf{解：}
+\begin{align*}
+(\sigma_x\otimes I)|01\rangle
+&= (\sigma_x\otimes I)(|0\rangle\otimes|1\rangle) \\
+&= (\sigma_x|0\rangle)\otimes(I|1\rangle) \\
+&= |1\rangle\otimes|1\rangle = |11\rangle
+\end{align*}
+
+或用矩阵形式：
+\[
+\sigma_x\otimes I = \begin{pmatrix}0&1\\1&0\end{pmatrix}\otimes\begin{pmatrix}1&0\\0&1\end{pmatrix}
+= \begin{pmatrix}
+0&0&1&0\\
+0&0&0&1\\
+1&0&0&0\\
+0&1&0&0
+\end{pmatrix}
+\]
+\[
+(\sigma_x\otimes I)\begin{pmatrix}0\\1\\0\\0\end{pmatrix} = \begin{pmatrix}0\\0\\0\\1\end{pmatrix} = |11\rangle
+\]
+\end{example}
+
+\subsection{【了解】Bell态（纠缠态例子）}
+
+\[
+|\Phi^+\rangle = \frac{|00\rangle+|11\rangle}{\sqrt{2}}, \quad
+|\Phi^-\rangle = \frac{|00\rangle-|11\rangle}{\sqrt{2}}
+\]
+\[
+|\Psi^+\rangle = \frac{|01\rangle+|10\rangle}{\sqrt{2}}, \quad
+|\Psi^-\rangle = \frac{|01\rangle-|10\rangle}{\sqrt{2}}
+\]
+
+注意：Bell态\textbf{不能}写成 $|a\rangle\otimes|b\rangle$ 的形式，这是纠缠的标志。
+
+\section{【背】对易子（Commutators）}
+
+\subsection{【背】定义}
+
+\[
+[A,B] := AB - BA
+\]
+
+若 $[A,B]=0$，称 $A,B$ \textbf{对易}。
+
+\paragraph{反对易子（Anticommutator）}
+\[
+\{A,B\} := AB + BA
+\]
+若 $\{A,B\}=0$，称 $A,B$ \textbf{反对易}。
+
+\subsection{【背】同时对角化定理}
+
+若 $A,B$ 都是厄米算符，则
+\[
+[A,B]=0 \quad \Longleftrightarrow \quad A,B\text{ 存在共同的正交归一本征基}
+\]
+
+\textbf{物理意义：}对易的可观测量可以同时精确测量。
+若 $[A,B]\neq 0$，则先测 $A$ 再测 $B$ 与先测 $B$ 再测 $A$ 的统计结果一般不同（测量顺序相关）。
+这与测不准关系 $\Delta A\,\Delta B \ge \frac{1}{2}|\langle[A,B]\rangle|$ 相一致。
+
+\subsection{【背】重要例子}
+
+\paragraph{Pauli矩阵}
+\begin{itemize}
+  \item $[\sigma_x,\sigma_y]=2i\sigma_z$（不对易）
+  \item $[\sigma_y,\sigma_z]=2i\sigma_x$
+  \item $[\sigma_z,\sigma_x]=2i\sigma_y$
+  \item $\{\sigma_i,\sigma_j\}=2\delta_{ij}I$（反对易）
+  \item $[\sigma_i,I]=0$（任何算符与单位矩阵对易）
+\end{itemize}
+
+\begin{example}
+\textbf{验证 $[\sigma_x,\sigma_y]=2i\sigma_z$}
+
+\textbf{解：}
+\begin{align*}
+\sigma_x\sigma_y &= \begin{pmatrix}0&1\\1&0\end{pmatrix}\begin{pmatrix}0&-i\\i&0\end{pmatrix}
+= \begin{pmatrix}i&0\\0&-i\end{pmatrix} \\
+\sigma_y\sigma_x &= \begin{pmatrix}0&-i\\i&0\end{pmatrix}\begin{pmatrix}0&1\\1&0\end{pmatrix}
+= \begin{pmatrix}-i&0\\0&i\end{pmatrix} \\
+[\sigma_x,\sigma_y] &= \begin{pmatrix}i&0\\0&-i\end{pmatrix} - \begin{pmatrix}-i&0\\0&i\end{pmatrix}
+= \begin{pmatrix}2i&0\\0&-2i\end{pmatrix} = 2i\sigma_z
+\end{align*}
+\end{example}
+
+\section{【背】重要不等式}
+
+\subsection{【背】Cauchy-Schwarz不等式}
+
+\[
+|\langle\phi|\psi\rangle| \le \||\phi\rangle\| \cdot \||\psi\rangle\|
+\]
+
+等号成立当且仅当 $|\phi\rangle$ 与 $|\psi\rangle$ 线性相关。
+
+\begin{derivation}
+\textbf{证明：}考虑非负量（对任意 $c\in\mathbb{C}$）
+\[
+0 \le \langle\psi-c\phi|\psi-c\phi\rangle = \langle\psi|\psi\rangle - c\langle\phi|\psi\rangle - c^\ast\langle\psi|\phi\rangle + |c|^2\langle\phi|\phi\rangle
+\]
+取 $c=\frac{\langle\phi|\psi\rangle}{\langle\phi|\phi\rangle}$（设 $|\phi\rangle\neq 0$），代入整理得
+\[
+\langle\psi|\psi\rangle - \frac{|\langle\phi|\psi\rangle|^2}{\langle\phi|\phi\rangle} \ge 0
+\]
+即 $|\langle\phi|\psi\rangle|^2 \le \langle\phi|\phi\rangle\langle\psi|\psi\rangle$，开方即得。
+\end{derivation}
+
+\subsection{【了解】三角不等式}
+
+\[
+\||\phi\rangle+|\psi\rangle\| \le \||\phi\rangle\| + \||\psi\rangle\|
+\]
+
+\section{【背】量子力学基本假设（Postulates）}
+
+\subsection{【背】公设一（假设一）：状态空间与量子态}
+
+\paragraph{陈述} 孤立量子系统的状态由复希尔伯特空间中的一个\textbf{归一化态矢} $|\psi\rangle$ 描述（或等价地，由相差全局相位的态矢等价类描述）。
+
+\paragraph{归一化与全局相位}
+\[
+\langle\psi|\psi\rangle = 1, \qquad |\psi\rangle \sim e^{i\gamma}|\psi\rangle
+\]
+全局相位 $e^{i\gamma}$ 不影响任何测量概率；\textbf{相对相位}才是可观测的。
+
+\paragraph{叠加原理}
+若 $|\psi_1\rangle,|\psi_2\rangle$ 是允许的量子态，则
+\[
+c_1|\psi_1\rangle+c_2|\psi_2\rangle
+\]
+仍是允许的量子态（归一化后使用）。
+
+\paragraph{量子比特}
+单量子比特态可写为
+\[
+|\psi\rangle=\alpha|0\rangle+\beta|1\rangle,\quad \alpha,\beta\in\mathbb{C},\quad |\alpha|^2+|\beta|^2=1
+\]
+$|0\rangle,|1\rangle$ 为\textbf{计算基}，两者正交归一。
+\textbf{不同基表示：}同一态可在任意正交基下展开，例如
+\[
+|+\rangle=\frac{|0\rangle+|1\rangle}{\sqrt{2}},\quad
+|-\rangle=\frac{|0\rangle-|1\rangle}{\sqrt{2}}
+\]
+
+\begin{example}
+\textbf{由测量概率写出态}
+
+若测得自旋向上的概率为 $1/3$、向下为 $2/3$，则可写
+\[
+|\psi\rangle=\sqrt{\frac{1}{3}}|0\rangle+\sqrt{\frac{2}{3}}|1\rangle
+\]
+相对相位会影响干涉，但不改变单次测量的概率。
+\end{example}
+
+\paragraph{Bloch球表示}
+任意纯态等价表示为
+\[
+|\psi\rangle=\cos\frac{\theta}{2}|0\rangle+e^{i\varphi}\sin\frac{\theta}{2}|1\rangle,\quad \theta\in[0,\pi],\ \varphi\in[0,2\pi)
+\]
+$(\theta,\varphi)$ 对应 Bloch 球面上一点。
+对应的 Bloch 向量为
+\[
+\vec{r}=(\sin\theta\cos\varphi,\ \sin\theta\sin\varphi,\ \cos\theta)
+\]
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.45\linewidth]{fig_bloch_sphere.png}
+  \caption{Bloch 球：单比特纯态对应球面点，混态对应球内点。}
+\end{figure}
+
+\paragraph{施特恩--盖拉赫（亦称施特恩-格拉赫实验）（直观起点）}
+高温银原子束穿过非均匀磁场后\textbf{分裂为两束}，而非经典预期的连续条纹。
+这表明自旋具有\textbf{离散}取值（如 $\pm\frac{1}{2}$），两能级系统可用二维希尔伯特空间描述，
+为量子比特提供物理直觉。
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.7\linewidth]{fig_stern_gerlach.png}
+  \caption{施特恩--盖拉赫实验装置示意：非均匀磁场导致自旋分束。}
+\end{figure}
+
+\paragraph{纯态与混合态}
+纯态可由单个态矢描述；混合态来自不完备知识或统计混合，需用\textbf{密度算子}描述。
+
+\paragraph{量子比特的物理载体}
+任意二能级系统均可作为 qubit，如光子偏振、电子自旋、原子两能级等。
+
+\begin{example}
+\textbf{全局相位不影响测量概率}
+
+设 $|\psi'\rangle=e^{i\gamma}|\psi\rangle$，则对任意测量态 $|\phi\rangle$，
+\[
+|\langle\phi|\psi'\rangle|^2 = |\langle\phi|e^{i\gamma}|\psi\rangle|^2
+= |e^{i\gamma}|^2|\langle\phi|\psi\rangle|^2
+= |\langle\phi|\psi\rangle|^2
+\]
+因此全局相位不可观测。
+\end{example}
+
+\subsection{【背】公设二（假设二）：演化（Unitary Evolution）}
+
+\paragraph{陈述} 封闭系统的时间演化由酉算符描述：
+\[
+|\psi(t_2)\rangle = U(t_1,t_2)|\psi(t_1)\rangle,\quad U^\dagger U=I
+\]
+
+\paragraph{薛定谔方程}
+\[
+i\hbar\frac{\partial}{\partial t}|\psi(t)\rangle = H|\psi(t)\rangle
+\]
+其中 $H$ 为\textbf{哈密顿量}（哈密尔顿算符）。
+若 $H$ 与时间无关，则
+\[
+U(t_1,t_2)=\exp\!\left[-\frac{i}{\hbar}H(t_2-t_1)\right]
+\]
+
+\paragraph{因果性（初值决定演化）}
+给定初始态 $|\psi(t_0)\rangle$，薛定谔方程确定其在任意时刻的态。
+因此量子力学的时间演化是确定性的（概率性来自测量）。
+
+\paragraph{量子逻辑门（离散演化）}
+常用单比特门（均为酉矩阵）：
+\[
+X=\begin{pmatrix}0&1\\1&0\end{pmatrix},\quad
+Z=\begin{pmatrix}1&0\\0&-1\end{pmatrix},\quad
+H=\frac{1}{\sqrt{2}}\begin{pmatrix}1&1\\1&-1\end{pmatrix}
+\]
+其中 $X$ 为比特翻转，$Z$ 为相位翻转，$H$ 可在计算基与 Hadamard 基之间切换。
+
+\paragraph{线性性与量子并行性}
+由于酉算符线性，
+\[
+U\!\left(\sum_i a_i|i\rangle\right)=\sum_i a_i\,U|i\rangle
+\]
+量子门可在叠加态上“并行”作用。
+
+\begin{example}
+\textbf{Hadamard 门作用}
+\[
+H|0\rangle=\frac{|0\rangle+|1\rangle}{\sqrt{2}}=|+\rangle,\quad
+H|1\rangle=\frac{|0\rangle-|1\rangle}{\sqrt{2}}=|-\rangle
+\]
+\end{example}
+
+\subsection{【背】公设三（假设三）：测量（Measurement）}
+
+\paragraph{【背】一般测量（测量算子）}
+给定测量算子集合 $\{M_m\}$，满足
+\[
+\sum_m M_m^\dagger M_m = I
+\]
+对态 $|\psi\rangle$，得到结果 $m$ 的概率与测后态为：
+\[
+p(m)=\langle\psi|M_m^\dagger M_m|\psi\rangle,\qquad
+|\psi_m\rangle=\frac{M_m|\psi\rangle}{\sqrt{p(m)}}
+\]
+定义 POVM 元素 $E_m=M_m^\dagger M_m$。
+\[
+E_m\succeq 0,\qquad \sum_m E_m=I,\qquad p(m)=\langle\psi|E_m|\psi\rangle
+\]
+\textbf{POVM} 适用于非正交态判别、非破坏/非投影测量等情形。
+\textbf{要点：}非正交量子态\textbf{不可}被完美区分，POVM 允许在\textbf{正确率}与\textbf{“不确定/失败”}之间权衡。
+
+\paragraph{【了解】POVM 小例子（补充）}
+任意满足 $0\preceq E \preceq I$ 的算符都可构成二元 POVM：$\{E,\ I-E\}$。
+例如“带噪 $Z$ 测量”可取
+\[
+E_0=(1-\epsilon)|0\rangle\langle 0|+\epsilon|1\rangle\langle 1|,\quad
+E_1=I-E_0
+\]
+其中 $\epsilon\in[0,1/2]$ 表示判错概率。$\epsilon=0$ 时退化为投影测量。
+
+\paragraph{【了解】含“失败”结果的 POVM（补充）}
+也可引入三元测量 $\{E_0,E_1,E_?\}$，其中
+\[
+E_0=(1-\eta)|0\rangle\langle 0|,\quad E_1=(1-\eta)|1\rangle\langle 1|,\quad
+E_?=\eta I
+\]
+$E_?$ 表示“不确定/失败”结果（$\eta\in[0,1]$）。此类设计常用于在\textbf{降低错误率}与\textbf{允许失败}之间权衡。
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.85\linewidth]{fig_measurement_model.png}
+  \caption{测量的间接模型：系统与辅助体系经酉演化后进行读出。}
+\end{figure}
+
+若系统与辅助态 $|0\rangle_E$ 先经历酉演化 $U$，再在辅助系统上做投影测量 $\{|m\rangle_E\}$，则
+\[
+M_m=\langle m|_E\,U\,|0\rangle_E
+\]
+因此 $\{M_m\}$ 称为 Kraus（测量）算子集。
+满足完备性条件 $\sum_m M_m^\dagger M_m=I$，保证非选择性测量保持 $\mathrm{tr}(\rho)$ 不变。
+更一般的开放系统演化也可写成 Kraus 形式：$\rho'=\sum_k E_k\rho E_k^\dagger$（完全正、保迹映射）。
+
+对密度算子 $\rho$，有
+\[
+p(m)=\mathrm{tr}(M_m\rho M_m^\dagger),\quad
+\rho_m=\frac{M_m\rho M_m^\dagger}{p(m)}
+\]
+并可写成
+\[
+p(m)=\mathrm{tr}(\rho E_m),\quad E_m=M_m^\dagger M_m
+\]
+若不记录测量结果（\textbf{非选择性测量}），测后态为
+\[
+\rho'=\sum_m M_m\rho M_m^\dagger
+\]
+
+\paragraph{【背】投影测量（可观测量）}
+若测量由厄米算符 $M$ 描述，其谱分解为
+\[
+M=\sum_m m P_m,\quad P_mP_n=\delta_{mn}P_m,\quad \sum_m P_m=I
+\]
+则 $p(m)=\langle\psi|P_m|\psi\rangle$，测后态为 $P_m|\psi\rangle/\sqrt{p(m)}$。
+若忽略结果，则 $\rho'=\sum_m P_m\rho P_m$。
+\paragraph{【背】非简并情形（补充）}
+若本征值互不相同，则 $P_m=|m\rangle\langle m|$，
+\[
+p(m)=\mathrm{tr}(\rho P_m)=\langle m|\rho|m\rangle
+\]
+测后态为 $|m\rangle$（纯态情况）或 $\rho_m=P_m\rho P_m/p(m)$（密度算子形式）。
+
+\paragraph{【了解】简并与非简并测量}
+若本征值互不相同，测量后态塌缩为对应本征向量；
+若存在简并，则塌缩到对应本征\textbf{子空间}中。
+
+\paragraph{【了解】期望值与概率}
+测量可观测量 $M$ 的期望值为
+\[
+\langle M\rangle=\sum_m m\,p(m)
+\]
+
+\paragraph{【了解】三类测量的关系}
+当测量算子 $M_m$ 恰为一组\textbf{正交投影算符}时，一般测量退化为投影测量；
+POVM 则是最一般的测量描述，可由投影测量在更大系统上实现。
+
+\paragraph{【了解】可重复性与破坏性（补充）}
+投影测量具有\textbf{可重复性}：若对同一可观测量立即重复测量，结果保持不变。
+一般测量（POVM）可描述\textbf{破坏性测量}（如吸收型探测），测后态未必仍在原可观测量的本征态中。
+
+\paragraph{【了解】测量基的意义}
+选择不同测量基等价于在测量前做一个酉变换。比如对 $X$ 方向测量，
+可以先施加 $H$ 将基底从 $\{|+\rangle,|-\rangle\}$ 旋回到计算基后再测 $Z$。
+
+\begin{example}
+\textbf{对 $|+\rangle$ 做 $Z$ 测量}
+
+计算基为 $|0\rangle,|1\rangle$，$|+\rangle=\frac{|0\rangle+|1\rangle}{\sqrt{2}}$。
+投影算子 $P_0=|0\rangle\langle0|$，$P_1=|1\rangle\langle1|$，于是
+\[
+p(0)=\langle+|P_0|+\rangle=\frac{1}{2},\quad p(1)=\frac{1}{2}
+\]
+测量后态分别塌缩为 $|0\rangle$ 或 $|1\rangle$。
+\end{example}
+
+\begin{example}
+\textbf{对 $|0\rangle$ 做 $X$ 测量}
+
+$X$ 基为 $|+\rangle,|-\rangle$，且 $|0\rangle=\frac{|+\rangle+|-\rangle}{\sqrt{2}}$，
+因此测得 $|+\rangle$ 与 $|-\rangle$ 的概率均为 $1/2$。
+\end{example}
+
+\paragraph{【了解】施特恩--盖拉赫测量模型（补充）}
+沿 $z$ 方向的 SG 装置对应投影算符
+\[
+P_0=|0\rangle\langle 0|,\quad P_1=|1\rangle\langle 1|
+\]
+对自旋态测量会将其塌缩到 $|0\rangle$ 或 $|1\rangle$。
+若改为沿 $x$ 方向测量，则投影算符为 $|+\rangle\langle +|$ 与 $|-\rangle\langle -|$，
+可用 $H$ 门先把 $x$ 基旋回到 $z$ 基再测量。
+
+\subsection{【背】公设四（假设四）：复合系统（Composite Systems）}
+
+\paragraph{陈述} 若系统 $A$ 与 $B$ 的状态空间分别为 $\mathcal{H}_A,\mathcal{H}_B$，
+则复合系统的状态空间为 $\mathcal{H}_A\otimes\mathcal{H}_B$。
+
+\paragraph{一般态展开}
+两比特系统可写成
+\[
+|\psi\rangle=\sum_{i,j\in\{0,1\}} c_{ij}|i\rangle\otimes|j\rangle
+\]
+若存在 $|a\rangle,|b\rangle$ 使得 $|\psi\rangle=|a\rangle\otimes|b\rangle$，称为\textbf{可分态}；
+否则为\textbf{纠缠态}。
+
+\paragraph{多量子比特计算基}
+两比特基：$|00\rangle,|01\rangle,|10\rangle,|11\rangle$；
+三比特基：$|000\rangle,\ldots,|111\rangle$（共 $2^3$ 个）。
+一般 $n$ 比特系统维度为 $2^n$，基可用二进制索引表示。
+因此多比特态是 $2^n$ 个基态的线性叠加，但测量只能读出有限经典结果。
+\[
+|\psi\rangle=\sum_{i=0}^{2^n-1} a_i |i\rangle,\qquad \sum_i |a_i|^2=1
+\]
+
+\paragraph{二进制索引与次序（补充）}
+通常约定
+\[
+|i\rangle\otimes|j\rangle = |2i+j\rangle
+\]
+例如 $|1\rangle\otimes|0\rangle=|10\rangle=|2\rangle$。
+具体次序应与电路图中的线路顺序保持一致。
+\paragraph{部分迹的矩阵直观（补充）}
+对两比特密度矩阵 $\rho_{AB}$，对 $B$ 做偏迹等价于对 $B$ 的矩阵块求迹，
+可理解为“对 $B$ 的指标求和”，从而得到 $A$ 的 $2\times2$ 矩阵。
+
+\begin{example}
+\textbf{双自旋纠缠单重态}
+
+双自旋施特恩--盖拉赫实验中常出现单重态
+\[
+|\Psi^-\rangle=\frac{|01\rangle-|10\rangle}{\sqrt{2}}
+\]
+测量其中一个自旋为 $|0\rangle$（向上），另一个必为 $|1\rangle$（向下），呈现完全反相关。
+\end{example}
+
+\section{【了解】波函数与连续表象}
+
+\paragraph{位置表象与玻恩（Born）解释}
+在位置基 $|x\rangle$ 下，波函数定义为
+\[
+\psi(x,t)=\langle x|\psi(t)\rangle
+\]
+其物理意义是概率幅度，概率密度为
+\[
+\rho(x,t)=|\psi(x,t)|^2
+\]
+归一化条件为
+\[
+\int_{-\infty}^{\infty} |\psi(x,t)|^2\,dx = 1
+\]
+因此粒子出现在区间 $[a,b]$ 的概率为
+\[
+P_{[a,b]}=\int_a^b |\psi(x,t)|^2\,dx
+\]
+从离散基到连续基的极限中，$\psi(x,t)$ 可视作态矢在位置本征态上的展开系数。
+
+\paragraph{德布罗意物质波与衍射直觉}
+自由粒子可用平面波 $\psi(x)\propto e^{ikx}$ 描述，其动量满足
+\[
+p=\hbar k,\qquad \lambda=\frac{2\pi}{k}=\frac{h}{p}
+\]
+这对应德布罗意\textbf{物质波}。双缝\textbf{干涉/衍射}实验展示了粒子波动性。
+
+\paragraph{波函数的基本要求}
+波函数应当\textbf{单值、有限且连续}（在势能不发散处还应连续可导）。
+
+\paragraph{概率流密度与连续性方程}
+对一维系统，概率流密度
+\[
+j(x,t)=\frac{\hbar}{2mi}\left(\psi^\ast\frac{\partial\psi}{\partial x}-\psi\frac{\partial\psi^\ast}{\partial x}\right)
+\]
+满足连续性方程
+\[
+\frac{\partial\rho}{\partial t}+\frac{\partial j}{\partial x}=0
+\]
+体现了\textbf{概率守恒}。
+对自由粒子平面波，可得 $j=\frac{p}{m}\rho$，体现“流密度 = 速度 $\times$ 密度”的直觉。
+对全空间积分可得 $\frac{d}{dt}\int |\psi(x,t)|^2 dx=0$，说明归一化随时间保持。
+三维情况下
+\[
+\frac{\partial\rho}{\partial t}+\nabla\cdot\vec{j}=0,\qquad
+\vec{j}=\frac{\hbar}{2mi}\left(\psi^\ast\nabla\psi-\psi\nabla\psi^\ast\right)
+\]
+
+\paragraph{位置与动量算符}
+\[
+\hat{x}\psi(x)=x\psi(x),\qquad \hat{p}\psi(x)=-i\hbar\frac{\partial}{\partial x}\psi(x)
+\]
+其中 $\hat{x}$ 也称\textbf{坐标算符}。
+因此
+\[
+\langle x\rangle=\int \psi^\ast x\psi\,dx,\quad
+\langle p\rangle=\int \psi^\ast\left(-i\hbar\frac{\partial}{\partial x}\right)\psi\,dx
+\]
+
+\paragraph{能量算符（补充）}
+若哈密顿量为 $H=\frac{\hat{p}^2}{2m}+V(\hat{x})$，则
+\[
+i\hbar\frac{\partial}{\partial t}\psi(x,t)=H\psi(x,t)
+\]
+形式上可把 $i\hbar\frac{\partial}{\partial t}$ 视为能量算符在位置表象中的作用。
+
+\paragraph{动量表象中的平均值}
+若动量波函数为 $\phi(p)$，则
+\[
+\langle p\rangle=\int p\,|\phi(p)|^2\,dp
+\]
+位置与动量表象通过傅里叶变换联系。
+
+\begin{example}
+\textbf{平面波的动量期望}
+
+设 $\psi(x)=Ae^{ikx}$，则
+\[
+\hat{p}\psi=\hbar k\psi \Rightarrow \langle p\rangle=\hbar k
+\]
+\end{example}
+
+\section{【了解】定态薛定谔方程与典型模型}
+
+\subsection{【了解】定态薛定谔方程}
+当哈密顿量 $H$ 不显含时间时，可将含时薛定谔方程分离变量：
+\[
+|\psi(t)\rangle = e^{-iEt/\hbar}|\phi\rangle
+\]
+代入得\textbf{定态薛定谔方程}（本征值问题）：
+\[
+H|\phi\rangle = E|\phi\rangle
+\]
+
+\paragraph{定态的物理意义}
+若系统处于某一能量本征态 $|\phi\rangle$，概率密度
+\[
+\rho(x,t)=|\psi(x,t)|^2
+\]
+与时间无关。能量本征态称为\textbf{定态}。
+
+\paragraph{本征态/本征解展开}
+任意初态都可展开为本征态叠加（离散谱为求和，连续谱为积分）：
+\[
+|\psi(t)\rangle=\sum_n c_n e^{-iE_n t/\hbar}|\phi_n\rangle
+  \quad\text{或}\quad
+|\psi(t)\rangle=\int c(E)\,e^{-iEt/\hbar}|\phi_E\rangle\,dE
+\]
+$|c_n|^2$ 表示测得能量为 $E_n$ 的概率。
+
+\subsection{【了解】本征函数性质与边界条件}
+\begin{itemize}
+  \item \textbf{波函数条件}：单值、有限、连续（在势能不发散处还应连续可导）
+  \item \textbf{正交与完备}：束缚态本征函数彼此正交并可构成完备基
+  \item \textbf{非简并性}：一维束缚态能级通常非简并
+  \item \textbf{量子化来源}：边界条件使能量谱离散化
+\end{itemize}
+
+\subsection{【了解】典型模型（速记）}
+
+\paragraph{一维无限深势阱}
+势阱 $V(x)=0\ (0<x<L)$，其余处 $V=\infty$。本征函数与能级：
+\[
+\phi_n(x)=\sqrt{\frac{2}{L}}\sin\frac{n\pi x}{L},\quad
+E_n=\frac{n^2\pi^2\hbar^2}{2mL^2},\quad n=1,2,\ldots
+\]
+
+\paragraph{一维谐振子}
+能级为
+\[
+E_n=\left(n+\frac{1}{2}\right)\hbar\omega,\quad n=0,1,2,\ldots
+\]
+本征函数含\textbf{厄密多项式}（Hermite）。
+其方程可化为\textbf{厄密方程}（Hermite equation）。
+
+\paragraph{氢原子（中心势问题）}
+在球坐标中分离变量，能级
+\[
+E_n=-\frac{13.6\ \text{eV}}{n^2},\quad n=1,2,\ldots
+\]
+波函数由径向部分与角向部分构成，径向部分含\textbf{广义拉盖尔多项式}，
+量子数为 $(n,l,m)$。基态波函数常写为
+\[
+\psi_{100}(r)=\frac{1}{\sqrt{\pi a_0^3}}e^{-r/a_0}
+\]
+其中 $a_0$ 为\textbf{波尔半径}。
+
+\section{【了解】算符、对易关系与期望值演化}
+
+\paragraph{算符与厄米性}
+算符是将函数/态映射到函数/态的运算。物理可观测量对应厄米算符：
+\[
+\langle\phi|A|\psi\rangle=\langle A\phi|\psi\rangle \iff A^\dagger=A
+\]
+
+\paragraph{基本对易关系}
+位置与动量满足
+\[
+[\hat{x},\hat{p}]=i\hbar
+\]
+
+\paragraph{角动量算符}
+\[
+\vec{L}=\vec{r}\times\vec{p},\qquad
+L_x= y p_z - z p_y,\ L_y= z p_x - x p_z,\ L_z= x p_y - y p_x
+\]
+其对易关系为
+\[
+[L_x,L_y]=i\hbar L_z \quad (\text{循环置换})
+\]
+
+\paragraph{算符函数（提示）}
+对算符 $A$ 的函数可用泰勒级数定义，例如
+\[
+f(A)=\sum_{n=0}^\infty c_n A^n
+\]
+当算符不对易时需注意乘法顺序不可交换。
+
+\paragraph{Ehrenfest/海森堡型公式}
+若 $A$ 不显含时间，则
+\[
+\frac{d}{dt}\langle A\rangle=\frac{i}{\hbar}\langle[H,A]\rangle
+\]
+若 $A$ 显含时间，则
+\[
+\frac{d}{dt}\langle A\rangle=\frac{i}{\hbar}\langle[H,A]\rangle+\left\langle\frac{\partial A}{\partial t}\right\rangle
+\]
+若 $[H,A]=0$（且 $A$ 不显含时间），则 $\langle A\rangle$ 为常量，对应守恒量。
+特别地，若 $A=H$ 且 $H$ 不显含时间，则 $\frac{d}{dt}\langle H\rangle=0$（能量守恒）。
+
+\paragraph{位置与动量的经典极限（补充）}
+对 $H=\frac{\hat{p}^2}{2m}+V(\hat{x})$，可得
+\[
+\frac{d}{dt}\langle x\rangle=\frac{\langle p\rangle}{m},\qquad
+\frac{d}{dt}\langle p\rangle=-\left\langle \frac{\partial V}{\partial x}\right\rangle
+\]
+这体现了 Ehrenfest 定理与经典牛顿方程的对应关系。
+
+\section{【了解】薛定谔/海森堡/相互作用表象}
+
+\paragraph{术语说明}
+此处“表象”（picture）指动力学描述方式，不同于前文基变换意义下的“表象/表示”（representation）。
+
+\paragraph{薛定谔表象}
+态矢随时间演化，算符（若无显含时间）不随时间变：
+\[
+i\hbar\frac{\partial}{\partial t}|\psi(t)\rangle=H|\psi(t)\rangle
+\]
+
+\paragraph{海森堡表象}
+态矢固定，算符随时间演化：
+\[
+\frac{dA_H}{dt}=\frac{i}{\hbar}[H,A_H]+\left(\frac{\partial A}{\partial t}\right)_H
+\]
+若 $U(t)=e^{-iHt/\hbar}$，则
+\[
+A_H(t)=U^\dagger(t)\,A_S\,U(t),\qquad |\psi_H\rangle=|\psi(0)\rangle
+\]
+
+\paragraph{相互作用表象}
+将哈密顿量拆分 $H=H_0+V$，部分时间依赖移到态矢，部分移到算符，
+便于处理微扰或相互作用问题。
+\[
+|\psi_I(t)\rangle=U_0^\dagger(t)|\psi_S(t)\rangle,\quad
+A_I(t)=U_0^\dagger(t)A_SU_0(t),\quad U_0(t)=e^{-iH_0 t/\hbar}
+\]
+
+\paragraph{三种表象的等价性（补充）}
+无论采用哪种表象，\textbf{物理预测一致}：
+\[
+\langle A\rangle
+=\langle\psi_S(t)|A_S|\psi_S(t)\rangle
+=\langle\psi_H|A_H(t)|\psi_H\rangle
+\]
+只是“时间依赖”分配在态矢还是算符上不同。
+
+\section{【背】态叠加与概率幅度规则}
+
+\paragraph{叠加原理}
+若 $\psi_1,\psi_2$ 是薛定谔方程的解，则任意线性组合 $c_1\psi_1+c_2\psi_2$ 仍是解。
+
+\paragraph{概率幅度的四条规则（简化版）}
+\begin{enumerate}
+  \item \textbf{不可区分路径}：总幅度为各路径幅度之和。
+  \item \textbf{可区分末态}：总概率为各末态概率之和。
+  \item \textbf{连续跃迁}：总幅度为分段幅度之积。
+  \item \textbf{独立体系}：总体幅度为各子系统幅度之积。
+\end{enumerate}
+这说明量子叠加是\textbf{幅度相加}而非概率相加。
+典型例子是\textbf{电子双缝干涉}：两路径幅度相加产生干涉条纹。
+\textbf{Born 规则：}概率 $P=|\text{幅度}|^2$。
+
+\paragraph{双缝干涉的幅度叠加（补充）}
+若通过两条不可区分路径到达同一末态的幅度分别为 $\psi_1,\psi_2$，则
+\[
+P=|\psi_1+\psi_2|^2=|\psi_1|^2+|\psi_2|^2+2\mathrm{Re}(\psi_1^\ast\psi_2)
+\]
+最后一项即干涉项。若引入\textbf{路径信息}使两路径可区分，则干涉项消失，概率退化为 $|\psi_1|^2+|\psi_2|^2$。
+
+\section{【背】表象与酉变换}
+
+\paragraph{基与表象}
+设 $\{|a_i\rangle\}$、$\{|b_j\rangle\}$ 是两组正交归一基，定义
+\[
+U_{ji}=\langle b_j|a_i\rangle
+\]
+则 $U$ 为酉矩阵，系数在两基之间变换为
+\[
+c'_j=\sum_i U_{ji}c_i \quad \Longleftrightarrow \quad c'=Uc
+\]
+
+\paragraph{算符的表象变换}
+若算符在 $a$ 表象中矩阵为 $A$，在 $b$ 表象中矩阵为 $A'$，则
+\[
+A'=UAU^\dagger
+\]
+酉变换不改变算符的本征值。
+
+\paragraph{例：计算基与 Hadamard 基变换（补充）}
+设 $a$ 表象为计算基 $\{|0\rangle,|1\rangle\}$，$b$ 表象为 $|+\rangle,|-\rangle$，
+则
+\[
+U=\frac{1}{\sqrt{2}}
+\begin{pmatrix}
+1&1\\
+1&-1
+\end{pmatrix},\qquad c'=Uc
+\]
+例如 $|0\rangle$ 的系数 $c=(1,0)^T$，在 $b$ 表象中为 $c'=(\frac{1}{\sqrt{2}},\frac{1}{\sqrt{2}})^T$。
+算符也满足 $A'=UAU^\dagger$，因此 $Z$ 在 Hadamard 基下变为
+\[
+U Z U^\dagger = X
+\]
+
+\paragraph{术语对照}
+课件中常写“么正变换”，即\textbf{幺正/酉变换}的同义说法。
+
+\paragraph{连续完备基}
+位置表象满足完备性：
+\[
+\int |x\rangle\langle x|\,dx = I,\quad \psi(x)=\langle x|\psi\rangle
+\]
+动量表象同理：$\int |p\rangle\langle p|\,dp=I$。
+
+\section{【了解】位置/动量表象与傅里叶变换}
+
+\paragraph{傅里叶变换对}
+位置与动量波函数互为傅里叶变换：
+\[
+\phi(p)=\frac{1}{\sqrt{2\pi\hbar}}\int_{-\infty}^{\infty} e^{-ipx/\hbar}\psi(x)\,dx
+\]
+\[
+\psi(x)=\frac{1}{\sqrt{2\pi\hbar}}\int_{-\infty}^{\infty} e^{ipx/\hbar}\phi(p)\,dp
+\]
+且归一化保持：
+\[
+\int |\psi(x)|^2 dx=\int |\phi(p)|^2 dp=1
+\]
+
+\paragraph{位置/动量本征态（补充）}
+位置与动量本征态满足
+\[
+\langle x|p\rangle=\frac{1}{\sqrt{2\pi\hbar}}e^{ipx/\hbar},\quad
+\langle x|x'\rangle=\delta(x-x'),\quad
+\langle p|p'\rangle=\delta(p-p')
+\]
+因此动量本征态在位置表象中是\textbf{平面波}，位置本征态则对应 $\delta$ 函数。
+\[
+\int |p\rangle\langle p|\,dp = I,\qquad \int |x\rangle\langle x|\,dx = I
+\]
+
+\section{【背】密度算子与混合态}
+
+\paragraph{定义}
+若系统以概率 $p_k$ 处于纯态 $|\psi_k\rangle$，则其密度算子为
+\[
+\rho=\sum_k p_k|\psi_k\rangle\langle\psi_k|,\quad p_k\ge 0,\quad \sum_k p_k=1
+\]
+\textbf{纯态特例：}若系统确定处于 $|\psi\rangle$，则
+\[
+\rho=|\psi\rangle\langle\psi|
+\]
+
+\paragraph{性质}
+\begin{itemize}
+  \item $\rho^\dagger=\rho$（厄米）
+  \item $\rho\succeq 0$（半正定）
+  \item $\mathrm{tr}(\rho)=1$
+  \item 纯态判据：$\rho^2=\rho$ 或 $\mathrm{tr}(\rho^2)=1$
+\end{itemize}
+混态满足 $\mathrm{tr}(\rho^2)<1$。
+\paragraph{迹的基不变性（补充）}
+对任意酉变换 $U$，有 $\mathrm{tr}(U\rho U^\dagger)=\mathrm{tr}(\rho)$，
+因此 $\mathrm{tr}(\rho)=1$ 与基的选择无关。
+\paragraph{纯度的不变性（补充）}
+纯度 $\mathrm{tr}(\rho^2)$ 在酉演化下保持不变：$\mathrm{tr}((U\rho U^\dagger)^2)=\mathrm{tr}(\rho^2)$。
+
+\paragraph{谱分解与概率（补充）}
+密度算子可在其本征基中写成
+\[
+\rho=\sum_k p_k |k\rangle\langle k|
+\]
+其中 $p_k\in[0,1]$ 且 $\sum_k p_k=1$。这些 $p_k$ 可解释为处于本征态 $|k\rangle$ 的概率。
+
+\paragraph{【了解】相干与经典混合（补充）}
+密度矩阵的\textbf{非对角元}描述量子相干。以单比特为例，
+\[
+|+\rangle=\frac{|0\rangle+|1\rangle}{\sqrt{2}}
+\Rightarrow \rho_{+}=\frac{1}{2}\begin{pmatrix}1&1\\1&1\end{pmatrix}
+\]
+而\textbf{经典混合} $\rho_{\text{mix}}=\frac{1}{2}(|0\rangle\langle0|+|1\rangle\langle1|)=\frac{1}{2}I$
+在 $Z$ 基测量上概率相同，但在 $X$ 基上表现不同。混态分解一般\textbf{不唯一}。
+混态常由与\textbf{环境耦合}、或对环境做偏迹产生，即“丢失”部分自由度导致相干衰减（退相干）。
+
+\paragraph{【了解】单比特密度矩阵与Bloch向量}
+任意单比特密度矩阵可写为
+\[
+\rho=\frac{1}{2}(I+\vec{r}\cdot\vec{\sigma}),\quad |\vec{r}|\le 1
+\]
+其中 $\vec{\sigma}=(\sigma_x,\sigma_y,\sigma_z)$。纯态对应 $|\vec{r}|=1$，完全混态对应 $\vec{r}=0$。
+纯度与 Bloch 向量长度满足
+\[
+\mathrm{tr}(\rho^2)=\frac{1+|\vec{r}|^2}{2}
+\]
+Bloch 向量可由
+\[
+r_i=\mathrm{tr}(\rho\,\sigma_i)
+\]
+直接求得。
+
+\paragraph{【了解】Bloch球中的混态}
+单比特纯态位于 Bloch 球面，混态对应球内点；密度矩阵可写为
+\[
+\rho=\sum_n p_n|\psi_n\rangle\langle\psi_n|
+\]
+其中 $p_n$ 为系统处于纯态 $|\psi_n\rangle$ 的概率。
+若仅混合两个纯态 $|\psi_A\rangle,|\psi_B\rangle$，其 Bloch 向量位于两点连线段上，
+体现混态是纯态的\textbf{凸组合}。
+
+\paragraph{期望值与演化}
+\[
+\langle A\rangle = \mathrm{tr}(\rho A),\quad
+\rho' = U\rho U^\dagger
+\]
+若 $U=\exp(-\frac{i}{\hbar}Ht)$，则满足冯诺依曼方程
+\[
+i\hbar\,\frac{d\rho}{dt}=[H,\rho]
+\]
+\paragraph{测量概率（补充）}
+在正交基 $\{|e_i\rangle\}$ 上投影测量时，结果 $i$ 的概率为
+\[
+p_i=\langle e_i|\rho|e_i\rangle
+\]
+即密度矩阵在该基下的对角元。
+
+\paragraph{约化密度算子（偏迹）}
+对复合系统 $AB$ 的密度算子 $\rho_{AB}$，子系统 $A$ 的约化态为
+\[
+\rho_A=\mathrm{tr}_B(\rho_{AB})
+\]
+在 $B$ 的正交归一基 $\{|b_k\rangle\}$ 下可写为
+\[
+\rho_A=\sum_k (I\otimes \langle b_k|)\,\rho_{AB}\,(I\otimes |b_k\rangle)
+\]
+
+\paragraph{局域可观测量（补充）}
+对子系统 $A$ 的可观测量 $A$，其期望值可用约化密度算子计算：
+\[
+\langle A\rangle=\mathrm{tr}_{AB}(\rho_{AB}\,A\otimes I)=\mathrm{tr}_A(\rho_A A)
+\]
+说明偏迹保留了子系统的全部可观测统计信息。
+\paragraph{张量积的迹公式（补充）}
+对可分态 $\rho_{AB}=\rho_A\otimes\rho_B$，有
+\[
+\mathrm{tr}(\rho_{AB} A\otimes B)=\mathrm{tr}(\rho_A A)\,\mathrm{tr}(\rho_B B)
+\]
+
+\begin{example}
+\textbf{Bell态的约化密度矩阵}
+
+设 $|\Phi^+\rangle=\frac{|00\rangle+|11\rangle}{\sqrt{2}}$，
+\[
+\rho_{AB}=|\Phi^+\rangle\langle\Phi^+|,\quad
+\rho_A=\mathrm{tr}_B(\rho_{AB})=\frac{1}{2}I
+\]
+说明纠缠态的子系统表现为混态。
+\end{example}
+
+\paragraph{【了解】纠缠判据（纯态）（补充）}
+对纯态 $|\psi\rangle_{AB}$，若其约化态满足
+\[
+\mathrm{tr}(\rho_A^2)=1
+\]
+则 $|\psi\rangle_{AB}$ 为可分态；若 $\mathrm{tr}(\rho_A^2)<1$，则为纠缠态。
+\paragraph{【了解】Schmidt 分解（补充）}
+任意纯态 $|\psi\rangle_{AB}$ 都可写成
+\[
+|\psi\rangle_{AB}=\sum_k \sqrt{\lambda_k}\,|u_k\rangle_A\otimes|v_k\rangle_B,\quad \lambda_k\ge 0,\ \sum_k\lambda_k=1
+\]
+若且仅若只有一个非零 $\lambda_k$，则态为可分态；否则为纠缠态。
+\paragraph{【了解】Schmidt 数（补充）}
+非零 Schmidt 系数的个数称为 Schmidt 数。Schmidt 数为 1 当且仅当态可分。
+\paragraph{【了解】纠缠熵（补充）}
+纯态的纠缠可用冯诺依曼熵刻画：
+\[
+S(\rho_A)=-\mathrm{tr}(\rho_A\log\rho_A)
+\]
+对纯态 $|\psi\rangle_{AB}$，有 $S(\rho_A)=S(\rho_B)$，且 $S=0$ 当且仅当可分。
+\paragraph{【了解】熵的最大值（补充）}
+对 $d$ 维系统，$S(\rho)\le \log d$，最大值在 $\rho=I/d$（完全混态）时取得。
+
+\section{【了解】测不准关系（补充）}
+
+\paragraph{一般形式}
+对任意厄米算符 $A,B$，
+\[
+\Delta A\,\Delta B \ge \frac{1}{2}\left|\langle[A,B]\rangle\right|
+\]
+其中 $\Delta A=\sqrt{\langle A^2\rangle-\langle A\rangle^2}$。
+
+\paragraph{不确定度的含义（补充）}
+$\Delta A$ 是测量结果分布的\textbf{标准差}（statistical spread），
+并非仪器精度的主观限制。Kennard（1927）给出了位置-动量的精确不等式形式。
+若系统处于 $A$ 的本征态，则 $\Delta A=0$；但对与 $A$ 不对易的算符 $B$，仍受不确定性下界约束。
+
+\paragraph{位置-动量}
+\[
+\Delta x\,\Delta p \ge \frac{\hbar}{2}
+\]
+该结论可由 Cauchy--Schwarz 不等式推出，是量子统计规律的直接体现。
+
+\paragraph{时间-能量}
+时间与能量也满足类似的不等式（形式上）
+\[
+\Delta t\,\Delta E \gtrsim \frac{\hbar}{2}
+\]
+常用于估计能级寿命与谱线宽度的关系。
+不确定性反映的是\textbf{量子本征统计规律}，而非测量技术不足。
+对应到频率亦可写为 $\Delta t\,\Delta \omega \gtrsim \frac{1}{2}$（形式上）。
+
+\section{【了解】量子纠缠、EPR佯谬与贝尔不等式}
+
+\subsection{【了解】纠缠态的定义}
+\paragraph{可分态 vs 纠缠态}
+若两比特态可写成 $|\psi\rangle=|a\rangle\otimes|b\rangle$，则为可分态；
+否则称为\textbf{纠缠态}。例如
+\[
+|\Psi^+\rangle=\frac{|01\rangle+|10\rangle}{\sqrt{2}}
+\]
+无法写成单比特态的张量积，因此是纠缠态。
+
+\begin{example}
+\textbf{可分态示例}
+\[
+\frac{|00\rangle+|10\rangle}{\sqrt{2}}
+=\left(\frac{|0\rangle+|1\rangle}{\sqrt{2}}\right)\otimes|0\rangle
+\]
+该态可以分解为张量积，因此不是纠缠态。
+\end{example}
+
+\paragraph{纠缠的核心特征}
+\begin{itemize}
+  \item \textbf{强关联}：测量一个子系统会瞬时确定另一个子系统的结果分布。
+  \item \textbf{非定域关联}：相关性与距离无关，但\textbf{不能}用于超光速通信。
+  \item \textbf{应用广泛}：量子隐形传态、量子密钥分发、量子计算与量子精密测量的关键资源。
+  \item \textbf{易受退相干}：高质量纠缠的制备与保持在实验上具有挑战。
+\end{itemize}
+
+\paragraph{四个Bell态}
+\[
+|\Phi^\pm\rangle=\frac{|00\rangle\pm|11\rangle}{\sqrt{2}},\quad
+|\Psi^\pm\rangle=\frac{|01\rangle\pm|10\rangle}{\sqrt{2}}
+\]
+Bell态是两比特最大纠缠态，可由 $H$ 门 + CNOT 电路制备。
+四个 Bell 态构成两比特的\textbf{正交归一基}：
+\[
+\sum_{\mu\in\{\Phi^\pm,\Psi^\pm\}} |\mu\rangle\langle\mu|=I
+\]
+\paragraph{完美关联示例（补充）}
+对 $|\Psi^-\rangle$，若两方沿同一方向测量自旋，总是得到相反结果（完美反相关）。
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.6\linewidth]{fig_bell_measurement.png}
+  \caption{Bell 态测量的光学干涉装置示意（分束器 + 偏振分束器 + 探测器）。}
+\end{figure}
+
+\paragraph{不同基下的表示}
+例如
+\[
+|\Phi^+\rangle=\frac{|00\rangle+|11\rangle}{\sqrt{2}}
+=\frac{|++\rangle+|--\rangle}{\sqrt{2}}
+\]
+说明纠缠态在不同测量基下仍保持强关联。
+
+\subsection{【了解】EPR佯谬}
+1935 年 EPR 提出“定域实在论”挑战：
+\begin{enumerate}
+  \item \textbf{实在性}：若可在不扰动系统的前提下精确预测某物理量，则该物理量具有客观实在。
+  \item \textbf{定域性}：不存在超光速影响。
+  \item \textbf{推论}：纠缠测量可瞬时决定远处粒子状态，说明远处粒子早已具有确定值（隐变量），量子力学不完备。
+\end{enumerate}
+
+\subsection{【了解】贝尔不等式（CHSH形式）}
+设 $E(a,b)$ 表示在测量基 $a,b$ 下的相关函数（例如 $E=P_{\text{同}}-P_{\text{异}}$），
+则经典定域隐变量理论满足
+\[
+-2 \le E(a,b)-E(a,b')+E(a',b)-E(a',b') \le 2
+\]
+量子力学在合适纠缠态与测量设置下可违反该不等式。实验结果支持量子预言，否定定域隐变量模型。
+20 世纪 80 年代以来（如 Aspect 等实验）对贝尔不等式的违反被反复验证。
+\paragraph{量子预测示例（补充）}
+对 singlet 态 $|\Psi^-\rangle$，量子力学给出
+\[
+E(a,b)=-\cos\theta_{ab}
+\]
+在合适测量角度下可达到 $2\sqrt{2}$ 的最大违背。
+
+\paragraph{CHSH 算符定义（补充）}
+取 $A,A'$ 为 Alice 的两种测量（本征值 $\pm1$），$B,B'$ 为 Bob 的两种测量，则
+\[
+\hat{B}=A\otimes(B+B')+A'\otimes(B-B')
+\]
+
+\paragraph{算符形式}
+定义 Bell 算符 $\hat{B}$，则
+\[
+-2 \le \langle \hat{B}\rangle \le 2
+\]
+是经典定域隐变量的上界；量子力学可给出更大的 $\langle\hat{B}\rangle$。
+
+\paragraph{Tsirelson 上界（补充）}
+量子力学对 CHSH 算符的上界为
+\[
+\langle \hat{B}\rangle \le 2\sqrt{2}
+\]
+表明量子相关性强于经典，但仍受量子力学限制。
+
+\section{【了解】量子超密编码（Superdense Coding）}
+
+\paragraph{核心思想}
+利用纠缠作为共享资源，实现“发送 1 个量子比特传递 2 个经典比特”。
+\textbf{提出者：}Bennett 与 Wiesner（1992）。
+\textbf{对比：}经典信道中发送 1 个物理比特只能传递 1 个经典比特。
+又称\textbf{量子密集编码}。
+
+\paragraph{协议步骤}
+\begin{enumerate}
+  \item 共享 $|\Phi^+\rangle$：Alice 和 Bob 各持一半纠缠对。
+  \item Alice 编码两比特信息，对自己量子比特施加幺正操作。
+  \item Alice 发送该量子比特给 Bob（只发送 1 个 qubit）。
+  \item Bob 对两比特做 Bell 基测量（Bell State Measurement, BSM），得到 2 个经典比特。
+\end{enumerate}
+\paragraph{Bell 基测量实现（补充）}
+对两比特先施加 CNOT（第 1 控制第 2），再对第 1 比特施加 $H$，
+随后在计算基测量即可完成 BSM（理想情况下）。
+
+\paragraph{【了解】编码映射（以 $|\Phi^+\rangle$ 为初态）}
+\[
+\begin{array}{c|c}
+\text{经典比特} & \text{Alice 操作} \\
+\hline
+00 & I \\
+01 & X \\
+10 & Z \\
+11 & iY=ZX
+\end{array}
+\quad\Rightarrow\quad
+\text{得到四个 Bell 态之一}
+\]
+对应关系为：
+\[
+00\to|\Phi^+\rangle,\quad 01\to|\Psi^+\rangle,\quad 10\to|\Phi^-\rangle,\quad 11\to|\Psi^-\rangle
+\]
+
+\paragraph{要点}
+纠缠是核心资源；单独截获一个粒子无法读取信息；测量会破坏纠缠，具有安全性潜力。
+
+\section{【了解】量子线路与量子逻辑门}
+
+\subsection{【了解】线路模型}
+量子算法以\textbf{线路}表示：量子比特为线路，酉门为方块，测量为读出。线路保持\textbf{可逆性}。
+\textbf{门的分类：}按作用比特数分为单比特门、双比特门、三比特门等。
+量子门通常通过其对\textbf{计算基}的作用来定义，再由线性性扩展到任意叠加态。
+
+\subsection{【背】常用单比特门}
+\[
+X=\begin{pmatrix}0&1\\1&0\end{pmatrix},\quad
+Z=\begin{pmatrix}1&0\\0&-1\end{pmatrix},\quad
+H=\frac{1}{\sqrt{2}}\begin{pmatrix}1&1\\1&-1\end{pmatrix}
+\]
+\[
+Y=\begin{pmatrix}0&-i\\i&0\end{pmatrix},\quad
+S=\begin{pmatrix}1&0\\0&i\end{pmatrix},\quad
+R_\phi=\begin{pmatrix}1&0\\0&e^{i\phi}\end{pmatrix}
+\]
+\[
+T=\begin{pmatrix}1&0\\0&e^{i\pi/4}\end{pmatrix}
+\]
+\paragraph{【了解】常用关系（补充）}
+$H^\dagger=H=H^{-1}$，$X^2=Y^2=Z^2=I$，$S^2=Z$，$T^2=S$，
+且 $HZH=X$、$HXH=Z$。
+\paragraph{【了解】相位门的物理含义（补充）}
+$R_\phi$ 仅改变 $|1\rangle$ 的\textbf{相对相位}：$|0\rangle\mapsto|0\rangle$，$|1\rangle\mapsto e^{i\phi}|1\rangle$。
+全局相位对测量概率无影响，但\textbf{相对相位}会影响干涉结果。
+\paragraph{【了解】S/T 门与旋转门关系（补充）}
+$S=R_z(\pi/2)$，$T=R_z(\pi/4)$（均忽略全局相位）。
+\paragraph{【了解】旋转门（补充）}
+绕 Bloch 球坐标轴的旋转门定义为
+\[
+R_x(\theta)=e^{-i\theta X/2},\quad R_y(\theta)=e^{-i\theta Y/2},\quad R_z(\theta)=e^{-i\theta Z/2}
+\]
+它们在单比特空间中对应空间旋转，是构造任意单比特门的基础。
+当 $\theta=\pi$ 时，$R_x(\pi)\sim X$、$R_y(\pi)\sim Y$、$R_z(\pi)\sim Z$（忽略全局相位）。
+\paragraph{【了解】旋转门的矩阵形式（补充）}
+\[
+R_z(\theta)=\begin{pmatrix}e^{-i\theta/2}&0\\0&e^{i\theta/2}\end{pmatrix},\qquad
+R_x(\theta)=\begin{pmatrix}\cos\frac{\theta}{2}&-i\sin\frac{\theta}{2}\\-i\sin\frac{\theta}{2}&\cos\frac{\theta}{2}\end{pmatrix}
+\]
+
+\subsection{【背】受控运算}
+控制比特为 $|1\rangle$ 时对目标比特施加门 $U$：
+\[
+|c\rangle|t\rangle \mapsto |c\rangle U^c|t\rangle
+\]
+等价写成算符形式：
+\[
+U_c=|0\rangle\langle 0|\otimes I + |1\rangle\langle 1|\otimes U
+\]
+在矩阵上表现为\textbf{块对角}结构。
+\begin{itemize}
+  \item \textbf{CNOT}：控制为 1 时翻转目标比特。
+  \item \textbf{Toffoli（CCNOT）}：两个控制比特同时为 1 时翻转目标比特。
+  \item \textbf{Fredkin（CSWAP）}：控制为 1 时交换两个目标比特。
+\end{itemize}
+Toffoli/Fredkin 门可实现\textbf{可逆经典逻辑}，是量子线路构建的基础组件。
+当控制比特为 $|0\rangle$ 时，受控门对目标比特不产生作用。
+Toffoli 门配合单比特门可构成通用量子计算门集。
+
+\paragraph{【了解】Toffoli 与 Fredkin 的逻辑形式（补充）}
+Toffoli（CCNOT）：
+\[
+|a,b,c\rangle \mapsto |a,b,c\oplus (ab)\rangle
+\]
+Fredkin（CSWAP）：
+\[
+|c,a,b\rangle \mapsto |c,\ a,\ b\rangle\ (c=0),\qquad |c,a,b\rangle \mapsto |c,\ b,\ a\rangle\ (c=1)
+\]
+\paragraph{【了解】Toffoli 真值表（补充）}
+\[
+|000\rangle\to|000\rangle,\ |001\rangle\to|001\rangle,\ |010\rangle\to|010\rangle,\ |011\rangle\to|011\rangle,
+\]
+\[
+|100\rangle\to|100\rangle,\ |101\rangle\to|101\rangle,\ |110\rangle\to|111\rangle,\ |111\rangle\to|110\rangle
+\]
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.9\linewidth]{fig_cnot_h_cnot.png}
+  \caption{受控门示意：左为 CNOT 逻辑（$a\oplus b$），右为 $H$+CNOT 产生纠缠的线路。}
+\end{figure}
+
+\paragraph{【背】CNOT 矩阵表示}
+\[
+\mathrm{CNOT}=
+\begin{pmatrix}
+1&0&0&0\\
+0&1&0&0\\
+0&0&0&1\\
+0&0&1&0
+\end{pmatrix}
+\]
+其作用：$|00\rangle\!\to\!|00\rangle,\ |01\rangle\!\to\!|01\rangle,\ |10\rangle\!\to\!|11\rangle,\ |11\rangle\!\to\!|10\rangle$。
+\[
+|a\rangle|b\rangle \mapsto |a\rangle|a\oplus b\rangle
+\]
+\[
+\mathrm{CNOT}^2=I\quad (\text{自逆})
+\]
+若控制比特处于叠加态，CNOT 可产生纠缠（例如 $|+\rangle|0\rangle \mapsto |\Phi^+\rangle$）。
+
+\paragraph{【了解】SWAP 门}
+交换两个量子比特的状态：
+\[
+\mathrm{SWAP}=
+\begin{pmatrix}
+1&0&0&0\\
+0&0&1&0\\
+0&1&0&0\\
+0&0&0&1
+\end{pmatrix}
+\]
+常用分解为三次 CNOT：$\mathrm{SWAP}=(\mathrm{CNOT}_{12})(\mathrm{CNOT}_{21})(\mathrm{CNOT}_{12})$。
+\[
+\mathrm{SWAP}=(\mathrm{CNOT}_{21})(\mathrm{CNOT}_{12})(\mathrm{CNOT}_{21})
+\]
+\[
+\mathrm{SWAP}^2=I
+\]
+
+\paragraph{【了解】SWAP 真值表（补充）}
+\[
+|00\rangle\to|00\rangle,\quad |01\rangle\to|10\rangle,\quad
+|10\rangle\to|01\rangle,\quad |11\rangle\to|11\rangle
+\]
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.9\linewidth]{fig_fredkin.png}
+  \caption{Fredkin（受控 SWAP）门：控制为 1 时交换两条线，控制为 0 时保持不变。}
+\end{figure}
+
+\begin{example}
+\textbf{制备Bell态电路}
+
+对 $|00\rangle$，先对第1比特施加 $H$，再施加 CNOT（第1控制第2）：
+\[
+|00\rangle \xrightarrow{H\otimes I} \frac{|00\rangle+|10\rangle}{\sqrt{2}}
+\xrightarrow{\text{CNOT}} \frac{|00\rangle+|11\rangle}{\sqrt{2}}=|\Phi^+\rangle
+\]
+对 $|\Phi^+\rangle$ 在计算基测量，只会得到 $00$ 或 $11$，且概率各为 $1/2$。
+\end{example}
+
+\subsection{【了解】可逆性与辅助比特}
+量子门必须可逆；经典不可逆运算（如擦除、AND）需要引入辅助比特与可逆门实现。
+
+\begin{example}
+\textbf{二进制个位数相加（思路）}
+
+为避免不可逆映射，需引入辅助比特。一个常见流程（与课件思路一致）：
+\begin{enumerate}
+  \item 初始化 $|0; x_2; x_1\rangle$（辅助比特置 0）。
+  \item 以第 2 比特为控制、辅助比特为目标，施加 CNOT。
+  \item 以辅助比特为控制，施加 Fredkin 门。
+  \item 以第 2 比特为控制、第 1 比特为目标，施加 CNOT。
+  \item 测量前两个比特得到加法结果（进位与和）。
+\end{enumerate}
+\end{example}
+
+\subsection{【了解】通用门集}
+任意单比特酉门 + CNOT 组成\textbf{通用门集}；常见实现为 $\{H,S,T,\text{CNOT}\}$。
+任意单比特酉算符可分解为欧拉角形式（例如 $U=e^{i\alpha}R_z(\beta)R_y(\gamma)R_z(\delta)$），
+因此只需有限基本门即可逼近任意量子电路。
+
+\section{【了解】量子计算概述与算法}
+
+\subsection{【了解】经典计算瓶颈}
+\begin{itemize}
+  \item \textbf{摩尔定律放缓}：器件尺寸逼近纳米尺度，量子隧穿与热效应使性能提升受限。
+  \item \textbf{量子系统难模拟}：经典资源随系统规模指数爆炸。
+\end{itemize}
+
+\paragraph{经典计算机发展简述（课件要点）}
+\begin{itemize}
+  \item 1946 年：第一台经典电子计算机 ENIAC。
+  \item 1982 年：286 时代的集成电路计算机。
+  \item 现代芯片已集成\textbf{数十亿}晶体管（例：智能手机 SoC）。
+\end{itemize}
+
+\subsection{【了解】动机与基本需求}
+\begin{itemize}
+  \item \textbf{动机}：经典计算资源随量子系统规模指数爆炸（Feynman 模拟观点）。
+  \item \textbf{基本需求}：可控物理比特、初始化、长相干时间、通用门集、测量读出与可扩展性。
+\end{itemize}
+可概括为常见的 DiVincenzo 判据：可扩展量子比特、初始化、通用门集、长相干、可靠测量等。
+
+\paragraph{量子计算概念的提出}
+Richard Feynman 提出：用量子系统模拟量子系统可避免经典计算资源的指数爆炸。
+
+\paragraph{经典比特 vs 量子比特}
+经典比特只能处于 $0/1$；量子比特可处于叠加态 $\alpha|0\rangle+\beta|1\rangle$，
+并能体现相干与干涉效应。
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.9\linewidth]{fig_qc_timeline.png}
+  \caption{量子计算发展里程碑时间线（课件示意）。}
+\end{figure}
+
+\subsection{【了解】两类量子计算机}
+\begin{itemize}
+  \item \textbf{量子退火/绝热计算}：专注优化问题（如 QUBO/Ising）。
+  \item \textbf{通用门电路量子计算}：可执行任意量子算法。
+\end{itemize}
+
+\subsection{【了解】典型量子算法}
+\begin{itemize}
+  \item \textbf{Shor 算法}：大整数分解，指数级加速（威胁 RSA）。
+  \item \textbf{Grover 算法}：无结构搜索，平方加速。
+  \item \textbf{量子模拟}：直接模拟量子系统的动力学与性质。
+\end{itemize}
+
+\paragraph{量子计算应用（概览）}
+优化、量子化学与材料模拟、密码学与安全分析、机器学习加速等是常见应用方向。
+
+\paragraph{Grover 算法核心流程}
+\[
+\text{初始化} \rightarrow \text{Hadamard 叠加} \rightarrow \text{Oracle 标记} \rightarrow \text{扩散算子放大} \rightarrow \text{测量}
+\]
+
+\paragraph{Oracle 的相位翻转（补充）}
+常用相位 Oracle 的作用为
+\[
+O_f|x\rangle = (-1)^{f(x)}|x\rangle
+\]
+其中 $f(x)=1$ 的目标态获得相位 $-1$。
+
+\paragraph{Grover 扩散算子（补充）}
+扩散算子可写为
+\[
+D=2|s\rangle\langle s|-I,\qquad |s\rangle=\frac{1}{\sqrt{N}}\sum_{x=0}^{N-1}|x\rangle
+\]
+其作用可理解为“关于平均幅度的反射”，与 Oracle 一起形成幅度放大。
+\[
+G = D\,O_f
+\]
+Grover 迭代次数约为 $\left\lfloor\frac{\pi}{4}\sqrt{N}\right\rfloor$。
+若设目标态幅度角 $\sin\theta=1/\sqrt{N}$，则第 $k$ 次迭代后的成功概率为
+\[
+P_k=\sin^2\big((2k+1)\theta\big)
+\]
+若存在 $M$ 个目标态，则近似迭代次数为 $\left\lfloor\frac{\pi}{4}\sqrt{N/M}\right\rfloor$。
+
+\paragraph{量子算法通用套路}
+初始化（多比特置 $|0\rangle$）$\rightarrow$ 量子门序列/线路 $\rightarrow$ 测量得到\textbf{概率分布}；
+测量输出为经典比特，需重复多次以统计结果。
+Grover 搜索将无结构搜索的复杂度从 $O(N)$ 降至 $O(\sqrt{N})$。
+
+\paragraph{Shor 算法要点（补充）}
+Shor 算法核心是将整数分解转化为\textbf{周期查找}问题，
+利用量子傅里叶变换（QFT）高效提取周期，从而得到因子。
+QFT 在计算基上的作用为
+\[
+\mathrm{QFT}_N|x\rangle=\frac{1}{\sqrt{N}}\sum_{k=0}^{N-1} e^{2\pi i xk/N}|k\rangle
+\]
+在电路实现中，QFT 可用 $O(n^2)$ 个受控相位门构成（$n=\log_2 N$）。
+其逆变换为
+\[
+\mathrm{QFT}_N^\dagger|k\rangle=\frac{1}{\sqrt{N}}\sum_{x=0}^{N-1} e^{-2\pi i xk/N}|x\rangle
+\]
+因此 $\mathrm{QFT}_N$ 是酉算符，且 $\mathrm{QFT}_N^{-1}=\mathrm{QFT}_N^\dagger$。
+实际实现中需构造模指数函数并在经典端用连分数法提取周期。
+
+\subsection{【了解】量子计算平台概览（常见实现）}
+\paragraph{量子计算体系}
+现有量子计算体系主要包括核磁共振（NMR）、光子、离子阱、超导芯片、金刚石 NV 色心等。
+以 NMR 为例，核自旋在外磁场中发生\textbf{塞曼能级劈裂}，可用两能级作为量子比特。
+\begin{itemize}
+  \item 超导量子比特（约瑟夫森结）
+  \item 离子阱（激光操控）
+  \item 光子量子计算
+  \item 核磁共振（NMR）
+  \item NV 色心与半导体量子点
+  \item 拓扑量子计算（准粒子编织）
+\end{itemize}
+\paragraph{关键性能指标（补充）}
+量子比特的相干时间（$T_1,T_2$）需显著长于门操作时间，且门/测量\textbf{误差率}需低于容错阈值。
+连接度、读出保真度与可扩展性也是平台比较的核心指标。
+
+\subsection{【了解】量子退火与应用示例（概览）}
+量子退火将问题转化为 Ising/QUBO 优化，通过量子涨落寻找最优解；
+在物流路径、组合优化、机器学习等领域被探索应用（如 D-Wave 平台示例）。
+
+\section{【了解】量子通信}
+
+\subsection{【了解】基本概念}
+量子通信利用\textbf{叠加}与\textbf{纠缠}传递信息，其安全性来自\textbf{不确定性、测量塌缩与不可克隆定理}。
+典型任务包括：\textbf{量子隐形传态、量子密钥分发（QKD）、量子超密编码、量子中继}。
+
+\paragraph{【背】不可克隆定理（要点）}
+不存在一个固定的酉变换能将任意未知态克隆：
+\[
+|\psi\rangle|0\rangle \nrightarrow |\psi\rangle|\psi\rangle \quad (\text{对所有 }|\psi\rangle)
+\]
+这是量子通信安全性的根基之一。
+
+\paragraph{不可克隆定理的线性性证明（补充）}
+设某酉算符满足 $U|0\rangle|0\rangle=|0\rangle|0\rangle$、$U|1\rangle|0\rangle=|1\rangle|1\rangle$，
+则对叠加态 $|\psi\rangle=\alpha|0\rangle+\beta|1\rangle$，
+\[
+U|\psi\rangle|0\rangle=\alpha|0\rangle|0\rangle+\beta|1\rangle|1\rangle \neq
+(\alpha|0\rangle+\beta|1\rangle)\otimes(\alpha|0\rangle+\beta|1\rangle)
+\]
+因此不存在能克隆任意未知态的线性（酉）操作。
+\paragraph{内积证明（补充）}
+若 $U|\psi\rangle|0\rangle=|\psi\rangle|\psi\rangle$ 且 $U|\phi\rangle|0\rangle=|\phi\rangle|\phi\rangle$，
+则
+\[
+\langle\psi|\phi\rangle=\langle\psi|\phi\rangle^2
+\]
+除非 $|\langle\psi|\phi\rangle|=0$ 或 $1$，否则矛盾，故不能克隆任意非正交态。
+
+\paragraph{量子密集编码}
+量子密集编码与超密编码同义，本质是\textbf{纠缠 + 局域操作 + 联合测量}实现容量提升。
+\textbf{要点：}单独截获一个量子比特无法读出信息，因为信息编码在\textbf{整体 Bell 态}上。
+
+\paragraph{典型任务速记}
+\begin{itemize}
+  \item \textbf{隐形传态}：传输量子态本身（需纠缠 + 经典信道）。
+  \item \textbf{QKD}：生成安全密钥而非直接传消息。
+  \item \textbf{超密编码}：1 个量子比特传 2 个经典比特。
+  \item \textbf{量子中继}：基于纠缠交换延伸距离。
+\end{itemize}
+\paragraph{不可克隆与安全性（补充）}
+未知量子态无法被完美复制，任何窃听尝试都会改变状态并可被检测，这是量子通信安全的核心原理之一。
+
+\paragraph{量子通信的几类技术}
+\begin{itemize}
+  \item \textbf{隐形传态}：传送量子态
+  \item \textbf{QKD}：分发密钥
+  \item \textbf{超密编码}：提升信道容量
+  \item \textbf{量子中继}：延伸距离
+\end{itemize}
+\paragraph{信道损耗与距离（补充）}
+光纤与自由空间信道存在指数衰减与噪声，直接传输距离受限，
+因此需要中继、纠缠交换与量子存储器等技术扩展通信距离。
+\paragraph{可信中继 vs 量子中继（补充）}
+可信中继依赖中继节点的\textbf{可信任假设}；量子中继基于纠缠交换与量子存储器，
+目标是实现端到端的量子安全。
+
+\subsection{【了解】量子隐形传态（Teleportation）}
+\paragraph{提出}
+1993 年 Bennett 等提出量子隐形传态方案。
+\paragraph{协议步骤}
+\begin{enumerate}
+  \item Alice 与 Bob 共享 Bell 态 $|\Phi^+\rangle$。
+  \item Alice 对待传态量子比特与自己的一半纠缠比特做 CNOT。
+  \item Alice 对其第一个比特做 $H$，并在 Bell 基下测量两个比特（BSM），得到 2 个经典比特。
+  \item Alice 通过经典信道发送测量结果；Bob 据此施加校正 $I,X,Z,XZ$ 之一。
+\end{enumerate}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.75\linewidth]{fig_teleportation.png}
+  \caption{量子隐形传态示意：纠缠对 + 经典信道共同完成态的传输。}
+\end{figure}
+
+\paragraph{【了解】纠正映射}
+\[
+\begin{array}{c|c}
+\text{Alice测量结果} & \text{Bob操作} \\
+\hline
+00 & I \\
+01 & X \\
+10 & Z \\
+11 & XZ
+\end{array}
+\]
+
+\paragraph{重要说明}
+传输的是\textbf{量子态}而非物质本体；需要经典信道，\textbf{不能超光速}；测量破坏原态，不违背不可克隆定理。
+发送者与接收者对该未知量子态的具体参数可以始终\textbf{一无所知}。
+
+\subsection{【了解】量子密钥分发（QKD）}
+QKD 只生成共享密钥，不直接传输消息。任何窃听测量都会扰动量子态并引入可检测错误（如 BB84/E91 思想）。
+其安全性来自测量不可避免地引入扰动与不可克隆原理。
+
+\paragraph{典型协议}
+\begin{itemize}
+  \item \textbf{BB84}：发送方在两组互补基中随机制备单光子态，接收方随机测量后进行\textbf{基筛选}。
+  \item \textbf{E91}：基于纠缠分发密钥，可结合 Bell 不等式进行安全性验证。
+\end{itemize}
+
+\paragraph{基本流程（要点）}
+制备与测量 $\rightarrow$ 基筛选 $\rightarrow$ 误码率估计 $\rightarrow$ 纠错 $\rightarrow$ 隐私放大。
+\paragraph{BB84 安全性直觉（补充）}
+窃听者若在错误基测量，会\textbf{扰动}量子态并引入额外误码；
+通过抽样估计误码率可检测窃听并决定是否丢弃密钥。
+\paragraph{基筛选效率（补充）}
+在 BB84 中双方随机选择基，只有\textbf{基一致}的测量结果被保留，平均保留比例约为 $1/2$。
+\paragraph{拦截-重发攻击（补充）}
+若窃听者随机选择基测量并重发（intercept-resend），会在筛选后的密钥中引入显著误码（典型约 $25\%$），
+因此可被误码率检测到。
+\paragraph{纠错与隐私放大（补充）}
+纠错用于消除信道噪声导致的不一致；隐私放大通过哈希压缩密钥，降低窃听者可能掌握的信息。
+\paragraph{经典信道认证（补充）}
+QKD 仍需要\textbf{认证的经典信道}完成基筛选与纠错，否则可能遭遇“中间人”攻击。
+
+\subsection{【了解】量子中继与网络}
+\paragraph{量子中继}
+基于\textbf{纠缠交换}与\textbf{纠缠纯化}延伸通信距离，需要\textbf{量子存储器}支持。
+\paragraph{纠缠交换示意（补充）}
+若 $A\!-\!B$ 与 $B\!-\!C$ 共享 Bell 态（如 $|\Phi^+\rangle_{AB}$ 与 $|\Phi^+\rangle_{BC}$），
+在 $B$ 处做 Bell 基测量可使 $A$ 与 $C$ 纠缠，从而实现“远距离纠缠”。
+\paragraph{纠缠纯化（补充）}
+纠缠在传输中会退化，可通过 LOCC（局域操作 + 经典通信）对多对低保真纠缠态进行处理，
+以获得较高保真度的纠缠对，但会牺牲成功率。
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.85\linewidth]{fig_trusted_relay.png}
+  \caption{可信中继（Trusted Relay）量子网络的示意。}
+\end{figure}
+
+\paragraph{网络架构}
+\begin{enumerate}
+  \item 主动光交换的不可信网络（光开关）
+  \item 被动光学器件网络（分束器、WDM）
+  \item 可信节点中继网络
+  \item 量子中继纯量子网络
+\end{enumerate}
+基于纠缠交换的\textbf{量子中继}难度较高，工程上常以\textbf{可信中继}作为过渡方案。
+基于光开关/无源器件的多用户 QKD 复用方案可扩展性有限，仍受信道损耗约束。
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.75\linewidth]{fig_qkd_stack.png}
+  \caption{量子通信协议栈与QKD设备位置（课件示意）。}
+\end{figure}
+
+\paragraph{常见拓扑}
+星形、环形、总线型。
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.8\linewidth]{fig_tokyo_network.png}
+  \caption{量子通信网络拓扑示例（东京QKD网络示意）。}
+\end{figure}
+
+\paragraph{典型网络示例}
+美国 DARPA 量子网络、欧洲 SECOQC、日本东京量子通信网络、中国天地一体量子通信网络与 500 公里无中继光纤 QKD 示范。
+
+\paragraph{关键节点设备（示意）}
+纠缠源/单光子源、量子存储器、贝尔态测量模块、单光子探测器、时间同步与经典控制/通信模块等。
+
+\subsection{【了解】量子隐形传态研究进展（课件提要）}
+\begin{itemize}
+  \item 2010：自由空间 16 km 量子隐形传态实验。
+  \item 2015：光纤中超过 100 km 的传态实验（高效探测器）。
+  \item 2017：“墨子号”卫星实现地到星超过 1400 km 传态。
+\end{itemize}
+
+\subsection{【了解】量子通信网络进展（课件提要）}
+\begin{itemize}
+  \item 2002--2007：美国 DARPA 量子保密通信网络（多节点、光纤/自由空间）。
+  \item 2004/2008：欧洲 SECOQC 项目启动并建成 QKD 网络。
+  \item 2010：日本东京 6 节点城域 QKD 网络。
+  \item 2021：中国天地一体广域量子通信网络（京沪干线+“墨子号”）。
+  \item 2021：中国 500 km 级无中继光纤 TF-QKD 现场示范。
+\end{itemize}
+
+\section{【了解】常见题型总结}
+
+\begin{enumerate}
+  \item \textbf{复数运算}：求模、共轭、逆、指数形式
+  \item \textbf{向量归一化}：计算 $\langle\psi|\psi\rangle$ 并归一化
+  \item \textbf{内积与正交性}：计算内积，判断是否正交
+  \item \textbf{线性无关与基}：判断是否线性无关，写出基与维数
+  \item \textbf{展开系数}：在给定正交归一基下展开向量
+  \item \textbf{矩阵基本操作}：求转置、共轭、迹、行列式与逆
+  \item \textbf{判断厄米/酉性}：验证 $H=H^\dagger$ 或 $U^\dagger U=I$
+  \item \textbf{本征值问题}：求本征值、本征向量、谱分解
+  \item \textbf{张量积展开}：用双线性性完全展开
+  \item \textbf{算符作用}：计算 $(A\otimes B)|v\otimes w\rangle$
+  \item \textbf{对易子/反对易子}：计算 $[A,B]$ 与 $\{A,B\}$
+  \item \textbf{量子比特与Bloch球}：将态写成 $\cos\frac{\theta}{2}|0\rangle+e^{i\varphi}\sin\frac{\theta}{2}|1\rangle$
+  \item \textbf{酉演化/量子门}：由 $U|\psi\rangle$ 计算演化后态
+  \item \textbf{测量与塌缩}：用 $P_m$ 或 $M_m$ 求测量概率与测后态
+  \item \textbf{密度矩阵}：判断纯/混态，计算期望值与偏迹
+  \item \textbf{测不准关系}：计算 $\Delta A$ 并应用 $\Delta A\,\Delta B$ 下界
+  \item \textbf{纠缠态判定}：判断可分/纠缠，写出 Bell 态
+  \item \textbf{EPR/Bell}：写出 CHSH 不等式并解释物理含义
+  \item \textbf{超密编码}：给出编码映射与解码步骤
+  \item \textbf{量子线路}：分析门序列并计算输出态
+  \item \textbf{隐形传态}：写出 CNOT + H + 测量 + 纠正的流程
+  \item \textbf{量子通信}：解释 QKD/中继/网络架构的基本思路
+\end{enumerate}
+
+\section*{【了解】学习建议}
+
+\begin{itemize}
+  \item 掌握这些数学工具需要\textbf{大量练习}，建议每个概念至少手算2-3个例子
+  \item 重点关注\textbf{从定义出发的推导过程}，而不是死记公式
+  \item 遇到复杂计算时，\textbf{写出完整步骤}，避免跳步导致错误
+  \item 理解\textbf{物理意义}：厄米算符→可观测量，酉算符→演化，张量积→复合系统
+  \item 将\textbf{四大公设}与计算习惯绑定：写清“态—演化—测量—复合系统”的链条
+  \item 练习\textbf{密度矩阵与偏迹}：用 $|\Phi^+\rangle$ 等纠缠态练手
+  \item 画\textbf{线路图}并手算：Bell 态制备、超密编码、隐形传态
+  \item 建议将常用门（$H,X,Y,Z,S,T$）与 Bloch 球旋转对应起来记忆
+  \item 对 QKD/纠缠/测量等内容，先抓住\textbf{因果链条}：制备 → 演化 → 测量 → 统计
+\end{itemize}
+
+\section*{【背】必背公式清单}
+\begin{itemize}
+  \item \textbf{复数与欧拉公式}：$z=x+iy,\ z^\ast=x-iy,\ |z|^2=zz^\ast$，$z=|z|e^{i\theta}$，$e^{i\theta}=\cos\theta+i\sin\theta$。
+  \item \textbf{内积与归一化}：$\langle\phi|\psi\rangle=\sum_k a_k^\ast b_k$，$\langle\psi|\psi\rangle=1$。
+  \item \textbf{正交归一基与完备关系}：$\langle e_i|e_j\rangle=\delta_{ij}$，$I=\sum_j |e_j\rangle\langle e_j|$。
+  \item \textbf{外积/投影}：$P_\psi=|\psi\rangle\langle\psi|$，$P_\psi^2=P_\psi$，$P_\psi^\dagger=P_\psi$。
+  \item \textbf{厄米共轭}：$(A^\dagger)_{ij}=(A_{ji})^\ast$，$(AB)^\dagger=B^\dagger A^\dagger$。
+  \item \textbf{厄米/酉算符}：$H=H^\dagger$，$U^\dagger U=I$，$U^{-1}=U^\dagger$。
+  \item \textbf{本征值与谱分解}：$A|\phi\rangle=\lambda|\phi\rangle$，$H=\sum_j \lambda_j|\phi_j\rangle\langle\phi_j|$（厄米算符）。
+  \item \textbf{Pauli 矩阵与对易}：
+  \[
+  \sigma_x=\begin{pmatrix}0&1\\1&0\end{pmatrix},\ 
+  \sigma_y=\begin{pmatrix}0&-i\\i&0\end{pmatrix},\ 
+  \sigma_z=\begin{pmatrix}1&0\\0&-1\end{pmatrix}
+  \]
+  $[\sigma_x,\sigma_y]=2i\sigma_z$，$\{\sigma_i,\sigma_j\}=2\delta_{ij}I$。
+  \item \textbf{张量积运算}：$\langle v_1\!\otimes\! w_1|v_2\!\otimes\! w_2\rangle=\langle v_1|v_2\rangle\langle w_1|w_2\rangle$，
+  $(A\!\otimes\!B)(C\!\otimes\!D)=(AC)\!\otimes\!(BD)$。
+  \item \textbf{对易子}：$[A,B]=AB-BA$。
+  \item \textbf{Cauchy--Schwarz}：$|\langle\phi|\psi\rangle|\le \||\phi\rangle\|\,\||\psi\rangle\|$。
+  \item \textbf{量子比特态}：$|\psi\rangle=\alpha|0\rangle+\beta|1\rangle$，$|\alpha|^2+|\beta|^2=1$。
+  \item \textbf{薛定谔方程与酉演化}：$i\hbar\,\partial_t|\psi\rangle=H|\psi\rangle$，$U=\exp(-\frac{i}{\hbar}H\Delta t)$。
+  \item \textbf{测量公式}：$p(m)=\langle\psi|M_m^\dagger M_m|\psi\rangle$，$|\psi_m\rangle=\dfrac{M_m|\psi\rangle}{\sqrt{p(m)}}$；
+  投影测量 $p(m)=\langle\psi|P_m|\psi\rangle$。
+  \item \textbf{复合系统}：$\mathcal{H}_{AB}=\mathcal{H}_A\otimes\mathcal{H}_B$，$|\psi\rangle=\sum_{ij}c_{ij}|i\rangle|j\rangle$。
+  \item \textbf{密度算子}：$\rho=\sum_k p_k|\psi_k\rangle\langle\psi_k|$，$\mathrm{tr}(\rho)=1$，
+  $\langle A\rangle=\mathrm{tr}(\rho A)$，$\rho_A=\mathrm{tr}_B(\rho_{AB})$。
+  \item \textbf{CNOT 矩阵}：
+  \[
+  \mathrm{CNOT}=
+  \begin{pmatrix}
+  1&0&0&0\\
+  0&1&0&0\\
+  0&0&0&1\\
+  0&0&1&0
+  \end{pmatrix}
+  \]
+\end{itemize}
+
+\end{document}

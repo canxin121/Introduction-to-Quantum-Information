@@ -1,0 +1,60 @@
+{
+  // Force LaTeX Workshop to use XeLaTeX (avoid pdflatex/CJK font issues)
+  "latex-workshop.latex.build.forceRecipeUsage": true,
+  "latex-workshop.latex.recipe.default": "latexmk (xelatex) + move pdf",
+
+  // Output directories
+  "latex-workshop.latex.outDir": "./build/aux",
+
+  "latex-workshop.latex.tools": [
+    {
+      "name": "latexmk (xelatex)",
+      "command": "latexmk",
+      "args": [
+        "-pdf",
+        "-xelatex",
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "-outdir=build/aux",
+        "%DOC%"
+      ],
+      "env": {}
+    },
+    {
+      "name": "move-pdf",
+      "command": "bash",
+      "args": [
+        "-c",
+        "mv build/aux/*.pdf build/ 2>/dev/null || true"
+      ]
+    },
+    {
+      "name": "xelatex",
+      "command": "xelatex",
+      "args": [
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "-output-directory=build/aux",
+        "%DOC%"
+      ]
+    }
+  ],
+
+  "latex-workshop.latex.recipes": [
+    {
+      "name": "latexmk (xelatex) + move pdf",
+      "tools": ["latexmk (xelatex)", "move-pdf"]
+    },
+    {
+      "name": "latexmk (xelatex)",
+      "tools": ["latexmk (xelatex)"]
+    },
+    {
+      "name": "xelatex",
+      "tools": ["xelatex"]
+    }
+  ]
+}
+
