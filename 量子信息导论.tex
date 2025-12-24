@@ -230,18 +230,18 @@ $Y$ 基：
 |000\rangle,\ |001\rangle,\ |010\rangle,\ |011\rangle,\ |100\rangle,\ |101\rangle,\ |110\rangle,\ |111\rangle
 \]
 
-\paragraph{矩阵乘法} 若 $[A]$ 为 $m\times n$ 矩阵，$[B]$ 为 $n\times p$ 矩阵，则
+\paragraph{矩阵乘法} 若 $A$ 为 $m\times n$ 矩阵，$[B]$ 为 $n\times p$ 矩阵，则
 \[
-([A][B])_{ij} = \sum_{k=1}^n [A]_{ik}[B]_{kj}
+(A[B])_{ij} = \sum_{k=1}^n A_{ik}[B]_{kj}
 \]
 
 \paragraph{矩阵的基本操作}
 \begin{itemize}
-\item \textbf{转置}：$[A]^T$，满足 $([A]^T)_{ij}=[A]_{ji}$
-\item \textbf{共轭}：$[A]^\ast$，满足 $([A]^\ast)_{ij}=([A]_{ij})^\ast$
-\item \textbf{迹}：$\mathrm{tr}([A])=\sum_i [A]_{ii}$，满足 $\mathrm{tr}([A][B])=\mathrm{tr}([B][A])$
-\item \textbf{行列式}：$\det([A])$，若 $\det([A])\neq 0$ 则 $[A]$ 可逆
-\item \textbf{不可交换性}：一般有 $[A][B]\neq [B][A]$
+\item \textbf{转置}：$A^T$，满足 $(A^T)_{ij}=A_{ji}$
+\item \textbf{共轭}：$A^\ast$，满足 $(A^\ast)_{ij}=(A_{ij})^\ast$
+\item \textbf{迹}：$\mathrm{tr}(A)=\sum_i A_{ii}$，满足 $\mathrm{tr}(A[B])=\mathrm{tr}([B]A)$
+\item \textbf{行列式}：$\det(A)$，若 $\det(A)\neq 0$ 则 $A$ 可逆
+\item \textbf{不可交换性}：一般有 $A[B]\neq [B]A$
 \end{itemize}
 
 \paragraph{行列式与可逆性（补充）}\label{para:det-invertibility}
@@ -266,8 +266,8 @@ Mx=0 \text{ 有非零解 }\Leftrightarrow \det(M)=0
 \begin{itemize}
   \item \textbf{对角矩阵}：非对角元为 $0$，对角矩阵之间可交换
   \item \textbf{单位矩阵}：$I=\mathrm{diag}(1,1,\ldots,1)$
-  \item \textbf{对称矩阵}：$[A]=[A]^T$（实矩阵情形）
-  \item \textbf{逆矩阵}：$[A][A]^{-1}=[A]^{-1}[A]=I$（并非所有矩阵都有逆）
+  \item \textbf{对称矩阵}：$A=A^T$（实矩阵情形）
+  \item \textbf{逆矩阵}：$AA^{-1}=A^{-1}A=I$（并非所有矩阵都有逆）
 \end{itemize}
 
 \paragraph{对角矩阵的投影分解（补充）}\label{para:diag-projector}
@@ -339,9 +339,9 @@ Mx=0 \text{ 有非零解 }\Leftrightarrow \det(M)=0
 
 \paragraph{定义}
 对于任意矩阵或算符 $A$，其\textbf{厄米共轭}（或称共轭转置）记作 $A^\dagger$。
-若 $[A]$ 表示 $A$ 在某一基下的矩阵表示，则矩阵元满足
+若 $A$ 表示 $A$ 在某一基下的矩阵表示，则矩阵元满足
 \[
-([A]^\dagger)_{ij} = ([A]_{ji})^\ast
+(A^\dagger)_{ij} = (A_{ji})^\ast
 \]
 
 注意：对于向量，$\langle\psi| = (|\psi\rangle)^\dagger$ 就是将列向量做厄米共轭得到行向量。
@@ -383,21 +383,21 @@ Mx=0 \text{ 有非零解 }\Leftrightarrow \det(M)=0
 \begin{example}
 \textbf{验证乘积的共轭性质}
 
-设 $[A]=\begin{pmatrix}1&i\\0&1\end{pmatrix}$，$[B]=\begin{pmatrix}2&0\\1&3\end{pmatrix}$，验证 $([A][B])^\dagger = [B]^\dagger [A]^\dagger$。
+设 $A=\begin{pmatrix}1&i\\0&1\end{pmatrix}$，$[B]=\begin{pmatrix}2&0\\1&3\end{pmatrix}$，验证 $(A[B])^\dagger = [B]^\dagger A^\dagger$。
 
 \textbf{解：}
 \begin{align*}
-[A][B] &= \begin{pmatrix}1&i\\0&1\end{pmatrix}\begin{pmatrix}2&0\\1&3\end{pmatrix} = \begin{pmatrix}2+i&3i\\1&3\end{pmatrix} \\
-([A][B])^\dagger &= \begin{pmatrix}2-i&1\\-3i&3\end{pmatrix}
+A[B] &= \begin{pmatrix}1&i\\0&1\end{pmatrix}\begin{pmatrix}2&0\\1&3\end{pmatrix} = \begin{pmatrix}2+i&3i\\1&3\end{pmatrix} \\
+(A[B])^\dagger &= \begin{pmatrix}2-i&1\\-3i&3\end{pmatrix}
 \end{align*}
 
 另一方面：
 \begin{align*}
-[A]^\dagger &= \begin{pmatrix}1&0\\-i&1\end{pmatrix}, \quad [B]^\dagger = \begin{pmatrix}2&1\\0&3\end{pmatrix} \\
-[B]^\dagger [A]^\dagger &= \begin{pmatrix}2&1\\0&3\end{pmatrix}\begin{pmatrix}1&0\\-i&1\end{pmatrix} = \begin{pmatrix}2-i&1\\-3i&3\end{pmatrix}
+A^\dagger &= \begin{pmatrix}1&0\\-i&1\end{pmatrix}, \quad [B]^\dagger = \begin{pmatrix}2&1\\0&3\end{pmatrix} \\
+[B]^\dagger A^\dagger &= \begin{pmatrix}2&1\\0&3\end{pmatrix}\begin{pmatrix}1&0\\-i&1\end{pmatrix} = \begin{pmatrix}2-i&1\\-3i&3\end{pmatrix}
 \end{align*}
 
-因此 $([A][B])^\dagger = [B]^\dagger [A]^\dagger$ \checkmark
+因此 $(A[B])^\dagger = [B]^\dagger A^\dagger$ \checkmark
 \end{example}
 
 \subsection{【背】内积（Inner Product）}
@@ -599,56 +599,114 @@ UU^\dagger=\sum_{j=1}^n |\phi_j\rangle\langle\phi_j|=I
 
 \subsection{【背】基变换与酉矩阵}
 
-\paragraph{正交归一基之间的变换}
-设 $\{|e_i\rangle\}$ 与 $\{|f_j\rangle\}$ 是同一希尔伯特空间中的两组正交归一基，定义
+\paragraph{从展开系数到基变换}
+我们已经知道，给定正交归一基 $\{|e_i\rangle\}$，任意向量 $|\psi\rangle$ 可展开为
 \[
-[U]_{ij}=\langle e_i|f_j\rangle
+|\psi\rangle=\sum_i c_i|e_i\rangle
 \]
-则 $[U]$ 为\textbf{酉矩阵}，且
-\[
-|f_j\rangle=\sum_i [U]_{ij}|e_i\rangle
-\]
-若向量在基 $\{|e_i\rangle\}$ 下坐标为 $\vec{c}$，在基 $\{|f_j\rangle\}$ 下坐标为 $\vec{c}'$，则
-\[
-\vec{c}' = [U]^\dagger \vec{c}
-\]
-直观上，$[U]$ 的第 $j$ 列就是新基向量 $|f_j\rangle$ 在旧基 $\{|e_i\rangle\}$ 下的坐标；
-基变换必须保持内积与长度，因此对应的坐标变换矩阵必为酉矩阵。
+其中展开系数由内积给出：$c_i=\langle e_i|\psi\rangle$。
 
-\begin{derivation}
-\textbf{由完备关系得到展开与酉性：}
-
-\textbf{1) 展开公式} 由于 $\{|e_i\rangle\}$ 为正交归一基，有完备关系
+现在考虑：如果我们有\textbf{另一组}正交归一基 $\{|f_j\rangle\}$，同一个向量 $|\psi\rangle$ 也可在新基下展开：
 \[
-I=\sum_i |e_i\rangle\langle e_i|
+|\psi\rangle=\sum_j c'_j|f_j\rangle,\quad c'_j=\langle f_j|\psi\rangle
 \]
-因此
+这引出一个核心问题：\textbf{新基 $|f_j\rangle$ 和旧基 $|e_i\rangle$ 之间是什么关系？}
+
+\paragraph{新基在旧基下的展开}
+由于 $\{|e_i\rangle\}$ 是完备基，新基向量 $|f_j\rangle$ 本身也可在旧基下展开。利用完备关系 $I=\sum_i |e_i\rangle\langle e_i|$：
 \[
 |f_j\rangle = I|f_j\rangle
-=\sum_i |e_i\rangle\langle e_i|f_j\rangle
-=\sum_i [U]_{ij}|e_i\rangle
+= \sum_i |e_i\rangle\langle e_i|f_j\rangle
+= \sum_i \langle e_i|f_j\rangle\,|e_i\rangle
 \]
-这就得到 $|f_j\rangle=\sum_i [U]_{ij}|e_i\rangle$。
+这告诉我们：$|f_j\rangle$ 在旧基下的第 $i$ 个系数就是 $\langle e_i|f_j\rangle$。
 
-\textbf{2) $[U]$ 为酉矩阵} 计算
-\begin{align*}
-([U]^\dagger[U])_{jk}
-&=\sum_i [U]_{ij}^\ast [U]_{ik}
-\;=\;\sum_i \langle f_j|e_i\rangle\langle e_i|f_k\rangle \\
-&=\langle f_j|\left(\sum_i |e_i\rangle\langle e_i|\right)|f_k\rangle
-\;=\;\langle f_j|f_k\rangle
-\;=\;\delta_{jk}
-\end{align*}
-因此 $[U]^\dagger[U]=I$。同理也可用 $\sum_j |f_j\rangle\langle f_j|=I$ 验证 $[U][U]^\dagger=I$，故 $[U]$ 酉。
-\textbf{含义：}$[U]$ 恰好是“旧基 $\to$ 新基”的坐标变换矩阵，正交归一基之间的变换必保持内积与范数，这正是酉矩阵的定义。
-
-\textbf{3) 坐标变换公式} 令 $c_i=\langle e_i|\psi\rangle$，$c'_j=\langle f_j|\psi\rangle$，则
+\paragraph{基变换矩阵的定义}
+将所有新基向量在旧基下的系数收集起来，定义\textbf{基变换矩阵}
 \[
-c'_j=\sum_i \langle f_j|e_i\rangle\,c_i
-=\sum_i [U]^\dagger_{ji}\,c_i
+\boxed{U_{ij}=\langle e_i|f_j\rangle}
 \]
-即矩阵形式 $\vec{c}'=[U]^\dagger \vec{c}$。
+则上述展开公式可写成
+\[
+\boxed{|f_j\rangle=\sum_i U_{ij}|e_i\rangle}
+\]
+\textbf{直观意义：}$U$ 的第 $j$ 列就是新基向量 $|f_j\rangle$ 在旧基下的展开系数。
+
+\paragraph{基变换矩阵必为酉矩阵}
+由于新旧基都是正交归一的，基变换必须\textbf{保持内积与长度}。利用完备关系验证：
+\begin{align*}
+(U^\dagger U)_{jk}
+&=\sum_i U_{ij}^\ast U_{ik}
+=\sum_i \langle f_j|e_i\rangle\langle e_i|f_k\rangle \\
+&=\langle f_j|\left(\sum_i |e_i\rangle\langle e_i|\right)|f_k\rangle
+=\langle f_j|I|f_k\rangle
+=\langle f_j|f_k\rangle
+=\delta_{jk}
+\end{align*}
+因此 $U^\dagger U=I$，即 $U$ 为\textbf{酉矩阵}。
+
+\paragraph{向量展开系数的变换}
+若向量 $|\psi\rangle$ 在旧基下展开系数为 $\vec{c}=(c_1,\dots,c_n)^T$，在新基下展开系数为 ${\vec{c}\,}'=(c'_1,\dots,c'_n)^T$，则利用 $c_i=\langle e_i|\psi\rangle$、$c'_j=\langle f_j|\psi\rangle$，以及旧基的完备关系 $I=\sum_i |e_i\rangle\langle e_i|$：
+\begin{align*}
+c'_j
+&= \langle f_j|\psi\rangle \\
+&= \langle f_j|I|\psi\rangle
+\quad \text{（插入单位算符）} \\
+&= \langle f_j|\left(\sum_i |e_i\rangle\langle e_i|\right)|\psi\rangle
+\quad \text{（用完备关系展开 $I$）} \\
+&= \sum_i \langle f_j|e_i\rangle\langle e_i|\psi\rangle
+\quad \text{（内积的线性性）} \\
+&= \sum_i U_{ij}^\ast c_i
+\quad \text{（定义：$U_{ij}=\langle e_i|f_j\rangle$，故 $\langle f_j|e_i\rangle=U_{ij}^\ast$）} \\
+&= \sum_i U^\dagger_{ji} c_i
+\quad \text{（厄米共轭定义：$U^\dagger_{ji}=U_{ij}^\ast$）}
+\end{align*}
+矩阵形式为
+\[
+\boxed{{\vec{c}\,}' = U^\dagger \vec{c}}
+\]
+
+\begin{derivation}
+\textbf{完整推导总结：}
+
+我们依次用到了前面的所有工具：
+
+\textbf{1) 完备关系 $\Rightarrow$ 展开公式}
+\[
+|f_j\rangle = I|f_j\rangle
+= \sum_i |e_i\rangle\langle e_i|f_j\rangle
+= \sum_i U_{ij}|e_i\rangle
+\]
+
+\textbf{2) 正交归一性 + 完备关系 $\Rightarrow$ 酉性}
+\begin{align*}
+(U^\dagger U)_{jk}
+&= \sum_i \langle f_j|e_i\rangle\langle e_i|f_k\rangle
+= \langle f_j|f_k\rangle = \delta_{jk}
+\end{align*}
+
+\textbf{3) 系数计算公式 $\Rightarrow$ 系数变换}
+\[
+c'_j = \langle f_j|\psi\rangle
+= \sum_i \langle f_j|e_i\rangle\langle e_i|\psi\rangle
+= \sum_i U^\dagger_{ji} c_i
+\]
+
+\textbf{物理含义：}正交归一基之间的变换必保持内积与范数，这正是酉矩阵的几何本质。
 \end{derivation}
+
+\paragraph{基变换算符 $U$}
+基变换 $U$ 既可以看作描述"新基在旧基下展开系数"的数值矩阵，也可以看作一个\textbf{酉算符}。
+作为算符，它的作用是把旧基映射到新基：
+\[
+U|e_j\rangle = |f_j\rangle
+\]
+矩阵元 $U_{ij}$ 可以通过算符作用或内积两种等价方式计算：
+\[
+U_{ij}=\langle e_i|U|e_j\rangle=\langle e_i|f_j\rangle
+\]
+无论从哪个角度看，$U$ 都是酉的：$U^\dagger U=I$。
+算符在不同基下的变换将在\hyperref[sec:operator-basis-change]{算符的基变换}一节详细讨论。
 
 \paragraph{例：Hadamard（哈达玛）基}
 定义
@@ -661,25 +719,25 @@ c'_j=\sum_i \langle f_j|e_i\rangle\,c_i
 |0\rangle=\begin{pmatrix}1\\0\end{pmatrix},\qquad |1\rangle=\begin{pmatrix}0\\1\end{pmatrix}
 \]
 \textbf{变换矩阵}指“把新基向量在旧基下展开”的系数矩阵。若旧基为 $\{|e_i\rangle\}$、新基为 $\{|f_j\rangle\}$，
-则 $[U]_{ij}=\langle e_i|f_j\rangle$，并有
+则 $U_{ij}=\langle e_i|f_j\rangle$，并有
 \[
-|f_j\rangle=\sum_i [U]_{ij}|e_i\rangle
+|f_j\rangle=\sum_i U_{ij}|e_i\rangle
 \]
-因此矩阵 $[U]$ 的\textbf{第 $j$ 列}就是 $|f_j\rangle$ 在旧基下的坐标。
+因此矩阵 $U$ 的\textbf{第 $j$ 列}就是 $|f_j\rangle$ 在旧基下的展开系数。
 
 对 Hadamard 基，令旧基 $|e_1\rangle=|0\rangle,|e_2\rangle=|1\rangle$，新基 $|f_1\rangle=|+\rangle,|f_2\rangle=|-\rangle$。
 计算矩阵元：
 \[
-[U]_{11}=\langle 0|+\rangle=\frac{1}{\sqrt{2}},\quad
-[U]_{21}=\langle 1|+\rangle=\frac{1}{\sqrt{2}}
+U_{11}=\langle 0|+\rangle=\frac{1}{\sqrt{2}},\quad
+U_{21}=\langle 1|+\rangle=\frac{1}{\sqrt{2}}
 \]
 \[
-[U]_{12}=\langle 0|-\rangle=\frac{1}{\sqrt{2}},\quad
-[U]_{22}=\langle 1|-\rangle=-\frac{1}{\sqrt{2}}
+U_{12}=\langle 0|-\rangle=\frac{1}{\sqrt{2}},\quad
+U_{22}=\langle 1|-\rangle=-\frac{1}{\sqrt{2}}
 \]
 所以 $\{|+\rangle,|-\rangle\}$ 为一组正交归一基，与计算基的变换矩阵为
 \[
-[U]=\frac{1}{\sqrt{2}}\begin{pmatrix}1&1\\1&-1\end{pmatrix}
+U=\frac{1}{\sqrt{2}}\begin{pmatrix}1&1\\1&-1\end{pmatrix}
 \]
 
 \paragraph{Hadamard（哈达玛）门的用途与用法}
@@ -759,7 +817,7 @@ I=\int |a\rangle\langle a|\,da
 \[
 A: |\psi\rangle \mapsto A|\psi\rangle
 \]
-在有限维空间中，\textbf{选定一组基后}，算符可用矩阵表示（即 $[A]_{(e)}$），
+在有限维空间中，\textbf{选定一组基后}，算符可用矩阵表示（即 $A_{(e)}$），
 不同基会给出不同矩阵，但它们对应同一个算符 $A$。
 
 \paragraph{线性性}
@@ -792,12 +850,12 @@ A\left(c_1|\psi_1\rangle + c_2|\psi_2\rangle\right)
 \begin{example}
 \textbf{计算期望值}
 
-设 $|\psi\rangle = \frac{1}{\sqrt{2}}\begin{pmatrix}1\\1\end{pmatrix}$，$[A]=\begin{pmatrix}1&0\\0&-1\end{pmatrix}$，求 $\langle A\rangle_\psi$。
+设 $|\psi\rangle = \frac{1}{\sqrt{2}}\begin{pmatrix}1\\1\end{pmatrix}$，$A=\begin{pmatrix}1&0\\0&-1\end{pmatrix}$，求 $\langle A\rangle_\psi$。
 
 \textbf{解：}
 \begin{align*}
 \langle A\rangle_\psi &= \langle\psi|A|\psi\rangle \\
-&= \frac{1}{\sqrt{2}}(1\quad 1)[A]\frac{1}{\sqrt{2}}\begin{pmatrix}1\\1\end{pmatrix} \\
+&= \frac{1}{\sqrt{2}}(1\quad 1)A\frac{1}{\sqrt{2}}\begin{pmatrix}1\\1\end{pmatrix} \\
 &= \frac{1}{2}(1\quad 1)\begin{pmatrix}1\\-1\end{pmatrix} \\
 &= \frac{1}{2}(1-1) = 0
 \end{align*}
@@ -806,18 +864,18 @@ A\left(c_1|\psi_1\rangle + c_2|\psi_2\rangle\right)
 \paragraph{对角化与酉对角化（定义）}\label{para:diagonalization}
 \textbf{对角化：}若存在可逆矩阵 $[P]$ 使
 \[
-[P]^{-1}[A][P]=[D]
+[P]^{-1}A[P]=[D]
 \]
 其中 $[D]$ 为对角矩阵，则称 $A$ \textbf{可对角化}，也可写成
 \[
-[A]=[P][D][P]^{-1}
+A=[P][D][P]^{-1}
 \]
 \textbf{含义：}$[P]$ 的列向量是一组线性无关本征向量，$[D]$ 的对角元就是对应本征值。
 换句话说，在“以本征向量为基”的表象中，算符矩阵变为对角矩阵。
 
-\textbf{酉对角化：}若存在\textbf{酉矩阵} $[U]$ 使
+\textbf{酉对角化：}若存在\textbf{酉矩阵} $U$ 使
 \[
-[U]^\dagger [A] [U] = [D]
+U^\dagger A U = [D]
 \]
 则称 $A$ \textbf{酉对角化}。这等价于：$A$ 存在一组\textbf{正交归一}本征向量作为基。
 对厄米算符（以及更一般的正规算符）一定可以酉对角化。
@@ -832,7 +890,7 @@ A\left(c_1|\psi_1\rangle + c_2|\psi_2\rangle\right)
 
 \paragraph{2×2厄米矩阵的通用形式}
 \[
-[H] = \begin{pmatrix} a & b \\ b^\ast & d \end{pmatrix}, \quad a,d\in\mathbb{R}, b\in\mathbb{C}
+H = \begin{pmatrix} a & b \\ b^\ast & d \end{pmatrix}, \quad a,d\in\mathbb{R}, b\in\mathbb{C}
 \]
 即：对角元素必须是实数，非对角元素互为共轭。
 
@@ -846,9 +904,9 @@ A\left(c_1|\psi_1\rangle + c_2|\psi_2\rangle\right)
 \paragraph{对角化形式（补充）}
 任意厄米算符都可被酉对角化：
 \[
-[H]=[U]\,\mathrm{diag}(\lambda_1,\ldots,\lambda_n)\,[U]^\dagger
+H=U\,\mathrm{diag}(\lambda_1,\ldots,\lambda_n)\,U^\dagger
 \]
-其中 $[U]$ 的列向量为正交归一的本征态。
+其中 $U$ 的列向量为正交归一的本征态。
 
 \begin{derivation}
 \textbf{证明期望值为实数：}
@@ -880,7 +938,7 @@ A\left(c_1|\psi_1\rangle + c_2|\psi_2\rangle\right)
   \item \textbf{保持内积}：$\langle U\phi|U\psi\rangle = \langle\phi|\psi\rangle$
   \item \textbf{保持范数}：$\|U|\psi\rangle\| = \||\psi\rangle\|$
   \item \textbf{逆等于厄米共轭}：$U^{-1}=U^\dagger$
-  \item \textbf{列向量构成正交归一基}：设 $[U]$ 为 $n\times n$ 酉矩阵，记 $|u_j\rangle$ 为 $[U]$ 的第 $j$ 列（作为列向量），则这 $n$ 个列向量 $\{|u_1\rangle,|u_2\rangle,\ldots,|u_n\rangle\}$ 构成正交归一基，即满足 $\langle u_i|u_j\rangle = \delta_{ij}$（反之亦成立，见\hyperref[para:orthonormal-unitary]{正交归一基与酉矩阵}）
+  \item \textbf{列向量构成正交归一基}：设 $U$ 为 $n\times n$ 酉矩阵，记 $|u_j\rangle$ 为 $U$ 的第 $j$ 列（作为列向量），则这 $n$ 个列向量 $\{|u_1\rangle,|u_2\rangle,\ldots,|u_n\rangle\}$ 构成正交归一基，即满足 $\langle u_i|u_j\rangle = \delta_{ij}$（反之亦成立，见\hyperref[para:orthonormal-unitary]{正交归一基与酉矩阵}）
 \end{enumerate}
 
 \paragraph{谱性质（补充）}
@@ -904,11 +962,11 @@ U=\exp\!\left(-\frac{i}{\hbar}H\Delta t\right)
 \begin{example}
 \textbf{验证Hadamard门是酉算符}
 
-Hadamard门：$\displaystyle [H] = \frac{1}{\sqrt{2}}\begin{pmatrix}1&1\\1&-1\end{pmatrix}$
+Hadamard门：$\displaystyle H = \frac{1}{\sqrt{2}}\begin{pmatrix}1&1\\1&-1\end{pmatrix}$
 
-\textbf{解：}因元素全为实数，$[H]^\dagger=[H]^T=[H]$。计算：
+\textbf{解：}因元素全为实数，$H^\dagger=H^T=H$。计算：
 \begin{align*}
- [H]^\dagger [H] &= [H]^2 = \frac{1}{2}\begin{pmatrix}1&1\\1&-1\end{pmatrix}\begin{pmatrix}1&1\\1&-1\end{pmatrix} \\
+ H^\dagger H &= H^2 = \frac{1}{2}\begin{pmatrix}1&1\\1&-1\end{pmatrix}\begin{pmatrix}1&1\\1&-1\end{pmatrix} \\
 &= \frac{1}{2}\begin{pmatrix}2&0\\0&2\end{pmatrix} = I
 \end{align*}
 因此 $H$ 是酉算符（同时也是厄米算符）。
@@ -916,68 +974,52 @@ Hadamard门：$\displaystyle [H] = \frac{1}{\sqrt{2}}\begin{pmatrix}1&1\\1&-1\en
 
 \subsection{【背】算符的矩阵表示（Matrix Elements）}
 
-\paragraph{从向量坐标到算符矩阵：核心思想}
-在上一节，我们知道给定正交归一基 $\{|e_i\rangle\}$ 后，任意态矢 $|\psi\rangle$ 可以用坐标 $c_i=\langle e_i|\psi\rangle$ 唯一表示为列向量：
+\paragraph{从向量展开到算符作用}
+我们已经知道，给定正交归一基 $\{|e_i\rangle\}$，任意向量 $|\psi\rangle$ 可展开为
 \[
-|\psi\rangle \longleftrightarrow \begin{pmatrix}c_1\\c_2\\\vdots\end{pmatrix},\quad c_i=\langle e_i|\psi\rangle
+|\psi\rangle=\sum_i c_i|e_i\rangle
 \]
+其中展开系数由内积给出：$c_i=\langle e_i|\psi\rangle$。
 
-\textbf{本节的核心：}算符作为线性映射 $A:\mathcal{H}\to\mathcal{H}$，在给定基下也有类似的表示——用一个\textbf{矩阵}来完全刻画。思路是：
-\begin{enumerate}
-\item 算符 $A$ 作用在基矢 $|e_j\rangle$ 上得到新的态矢 $A|e_j\rangle$
-\item $A|e_j\rangle$ 可在基 $\{|e_i\rangle\}$ 下展开，其坐标 $([A]_{1j},[A]_{2j},\ldots)^T$ 构成矩阵的第 $j$ 列
-\item $n$ 个基矢 $\{|e_1\rangle,\ldots,|e_n\rangle\}$ 对应 $n$ 列，合起来得到 $n\times n$ 矩阵 $[A]$
-\end{enumerate}
+现在考虑：算符 $A$ 作用在基向量 $|e_j\rangle$ 上，得到一个新向量 $A|e_j\rangle$。这个新向量也可以在基 $\{|e_i\rangle\}$ 下展开：
+\[
+A|e_j\rangle=\sum_i (\text{某个系数})\,|e_i\rangle
+\]
+这引出一个核心问题：\textbf{这些系数是什么？}
 
-这完全类比于：向量由其在基下的坐标表示，算符由其对每个基矢的作用（表示为坐标）来表示。
+\paragraph{算符作用后向量的展开系数}
+由于 $\{|e_i\rangle\}$ 是完备基，我们可以利用完备关系 $I=\sum_i |e_i\rangle\langle e_i|$ 展开 $A|e_j\rangle$：
+\[
+A|e_j\rangle = I\cdot A|e_j\rangle
+= \sum_i |e_i\rangle\langle e_i|A|e_j\rangle
+\]
+这告诉我们：$A|e_j\rangle$ 在基下的第 $i$ 个系数就是 $\langle e_i|A|e_j\rangle$。
 
 \paragraph{矩阵元的定义}
-设 $\{|e_i\rangle\}$ 是正交归一基（$\langle e_i|e_j\rangle=\delta_{ij}$）。
-
-\textbf{回顾：}列向量的坐标是如何定义的？对任意态矢 $|\psi\rangle$，其第 $i$ 个坐标定义为
+将算符 $A$ 作用在所有基向量上得到的展开系数收集起来，定义\textbf{矩阵元}
 \[
-c_i = \langle e_i|\psi\rangle
+\boxed{A_{ij}=\langle e_i|A|e_j\rangle}
 \]
-
-\textbf{类比延伸：}算符 $A$ 作用在基矢 $|e_j\rangle$ 上得到新态矢 $A|e_j\rangle$，这个新态矢的第 $i$ 个坐标自然应该是
+则上述展开公式可写成
 \[
-\langle e_i|A|e_j\rangle
+\boxed{A|e_j\rangle=\sum_i A_{ij}|e_i\rangle}
 \]
+\textbf{直观意义：}矩阵 $A$ 的第 $j$ 列就是向量 $A|e_j\rangle$ 在基下的展开系数。
 
-因此，我们直接\textbf{定义}算符 $A$ 在该基下的\textbf{矩阵元}为：
+将所有基向量的作用结果按列排列，得到矩阵形式：
 \[
-[A]_{ij}=\langle e_i|A|e_j\rangle
-\]
-
-其几何意义：
-\begin{itemize}
-\item $[A]_{ij}$ 是矩阵 $[A]$ 的第 $i$ 行第 $j$ 列元素
-\item 第 $j$ 列 $([A]_{1j},[A]_{2j},\ldots,[A]_{nj})^T$ 就是 $A|e_j\rangle$ 在基 $\{|e_i\rangle\}$ 下的坐标向量
-\end{itemize}
-
-矩阵形式地写：
-\[
-[A] = \begin{pmatrix}
-[A]_{11} & [A]_{12} & \cdots & [A]_{1n} \\
-[A]_{21} & [A]_{22} & \cdots & [A]_{2n} \\
+A = \begin{pmatrix}
+A_{11} & A_{12} & \cdots & A_{1n} \\
+A_{21} & A_{22} & \cdots & A_{2n} \\
 \vdots & \vdots & \ddots & \vdots \\
-[A]_{n1} & [A]_{n2} & \cdots & [A]_{nn}
+A_{n1} & A_{n2} & \cdots & A_{nn}
 \end{pmatrix}
 = \begin{pmatrix}
 | & | & & | \\
 A|e_1\rangle & A|e_2\rangle & \cdots & A|e_n\rangle \\
 | & | & & |
-\end{pmatrix}_{\text{坐标}}
+\end{pmatrix}_{\text{展开系数}}
 \]
-即：矩阵的每一列就是算符作用在对应基矢上的结果的坐标。
-
-\textbf{验证定义的合理性：}利用完备性 $I=\sum_k|e_k\rangle\langle e_k|$，可将 $A|e_j\rangle$ 展开：
-\[
-A|e_j\rangle = \left(\sum_i |e_i\rangle\langle e_i|\right)A|e_j\rangle
-= \sum_i |e_i\rangle\,\langle e_i|A|e_j\rangle
-= \sum_i [A]_{ij}|e_i\rangle
-\]
-这证实了 $[A]_{ij}$ 确实是 $A|e_j\rangle$ 的第 $i$ 个坐标分量。
 
 \begin{example}
 \textbf{例：二维算符的矩阵表示}
@@ -988,54 +1030,83 @@ A|e_1\rangle=2|e_1\rangle+3|e_2\rangle,\qquad
 A|e_2\rangle=-i|e_1\rangle+5|e_2\rangle
 \]
 
-\textbf{步骤 1：}求第 1 列，即 $A|e_1\rangle$ 的坐标：
+\textbf{步骤 1：}求第 1 列，即 $A|e_1\rangle$ 的展开系数：
 \[
-[A]_{11}=\langle e_1|A|e_1\rangle=2,\quad [A]_{21}=\langle e_2|A|e_1\rangle=3
+A_{11}=\langle e_1|A|e_1\rangle=2,\quad A_{21}=\langle e_2|A|e_1\rangle=3
 \]
 
-\textbf{步骤 2：}求第 2 列，即 $A|e_2\rangle$ 的坐标：
+\textbf{步骤 2：}求第 2 列，即 $A|e_2\rangle$ 的展开系数：
 \[
-[A]_{12}=\langle e_1|A|e_2\rangle=-i,\quad [A]_{22}=\langle e_2|A|e_2\rangle=5
+A_{12}=\langle e_1|A|e_2\rangle=-i,\quad A_{22}=\langle e_2|A|e_2\rangle=5
 \]
 
 因此矩阵表示为
 \[
-[A] = \begin{pmatrix}2&-i\\3&5\end{pmatrix}
+A = \begin{pmatrix}2&-i\\3&5\end{pmatrix}
 \]
 
-\textbf{验证：}第 1 列 $(2,3)^T$ 确实是 $A|e_1\rangle$ 的坐标，第 2 列 $(-i,5)^T$ 是 $A|e_2\rangle$ 的坐标。
+\textbf{验证：}第 1 列 $(2,3)^T$ 确实是 $A|e_1\rangle$ 的展开系数，第 2 列 $(-i,5)^T$ 是 $A|e_2\rangle$ 的展开系数。
 \end{example}
 
-\paragraph{算符对任意态矢的作用}
-有了矩阵表示，算符 $A$ 对任意态 $|\psi\rangle=\sum_j c_j|e_j\rangle$ 的作用就转化为矩阵乘法。
+\paragraph{算符对任意向量的作用}
+现在我们知道算符 $A$ 作用在基向量上的结果：$A|e_j\rangle=\sum_i A_{ij}|e_i\rangle$。
 
-设 $|\psi\rangle$ 的坐标为列向量 $\vec{c}=(c_1,c_2,\ldots,c_n)^T$，则 $A|\psi\rangle$ 的坐标为 $\vec{c}'=[A]\vec{c}$，即
-\[
-c'_i = \sum_j [A]_{ij}c_j
-\]
-
-\begin{derivation}
-\textbf{推导：}利用线性性和基的展开
+那么对任意向量 $|\psi\rangle=\sum_j c_j|e_j\rangle$，算符 $A$ 的作用是什么？利用算符的线性性：
 \begin{align*}
 A|\psi\rangle
-&= A\left(\sum_j c_j|e_j\rangle\right)
-= \sum_j c_j\,A|e_j\rangle \\
-&= \sum_j c_j\sum_i [A]_{ij}|e_i\rangle \quad \text{（用 $A|e_j\rangle=\sum_i [A]_{ij}|e_i\rangle$）} \\
-&= \sum_i\left(\sum_j [A]_{ij}c_j\right)|e_i\rangle
+&= A\left(\sum_j c_j|e_j\rangle\right) \\
+&= \sum_j c_j\,A|e_j\rangle
+\quad \text{（线性性）} \\
+&= \sum_j c_j\sum_i A_{ij}|e_i\rangle
+\quad \text{（代入 $A|e_j\rangle=\sum_i A_{ij}|e_i\rangle$）} \\
+&= \sum_i\left(\sum_j A_{ij}c_j\right)|e_i\rangle
+\quad \text{（交换求和顺序）}
 \end{align*}
-因此 $A|\psi\rangle$ 的第 $i$ 个坐标为
+
+因此 $A|\psi\rangle$ 的第 $i$ 个展开系数为
 \[
-c'_i = \sum_j [A]_{ij}c_j
+c'_i = \sum_j A_{ij}c_j
 \]
-这正是矩阵乘法 $\vec{c}'=[A]\vec{c}$ 的定义。
+用列向量记号，若 $|\psi\rangle$ 的展开系数为 $\vec{c}=(c_1,\dots,c_n)^T$，$A|\psi\rangle$ 的展开系数为 ${\vec{c}\,}'=(c'_1,\dots,c'_n)^T$，则
+\[
+\boxed{{\vec{c}\,}' = A\vec{c}}
+\]
+这就是矩阵乘法！\textbf{算符作用对应矩阵乘法。}
+
+\begin{derivation}
+\textbf{完整推导总结：}
+
+我们依次用到了前面的所有工具：
+
+\textbf{1) 完备关系 $\Rightarrow$ 展开公式}
+\[
+A|e_j\rangle = I\cdot A|e_j\rangle
+= \sum_i |e_i\rangle\langle e_i|A|e_j\rangle
+= \sum_i A_{ij}|e_i\rangle
+\]
+
+\textbf{2) 线性性 $\Rightarrow$ 对任意向量的作用}
+\[
+A|\psi\rangle = \sum_j c_j A|e_j\rangle
+= \sum_i\left(\sum_j A_{ij}c_j\right)|e_i\rangle
+\]
+
+\textbf{3) 矩阵元定义 $\Rightarrow$ 矩阵乘法}
+\[
+c'_i = \sum_j A_{ij}c_j
+\quad\Longleftrightarrow\quad
+{\vec{c}\,}' = A\vec{c}
+\]
+
+\textbf{物理含义：}算符 $A$ 在基下由矩阵元 $A_{ij}=\langle e_i|A|e_j\rangle$ 完全确定，其作用通过矩阵乘法实现。
 \end{derivation}
 
 \begin{example}
 \textbf{例：算符作用的矩阵计算}
 
-沿用上例，设 $|\psi\rangle=|e_1\rangle+2|e_2\rangle$，坐标 $\vec{c}=(1,2)^T$，则
+沿用上例，设 $|\psi\rangle=|e_1\rangle+2|e_2\rangle$，展开系数 $\vec{c}=(1,2)^T$，则
 \[
-A|\psi\rangle \text{ 的坐标 } = \begin{pmatrix}2&-i\\3&5\end{pmatrix}\begin{pmatrix}1\\2\end{pmatrix}
+A|\psi\rangle \text{ 的展开系数 } = \begin{pmatrix}2&-i\\3&5\end{pmatrix}\begin{pmatrix}1\\2\end{pmatrix}
 = \begin{pmatrix}2-2i\\13\end{pmatrix}
 \]
 即 $A|\psi\rangle=(2-2i)|e_1\rangle+13|e_2\rangle$。
@@ -1051,59 +1122,63 @@ A|\psi\rangle &= A|e_1\rangle+2A|e_2\rangle \\
 \paragraph{算符的基展开公式}
 利用完备性关系，可将算符 $A$ 表示为外积 $|e_i\rangle\langle e_j|$ 的线性组合：
 \[
-A = \sum_{i,j} [A]_{ij}\,|e_i\rangle\langle e_j|
+A = \sum_{i,j} A_{ij}\,|e_i\rangle\langle e_j|
 \]
-其中 $[A]_{ij}=\langle e_i|A|e_j\rangle$。
+其中 $A_{ij}=\langle e_i|A|e_j\rangle$。
 
 \begin{derivation}
 \textbf{推导：}在 $A$ 左右两侧插入完备性关系：
 \begin{align*}
 A &= I\cdot A\cdot I
 = \left(\sum_i |e_i\rangle\langle e_i|\right)A\left(\sum_j |e_j\rangle\langle e_j|\right) \\
-&= \sum_{i,j} |e_i\rangle\underbrace{\langle e_i|A|e_j\rangle}_{=[A]_{ij}}\langle e_j|
-= \sum_{i,j} [A]_{ij}\,|e_i\rangle\langle e_j|
+&= \sum_{i,j} |e_i\rangle\underbrace{\langle e_i|A|e_j\rangle}_{=A_{ij}}\langle e_j|
+= \sum_{i,j} A_{ij}\,|e_i\rangle\langle e_j|
 \end{align*}
 \end{derivation}
 
-这个公式的物理意义：外积 $|e_i\rangle\langle e_j|$ 是"从 $|e_j\rangle$ 映射到 $|e_i\rangle$"的算符，$[A]_{ij}$ 是其系数。
+这个公式的物理意义：外积 $|e_i\rangle\langle e_j|$ 是"从 $|e_j\rangle$ 映射到 $|e_i\rangle$"的算符，$A_{ij}$ 是其系数。
 
-\subsection{【背】算符矩阵表示的基变换}
+\subsection{【背】算符的基变换}\label{sec:operator-basis-change}
 
-\paragraph{正交归一基之间的变换}
-设 $\{|e_i\rangle\}$ 与 $\{|f_j\rangle\}$ 是同一希尔伯特空间中的两组正交归一基，定义
+\paragraph{基变换算符}
+在 2.7 节我们定义了基变换算符 $U$，它把旧基映射到新基：
 \[
-[U]_{ij}=\langle e_i|f_j\rangle
+U = \sum_j |f_j\rangle\langle e_j|
 \]
-则
+作用在旧基向量上：
 \[
-|f_j\rangle=\sum_i [U]_{ij}|e_i\rangle
+U|e_j\rangle = \sum_i |f_i\rangle\langle e_i|e_j\rangle = |f_j\rangle
 \]
-并且 $[U]^\dagger[U]=I$（同 2.7 节推导），因此 $[U]$ 是\textbf{酉矩阵}。
+矩阵元为
+\[
+U_{ij} = \langle e_i|U|e_j\rangle = \langle e_i|f_j\rangle
+\]
+满足 $U^\dagger U=I$，因此 $U$ 是\textbf{酉算符}。
 
-\paragraph{算符矩阵元的定义}
+\paragraph{算符在不同基下的矩阵元}
 算符 $A$ 在两组基下的矩阵元分别为
 \[
-[A]^{(e)}_{ij}=\langle e_i|A|e_j\rangle,\qquad
-[A]^{(f)}_{mn}=\langle f_m|A|f_n\rangle
+A^{(e)}_{ij}=\langle e_i|A|e_j\rangle,\qquad
+A^{(f)}_{mn}=\langle f_m|A|f_n\rangle
 \]
 
 \begin{derivation}
-\textbf{由完备关系得到相似变换：}
+\textbf{由完备关系得到基变换公式：}
 
-在 $A$ 的左右分别插入完备关系 $I=\sum_i |e_i\rangle\langle e_i|$：
+在 $A$ 的左右分别插入旧基的完备关系 $I=\sum_i |e_i\rangle\langle e_i|$：
 \begin{align*}
-[A]^{(f)}_{mn}
+A^{(f)}_{mn}
 &=\langle f_m|A|f_n\rangle \\
 &=\langle f_m|\left(\sum_i |e_i\rangle\langle e_i|\right)
 A\left(\sum_j |e_j\rangle\langle e_j|\right)|f_n\rangle \\
 &=\sum_{i,j}\langle f_m|e_i\rangle\langle e_i|A|e_j\rangle\langle e_j|f_n\rangle \\
-&=\sum_{i,j}[U]_{im}^\ast\,[A]^{(e)}_{ij}\,[U]_{jn}
+&=\sum_{i,j}U_{im}^\ast\,A^{(e)}_{ij}\,U_{jn}
 \end{align*}
 因此
 \[
-[A]_{(f)}=[U]^\dagger[A]_{(e)}[U]
+\boxed{A^{(f)}=U^\dagger A^{(e)}U}
 \]
-这就是\textbf{同一算符在不同基下矩阵表示的基变换公式}。
+这就是\textbf{算符在不同基下的相似变换公式}。
 \end{derivation}
 
 \begin{example}
@@ -1115,7 +1190,7 @@ A|e_1\rangle=2|e_1\rangle,\quad A|e_2\rangle=3|e_2\rangle
 \]
 则在该基下
 \[
-[A]_{(e)} = \begin{pmatrix}2&0\\0&3\end{pmatrix}
+A_{(e)} = \begin{pmatrix}2&0\\0&3\end{pmatrix}
 \]
 
 现换新基 $\{|f_1\rangle,|f_2\rangle\}$，其中
@@ -1125,11 +1200,11 @@ A|e_1\rangle=2|e_1\rangle,\quad A|e_2\rangle=3|e_2\rangle
 \]
 基变换矩阵
 \[
-[U]=\frac{1}{\sqrt{2}}\begin{pmatrix}1&1\\1&-1\end{pmatrix}
+U=\frac{1}{\sqrt{2}}\begin{pmatrix}1&1\\1&-1\end{pmatrix}
 \]
 在新基下
 \[
-[A]_{(f)} = [U]^\dagger[A]_{(e)}[U]
+A_{(f)} = U^\dagger A_{(e)}U
 = \begin{pmatrix}\frac{5}{2}&-\frac{1}{2}\\-\frac{1}{2}&\frac{5}{2}\end{pmatrix}
 \]
 矩阵形式不同，但描述的是同一个算符 $A$。
@@ -1140,44 +1215,44 @@ A|e_1\rangle=2|e_1\rangle,\quad A|e_2\rangle=3|e_2\rangle
 \paragraph{回顾：算符矩阵的“列”是什么}
 在基 $\{|e_i\rangle\}$ 下，算符矩阵元
 \[
-[A]_{ij}=\langle e_i|A|e_j\rangle
+A_{ij}=\langle e_i|A|e_j\rangle
 \]
-的含义是：\textbf{第 $j$ 列}就是向量 $A|e_j\rangle$ 在旧基下的坐标。
+的含义是：\textbf{第 $j$ 列}就是向量 $A|e_j\rangle$ 在旧基下的展开系数。
 
-\paragraph{把“换基”看成一个算符}
+\paragraph{把"换基"看成一个算符}
 定义酉算符 $U$ 把旧基变为新基：
 \[
 U|e_j\rangle=|f_j\rangle
 \]
 于是
 \[
-[U]_{ij}=\langle e_i|U|e_j\rangle=\langle e_i|f_j\rangle
+U_{ij}=\langle e_i|U|e_j\rangle=\langle e_i|f_j\rangle
 \]
-这说明：\textbf{基变换矩阵 $[U]$ 的第 $j$ 列，就是新基向量 $|f_j\rangle$ 在旧基下的坐标}。
-这完全沿用“算符矩阵表示”的思路。
+这说明：\textbf{基变换算符 $U$ 的第 $j$ 列，就是新基向量 $|f_j\rangle$ 在旧基下的展开系数}。
+这完全沿用"算符矩阵表示"的思路。
 
-\paragraph{由此得到向量坐标的变换公式}
+\paragraph{由此得到向量展开系数的变换公式}
 同一个态 $|\psi\rangle$ 可以写成
 \[
 |\psi\rangle=\sum_j c_j^{(e)}|e_j\rangle=\sum_j c_j^{(f)}|f_j\rangle
 =\sum_j c_j^{(f)}U|e_j\rangle
 \]
-在旧基下比较坐标，得到
+在旧基下比较展开系数，得到
 \[
-\vec{c}^{\,(e)}=[U]\,\vec{c}^{\,(f)}
+\vec{c}^{\,(e)}=U\,\vec{c}^{\,(f)}
 \quad\Longrightarrow\quad
-\vec{c}^{\,(f)}=[U]^\dagger\vec{c}^{\,(e)}
+\vec{c}^{\,(f)}=U^\dagger\vec{c}^{\,(e)}
 \]
-也就是说：\textbf{向量的基变换就是“由算符 $U$ 给出的坐标变换”}。
+也就是说：\textbf{向量的基变换就是"由算符 $U$ 给出的系数变换"}。
 
 \subsection{【背】期望值与演化的矩阵形式}
 
 有了算符的矩阵表示，我们可以将量子力学中的许多重要公式转化为矩阵形式，这在实际计算中非常有用。
 
 \paragraph{期望值的矩阵计算}
-设态 $|\psi\rangle$ 在正交归一基 $\{|e_i\rangle\}$ 下的坐标为列向量 $\vec{c}=(c_1,c_2,\ldots,c_n)^T$，算符 $A$ 的矩阵表示为 $[A]$，则可观测量 $A$ 的期望值可写成矩阵形式：
+设态 $|\psi\rangle$ 在正交归一基 $\{|e_i\rangle\}$ 下的展开系数为列向量 $\vec{c}=(c_1,c_2,\ldots,c_n)^T$，算符 $A$ 的矩阵元为 $A_{ij}$，则可观测量 $A$ 的期望值可写成矩阵形式：
 \[
-\langle A\rangle = \langle\psi|A|\psi\rangle = \vec{c}^\dagger[A]\vec{c}
+\langle A\rangle = \langle\psi|A|\psi\rangle = \vec{c}^\dagger A\vec{c}
 \]
 
 \begin{derivation}
@@ -1187,10 +1262,10 @@ U|e_j\rangle=|f_j\rangle
 &= \langle\psi|A|\psi\rangle
 = \left(\sum_i c_i^\ast\langle e_i|\right)A\left(\sum_j c_j|e_j\rangle\right) \\
 &= \sum_{i,j} c_i^\ast c_j\langle e_i|A|e_j\rangle
-= \sum_{i,j} c_i^\ast [A]_{ij} c_j \\
-&= \vec{c}^\dagger[A]\vec{c}
+= \sum_{i,j} c_i^\ast A_{ij} c_j \\
+&= \vec{c}^\dagger A\vec{c}
 \end{align*}
-其中最后一步就是矩阵乘法 $\vec{c}^\dagger[A]\vec{c}$ 的定义。
+其中最后一步就是矩阵乘法 $\vec{c}^\dagger A\vec{c}$ 的定义。
 \end{derivation}
 
 \begin{example}
@@ -1214,13 +1289,13 @@ Pauli 算符 $\sigma_x=\begin{pmatrix}0&1\\1&0\end{pmatrix}$，则期望值
 \paragraph{薛定谔方程的矩阵形式}
 量子态的时间演化由薛定谔方程描述。在给定基下，薛定谔方程可转化为矩阵微分方程。
 
-设 $|\psi(t)\rangle$ 在基 $\{|e_i\rangle\}$ 下的坐标为 $\vec{c}(t)=(c_1(t),\ldots,c_n(t))^T$，哈密顿量 $H$ 的矩阵表示为 $[H]$，则薛定谔方程
+设 $|\psi(t)\rangle$ 在基 $\{|e_i\rangle\}$ 下的坐标为 $\vec{c}(t)=(c_1(t),\ldots,c_n(t))^T$，哈密顿量 $H$ 的矩阵表示为 $H$，则薛定谔方程
 \[
 i\hbar\frac{d}{dt}|\psi(t)\rangle = H|\psi(t)\rangle
 \]
 在该基下等价于矩阵微分方程：
 \[
-i\hbar\frac{d}{dt}\vec{c}(t) = [H]\vec{c}(t)
+i\hbar\frac{d}{dt}\vec{c}(t) = H\vec{c}(t)
 \]
 
 \begin{derivation}
@@ -1233,11 +1308,11 @@ i\hbar\sum_i\frac{dc_i}{dt}|e_i\rangle = H\left(\sum_j c_j|e_j\rangle\right)
 i\hbar\frac{dc_k}{dt}
 &= \langle e_k|H\left(\sum_j c_j|e_j\rangle\right)
 = \sum_j c_j\langle e_k|H|e_j\rangle \\
-&= \sum_j [H]_{kj}c_j(t)
+&= \sum_j H_{kj}c_j(t)
 \end{align*}
 这对每个 $k=1,2,\ldots,n$ 都成立，因此写成矩阵形式：
 \[
-i\hbar\,\dot{\vec{c}}(t)=[H]\vec{c}(t)
+i\hbar\,\dot{\vec{c}}(t)=H\vec{c}(t)
 \]
 \end{derivation}
 
@@ -1248,17 +1323,17 @@ i\hbar\,\dot{\vec{c}}(t)=[H]\vec{c}(t)
 \]
 在给定基下，这对应坐标的矩阵变换：
 \[
-\vec{c}(t) = e^{-i[H]t/\hbar}\vec{c}(0)
+\vec{c}(t) = e^{-iHt/\hbar}\vec{c}(0)
 \]
 其中矩阵指数定义为
 \[
-e^{-i[H]t/\hbar} = \sum_{n=0}^\infty\frac{(-it/\hbar)^n}{n!}[H]^n
+e^{-iHt/\hbar} = \sum_{n=0}^\infty\frac{(-it/\hbar)^n}{n!}H^n
 \]
 
 \begin{example}
 \textbf{例：二能级系统的演化}
 
-考虑哈密顿量 $[H]=\omega\sigma_z/2=\frac{\omega}{2}\begin{pmatrix}1&0\\0&-1\end{pmatrix}$，初态 $|\psi(0)\rangle=|0\rangle$，坐标 $\vec{c}(0)=\begin{pmatrix}1\\0\end{pmatrix}$。
+考虑哈密顿量 $H=\omega\sigma_z/2=\frac{\omega}{2}\begin{pmatrix}1&0\\0&-1\end{pmatrix}$，初态 $|\psi(0)\rangle=|0\rangle$，坐标 $\vec{c}(0)=\begin{pmatrix}1\\0\end{pmatrix}$。
 
 演化算符
 \[
@@ -1280,17 +1355,17 @@ e^{-iHt/\hbar} = e^{-i\omega t\sigma_z/(2\hbar)}
 \paragraph{厄米矩阵的定义}
 若算符 $A=A^\dagger$（厄米算符），则在任何正交归一基下，其矩阵元满足
 \[
-[A]_{ij} = [A]_{ji}^\ast
+A_{ij} = A_{ji}^\ast
 \]
-即矩阵 $[A]$ 是厄米矩阵（$[A]=[A]^\dagger$）。
+即矩阵 $A$ 是厄米矩阵（$A=A^\dagger$）。
 
 \begin{derivation}
 \textbf{推导矩阵元关系：}
 \begin{align*}
-[A]_{ij} &= \langle e_i|A|e_j\rangle
+A_{ij} &= \langle e_i|A|e_j\rangle
 = \langle e_i|A^\dagger|e_j\rangle \quad \text{（因为 $A=A^\dagger$）} \\
 &= \langle e_j|A|e_i\rangle^\ast \quad \text{（伴随的定义）}
-= [A]_{ji}^\ast
+= A_{ji}^\ast
 \end{align*}
 这说明矩阵关于对角线共轭对称。
 \end{derivation}
@@ -1298,7 +1373,7 @@ e^{-iHt/\hbar} = e^{-i\omega t\sigma_z/(2\hbar)}
 \begin{example}
 \textbf{例：验证 Pauli 矩阵是厄米的}
 
-$\sigma_x=\begin{pmatrix}0&1\\1&0\end{pmatrix}$：显然 $\sigma_x^\dagger=\sigma_x$，满足 $[A]_{12}=1=[A]_{21}^\ast$，$[A]_{11}=0=[A]_{11}^\ast$，$[A]_{22}=0=[A]_{22}^\ast$。
+$\sigma_x=\begin{pmatrix}0&1\\1&0\end{pmatrix}$：显然 $\sigma_x^\dagger=\sigma_x$，满足 $A_{12}=1=A_{21}^\ast$，$A_{11}=0=A_{11}^\ast$，$A_{22}=0=A_{22}^\ast$。
 
 $\sigma_z=\begin{pmatrix}1&0\\0&-1\end{pmatrix}$：对角矩阵且元素为实数，显然厄米。
 \end{example}
@@ -1306,16 +1381,16 @@ $\sigma_z=\begin{pmatrix}1&0\\0&-1\end{pmatrix}$：对角矩阵且元素为实�
 \paragraph{本征基下的对角化}
 厄米算符的一个重要性质是：总可以选择一组正交归一的本征基 $\{|a_i\rangle\}$（满足 $A|a_i\rangle=a_i|a_i\rangle$），使得在该基下矩阵为对角形式：
 \[
-[A]_{本征基} = \begin{pmatrix}a_1&0&\cdots&0\\0&a_2&\cdots&0\\\vdots&\vdots&\ddots&\vdots\\0&0&\cdots&a_n\end{pmatrix}
+A_{本征基} = \begin{pmatrix}a_1&0&\cdots&0\\0&a_2&\cdots&0\\\vdots&\vdots&\ddots&\vdots\\0&0&\cdots&a_n\end{pmatrix}
 \]
 主对角元即为本征值 $a_i$（均为实数）。
 
 \begin{derivation}
 \textbf{验证：}在本征基下，矩阵元为
 \[
-[A]_{ij} = \langle a_i|A|a_j\rangle = \langle a_i|(a_j|a_j\rangle) = a_j\langle a_i|a_j\rangle = a_j\delta_{ij}
+A_{ij} = \langle a_i|A|a_j\rangle = \langle a_i|(a_j|a_j\rangle) = a_j\langle a_i|a_j\rangle = a_j\delta_{ij}
 \]
-因此只有对角元 $[A]_{ii}=a_i$ 非零，矩阵为对角矩阵。
+因此只有对角元 $A_{ii}=a_i$ 非零，矩阵为对角矩阵。
 \end{derivation}
 
 \paragraph{谱分解}
@@ -1325,9 +1400,9 @@ A = \sum_i a_i|a_i\rangle\langle a_i|
 \]
 这在矩阵形式下对应对角化：在任意基 $\{|e_i\rangle\}$ 下，可通过相似变换对角化
 \[
-[A]_{(e)} = [U]\begin{pmatrix}a_1&&\\&a_2&\\&&\ddots\end{pmatrix}[U]^\dagger
+A_{(e)} = U\begin{pmatrix}a_1&&\\&a_2&\\&&\ddots\end{pmatrix}U^\dagger
 \]
-其中 $[U]$ 的列向量是本征矢在该基下的坐标。
+其中 $U$ 的列向量是本征矢在该基下的坐标。
 
 \begin{example}
 \textbf{例：对角化 Pauli $\sigma_x$}
@@ -1337,9 +1412,9 @@ $\sigma_x=\begin{pmatrix}0&1\\1&0\end{pmatrix}$ 的本征值为 $\pm 1$，本征
 |+\rangle=\frac{1}{\sqrt{2}}\begin{pmatrix}1\\1\end{pmatrix},\quad
 |-\rangle=\frac{1}{\sqrt{2}}\begin{pmatrix}1\\-1\end{pmatrix}
 \]
-变换矩阵 $[U]=\frac{1}{\sqrt{2}}\begin{pmatrix}1&1\\1&-1\end{pmatrix}$，则
+变换矩阵 $U=\frac{1}{\sqrt{2}}\begin{pmatrix}1&1\\1&-1\end{pmatrix}$，则
 \[
-[U]^\dagger\sigma_x [U] = \begin{pmatrix}1&0\\0&-1\end{pmatrix}
+U^\dagger\sigma_x U = \begin{pmatrix}1&0\\0&-1\end{pmatrix}
 \]
 \end{example}
 
@@ -1371,7 +1446,7 @@ A(x,x')=\langle x|A|x'\rangle
 \end{align*}
 \end{derivation}
 
-这完全类比于离散情形的矩阵乘法 $([A]\vec{c})_i=\sum_j [A]_{ij}c_j$，只是求和变成了积分。
+这完全类比于离散情形的矩阵乘法 $(A\vec{c})_i=\sum_j A_{ij}c_j$，只是求和变成了积分。
 
 \begin{example}
 \textbf{例：位置算符}
@@ -1482,11 +1557,11 @@ A|\phi\rangle = \lambda|\phi\rangle \quad \Rightarrow \quad (A-\lambda I)|\phi\r
 \begin{enumerate}
   \item \textbf{写出特征方程}
   \[
-  \det([A]-\lambda I)=0
+  \det(A-\lambda I)=0
   \]
-  \item \textbf{展开行列式并解 $\lambda$} 若 $[A]=\begin{pmatrix}a&b\\c&d\end{pmatrix}$，则
+  \item \textbf{展开行列式并解 $\lambda$} 若 $A=\begin{pmatrix}a&b\\c&d\end{pmatrix}$，则
   \[
-  \det([A]-\lambda I)=\begin{vmatrix}a-\lambda&b\\c&d-\lambda\end{vmatrix}
+  \det(A-\lambda I)=\begin{vmatrix}a-\lambda&b\\c&d-\lambda\end{vmatrix}
   =(a-\lambda)(d-\lambda)-bc=0
   \]
   解得
@@ -1495,7 +1570,7 @@ A|\phi\rangle = \lambda|\phi\rangle \quad \Rightarrow \quad (A-\lambda I)|\phi\r
   \]
   \item \textbf{对每个 $\lambda$ 解本征向量} 以 $\lambda=\lambda_+$ 为例，解
   \[
-  ([A]-\lambda_+ I)\begin{pmatrix}x\\y\end{pmatrix}=0
+  (A-\lambda_+ I)\begin{pmatrix}x\\y\end{pmatrix}=0
   \]
   只需取其中一行（另一行线性相关），如
   \[
@@ -1514,7 +1589,7 @@ A|\phi\rangle = \lambda|\phi\rangle \quad \Rightarrow \quad (A-\lambda I)|\phi\r
 
 设
 \[
-[A]=\begin{pmatrix}2&1\\1&2\end{pmatrix}
+A=\begin{pmatrix}2&1\\1&2\end{pmatrix}
 \]
 \textbf{特征方程：}
 \[
@@ -1524,9 +1599,9 @@ A|\phi\rangle = \lambda|\phi\rangle \quad \Rightarrow \quad (A-\lambda I)|\phi\r
 \]
 \textbf{求本征向量：}
 \begin{itemize}
-  \item 对 $\lambda_1=3$：$([A]-3I)\begin{pmatrix}x\\y\end{pmatrix}=0$
+  \item 对 $\lambda_1=3$：$(A-3I)\begin{pmatrix}x\\y\end{pmatrix}=0$
   得 $-x+y=0 \Rightarrow x=y$，取 $(1,1)^T$，归一化为 $\frac{1}{\sqrt{2}}(1,1)^T$。
-  \item 对 $\lambda_2=1$：$([A]-I)\begin{pmatrix}x\\y\end{pmatrix}=0$
+  \item 对 $\lambda_2=1$：$(A-I)\begin{pmatrix}x\\y\end{pmatrix}=0$
   得 $x+y=0 \Rightarrow x=-y$，取 $(1,-1)^T$，归一化为 $\frac{1}{\sqrt{2}}(1,-1)^T$。
 \end{itemize}
 \end{example}
@@ -1544,7 +1619,7 @@ A|\phi\rangle = \lambda|\phi\rangle \quad \Rightarrow \quad (A-\lambda I)|\phi\r
 
 \paragraph{本征值/本征向量有什么用？}
 \begin{itemize}
-  \item \textbf{对角化与简化计算}：若 $[A]=[U][\Lambda][U]^\dagger$，则 $[A]^n=[U][\Lambda]^n[U]^\dagger$，指数/函数也可直接在对角线上计算。
+  \item \textbf{对角化与简化计算}：若 $A=U[\Lambda]U^\dagger$，则 $A^n=U[\Lambda]^nU^\dagger$，指数/函数也可直接在对角线上计算。
   \item \textbf{量子测量}：厄米算符的本征值是测量可能结果，本征态是测后态。
   \item \textbf{时间演化}：若 $H|\phi_n\rangle=E_n|\phi_n\rangle$，则 $e^{-iHt/\hbar}|\phi_n\rangle=e^{-iE_n t/\hbar}|\phi_n\rangle$。
   \item \textbf{物理含义清晰}：本征态是“保持方向不变”的模式，很多物理量在其本征基下最直观。
@@ -1577,7 +1652,7 @@ A|\phi\rangle = \lambda|\phi\rangle \quad \Rightarrow \quad (A-\lambda I)|\phi\r
 \paragraph{与对角矩阵投影分解的关系（理解用）}
 把 $H$ 在本征基下写成对角矩阵 $[\Lambda]$，再做相似变换回到原基：
 \[
-[H]=[U][\Lambda][U]^\dagger
+H=U[\Lambda]U^\dagger
 \]
 其中 $[\Lambda]$ 可由\hyperref[para:diag-projector]{对角矩阵的投影分解}写成
 \[
@@ -1585,7 +1660,7 @@ A|\phi\rangle = \lambda|\phi\rangle \quad \Rightarrow \quad (A-\lambda I)|\phi\r
 \]
 于是
 \[
-[H]=\sum_j \lambda_j\,[U]|e_j\rangle\langle e_j|[U]^\dagger
+H=\sum_j \lambda_j\,U|e_j\rangle\langle e_j|U^\dagger
 =\sum_j \lambda_j|\phi_j\rangle\langle\phi_j|
 \]
 也就是说，谱定理就是“\textbf{对角矩阵的投影分解}在本征基下成立，
@@ -1634,46 +1709,46 @@ A|\phi\rangle = \lambda|\phi\rangle \quad \Rightarrow \quad (A-\lambda I)|\phi\r
 
 由前文\hyperref[para:orthonormal-unitary]{正交归一基与酉矩阵}可知，令
 \[
-[U]=\big(|\phi_1\rangle\ |\phi_2\rangle\ \cdots\ |\phi_n\rangle\big)
+U=\big(|\phi_1\rangle\ |\phi_2\rangle\ \cdots\ |\phi_n\rangle\big)
 \]
-则 $[U]$ 为酉矩阵。因为
+则 $U$ 为酉矩阵。因为
 \[
 H|\phi_j\rangle=\lambda_j|\phi_j\rangle
 \]
 把各列“并排拼成矩阵”即可得到矩阵等式：矩阵乘法按列作用满足
 \[
-[H]\big(|\phi_1\rangle\ \cdots\ |\phi_n\rangle\big)
-=\big([H]|\phi_1\rangle\ \cdots\ [H]|\phi_n\rangle\big),
+H\big(|\phi_1\rangle\ \cdots\ |\phi_n\rangle\big)
+=\big(H|\phi_1\rangle\ \cdots\ H|\phi_n\rangle\big),
 \]
 而 $[\Lambda]=\mathrm{diag}(\lambda_1,\ldots,\lambda_n)$ 为对角矩阵，因此
 \[
 \big(|\phi_1\rangle\ \cdots\ |\phi_n\rangle\big)[\Lambda]
 =\big(\lambda_1|\phi_1\rangle\ \cdots\ \lambda_n|\phi_n\rangle\big).
 \]
-逐列比较 $[H]|\phi_j\rangle=\lambda_j|\phi_j\rangle$ 即得
+逐列比较 $H|\phi_j\rangle=\lambda_j|\phi_j\rangle$ 即得
 \[
-[H][U] = [U][\Lambda]
+HU = U[\Lambda]
 \]
-两边左乘 $[U]^\dagger$，得到
+两边左乘 $U^\dagger$，得到
 \[
-[U]^\dagger [H] [U]=[\Lambda]=\mathrm{diag}(\lambda_1,\ldots,\lambda_n)
+U^\dagger H U=[\Lambda]=\mathrm{diag}(\lambda_1,\ldots,\lambda_n)
 \]
 其中 $[\Lambda]$ 表示由本征值组成的对角矩阵。
-下面说明 $[U][\Lambda][U]^\dagger$ 为何等于投影和形式。由\hyperref[para:diag-projector]{对角矩阵的投影分解}可知
+下面说明 $U[\Lambda]U^\dagger$ 为何等于投影和形式。由\hyperref[para:diag-projector]{对角矩阵的投影分解}可知
 \[
 [\Lambda]=\sum_j \lambda_j |e_j\rangle\langle e_j|
 \]
 其中 $\{|e_j\rangle\}$ 为标准基。
-又因为 $[U]$ 的第 $j$ 列就是 $|\phi_j\rangle$，矩阵乘法“乘以 $|e_j\rangle$”会选出第 $j$ 列，
-所以 $[U]|e_j\rangle=|\phi_j\rangle$。于是
+又因为 $U$ 的第 $j$ 列就是 $|\phi_j\rangle$，矩阵乘法“乘以 $|e_j\rangle$”会选出第 $j$ 列，
+所以 $U|e_j\rangle=|\phi_j\rangle$。于是
 \[
-[U][\Lambda][U]^\dagger
-=\sum_j \lambda_j\,[U]|e_j\rangle\langle e_j|[U]^\dagger
+U[\Lambda]U^\dagger
+=\sum_j \lambda_j\,U|e_j\rangle\langle e_j|U^\dagger
 =\sum_j \lambda_j|\phi_j\rangle\langle\phi_j|
 \]
 因此
 \[
-[H]=[U][\Lambda][U]^\dagger=\sum_j \lambda_j|\phi_j\rangle\langle\phi_j|
+H=U[\Lambda]U^\dagger=\sum_j \lambda_j|\phi_j\rangle\langle\phi_j|
 \]
 并且满足完备关系
 \[
@@ -1742,7 +1817,7 @@ H=\sum_{\lambda}\lambda\,P_\lambda,\qquad P_\lambda P_{\lambda'}=\delta_{\lambda
 
 设
 \[
-[H]=\begin{pmatrix}
+H=\begin{pmatrix}
 2&0&0\\
 0&2&0\\
 0&0&3
@@ -1782,17 +1857,17 @@ H=2P_{2}+3P_{3}
 \]
 并且
 \[
-[H]|\psi\rangle=2[P_2]|\psi\rangle+3[P_3]|\psi\rangle
+H|\psi\rangle=2[P_2]|\psi\rangle+3[P_3]|\psi\rangle
 =\frac{1}{\sqrt{14}}\begin{pmatrix}2\\4\\9\end{pmatrix}
 \]
 在 $P_2$ 的子空间内，可用任意 $2\times 2$ 的酉矩阵重新组合基向量，但 $P_2$ 不变。
 \textbf{例：}取
 \[
-[U]=\frac{1}{\sqrt2}\begin{pmatrix}1&1\\-1&1\end{pmatrix}
+U=\frac{1}{\sqrt2}\begin{pmatrix}1&1\\-1&1\end{pmatrix}
 \]
 在子空间 $\mathrm{span}\{|e_1\rangle,|e_2\rangle\}$ 内做基变换，按
 \[
-|\tilde e_i\rangle=\sum_{j=1}^2 |e_j\rangle\,[U]_{ji}\quad (i=1,2)
+|\tilde e_i\rangle=\sum_{j=1}^2 |e_j\rangle\,U_{ji}\quad (i=1,2)
 \]
 得到
 \[
@@ -1829,7 +1904,7 @@ H=1\,|\phi_1\rangle\langle\phi_1|+(-1)\,|\phi_2\rangle\langle\phi_2|
 
 \subsection{【背】2×2厄米矩阵的本征值公式}
 
-对 $[H]=\begin{pmatrix}a&b\\b^\ast&d\end{pmatrix}$（$a,d\in\mathbb{R}$），本征值为
+对 $H=\begin{pmatrix}a&b\\b^\ast&d\end{pmatrix}$（$a,d\in\mathbb{R}$），本征值为
 \[
 \lambda_\pm = \frac{a+d}{2} \pm \sqrt{\left(\frac{a-d}{2}\right)^2 + |b|^2}
 \]
@@ -1868,18 +1943,18 @@ $\sigma_x=\begin{pmatrix}0&1\\1&0\end{pmatrix}$，这里 $a=d=0$，$b=1$，$|b|^
 \begin{example}
 \textbf{完整本征分解}
 
-求 $[H]=\begin{pmatrix}1&i\\-i&3\end{pmatrix}$ 的本征值与归一化本征向量。
+求 $H=\begin{pmatrix}1&i\\-i&3\end{pmatrix}$ 的本征值与归一化本征向量。
 
 \textbf{解：}
 \begin{enumerate}
-  \item 验证厄米性：$[H]^\dagger=\begin{pmatrix}1&-(-i)^\ast\\i^\ast&3\end{pmatrix}=\begin{pmatrix}1&i\\-i&3\end{pmatrix}=[H]$ \checkmark
+  \item 验证厄米性：$H^\dagger=\begin{pmatrix}1&-(-i)^\ast\\i^\ast&3\end{pmatrix}=\begin{pmatrix}1&i\\-i&3\end{pmatrix}=H$ \checkmark
 
   \item 计算本征值（$a=1,d=3,b=i,|b|^2=1$）：
   \[
   \lambda_\pm = \frac{1+3}{2}\pm\sqrt{\left(\frac{1-3}{2}\right)^2+1} = 2\pm\sqrt{1+1} = 2\pm\sqrt{2}
   \]
 
-  \item 对 $\lambda_-=2-\sqrt{2}$，解 $([H]-\lambda_- I)|v\rangle=0$：
+  \item 对 $\lambda_-=2-\sqrt{2}$，解 $(H-\lambda_- I)|v\rangle=0$：
   \[
   \begin{pmatrix}
   \sqrt{2}-1 & i \\
@@ -1914,9 +1989,9 @@ $\sigma_x=\begin{pmatrix}0&1\\1&0\end{pmatrix}$，这里 $a=d=0$，$b=1$，$|b|^
 \]
 
 \paragraph{矩阵的张量积（Kronecker 积）（补充）}
-若 $[A]=\begin{pmatrix}a_{11}&a_{12}\\a_{21}&a_{22}\end{pmatrix}$，$[B]$ 为任意矩阵，则
+若 $A=\begin{pmatrix}a_{11}&a_{12}\\a_{21}&a_{22}\end{pmatrix}$，$[B]$ 为任意矩阵，则
 \[
-[A]\otimes [B]=
+A\otimes [B]=
 \begin{pmatrix}
 a_{11}[B] & a_{12}[B]\\
 a_{21}[B] & a_{22}[B]
@@ -2238,9 +2313,9 @@ U(t_1,t_2)=\exp\!\left[-\frac{i}{\hbar}H(t_2-t_1)\right]
 \paragraph{量子逻辑门（离散演化）}
 常用单比特门（均为酉矩阵）：
 \[
-[X]=\begin{pmatrix}0&1\\1&0\end{pmatrix},\quad
-[Z]=\begin{pmatrix}1&0\\0&-1\end{pmatrix},\quad
-[H]=\frac{1}{\sqrt{2}}\begin{pmatrix}1&1\\1&-1\end{pmatrix}
+X=\begin{pmatrix}0&1\\1&0\end{pmatrix},\quad
+Z=\begin{pmatrix}1&0\\0&-1\end{pmatrix},\quad
+H=\frac{1}{\sqrt{2}}\begin{pmatrix}1&1\\1&-1\end{pmatrix}
 \]
 其中 $X$ 为比特翻转，$Z$ 为相位翻转，$H$ 可在计算基与 Hadamard 基之间切换。
 
@@ -2694,17 +2769,17 @@ P=|\psi_1+\psi_2|^2=|\psi_1|^2+|\psi_2|^2+2\mathrm{Re}(\psi_1^\ast\psi_2)
 \paragraph{基与表象}
 设 $\{|a_i\rangle\}$、$\{|b_j\rangle\}$ 是两组正交归一基，定义
 \[
-[U]_{ji}=\langle b_j|a_i\rangle
+U_{ji}=\langle b_j|a_i\rangle
 \]
-则 $[U]$ 为酉矩阵，系数在两基之间变换为
+则 $U$ 为酉矩阵，系数在两基之间变换为
 \[
-c'_j=\sum_i [U]_{ji}c_i \quad \Longleftrightarrow \quad \vec{c}'=[U]\vec{c}
+c'_j=\sum_i U_{ji}c_i \quad \Longleftrightarrow \quad {\vec{c}\,}'=U\vec{c}
 \]
 
 \paragraph{算符的表象变换}
-若算符在 $a$ 表象中矩阵为 $[A]_{(a)}$，在 $b$ 表象中矩阵为 $[A]_{(b)}$，则
+若算符在 $a$ 表象中矩阵为 $A_{(a)}$，在 $b$ 表象中矩阵为 $A_{(b)}$，则
 \[
-[A]_{(b)}=[U][A]_{(a)}[U]^\dagger
+A_{(b)}=UA_{(a)}U^\dagger
 \]
 酉变换不改变算符的本征值。
 
@@ -2712,16 +2787,16 @@ c'_j=\sum_i [U]_{ji}c_i \quad \Longleftrightarrow \quad \vec{c}'=[U]\vec{c}
 设 $a$ 表象为计算基 $\{|0\rangle,|1\rangle\}$，$b$ 表象为 $|+\rangle,|-\rangle$，
 则
 \[
-[U]=\frac{1}{\sqrt{2}}
+U=\frac{1}{\sqrt{2}}
 \begin{pmatrix}
 1&1\\
 1&-1
-\end{pmatrix},\qquad \vec{c}'=[U]\vec{c}
+\end{pmatrix},\qquad {\vec{c}\,}'=U\vec{c}
 \]
-例如 $|0\rangle$ 的系数 $\vec{c}=(1,0)^T$，在 $b$ 表象中为 $\vec{c}'=(\frac{1}{\sqrt{2}},\frac{1}{\sqrt{2}})^T$。
-算符也满足 $[A]_{(b)}=[U][A]_{(a)}[U]^\dagger$，因此 $Z$ 在 Hadamard 基下变为
+例如 $|0\rangle$ 的系数 $\vec{c}=(1,0)^T$，在 $b$ 表象中为 ${\vec{c}\,}'=(\frac{1}{\sqrt{2}},\frac{1}{\sqrt{2}})^T$。
+算符也满足 $A_{(b)}=UA_{(a)}U^\dagger$，因此 $Z$ 在 Hadamard 基下变为
 \[
-[U][Z][U]^\dagger = [X]
+UZU^\dagger = X
 \]
 
 \paragraph{术语对照}
@@ -3077,12 +3152,12 @@ E(a,b)=-\cos\theta_{ab}
 
 \subsection{【背】常用单比特门}
 \[
-[X]=\begin{pmatrix}0&1\\1&0\end{pmatrix},\quad
-[Z]=\begin{pmatrix}1&0\\0&-1\end{pmatrix},\quad
-[H]=\frac{1}{\sqrt{2}}\begin{pmatrix}1&1\\1&-1\end{pmatrix}
+X=\begin{pmatrix}0&1\\1&0\end{pmatrix},\quad
+Z=\begin{pmatrix}1&0\\0&-1\end{pmatrix},\quad
+H=\frac{1}{\sqrt{2}}\begin{pmatrix}1&1\\1&-1\end{pmatrix}
 \]
 \[
-[Y]=\begin{pmatrix}0&-i\\i&0\end{pmatrix},\quad
+Y=\begin{pmatrix}0&-i\\i&0\end{pmatrix},\quad
 [S]=\begin{pmatrix}1&0\\0&i\end{pmatrix},\quad
 [R_\phi]=\begin{pmatrix}1&0\\0&e^{i\phi}\end{pmatrix}
 \]
@@ -3578,7 +3653,7 @@ QKD 仍需要\textbf{认证的经典信道}完成基筛选与纠错，否则可�
   \item \textbf{内积与归一化}：$\langle\phi|\psi\rangle=\sum_k a_k^\ast b_k$，$\langle\psi|\psi\rangle=1$。
   \item \textbf{正交归一基与完备关系}：$\langle e_i|e_j\rangle=\delta_{ij}$，$I=\sum_j |e_j\rangle\langle e_j|$。
   \item \textbf{外积/投影}：$P_\psi=|\psi\rangle\langle\psi|$，$P_\psi^2=P_\psi$，$P_\psi^\dagger=P_\psi$。
-  \item \textbf{厄米共轭}：$([A]^\dagger)_{ij}=([A]_{ji})^\ast$，$(AB)^\dagger=B^\dagger A^\dagger$。
+  \item \textbf{厄米共轭}：$(A^\dagger)_{ij}=(A_{ji})^\ast$，$(AB)^\dagger=B^\dagger A^\dagger$。
   \item \textbf{厄米/酉算符}：$H=H^\dagger$，$U^\dagger U=I$，$U^{-1}=U^\dagger$。
   \item \textbf{本征值与谱分解}：$A|\phi\rangle=\lambda|\phi\rangle$，$H=\sum_j \lambda_j|\phi_j\rangle\langle\phi_j|$（厄米算符）。
   \item \textbf{Pauli 矩阵与对易}：
