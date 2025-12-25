@@ -632,6 +632,14 @@ UU^\dagger=\sum_{j=1}^n |\phi_j\rangle\langle\phi_j|=I
 \]
 \textbf{直观意义：}$U$ 的第 $j$ 列就是新基向量 $|f_j\rangle$ 在旧基下的展开系数。
 
+\paragraph{列矩阵写法（常用）}
+把基向量\textbf{并成列矩阵}，上式可写成
+\[
+\big(|f_1\rangle\ |f_2\rangle\ \cdots\ |f_n\rangle\big)
+=\big(|e_1\rangle\ |e_2\rangle\ \cdots\ |e_n\rangle\big)U
+\]
+这只是“按列展开”的记号：第 $j$ 列等式就是 $|f_j\rangle=\sum_i U_{ij}|e_i\rangle$。
+
 \paragraph{基变换矩阵必为酉矩阵}
 由于新旧基都是正交归一的，基变换必须\textbf{保持内积与长度}。利用完备关系验证：
 \begin{align*}
@@ -1729,6 +1737,37 @@ A|u_2\rangle=\begin{pmatrix}2\\0\\2\end{pmatrix}=2|u_2\rangle\ \checkmark
 \]
 \end{example}
 
+\paragraph{简并}
+若存在 $\lambda_i=\lambda_j\ (i\neq j)$，则称为\textbf{简并}。
+
+\textbf{为什么需要简并的概念？}
+\begin{itemize}
+  \item \textbf{物理意义}：简并表示系统存在多个线性无关的状态对应同一个测量结果（本征值）。例如，自由粒子在三维空间中，不同方向的动量可能对应相同的能量。
+  \item \textbf{数学后果}：简并时，对应该本征值的本征向量不唯一——该本征值的所有本征向量张成一个子空间（称为\textbf{本征子空间}或\textbf{简并子空间}），该子空间内任意向量都是本征向量。
+  \item \textbf{实际影响}：
+  \begin{itemize}
+    \item \textbf{非简并}：每个本征值对应唯一的本征向量方向（归一化后），不同本征值的本征向量天然正交。
+    \item \textbf{简并}：同一本征值对应的多个本征向量可能不正交，需要在本征子空间内进行 Gram--Schmidt 正交化，才能得到正交归一本征基。
+  \end{itemize}
+\end{itemize}
+
+\textbf{非简并与简并的区别总结：}
+\begin{center}
+\begin{tabular}{l|l|l}
+\hline
+& \textbf{非简并} & \textbf{简并} \\
+\hline
+本征值 & 互不相同 & 至少有两个相等 \\
+\hline
+本征向量 & 每个本征值对应唯一方向 & 每个简并本征值对应子空间 \\
+\hline
+正交性 & 不同本征值的本征向量天然正交 & 需在简并子空间内正交化 \\
+\hline
+测量后态 & 塌缩到唯一本征态 & 塌缩到简并子空间内某态 \\
+\hline
+\end{tabular}
+\end{center}
+
 \paragraph{常见特殊矩阵的本征值（速记）}
 \begin{itemize}
   \item \textbf{对角矩阵}：本征值就是对角元；本征向量为标准基。
@@ -1739,28 +1778,12 @@ A|u_2\rangle=\begin{pmatrix}2\\0\\2\end{pmatrix}=2|u_2\rangle\ \checkmark
 
 \paragraph{本征值/本征向量有什么用？}
 \begin{itemize}
-  \item \textbf{对角化与简化计算}：若 $A=U[\Lambda]U^\dagger$，则 $A^n=U[\Lambda]^nU^\dagger$，指数/函数也可直接在对角线上计算。
+  \item \textbf{对角化与简化计算}：若 $A=U\Lambda U^\dagger$，则 $A^n=U\Lambda^n U^\dagger$，指数/函数也可直接在对角线上计算。
   \item \textbf{量子测量}：厄米算符的本征值是测量可能结果，本征态是测后态。
   \item \textbf{时间演化}：若 $H|\phi_n\rangle=E_n|\phi_n\rangle$，则 $e^{-iHt/\hbar}|\phi_n\rangle=e^{-iE_n t/\hbar}|\phi_n\rangle$。
   \item \textbf{物理含义清晰}：本征态是“保持方向不变”的模式，很多物理量在其本征基下最直观。
   \item \textbf{谱分解}：可把算符写成本征态投影的加权和，便于理解与计算。
 \end{itemize}
-
-\begin{example}
-\textbf{简单的本征值问题}
-
-求对角矩阵 $D=\begin{pmatrix}2&0\\0&3\end{pmatrix}$ 的本征值和本征向量。
-
-\textbf{解：}
-对角矩阵的本征值就是对角元素：$\lambda_1=2, \lambda_2=3$。
-
-对应的本征向量：
-\[
-D\begin{pmatrix}1\\0\end{pmatrix} = 2\begin{pmatrix}1\\0\end{pmatrix}, \quad
-D\begin{pmatrix}0\\1\end{pmatrix} = 3\begin{pmatrix}0\\1\end{pmatrix}
-\]
-所以 $|\phi_1\rangle=\begin{pmatrix}1\\0\end{pmatrix}$ 对应 $\lambda_1=2$，$|\phi_2\rangle=\begin{pmatrix}0\\1\end{pmatrix}$ 对应 $\lambda_2=3$。
-\end{example}
 
 \subsection{【背】厄米算符的谱定理}
 
@@ -1770,13 +1793,13 @@ D\begin{pmatrix}0\\1\end{pmatrix} = 3\begin{pmatrix}0\\1\end{pmatrix}
 \]
 这称为 $H$ 的\textbf{谱分解（spectral decomposition）}。
 \paragraph{与对角矩阵投影分解的关系（理解用）}
-把 $H$ 在本征基下写成对角矩阵 $[\Lambda]$，再做相似变换回到原基：
+把 $H$ 在本征基下写成对角矩阵 $\Lambda$，再做相似变换回到原基：
 \[
-H=U[\Lambda]U^\dagger
+H=U\Lambda U^\dagger
 \]
-其中 $[\Lambda]$ 可由\hyperref[para:diag-projector]{对角矩阵的投影分解}写成
+其中 $\Lambda$ 可由\hyperref[para:diag-projector]{对角矩阵的投影分解}写成
 \[
-[\Lambda]=\sum_j \lambda_j|e_j\rangle\langle e_j|
+\Lambda=\sum_j \lambda_j|e_j\rangle\langle e_j|
 \]
 于是
 \[
@@ -1840,35 +1863,35 @@ H|\phi_j\rangle=\lambda_j|\phi_j\rangle
 H\big(|\phi_1\rangle\ \cdots\ |\phi_n\rangle\big)
 =\big(H|\phi_1\rangle\ \cdots\ H|\phi_n\rangle\big),
 \]
-而 $[\Lambda]=\mathrm{diag}(\lambda_1,\ldots,\lambda_n)$ 为对角矩阵，因此
+而 $\Lambda=\mathrm{diag}(\lambda_1,\ldots,\lambda_n)$ 为对角矩阵，因此
 \[
-\big(|\phi_1\rangle\ \cdots\ |\phi_n\rangle\big)[\Lambda]
+\big(|\phi_1\rangle\ \cdots\ |\phi_n\rangle\big)\Lambda
 =\big(\lambda_1|\phi_1\rangle\ \cdots\ \lambda_n|\phi_n\rangle\big).
 \]
 逐列比较 $H|\phi_j\rangle=\lambda_j|\phi_j\rangle$ 即得
 \[
-HU = U[\Lambda]
+HU = U\Lambda
 \]
 两边左乘 $U^\dagger$，得到
 \[
-U^\dagger H U=[\Lambda]=\mathrm{diag}(\lambda_1,\ldots,\lambda_n)
+U^\dagger H U=\Lambda=\mathrm{diag}(\lambda_1,\ldots,\lambda_n)
 \]
-其中 $[\Lambda]$ 表示由本征值组成的对角矩阵。
-下面说明 $U[\Lambda]U^\dagger$ 为何等于投影和形式。由\hyperref[para:diag-projector]{对角矩阵的投影分解}可知
+其中 $\Lambda$ 表示由本征值组成的对角矩阵。
+下面说明 $U\Lambda U^\dagger$ 为何等于投影和形式。由\hyperref[para:diag-projector]{对角矩阵的投影分解}可知
 \[
-[\Lambda]=\sum_j \lambda_j |e_j\rangle\langle e_j|
+\Lambda=\sum_j \lambda_j |e_j\rangle\langle e_j|
 \]
 其中 $\{|e_j\rangle\}$ 为标准基。
 又因为 $U$ 的第 $j$ 列就是 $|\phi_j\rangle$，矩阵乘法“乘以 $|e_j\rangle$”会选出第 $j$ 列，
 所以 $U|e_j\rangle=|\phi_j\rangle$。于是
 \[
-U[\Lambda]U^\dagger
+U\Lambda U^\dagger
 =\sum_j \lambda_j\,U|e_j\rangle\langle e_j|U^\dagger
 =\sum_j \lambda_j|\phi_j\rangle\langle\phi_j|
 \]
 因此
 \[
-H=U[\Lambda]U^\dagger=\sum_j \lambda_j|\phi_j\rangle\langle\phi_j|
+H=U\Lambda U^\dagger=\sum_j \lambda_j|\phi_j\rangle\langle\phi_j|
 \]
 并且满足完备关系
 \[
@@ -1890,37 +1913,6 @@ H|\psi\rangle=\sum_j H|\phi_j\rangle\langle\phi_j|\psi\rangle
 H=\sum_j \lambda_j|\phi_j\rangle\langle\phi_j|
 \]
 \end{derivation}
-
-\paragraph{简并}
-若存在 $\lambda_i=\lambda_j\ (i\neq j)$，则称为\textbf{简并}。
-
-\textbf{为什么需要简并的概念？}
-\begin{itemize}
-  \item \textbf{物理意义}：简并表示系统存在多个线性无关的状态对应同一个测量结果（本征值）。例如，自由粒子在三维空间中，不同方向的动量可能对应相同的能量。
-  \item \textbf{数学后果}：简并时，对应该本征值的本征向量不唯一——该本征值的所有本征向量张成一个子空间（称为\textbf{本征子空间}或\textbf{简并子空间}），该子空间内任意向量都是本征向量。
-  \item \textbf{实际影响}：
-  \begin{itemize}
-    \item \textbf{非简并}：每个本征值对应唯一的本征向量方向（归一化后），不同本征值的本征向量天然正交。
-    \item \textbf{简并}：同一本征值对应的多个本征向量可能不正交，需要在本征子空间内进行 Gram--Schmidt 正交化，才能得到正交归一本征基。
-  \end{itemize}
-\end{itemize}
-
-\textbf{非简并与简并的区别总结：}
-\begin{center}
-\begin{tabular}{l|l|l}
-\hline
-& \textbf{非简并} & \textbf{简并} \\
-\hline
-本征值 & 互不相同 & 至少有两个相等 \\
-\hline
-本征向量 & 每个本征值对应唯一方向 & 每个简并本征值对应子空间 \\
-\hline
-正交性 & 不同本征值的本征向量天然正交 & 需在简并子空间内正交化 \\
-\hline
-测量后态 & 塌缩到唯一本征态 & 塌缩到简并子空间内某态 \\
-\hline
-\end{tabular}
-\end{center}
 
 \paragraph{谱投影形式（简并情形）}
 当本征值存在简并时，对应本征向量不唯一，但\textbf{简并子空间}是确定的。
@@ -2017,23 +2009,12 @@ U=\frac{1}{\sqrt2}\begin{pmatrix}1&1\\-1&1\end{pmatrix}
 \[
 |\tilde e_i\rangle=\sum_{j=1}^2 |e_j\rangle\,U_{ji}\quad (i=1,2)
 \]
-得到
+这等价于把基向量“并成列矩阵”，再右乘 $U$：
 \[
-|\tilde e_1\rangle=\frac{1}{\sqrt2}\begin{pmatrix}1\\-1\\0\end{pmatrix},\quad
-|\tilde e_2\rangle=\frac{1}{\sqrt2}\begin{pmatrix}1\\1\\0\end{pmatrix}
+\big(|\tilde e_1\rangle\ |\tilde e_2\rangle\big)
+=\big(|e_1\rangle\ |e_2\rangle\big)U
 \]
-但
-\[
-|\tilde e_1\rangle\langle\tilde e_1|
-=\frac{1}{2}\begin{pmatrix}1&-1&0\\-1&1&0\\0&0&0\end{pmatrix},\quad
-|\tilde e_2\rangle\langle\tilde e_2|
-=\frac{1}{2}\begin{pmatrix}1&1&0\\1&1&0\\0&0&0\end{pmatrix}
-\]
-相加得到
-\[
-|\tilde e_1\rangle\langle\tilde e_1|+|\tilde e_2\rangle\langle\tilde e_2|
-=\begin{pmatrix}1&0&0\\0&1&0\\0&0&0\end{pmatrix}=P_2
-\]
+（见 2.7 节“基变换与酉矩阵”的列矩阵写法）。因此这是子空间内的酉变换，$P_2$ 保持不变。
 \end{example}
 
 \begin{example}
@@ -2050,44 +2031,6 @@ H=1\,|\phi_1\rangle\langle\phi_1|+(-1)\,|\phi_2\rangle\langle\phi_2|
 \]
 \end{example}
 
-\subsection{【背】2×2厄米矩阵的本征值公式}
-
-对 $H=\begin{pmatrix}a&b\\b^\ast&d\end{pmatrix}$（$a,d\in\mathbb{R}$），本征值为
-\[
-\lambda_\pm = \frac{a+d}{2} \pm \sqrt{\left(\frac{a-d}{2}\right)^2 + |b|^2}
-\]
-
-\begin{example}
-\textbf{求 $\sigma_x$ 的本征值与本征向量}
-
-$\sigma_x=\begin{pmatrix}0&1\\1&0\end{pmatrix}$，这里 $a=d=0$，$b=1$，$|b|^2=1$。
-
-\textbf{本征值：}
-\[
-\lambda_\pm = 0 \pm \sqrt{0+1} = \pm 1
-\]
-
-\textbf{本征向量：}
-
-对 $\lambda_+=1$，解 $(\sigma_x-I)|v\rangle=0$：
-\[
-\begin{pmatrix}-1&1\\1&-1\end{pmatrix}\begin{pmatrix}x\\y\end{pmatrix}=0
-\Rightarrow -x+y=0 \Rightarrow x=y
-\]
-取 $|v_+\rangle = \frac{1}{\sqrt{2}}\begin{pmatrix}1\\1\end{pmatrix} = |+\rangle$
-
-对 $\lambda_-=-1$，解 $(\sigma_x+I)|v\rangle=0$：
-\[
-\begin{pmatrix}1&1\\1&1\end{pmatrix}\begin{pmatrix}x\\y\end{pmatrix}=0
-\Rightarrow x+y=0 \Rightarrow x=-y
-\]
-取 $|v_-\rangle = \frac{1}{\sqrt{2}}\begin{pmatrix}1\\-1\end{pmatrix} = |-\rangle$
-
-\textbf{验证正交：}$\langle+|-\rangle = \frac{1}{2}(1-1)=0$ \checkmark
-
-\textbf{谱分解：}$\sigma_x = (+1)|+\rangle\langle+| + (-1)|-\rangle\langle-|$
-\end{example}
-
 \begin{example}
 \textbf{完整本征分解}
 
@@ -2097,9 +2040,14 @@ $\sigma_x=\begin{pmatrix}0&1\\1&0\end{pmatrix}$，这里 $a=d=0$，$b=1$，$|b|^
 \begin{enumerate}
   \item 验证厄米性：$H^\dagger=\begin{pmatrix}1&-(-i)^\ast\\i^\ast&3\end{pmatrix}=\begin{pmatrix}1&i\\-i&3\end{pmatrix}=H$ \checkmark
 
-  \item 计算本征值（$a=1,d=3,b=i,|b|^2=1$）：
+  \item 计算本征值：解 $\det(H-\lambda I)=0$。
   \[
-  \lambda_\pm = \frac{1+3}{2}\pm\sqrt{\left(\frac{1-3}{2}\right)^2+1} = 2\pm\sqrt{1+1} = 2\pm\sqrt{2}
+  \det\!\begin{pmatrix}1-\lambda&i\\-i&3-\lambda\end{pmatrix}
+  =(1-\lambda)(3-\lambda)-1=\lambda^2-4\lambda+2=0
+  \]
+  因此
+  \[
+  \lambda_\pm=2\pm\sqrt{2}
   \]
 
   \item 对 $\lambda_-=2-\sqrt{2}$，解 $(H-\lambda_- I)|v\rangle=0$：
@@ -3306,11 +3254,11 @@ H=\frac{1}{\sqrt{2}}\begin{pmatrix}1&1\\1&-1\end{pmatrix}
 \]
 \[
 Y=\begin{pmatrix}0&-i\\i&0\end{pmatrix},\quad
-[S]=\begin{pmatrix}1&0\\0&i\end{pmatrix},\quad
-[R_\phi]=\begin{pmatrix}1&0\\0&e^{i\phi}\end{pmatrix}
+S=\begin{pmatrix}1&0\\0&i\end{pmatrix},\quad
+R_\phi=\begin{pmatrix}1&0\\0&e^{i\phi}\end{pmatrix}
 \]
 \[
-[T]=\begin{pmatrix}1&0\\0&e^{i\pi/4}\end{pmatrix}
+T=\begin{pmatrix}1&0\\0&e^{i\pi/4}\end{pmatrix}
 \]
 \paragraph{【了解】常用关系（补充）}
 $H^\dagger=H=H^{-1}$，$X^2=Y^2=Z^2=I$，$S^2=Z$，$T^2=S$，
@@ -3329,8 +3277,8 @@ R_x(\theta)=e^{-i\theta X/2},\quad R_y(\theta)=e^{-i\theta Y/2},\quad R_z(\theta
 当 $\theta=\pi$ 时，$R_x(\pi)\sim X$、$R_y(\pi)\sim Y$、$R_z(\pi)\sim Z$（忽略全局相位）。
 \paragraph{【了解】旋转门的矩阵形式（补充）}
 \[
-[R_z(\theta)]=\begin{pmatrix}e^{-i\theta/2}&0\\0&e^{i\theta/2}\end{pmatrix},\qquad
-[R_x(\theta)]=\begin{pmatrix}\cos\frac{\theta}{2}&-i\sin\frac{\theta}{2}\\-i\sin\frac{\theta}{2}&\cos\frac{\theta}{2}\end{pmatrix}
+R_z(\theta)=\begin{pmatrix}e^{-i\theta/2}&0\\0&e^{i\theta/2}\end{pmatrix},\qquad
+R_x(\theta)=\begin{pmatrix}\cos\frac{\theta}{2}&-i\sin\frac{\theta}{2}\\-i\sin\frac{\theta}{2}&\cos\frac{\theta}{2}\end{pmatrix}
 \]
 
 \subsection{【背】受控运算}
