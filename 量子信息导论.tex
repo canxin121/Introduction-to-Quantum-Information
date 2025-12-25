@@ -1440,6 +1440,13 @@ Pauli 矩阵是三个 $2\times 2$ 厄米算符，在标准计算基 $\{|0\rangle
 \]
 在量子信息中，通常默认 $\sigma_x$, $\sigma_y$, $\sigma_z$ 指的就是这些矩阵。
 
+\paragraph{记号约定}
+有时用下标 $i,j\in\{x,y,z\}$ 表示三个 Pauli 矩阵中的任意一个：
+\[
+\sigma_i \in \{\sigma_x,\sigma_y,\sigma_z\}
+\]
+例如 $\{\sigma_i,\sigma_j\}=2\delta_{ij}I$ 表示"当 $i=j$ 时反对易子为 $2I$，当 $i\neq j$ 时为 $0$"。
+
 \paragraph{性质}
 \begin{itemize}
   \item 都是厄米的：$\sigma_i=\sigma_i^\dagger$
@@ -1456,14 +1463,6 @@ Pauli 矩阵是三个 $2\times 2$ 厄米算符，在标准计算基 $\{|0\rangle
 H=a_0 I + a_x\sigma_x + a_y\sigma_y + a_z\sigma_z,\quad a_0,a_x,a_y,a_z\in\mathbb{R}
 \]
 
-\paragraph{Pauli 矩阵的本征态（补充）}
-\[
-\sigma_z:\ |0\rangle,|1\rangle;\qquad
-\sigma_x:\ |+\rangle=\frac{|0\rangle+|1\rangle}{\sqrt{2}},\ |-\rangle=\frac{|0\rangle-|1\rangle}{\sqrt{2}}
-\]
-\[
-\sigma_y:\ |+i\rangle=\frac{|0\rangle+i|1\rangle}{\sqrt{2}},\ |-i\rangle=\frac{|0\rangle-i|1\rangle}{\sqrt{2}}
-\]
 \paragraph{与自旋的关系（补充）}
 对自旋 $1/2$ 粒子，$S_i=\frac{\hbar}{2}\sigma_i$，测量结果对应 $\pm\frac{\hbar}{2}$。
 
@@ -2071,6 +2070,40 @@ H=1\,|\phi_1\rangle\langle\phi_1|+(-1)\,|\phi_2\rangle\langle\phi_2|
 
 \section{【背】张量积（Tensor Product）}
 
+\paragraph{为什么需要张量积？}
+在量子信息中，我们经常需要处理\textbf{多个量子比特组成的复合系统}。例如：
+\begin{itemize}
+  \item 两个量子比特：Alice 有一个量子比特，Bob 有一个量子比特
+  \item 量子纠缠态：如 Bell 态 $|\Phi^+\rangle=\frac{|00\rangle+|11\rangle}{\sqrt{2}}$
+  \item 量子计算：多比特量子门（如 CNOT）作用于两个量子比特
+  \item 量子通信：量子隐形传态需要共享纠缠对
+\end{itemize}
+
+\textbf{核心问题}：如何用数学描述"两个独立的量子系统组合在一起"？
+
+\textbf{答案}：张量积 $\otimes$ 是描述复合量子系统的标准工具。
+
+\paragraph{张量积的物理意义}
+\begin{itemize}
+  \item \textbf{独立系统的组合}：若 Alice 的量子比特处于态 $|\psi_A\rangle$，Bob 的处于态 $|\psi_B\rangle$，
+  则整个系统处于态 $|\psi_A\rangle\otimes|\psi_B\rangle$
+  \item \textbf{维度增长}：单比特是 2 维空间，两比特是 $2\times 2=4$ 维空间，$n$ 比特是 $2^n$ 维空间
+  \item \textbf{纠缠的基础}：纠缠态（如 Bell 态）\textbf{无法}写成 $|a\rangle\otimes|b\rangle$ 的形式，
+  这正是量子系统超越经典的核心！
+  \item \textbf{多比特门的构造}：CNOT 门作用于两比特系统，其矩阵通过张量积构造
+\end{itemize}
+
+\paragraph{实际应用举例}
+\begin{itemize}
+  \item \textbf{计算基展开}：两比特态 $|\psi\rangle=\alpha|00\rangle+\beta|01\rangle+\gamma|10\rangle+\delta|11\rangle$，
+  其中 $|00\rangle=|0\rangle\otimes|0\rangle$ 等
+  \item \textbf{Bell 态制备}：从 $|00\rangle$ 出发，通过 $H\otimes I$ 和 CNOT 制备纠缠态
+  \item \textbf{部分测量}：测量两比特系统中的第一个比特，需要用张量积结构计算约化密度矩阵
+  \item \textbf{量子算法}：Shor 算法、Grover 算法等都在多比特空间中运行
+\end{itemize}
+
+\textbf{总结}：张量积是量子信息的"语言"——没有它，我们无法谈论多比特系统、纠缠、量子门、量子算法。
+
 \subsection{【背】定义与维度}
 
 对两个向量空间 $V_1,V_2$，其张量积空间 $V_1\otimes V_2$ 满足
@@ -2094,6 +2127,27 @@ a_{21}B & a_{22}B
 \end{pmatrix}
 \]
 它与向量张量积的定义一致，可用于构造多比特算符。
+
+\begin{example}
+\textbf{计算矩阵的张量积}
+
+计算 $X\otimes Z$，其中 $X=\begin{pmatrix}0&1\\1&0\end{pmatrix}$，$Z=\begin{pmatrix}1&0\\0&-1\end{pmatrix}$
+
+\textbf{解：}根据定义
+\begin{align*}
+X\otimes Z &= \begin{pmatrix}0&1\\1&0\end{pmatrix}\otimes\begin{pmatrix}1&0\\0&-1\end{pmatrix} \\
+&= \begin{pmatrix}
+0\cdot\begin{pmatrix}1&0\\0&-1\end{pmatrix} & 1\cdot\begin{pmatrix}1&0\\0&-1\end{pmatrix} \\[0.5em]
+1\cdot\begin{pmatrix}1&0\\0&-1\end{pmatrix} & 0\cdot\begin{pmatrix}1&0\\0&-1\end{pmatrix}
+\end{pmatrix} \\
+&= \begin{pmatrix}
+0 & 0 & 1 & 0 \\
+0 & 0 & 0 & -1 \\
+1 & 0 & 0 & 0 \\
+0 & -1 & 0 & 0
+\end{pmatrix}
+\end{align*}
+\end{example}
 
 \subsection{【背】运算规则}
 
@@ -2157,10 +2211,10 @@ S=\sum_{i,j} |ij\rangle\langle ji|
 
 \paragraph{两比特计算基}
 \begin{align*}
-|00\rangle &= |0\rangle\otimes|0\rangle = \begin{pmatrix}1\\0\\0\\0\end{pmatrix} \\
-|01\rangle &= |0\rangle\otimes|1\rangle = \begin{pmatrix}0\\1\\0\\0\end{pmatrix} \\
-|10\rangle &= |1\rangle\otimes|0\rangle = \begin{pmatrix}0\\0\\1\\0\end{pmatrix} \\
-|11\rangle &= |1\rangle\otimes|1\rangle = \begin{pmatrix}0\\0\\0\\1\end{pmatrix}
+|00\rangle &= |0\rangle\otimes{}|0\rangle = \begin{pmatrix}1\\0\\0\\0\end{pmatrix} \\
+|01\rangle &= |0\rangle\otimes{}|1\rangle = \begin{pmatrix}0\\1\\0\\0\end{pmatrix} \\
+|10\rangle &= |1\rangle\otimes{}|0\rangle = \begin{pmatrix}0\\0\\1\\0\end{pmatrix} \\
+|11\rangle &= |1\rangle\otimes{}|1\rangle = \begin{pmatrix}0\\0\\0\\1\end{pmatrix}
 \end{align*}
 
 \begin{example}
@@ -2248,11 +2302,12 @@ S=\sum_{i,j} |ij\rangle\langle ji|
 \subsection{【背】重要例子}
 
 \paragraph{Pauli矩阵}
+Pauli 矩阵 $\sigma_x, \sigma_y, \sigma_z$ 之间的对易与反对易关系（定义见 3.9 节）：
 \begin{itemize}
   \item $[\sigma_x,\sigma_y]=2i\sigma_z$（不对易）
   \item $[\sigma_y,\sigma_z]=2i\sigma_x$
   \item $[\sigma_z,\sigma_x]=2i\sigma_y$
-  \item $\{\sigma_i,\sigma_j\}=2\delta_{ij}I$（反对易）
+  \item $\{\sigma_i,\sigma_j\}=2\delta_{ij}I$（反对易，其中 $i,j\in\{x,y,z\}$）
   \item $[\sigma_i,I]=0$（任何算符与单位矩阵对易）
 \end{itemize}
 
@@ -2304,11 +2359,49 @@ S=\sum_{i,j} |ij\rangle\langle ji|
 
 \paragraph{陈述} 孤立量子系统的状态由复希尔伯特空间中的一个\textbf{归一化态矢} $|\psi\rangle$ 描述（或等价地，由相差全局相位的态矢等价类描述）。
 
+\paragraph{为什么需要复数？为什么需要相位？}
+量子态的系数是\textbf{复数}而非实数，这是量子力学的核心特征：
+\begin{itemize}
+  \item \textbf{复数表示}：任意复数可写成 $\alpha=|\alpha|e^{i\theta}$，其中 $|\alpha|$ 是\textbf{模}（幅度），$\theta$ 是\textbf{相位}（辐角）
+  \item \textbf{相位的作用}：相位决定了量子态之间的\textbf{干涉行为}
+  \item \textbf{为什么实数不够}：如果系数都是实数，量子态只能是"正叠加"或"负叠加"，无法产生量子干涉现象（如双缝实验的干涉条纹）
+\end{itemize}
+
+\textbf{物理类比}：量子态的相位类似于波的相位——两个波相遇时，相位决定了是相长干涉还是相消干涉。
+
 \paragraph{归一化与全局相位}
 \[
 \langle\psi|\psi\rangle = 1, \qquad |\psi\rangle \sim e^{i\gamma}|\psi\rangle
 \]
-全局相位 $e^{i\gamma}$ 不影响任何测量概率；\textbf{相对相位}才是可观测的。
+
+\paragraph{全局相位 vs 相对相位}
+\begin{itemize}
+  \item \textbf{全局相位}：整个态乘以 $e^{i\gamma}$，即 $|\psi\rangle\to e^{i\gamma}|\psi\rangle$
+
+  例如：$|\psi\rangle=\frac{1}{\sqrt{2}}(|0\rangle+|1\rangle)$ 与 $|\psi'\rangle=e^{i\pi/4}\frac{1}{\sqrt{2}}(|0\rangle+|1\rangle)$ 是\textbf{同一个量子态}
+
+  \textbf{原因}：全局相位不影响任何测量概率，物理上不可观测
+
+  \item \textbf{相对相位}：不同项之间的相位差，如 $\alpha|0\rangle+\beta|1\rangle$ 中 $\beta/\alpha$ 的辐角
+
+  例如：$|\psi_1\rangle=\frac{1}{\sqrt{2}}(|0\rangle+|1\rangle)$ 与 $|\psi_2\rangle=\frac{1}{\sqrt{2}}(|0\rangle-|1\rangle)$ 是\textbf{不同的量子态}
+
+  \textbf{原因}：相对相位影响干涉结果，物理上可观测（例如通过不同基的测量）
+\end{itemize}
+
+\textbf{关键结论}：只有\textbf{相对相位}才是物理上有意义的；全局相位可以任意选取（通常选为0）。
+
+\begin{example}
+\textbf{全局相位不影响测量概率}
+
+设 $|\psi'\rangle=e^{i\gamma}|\psi\rangle$，则对任意测量态 $|\phi\rangle$，
+\[
+|\langle\phi|\psi'\rangle|^2 = |\langle\phi|e^{i\gamma}|\psi\rangle|^2
+= |e^{i\gamma}|^2|\langle\phi|\psi\rangle|^2
+= |\langle\phi|\psi\rangle|^2
+\]
+因此全局相位不可观测。
+\end{example}
 
 \paragraph{叠加原理}
 若 $|\psi_1\rangle,|\psi_2\rangle$ 是允许的量子态，则
@@ -2323,6 +2416,14 @@ c_1|\psi_1\rangle+c_2|\psi_2\rangle
 |\psi\rangle=\alpha|0\rangle+\beta|1\rangle,\quad \alpha,\beta\in\mathbb{C},\quad |\alpha|^2+|\beta|^2=1
 \]
 $|0\rangle,|1\rangle$ 为\textbf{计算基}，两者正交归一。
+
+\paragraph{概率解释（Born 规则预览）}
+系数的模方给出测量概率（详见公设三）：在计算基 $\{|0\rangle,|1\rangle\}$ 上测量时，
+\[
+P(0)=|\alpha|^2,\quad P(1)=|\beta|^2
+\]
+归一化条件 $|\alpha|^2+|\beta|^2=1$ 保证总概率为 1。
+
 \textbf{不同基表示：}同一态可在任意正交基下展开，例如
 \[
 |+\rangle=\frac{|0\rangle+|1\rangle}{\sqrt{2}},\quad
@@ -2332,12 +2433,122 @@ $|0\rangle,|1\rangle$ 为\textbf{计算基}，两者正交归一。
 \begin{example}
 \textbf{由测量概率写出态}
 
-若测得自旋向上的概率为 $1/3$、向下为 $2/3$，则可写
+若在计算基测量时，得到 $|0\rangle$ 的概率为 $1/3$、$|1\rangle$ 的概率为 $2/3$，则态可写为
 \[
-|\psi\rangle=\sqrt{\frac{1}{3}}|0\rangle+\sqrt{\frac{2}{3}}|1\rangle
+|\psi\rangle=\sqrt{\frac{1}{3}}|0\rangle+e^{i\varphi}\sqrt{\frac{2}{3}}|1\rangle
 \]
-相对相位会影响干涉，但不改变单次测量的概率。
+其中 $e^{i\varphi}$ 是相对相位（可取任意值）。通常简化取 $\varphi=0$。
 \end{example}
+
+\paragraph{施特恩--盖拉赫实验（量子比特的实验起源）}
+
+施特恩-盖拉赫实验（1922年）是展示量子测量和二能级系统的经典实验。下面用量子信息的语言完整描述。
+
+\textbf{量子系统}：电子自旋是一个\textbf{二能级系统}，希尔伯特空间为 $\mathbb{C}^2$。
+
+\textbf{计算基（$z$ 基）}：
+\[
+|\uparrow\rangle = |0\rangle = \begin{pmatrix}1\\0\end{pmatrix},\quad
+|\downarrow\rangle = |1\rangle = \begin{pmatrix}0\\1\end{pmatrix}
+\]
+这两个态是自旋沿 $z$ 方向的\textbf{本征态}。
+
+\textbf{一般量子态}：在测量前，自旋可以处于任意叠加态：
+\[
+|\psi\rangle = \alpha|\uparrow\rangle + \beta|\downarrow\rangle,\quad |\alpha|^2+|\beta|^2=1
+\]
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.7\linewidth]{fig_stern_gerlach.png}
+  \caption{施特恩--盖拉赫实验装置示意：非均匀磁场导致自旋分束。}
+\end{figure}
+
+\textbf{测量过程}：S-G 装置实际上是对自旋进行\textbf{投影测量}。
+
+沿 $z$ 方向测量对应的投影算符为：
+\[
+P_\uparrow = |\uparrow\rangle\langle\uparrow| = \begin{pmatrix}1&0\\0&0\end{pmatrix},\quad
+P_\downarrow = |\downarrow\rangle\langle\downarrow| = \begin{pmatrix}0&0\\0&1\end{pmatrix}
+\]
+满足 $P_\uparrow + P_\downarrow = I$（完备性）。
+
+\textbf{测量概率（Born 规则）}：对态 $|\psi\rangle$ 测量，得到结果的概率为：
+\[
+P(\uparrow) = \langle\psi|P_\uparrow|\psi\rangle = |\langle\uparrow|\psi\rangle|^2 = |\alpha|^2
+\]
+\[
+P(\downarrow) = \langle\psi|P_\downarrow|\psi\rangle = |\langle\downarrow|\psi\rangle|^2 = |\beta|^2
+\]
+
+\textbf{实验结果}：银原子束\textbf{分裂为两束}，对应两个可能的测量结果。这证明：
+\begin{itemize}
+  \item 测量结果是\textbf{离散的}（只有两个可能值），不是连续的
+  \item 测量是\textbf{随机的}：相同制备的原子可能得到不同结果
+  \item 分束比例由概率 $|\alpha|^2:|\beta|^2$ 决定
+\end{itemize}
+
+\textbf{态塌缩}：测量后，量子态塌缩到对应的本征态：
+\[
+|\psi\rangle = \alpha|\uparrow\rangle + \beta|\downarrow\rangle
+\xrightarrow{\text{测得}\uparrow} |\uparrow\rangle
+\quad\text{或}\quad
+\xrightarrow{\text{测得}\downarrow} |\downarrow\rangle
+\]
+
+\textbf{连续测量：不同基的测量}
+
+现在考虑沿 $x$ 方向测量。$x$ 基的本征态为：
+\[
+|\rightarrow\rangle = |+\rangle = \frac{1}{\sqrt{2}}(|\uparrow\rangle+|\downarrow\rangle),\quad
+|\leftarrow\rangle = |-\rangle = \frac{1}{\sqrt{2}}(|\uparrow\rangle-|\downarrow\rangle)
+\]
+
+\textbf{关键观察}：$z$ 基的本征态在 $x$ 基下是\textbf{叠加态}！
+\[
+|\uparrow\rangle = \frac{1}{\sqrt{2}}|\rightarrow\rangle + \frac{1}{\sqrt{2}}|\leftarrow\rangle
+\]
+
+\textbf{连续测量实验}：
+\begin{enumerate}
+  \item 第一次沿 $z$ 方向测量，得到 $|\uparrow\rangle$（概率 $|\alpha|^2$）
+  \item 态塌缩到 $|\uparrow\rangle$
+  \item 第二次沿 $x$ 方向测量，得到 $|\rightarrow\rangle$ 或 $|\leftarrow\rangle$ 的概率各为：
+  \[
+  P(\rightarrow) = |\langle\rightarrow|\uparrow\rangle|^2 = \left|\frac{1}{\sqrt{2}}\right|^2 = \frac{1}{2}
+  \]
+  \[
+  P(\leftarrow) = |\langle\leftarrow|\uparrow\rangle|^2 = \left|\frac{1}{\sqrt{2}}\right|^2 = \frac{1}{2}
+  \]
+  \item 结果：原本"确定"是 $|\uparrow\rangle$ 的原子束，在 $x$ 方向测量时\textbf{又分裂为两束}！
+\end{enumerate}
+
+\textbf{量子信息的核心概念}：
+\begin{itemize}
+  \item \textbf{测量基的选择}：同一个态在不同基下有不同的表示
+  \item \textbf{不确定性}：在 $z$ 基确定的态（$|\uparrow\rangle$），在 $x$ 基是完全不确定的（50\%-50\%）
+  \item \textbf{不对易性}：$z$ 和 $x$ 方向的测量算符不对易，无法同时确定两个方向的自旋
+\end{itemize}
+
+\textbf{数学刻画}：测量算符（可观测量）为 Pauli 矩阵：
+\[
+\sigma_z = |\uparrow\rangle\langle\uparrow| - |\downarrow\rangle\langle\downarrow| = \begin{pmatrix}1&0\\0&-1\end{pmatrix}
+\]
+\[
+\sigma_x = |\rightarrow\rangle\langle\rightarrow| - |\leftarrow\rangle\langle\leftarrow| = \begin{pmatrix}0&1\\1&0\end{pmatrix}
+\]
+它们满足 $[\sigma_x,\sigma_z]=2i\sigma_y\neq 0$（不对易）。
+
+\textbf{总结}：施特恩-盖拉赫实验直接展示了量子信息的核心要素：
+\begin{enumerate}
+  \item 二能级系统（量子比特）
+  \item Born 规则（$P=|\langle\phi|\psi\rangle|^2$）
+  \item 测量导致态塌缩
+  \item 测量基的选择和不确定性原理
+\end{enumerate}
+
+\paragraph{量子比特的物理载体}
+任意二能级系统均可作为 qubit，如光子偏振、电子自旋、原子两能级等。
 
 \paragraph{Bloch球表示}
 任意纯态等价表示为
@@ -2352,38 +2563,12 @@ $(\theta,\varphi)$ 对应 Bloch 球面上一点。
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.45\linewidth]{fig_bloch_sphere.png}
+  \reflectbox{\includegraphics[width=0.45\linewidth,angle=180]{fig_bloch_sphere.png}}
   \caption{Bloch 球：单比特纯态对应球面点，混态对应球内点。}
-\end{figure}
-
-\paragraph{施特恩--盖拉赫（亦称施特恩-格拉赫实验）（直观起点）}
-高温银原子束穿过非均匀磁场后\textbf{分裂为两束}，而非经典预期的连续条纹。
-这表明自旋具有\textbf{离散}取值（如 $\pm\frac{1}{2}$），两能级系统可用二维希尔伯特空间描述，
-为量子比特提供物理直觉。
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.7\linewidth]{fig_stern_gerlach.png}
-  \caption{施特恩--盖拉赫实验装置示意：非均匀磁场导致自旋分束。}
 \end{figure}
 
 \paragraph{纯态与混合态}
 纯态可由单个态矢描述；混合态来自不完备知识或统计混合，需用\textbf{密度算子}描述。
-
-\paragraph{量子比特的物理载体}
-任意二能级系统均可作为 qubit，如光子偏振、电子自旋、原子两能级等。
-
-\begin{example}
-\textbf{全局相位不影响测量概率}
-
-设 $|\psi'\rangle=e^{i\gamma}|\psi\rangle$，则对任意测量态 $|\phi\rangle$，
-\[
-|\langle\phi|\psi'\rangle|^2 = |\langle\phi|e^{i\gamma}|\psi\rangle|^2
-= |e^{i\gamma}|^2|\langle\phi|\psi\rangle|^2
-= |\langle\phi|\psi\rangle|^2
-\]
-因此全局相位不可观测。
-\end{example}
 
 \subsection{【背】公设二（假设二）：演化（Unitary Evolution）}
 
@@ -2468,7 +2653,7 @@ $E_?$ 表示“不确定/失败”结果（$\eta\in[0,1]$）。此类设计常�
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.85\linewidth]{fig_measurement_model.png}
+  \scalebox{1}[-1]{\includegraphics[width=0.85\linewidth]{fig_measurement_model.png}}
   \caption{测量的间接模型：系统与辅助体系经酉演化后进行读出。}
 \end{figure}
 
@@ -2548,6 +2733,108 @@ $X$ 基为 $|+\rangle,|-\rangle$，且 $|0\rangle=\frac{|+\rangle+|-\rangle}{\sq
 因此测得 $|+\rangle$ 与 $|-\rangle$ 的概率均为 $1/2$。
 \end{example}
 
+\begin{example}
+\textbf{一般态的测量概率计算}
+
+设 $|\psi\rangle=\frac{1}{\sqrt{3}}|0\rangle+\sqrt{\frac{2}{3}}e^{i\pi/4}|1\rangle$。
+
+\textbf{(1) 在计算基 $\{|0\rangle,|1\rangle\}$ 测量：}
+
+投影算符：$P_0=|0\rangle\langle0|$，$P_1=|1\rangle\langle1|$
+
+概率：
+\[
+p(0)=|\langle0|\psi\rangle|^2=\left|\frac{1}{\sqrt{3}}\right|^2=\frac{1}{3}
+\]
+\[
+p(1)=|\langle1|\psi\rangle|^2=\left|\sqrt{\frac{2}{3}}e^{i\pi/4}\right|^2=\frac{2}{3}
+\]
+
+测后态：若测得0，态塌缩为 $|0\rangle$；若测得1，态塌缩为 $|1\rangle$。
+
+\textbf{(2) 在 Hadamard 基 $\{|+\rangle,|-\rangle\}$ 测量：}
+
+首先将 $|\psi\rangle$ 在 $\{|+\rangle,|-\rangle\}$ 基下展开。由于
+\[
+|0\rangle=\frac{|+\rangle+|-\rangle}{\sqrt{2}},\quad |1\rangle=\frac{|+\rangle-|-\rangle}{\sqrt{2}}
+\]
+
+代入得：
+\begin{align*}
+|\psi\rangle &= \frac{1}{\sqrt{3}}\cdot\frac{|+\rangle+|-\rangle}{\sqrt{2}}+\sqrt{\frac{2}{3}}e^{i\pi/4}\cdot\frac{|+\rangle-|-\rangle}{\sqrt{2}} \\
+&= \left(\frac{1}{\sqrt{6}}+\sqrt{\frac{1}{3}}e^{i\pi/4}\right)|+\rangle + \left(\frac{1}{\sqrt{6}}-\sqrt{\frac{1}{3}}e^{i\pi/4}\right)|-\rangle
+\end{align*}
+
+概率：
+\[
+p(+)=\left|\frac{1}{\sqrt{6}}+\sqrt{\frac{1}{3}}e^{i\pi/4}\right|^2,\quad
+p(-)=\left|\frac{1}{\sqrt{6}}-\sqrt{\frac{1}{3}}e^{i\pi/4}\right|^2
+\]
+
+\textbf{关键观察}：相位 $e^{i\pi/4}$ 在计算基测量中不影响概率（只有模方），但在 Hadamard 基测量中会影响干涉项！
+\end{example}
+
+\begin{example}
+\textbf{连续测量与态塌缩}
+
+初始态：$|\psi\rangle=\frac{1}{\sqrt{2}}(|0\rangle+|1\rangle)=|+\rangle$
+
+\textbf{第一次测量}：在计算基测量
+\begin{itemize}
+  \item 概率：$p(0)=p(1)=1/2$
+  \item 假设测得结果为 $0$，态塌缩为 $|0\rangle$
+\end{itemize}
+
+\textbf{第二次测量}：对塌缩后的态 $|0\rangle$ 在计算基再次测量
+\begin{itemize}
+  \item 概率：$p(0)=1$，$p(1)=0$
+  \item 结果一定是 $0$（可重复性）
+\end{itemize}
+
+\textbf{第三次测量}：对 $|0\rangle$ 在 Hadamard 基测量
+\begin{itemize}
+  \item $|0\rangle=\frac{1}{\sqrt{2}}(|+\rangle+|-\rangle)$
+  \item 概率：$p(+)=p(-)=1/2$
+  \item 假设测得 $|+\rangle$，态塌缩为 $|+\rangle$
+\end{itemize}
+
+\textbf{第四次测量}：对 $|+\rangle$ 在计算基测量
+\begin{itemize}
+  \item $|+\rangle=\frac{1}{\sqrt{2}}(|0\rangle+|1\rangle)$
+  \item 概率：$p(0)=p(1)=1/2$
+  \item 原本确定的 $|0\rangle$ 信息丢失了！
+\end{itemize}
+
+\textbf{结论}：不同基的测量不对易——在一个基确定的信息，在另一个基测量时会被破坏。
+\end{example}
+
+\begin{example}
+\textbf{用 POVM 区分非正交态}
+
+考虑两个非正交态：$|0\rangle$ 和 $|+\rangle=\frac{1}{\sqrt{2}}(|0\rangle+|1\rangle)$，出现概率各为 $1/2$。
+
+\textbf{问题}：能否完美区分它们？
+
+\textbf{答案}：不能！因为 $\langle0|+\rangle=\frac{1}{\sqrt{2}}\neq 0$（非正交）。
+
+\textbf{策略1}：投影测量到 $\{|0\rangle,|1\rangle\}$
+\begin{itemize}
+  \item 若测得 $|1\rangle$，确定是 $|+\rangle$（成功）
+  \item 若测得 $|0\rangle$，可能是 $|0\rangle$（概率1）或 $|+\rangle$（概率1/2）——无法确定！
+  \item 总错误率：$P_{\text{err}}=\frac{1}{2}\cdot\frac{1}{2}=\frac{1}{4}$
+\end{itemize}
+
+\textbf{策略2}：允许"不确定"结果的 POVM
+
+设计三元 POVM $\{E_0,E_+,E_?\}$，其中 $E_?$ 表示"不确定"：
+\[
+E_0=(1-\eta)|0\rangle\langle0|,\quad E_+=\frac{1-\eta}{2}(|-\rangle\langle-|),\quad E_?=\eta I
+\]
+选择 $\eta=\frac{1}{2}$，可使得在确定时永不出错，但有50\%概率得到"不确定"结果。
+
+\textbf{权衡}：降低错误率 vs 增加失败率。
+\end{example}
+
 \paragraph{【了解】施特恩--盖拉赫测量模型（补充）}
 沿 $z$ 方向的 SG 装置对应投影算符
 \[
@@ -2586,9 +2873,327 @@ P_0=|0\rangle\langle 0|,\quad P_1=|1\rangle\langle 1|
 \]
 例如 $|1\rangle\otimes|0\rangle=|10\rangle=|2\rangle$。
 具体次序应与电路图中的线路顺序保持一致。
+
+\paragraph{【背】复合系统的部分测量}
+
+在多比特系统中，我们经常需要\textbf{只测量部分比特}，而不测量其他比特。这是量子信息处理的核心操作。
+
+\textbf{问题设定}：假设有两个量子比特：
+\begin{itemize}
+  \item \textbf{系统 $A$}：第一个量子比特（也叫 Alice 的比特）
+  \item \textbf{系统 $B$}：第二个量子比特（也叫 Bob 的比特）
+  \item \textbf{复合系统 $AB$}：两个比特组成的整体系统，希尔伯特空间是 $\mathcal{H}_A\otimes\mathcal{H}_B$
+\end{itemize}
+
+整个系统的态可以写成：
+\[
+|\psi\rangle_{AB} = \sum_{i,j\in\{0,1\}} c_{ij}|i\rangle_A\otimes|j\rangle_B = \sum_{i,j} c_{ij}|ij\rangle
+\]
+其中 $|i\rangle_A$ 表示系统 $A$ 的态，$|j\rangle_B$ 表示系统 $B$ 的态。
+
+\textbf{目标}：只测量系统 $A$（第一个比特），不测量系统 $B$（第二个比特）。
+
+\textbf{数学描述}：只测量 $A$ 的算符形式为：
+\[
+M_m^A = M_m \otimes I_B
+\]
+
+\textbf{符号解释}：
+\begin{itemize}
+  \item $M_m$：\textbf{作用在单个量子比特 $A$ 上的测量算符}（$2\times 2$ 矩阵）
+
+  例如，在计算基测量 $A$ 时：
+  \[
+  M_0 = P_0 = |0\rangle\langle0| = \begin{pmatrix}1&0\\0&0\end{pmatrix},\quad
+  M_1 = P_1 = |1\rangle\langle1| = \begin{pmatrix}0&0\\0&1\end{pmatrix}
+  \]
+
+  \item $I_B$：\textbf{作用在量子比特 $B$ 上的单位算符}（$2\times 2$ 单位矩阵）
+  \[
+  I_B = \begin{pmatrix}1&0\\0&1\end{pmatrix}
+  \]
+
+  \item $M_m \otimes I_B$：\textbf{张量积}，得到作用在复合系统 $AB$ 上的算符（$4\times 4$ 矩阵）
+\end{itemize}
+
+\textbf{物理意义}：
+\begin{itemize}
+  \item $M_m$ 对系统 $A$ 进行测量
+  \item $I_B$ 表示"对系统 $B$ 什么也不做"——让 $B$ 保持原样，不测量它
+  \item 整个算符 $M_m\otimes I_B$ 的作用是：测量 $A$，同时保留 $B$ 的信息
+\end{itemize}
+
+\textbf{具体例子}：在计算基测量第一个比特
+
+\textbf{测量算符 0}：$(P_0\otimes I_B)$ 对应"测得第一个比特为0"
+\[
+P_0^A = P_0 \otimes I_B = \begin{pmatrix}1&0\\0&0\end{pmatrix}\otimes\begin{pmatrix}1&0\\0&1\end{pmatrix}
+\]
+
+使用张量积的定义（克罗内克积）：
+\[
+P_0^A = \begin{pmatrix}
+1\cdot\begin{pmatrix}1&0\\0&1\end{pmatrix} & 0\cdot\begin{pmatrix}1&0\\0&1\end{pmatrix} \\[1em]
+0\cdot\begin{pmatrix}1&0\\0&1\end{pmatrix} & 0\cdot\begin{pmatrix}1&0\\0&1\end{pmatrix}
+\end{pmatrix}
+= \begin{pmatrix}
+1&0&0&0\\
+0&1&0&0\\
+0&0&0&0\\
+0&0&0&0
+\end{pmatrix}
+\]
+
+\textbf{矩阵结构解释}（基序 $|00\rangle,|01\rangle,|10\rangle,|11\rangle$）：
+\begin{itemize}
+  \item 第1行第1列为1：$|00\rangle$ 保留（第一个比特是0）
+  \item 第2行第2列为1：$|01\rangle$ 保留（第一个比特是0）
+  \item 第3、4行为0：$|10\rangle,|11\rangle$ 被投影掉（第一个比特不是0）
+\end{itemize}
+
+\textbf{测量算符 1}：$(P_1\otimes I_B)$ 对应"测得第一个比特为1"
+\[
+P_1^A = P_1 \otimes I_B = \begin{pmatrix}0&0\\0&1\end{pmatrix}\otimes\begin{pmatrix}1&0\\0&1\end{pmatrix}
+= \begin{pmatrix}
+0&0&0&0\\
+0&0&0&0\\
+0&0&1&0\\
+0&0&0&1
+\end{pmatrix}
+\]
+
+\textbf{矩阵结构解释}：
+\begin{itemize}
+  \item 前两行为0：$|00\rangle,|01\rangle$ 被投影掉（第一个比特不是1）
+  \item 第3行第3列为1：$|10\rangle$ 保留（第一个比特是1）
+  \item 第4行第4列为1：$|11\rangle$ 保留（第一个比特是1）
+\end{itemize}
+
+\textbf{关键观察}：
+\[
+P_0^A + P_1^A = \begin{pmatrix}
+1&0&0&0\\
+0&1&0&0\\
+0&0&1&0\\
+0&0&0&1
+\end{pmatrix} = I_{AB}
+\]
+满足完备性条件！
+
+\textbf{测量概率}：对态 $|\psi\rangle_{AB}=\sum_{i,j}c_{ij}|ij\rangle$，测得第一个比特 $A=0$ 的概率为：
+\[
+p(A=0) = \langle\psi|(P_0\otimes I)|\psi\rangle = \sum_{j\in\{0,1\}}|c_{0j}|^2 = |c_{00}|^2+|c_{01}|^2
+\]
+
+\textbf{物理解释}：把所有"第一个比特为0"的项的概率加起来。
+
+\textbf{测后态}：若测得 $A=0$，复合系统塌缩为：
+\[
+|\psi'\rangle = \frac{(P_0\otimes I)|\psi\rangle}{\sqrt{p(A=0)}}
+= \frac{c_{00}|00\rangle+c_{01}|01\rangle}{\sqrt{|c_{00}|^2+|c_{01}|^2}}
+= |0\rangle_A \otimes \frac{c_{00}|0\rangle_B+c_{01}|1\rangle_B}{\sqrt{|c_{00}|^2+|c_{01}|^2}}
+\]
+
+\textbf{物理解释}：
+\begin{itemize}
+  \item 第一个比特（系统 $A$）确定为 $|0\rangle$
+  \item 第二个比特（系统 $B$）处于叠加态，由原态中"第一个比特为0"的部分归一化得到
+  \item 原态的 $|10\rangle$ 和 $|11\rangle$ 项消失了（被测量"塌缩掉"）
+\end{itemize}
+
+\textbf{一般规则}（$n$ 个量子比特）：
+\begin{itemize}
+  \item 只测量第1个比特：$M_m^{(1)} = M_m \otimes I \otimes I \otimes \cdots \otimes I$
+  \item 只测量第2个比特：$M_m^{(2)} = I \otimes M_m \otimes I \otimes \cdots \otimes I$
+  \item 只测量第 $k$ 个比特：$M_m^{(k)} = I\otimes\cdots\otimes I \otimes \underbrace{M_m}_{\text{第}k\text{位}} \otimes I \otimes\cdots\otimes I$
+\end{itemize}
+
+其中每个 $I$ 都是 $2\times 2$ 单位矩阵，$M_m$ 是 $2\times 2$ 测量算符。
+
+\begin{example}
+\textbf{部分测量的详细计算}
+
+考虑态 $|\psi\rangle = \frac{1}{2}(|00\rangle + |01\rangle + |10\rangle + |11\rangle)$
+
+\textbf{(1) 只测量第一个比特（在计算基）：}
+
+测量算符：$P_0\otimes I$，$P_1\otimes I$
+
+计算 $p(A=0)$：
+\begin{align*}
+p(A=0) &= \langle\psi|(P_0\otimes I)|\psi\rangle \\
+&= \frac{1}{4}\left[\langle00|+\langle01|+\langle10|+\langle11|\right](P_0\otimes I)(|00\rangle+|01\rangle+|10\rangle+|11\rangle) \\
+&= \frac{1}{4}\left[\langle00|+\langle01|+\langle10|+\langle11|\right](|00\rangle+|01\rangle) \\
+&= \frac{1}{4}[1+1+0+0] = \frac{1}{2}
+\end{align*}
+
+同理 $p(A=1)=\frac{1}{2}$。
+
+测后态（若测得 $A=0$）：
+\[
+|\psi'\rangle = \frac{(P_0\otimes I)|\psi\rangle}{\sqrt{1/2}}
+= \frac{\frac{1}{2}(|00\rangle+|01\rangle)}{\sqrt{1/2}}
+= \frac{1}{\sqrt{2}}(|00\rangle+|01\rangle)
+= |0\rangle\otimes\frac{1}{\sqrt{2}}(|0\rangle+|1\rangle)
+\]
+
+\textbf{物理解释}：
+\begin{itemize}
+  \item 第一个比特确定为 $|0\rangle$
+  \item 第二个比特处于 $|+\rangle$ 态
+  \item 原态的 $|10\rangle$ 和 $|11\rangle$ 项被"塌缩掉"了
+\end{itemize}
+
+\textbf{(2) 只测量第二个比特（在计算基）：}
+
+测量算符：$I\otimes P_0$，$I\otimes P_1$
+
+$p(B=0)$：
+\begin{align*}
+p(B=0) &= \langle\psi|(I\otimes P_0)|\psi\rangle \\
+&= \frac{1}{4}\left[\langle00|+\langle01|+\langle10|+\langle11|\right](|00\rangle+|10\rangle) \\
+&= \frac{1}{2}
+\end{align*}
+
+测后态（若测得 $B=0$）：
+\[
+|\psi'\rangle = \frac{(I\otimes P_0)|\psi\rangle}{\sqrt{1/2}}
+= \frac{1}{\sqrt{2}}(|00\rangle+|10\rangle)
+= \frac{1}{\sqrt{2}}(|0\rangle+|1\rangle)\otimes|0\rangle
+\]
+
+第二个比特确定为 $|0\rangle$，第一个比特处于 $|+\rangle$ 态。
+
+\textbf{(3) 同时测量两个比特：}
+
+这就是通常的测量，测量算符：$P_{ij}=|i\rangle\langle i|\otimes|j\rangle\langle j|$
+
+概率都是 $p(ij)=\frac{1}{4}$，测后态为 $|ij\rangle$（四个可能结果之一）。
+\end{example}
+
 \paragraph{部分迹的矩阵直观（补充）}
 对两比特密度矩阵 $\rho_{AB}$，对 $B$ 做偏迹等价于对 $B$ 的矩阵块求迹，
 可理解为“对 $B$ 的指标求和”，从而得到 $A$ 的 $2\times2$ 矩阵。
+
+\begin{example}
+\textbf{可分态 vs 纠缠态的判别}
+
+\textbf{态1}：$|\psi_1\rangle=\frac{1}{\sqrt{2}}(|00\rangle+|10\rangle)$
+
+尝试分解：
+\[
+|\psi_1\rangle=\frac{1}{\sqrt{2}}(|0\rangle+|1\rangle)\otimes|0\rangle = |+\rangle\otimes|0\rangle
+\]
+这是\textbf{可分态}（product state）。
+
+\textbf{态2}：$|\psi_2\rangle=\frac{1}{\sqrt{2}}(|00\rangle+|11\rangle)$（Bell态 $|\Phi^+\rangle$）
+
+假设 $|\psi_2\rangle=(\alpha|0\rangle+\beta|1\rangle)\otimes(\gamma|0\rangle+\delta|1\rangle)$
+
+展开右边：$\alpha\gamma|00\rangle+\alpha\delta|01\rangle+\beta\gamma|10\rangle+\beta\delta|11\rangle$
+
+要求：$\alpha\gamma=\frac{1}{\sqrt{2}}$，$\alpha\delta=0$，$\beta\gamma=0$，$\beta\delta=\frac{1}{\sqrt{2}}$
+
+从 $\alpha\delta=0$ 得 $\alpha=0$ 或 $\delta=0$；从 $\beta\gamma=0$ 得 $\beta=0$ 或 $\gamma=0$
+
+但若 $\alpha=0$，则 $\alpha\gamma=0\neq\frac{1}{\sqrt{2}}$，矛盾！其他情况类似。
+
+因此 $|\psi_2\rangle$ \textbf{不可分解}，是\textbf{纠缠态}。
+\end{example}
+
+\begin{example}
+\textbf{两比特系统的测量}
+
+考虑 Bell 态 $|\Phi^+\rangle=\frac{1}{\sqrt{2}}(|00\rangle+|11\rangle)$
+
+\textbf{(1) 只测量第一个比特（在计算基）：}
+
+测量算符：$P_0\otimes I=|0\rangle\langle0|\otimes I$，$P_1\otimes I=|1\rangle\langle1|\otimes I$
+
+概率：
+\[
+p(0)=\langle\Phi^+|(P_0\otimes I)|\Phi^+\rangle
+=\frac{1}{2}\left[\langle00|+\langle11|\right](|00\rangle+|11\rangle)
+=\frac{1}{2}
+\]
+
+同理 $p(1)=\frac{1}{2}$
+
+测后态：若测得0，态塌缩为
+\[
+\frac{(P_0\otimes I)|\Phi^+\rangle}{\sqrt{p(0)}}
+=\frac{(P_0\otimes I)\frac{1}{\sqrt{2}}(|00\rangle+|11\rangle)}{\sqrt{1/2}}
+=\frac{\frac{1}{\sqrt{2}}|00\rangle}{\sqrt{1/2}}=|00\rangle
+\]
+
+\textbf{关键}：测量第一个比特为0后，第二个比特也确定为0！这是纠缠的体现。
+
+\textbf{(2) 同时测量两个比特（在计算基）：}
+
+四个测量算符：$P_{00}=|00\rangle\langle00|$，$P_{01}=|01\rangle\langle01|$，$P_{10}=|10\rangle\langle10|$，$P_{11}=|11\rangle\langle11|$
+
+概率：
+\[
+p(00)=|\langle00|\Phi^+\rangle|^2=\left|\frac{1}{\sqrt{2}}\right|^2=\frac{1}{2}
+\]
+\[
+p(11)=|\langle11|\Phi^+\rangle|^2=\frac{1}{2}
+\]
+\[
+p(01)=p(10)=0
+\]
+
+\textbf{结论}：只能测得 $00$ 或 $11$，永远不会得到 $01$ 或 $10$——两个比特完全关联！
+\end{example}
+
+\begin{example}
+\textbf{部分迹（偏迹）的计算}
+
+考虑纠缠态 $|\Phi^+\rangle=\frac{1}{\sqrt{2}}(|00\rangle+|11\rangle)$
+
+密度矩阵：
+\begin{align*}
+\rho_{AB} &= |\Phi^+\rangle\langle\Phi^+| \\
+&= \frac{1}{2}(|00\rangle+|11\rangle)(\langle00|+\langle11|) \\
+&= \frac{1}{2}(|00\rangle\langle00|+|00\rangle\langle11|+|11\rangle\langle00|+|11\rangle\langle11|)
+\end{align*}
+
+矩阵形式（基序 $|00\rangle,|01\rangle,|10\rangle,|11\rangle$）：
+\[
+\rho_{AB}=\frac{1}{2}\begin{pmatrix}
+1&0&0&1\\
+0&0&0&0\\
+0&0&0&0\\
+1&0&0&1
+\end{pmatrix}
+\]
+
+\textbf{对第二个比特做偏迹}：
+\[
+\rho_A=\mathrm{tr}_B(\rho_{AB})=\sum_{j=0}^1 (I_A\otimes\langle j|_B)\rho_{AB}(I_A\otimes|j\rangle_B)
+\]
+
+计算：
+\begin{align*}
+\rho_A &= (I\otimes\langle0|)\rho_{AB}(I\otimes|0\rangle)+(I\otimes\langle1|)\rho_{AB}(I\otimes|1\rangle) \\
+&= \frac{1}{2}[\langle0|00\rangle\langle00|0\rangle+\langle0|11\rangle\langle11|0\rangle]+\frac{1}{2}[\langle1|00\rangle\langle00|1\rangle+\langle1|11\rangle\langle11|1\rangle] \\
+&= \frac{1}{2}|0\rangle\langle0|+\frac{1}{2}|1\rangle\langle1| \\
+&= \frac{1}{2}I
+\end{align*}
+
+矩阵形式：
+\[
+\rho_A=\frac{1}{2}\begin{pmatrix}1&0\\0&1\end{pmatrix}
+\]
+
+\textbf{关键结论}：
+\begin{itemize}
+  \item $\rho_A$ 是\textbf{最大混合态}（完全随机）
+  \item 虽然整体态 $|\Phi^+\rangle$ 是纯态，但子系统 $A$ 的约化态是混态！
+  \item 这是\textbf{纠缠}的标志：单独看一个子系统，看不出任何确定信息
+  \item 纯度：$\mathrm{tr}(\rho_A^2)=\frac{1}{2}<1$（混态）
+\end{itemize}
+\end{example}
 
 \begin{example}
 \textbf{双自旋纠缠单重态}
@@ -2597,7 +3202,44 @@ P_0=|0\rangle\langle 0|,\quad P_1=|1\rangle\langle 1|
 \[
 |\Psi^-\rangle=\frac{|01\rangle-|10\rangle}{\sqrt{2}}
 \]
-测量其中一个自旋为 $|0\rangle$（向上），另一个必为 $|1\rangle$（向下），呈现完全反相关。
+
+\textbf{测量关联}：
+\begin{itemize}
+  \item 若测量第一个自旋为 $|0\rangle$（向上），第二个必为 $|1\rangle$（向下）
+  \item 若测量第一个自旋为 $|1\rangle$（向下），第二个必为 $|0\rangle$（向上）
+  \item 两个自旋呈现\textbf{完全反相关}（总自旋为0）
+\end{itemize}
+
+\textbf{约化密度矩阵}：
+\[
+\rho_A=\mathrm{tr}_B(|\Psi^-\rangle\langle\Psi^-|)=\frac{1}{2}|0\rangle\langle0|+\frac{1}{2}|1\rangle\langle1|=\frac{1}{2}I
+\]
+与 $|\Phi^+\rangle$ 相同——所有 Bell 态的约化态都是最大混合态！
+\end{example}
+
+\begin{example}
+\textbf{可分态的约化密度矩阵}
+
+考虑可分态 $|\psi\rangle=|+\rangle\otimes|0\rangle=\frac{1}{\sqrt{2}}(|00\rangle+|10\rangle)$
+
+密度矩阵：
+\[
+\rho_{AB}=|\psi\rangle\langle\psi|=(|+\rangle\langle+|)\otimes(|0\rangle\langle0|)
+\]
+
+约化密度矩阵：
+\[
+\rho_A=\mathrm{tr}_B(\rho_{AB})=\mathrm{tr}_B[(|+\rangle\langle+|)\otimes(|0\rangle\langle0|)]=|+\rangle\langle+|\cdot\mathrm{tr}(|0\rangle\langle0|)=|+\rangle\langle+|
+\]
+
+这是\textbf{纯态}！矩阵形式：
+\[
+\rho_A=\frac{1}{2}\begin{pmatrix}1&1\\1&1\end{pmatrix}
+\]
+
+纯度：$\mathrm{tr}(\rho_A^2)=1$（纯态）
+
+\textbf{对比}：可分态的约化态仍是纯态；纠缠态的约化态是混态。这是判别纠缠的重要方法！
 \end{example}
 
 \section{【了解】波函数与连续表象}
