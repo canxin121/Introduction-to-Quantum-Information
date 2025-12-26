@@ -4782,6 +4782,198 @@ Bell态是两比特最大纠缠态，可由 $H$ 门 + CNOT 电路制备。
 \sum_{\mu\in\{\Phi^\pm,\Psi^\pm\}} |\mu\rangle\langle\mu|=I
 \]
 
+\paragraph{什么是最大纠缠态？}
+
+\textbf{问题}：我们经常看到"Bell态是最大纠缠态"这样的说法，那么什么叫\textbf{最大纠缠态}呢？除了最大纠缠态还有什么其他纠缠态呢？
+
+\textbf{答案}：
+
+\textbf{1. 纠缠度的度量——Schmidt分解}
+
+要理解"最大"纠缠，首先需要度量纠缠的"大小"。对于任意两量子比特纯态 $|\psi\rangle_{AB}$，都可以通过\textbf{Schmidt分解}写成：
+\[
+|\psi\rangle_{AB} = \sum_{i} \sqrt{\lambda_i} |u_i\rangle_A \otimes |v_i\rangle_B
+\]
+其中：
+\begin{itemize}
+  \item $\{|u_i\rangle_A\}$ 和 $\{|v_i\rangle_B\}$ 分别是子系统 $A$ 和 $B$ 的正交归一基
+  \item $\lambda_i \geq 0$ 称为 \textbf{Schmidt系数}，满足 $\sum_i \lambda_i = 1$
+  \item 非零 $\lambda_i$ 的个数称为 \textbf{Schmidt数} $r$
+\end{itemize}
+
+\textbf{Schmidt分解的物理意义}：
+\begin{itemize}
+  \item Schmidt系数 $\lambda_i$ 刻画了纠缠的"强度"
+  \item $\lambda_i$ 越分散（越均匀），纠缠程度越高
+  \item $\lambda_i$ 越集中（某个接近1，其他接近0），纠缠程度越低
+\end{itemize}
+
+\textbf{2. 最大纠缠态的定义}
+
+当 Schmidt 系数\textbf{完全均匀分布}时，纠缠达到最大。对于两量子比特系统（维度 $d=2$）：
+\[
+\lambda_1 = \lambda_2 = \frac{1}{2}
+\]
+此时态为：
+\[
+|\psi_{\text{max}}\rangle = \frac{1}{\sqrt{2}}|u_1\rangle_A \otimes |v_1\rangle_B + \frac{1}{\sqrt{2}}|u_2\rangle_A \otimes |v_2\rangle_B
+\]
+
+\textbf{最大纠缠态的等价定义}：
+\begin{enumerate}
+  \item \textbf{Schmidt系数均匀}：所有非零 Schmidt 系数相等，$\lambda_i = 1/r$
+
+  \item \textbf{约化密度矩阵最大混合}：对子系统 $A$ 求偏迹得到：
+  \[
+  \rho_A = \text{tr}_B(|\psi\rangle\langle\psi|) = \sum_i \lambda_i |u_i\rangle\langle u_i| = \frac{1}{2}I
+  \]
+  即完全混合态，纯度 $\text{tr}(\rho_A^2) = 1/2$（对两量子比特系统）
+
+  \item \textbf{纠缠熵最大}：冯·诺依曼熵
+  \[
+  S(\rho_A) = -\sum_i \lambda_i \log_2 \lambda_i = \log_2 d
+  \]
+  对两比特系统，$S_{\text{max}} = \log_2 2 = 1$ bit
+\end{enumerate}
+
+\textbf{3. Bell态是最大纠缠态的验证}
+
+以 $|\Phi^+\rangle = \frac{1}{\sqrt{2}}(|00\rangle + |11\rangle)$ 为例：
+
+\textbf{Schmidt分解}：已经是标准形式
+\[
+|\Phi^+\rangle = \frac{1}{\sqrt{2}}|0\rangle_A \otimes |0\rangle_B + \frac{1}{\sqrt{2}}|1\rangle_A \otimes |1\rangle_B
+\]
+Schmidt系数：$\lambda_1 = \lambda_2 = 1/2$（完全均匀）✓
+
+\textbf{约化密度矩阵}：
+\[
+\rho_A = \text{tr}_B(|\Phi^+\rangle\langle\Phi^+|) = \frac{1}{2}|0\rangle\langle0| + \frac{1}{2}|1\rangle\langle1| = \frac{1}{2}I
+\]
+完全混合态 ✓
+
+\textbf{纠缠熵}：
+\[
+S(\rho_A) = -\frac{1}{2}\log_2\frac{1}{2} - \frac{1}{2}\log_2\frac{1}{2} = 1 \text{ bit}
+\]
+达到最大值 ✓
+
+所有四个Bell态 $|\Phi^\pm\rangle, |\Psi^\pm\rangle$ 都满足这些条件，因此都是\textbf{最大纠缠态}。
+
+\textbf{4. 非最大纠缠态的例子}
+
+\textbf{例1：部分纠缠态}
+\[
+|\psi_1\rangle = \sqrt{0.8}|00\rangle + \sqrt{0.2}|11\rangle
+\]
+
+Schmidt分解：已经是标准形式，Schmidt系数为 $\lambda_1 = 0.8, \lambda_2 = 0.2$
+
+约化密度矩阵：
+\[
+\rho_A = 0.8|0\rangle\langle0| + 0.2|1\rangle\langle1|
+\]
+纯度：$\text{tr}(\rho_A^2) = 0.8^2 + 0.2^2 = 0.68 > 0.5$
+
+纠缠熵：
+\[
+S(\rho_A) = -0.8\log_2 0.8 - 0.2\log_2 0.2 \approx 0.72 < 1
+\]
+
+这是\textbf{部分纠缠态}（partially entangled state），纠缠程度介于0和最大值之间。
+
+\textbf{例2：可分态（无纠缠）}
+\[
+|\psi_2\rangle = |0\rangle_A \otimes |0\rangle_B = |00\rangle
+\]
+
+Schmidt分解：$\lambda_1 = 1, \lambda_2 = 0$（Schmidt数为1）
+
+约化密度矩阵：
+\[
+\rho_A = |0\rangle\langle0|
+\]
+纯度：$\text{tr}(\rho_A^2) = 1$（纯态）
+
+纠缠熵：$S(\rho_A) = 0$（无纠缠）
+
+\textbf{例3：一般的纠缠态}
+\[
+|\psi_3\rangle = \frac{\sqrt{3}}{2}|00\rangle + \frac{1}{2}|11\rangle
+\]
+
+Schmidt系数：$\lambda_1 = 3/4, \lambda_2 = 1/4$
+
+纠缠熵：$S \approx 0.81 < 1$
+
+\textbf{5. 纠缠度的直观理解}
+
+可以用一个"纠缠谱图"来理解：
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{态类型} & \textbf{Schmidt系数} & \textbf{纠缠熵} & \textbf{例子} \\
+\hline
+可分态 & $(1, 0)$ & $S = 0$ & $|00\rangle$ \\
+\hline
+弱纠缠态 & $(0.9, 0.1)$ & $S \approx 0.47$ & $\sqrt{0.9}|00\rangle + \sqrt{0.1}|11\rangle$ \\
+\hline
+部分纠缠态 & $(0.75, 0.25)$ & $S \approx 0.81$ & $\frac{\sqrt{3}}{2}|00\rangle + \frac{1}{2}|11\rangle$ \\
+\hline
+最大纠缠态 & $(0.5, 0.5)$ & $S = 1$ & Bell态：$\frac{1}{\sqrt{2}}(|00\rangle \pm |11\rangle)$ \\
+\hline
+\end{tabular}
+\end{center}
+
+\textbf{物理意义}：
+\begin{itemize}
+  \item \textbf{纠缠熵 $S=0$}：两个子系统完全独立，可以分别描述
+  \item \textbf{$0 < S < 1$}：两个子系统有关联，但不是完美关联
+  \item \textbf{$S = 1$}（最大值）：两个子系统完美关联，对一个子系统的测量完全决定另一个子系统的统计行为
+\end{itemize}
+
+\textbf{6. 最大纠缠态的特殊性质}
+
+\begin{enumerate}
+  \item \textbf{完美关联}：对最大纠缠态，在\textbf{任意}相同的测量基下，两个子系统的测量结果都是完美关联的
+
+  \item \textbf{局域不可区分性}：如果只观察一个子系统，最大纠缠态看起来是完全随机的（最大混合态）
+
+  \item \textbf{量子通信最优}：许多量子通信协议（如量子隐形传态、超密编码）需要最大纠缠态才能达到理论极限
+
+  \item \textbf{纠缠纯化的目标}：在实际应用中，往往需要从多对低保真度的纠缠态中提取出高保真度的最大纠缠态
+
+  \item \textbf{等价性}：所有两比特最大纠缠态可以通过局域幺正变换相互转化。例如：
+  \begin{align*}
+  |\Phi^+\rangle &\xrightarrow{I \otimes Z} |\Phi^-\rangle \\
+  |\Phi^+\rangle &\xrightarrow{I \otimes X} |\Psi^+\rangle \\
+  |\Phi^+\rangle &\xrightarrow{I \otimes XZ} |\Psi^-\rangle
+  \end{align*}
+\end{enumerate}
+
+\textbf{7. 高维系统的最大纠缠态}
+
+对于两个 $d$ 维系统（qudit），最大纠缠态的一般形式为：
+\[
+|\Phi^+_d\rangle = \frac{1}{\sqrt{d}}\sum_{i=0}^{d-1} |i\rangle_A \otimes |i\rangle_B
+\]
+
+例如，两个qutrits（三能级系统）的最大纠缠态：
+\[
+|\Phi^+_3\rangle = \frac{1}{\sqrt{3}}(|00\rangle + |11\rangle + |22\rangle)
+\]
+
+此时纠缠熵的最大值为 $S_{\text{max}} = \log_2 d = \log_2 3 \approx 1.585$ bits。
+
+\textbf{总结}：
+\begin{itemize}
+  \item \textbf{最大纠缠态}：Schmidt系数完全均匀，约化密度矩阵为最大混合态，纠缠熵达到最大值
+  \item \textbf{部分纠缠态}：Schmidt系数不均匀，纠缠程度介于0和最大值之间
+  \item \textbf{可分态}：Schmidt数为1，无纠缠
+  \item Bell态是两比特系统中的最大纠缠态，在量子信息中具有特殊重要性
+\end{itemize}
+
 \paragraph{单态与三重态（补充）}
 在量子力学中，两个自旋-1/2粒子组合的态可以按\textbf{总自旋}分类：
 \begin{itemize}
@@ -5290,15 +5482,306 @@ U|\psi\rangle|0\rangle=\alpha|0\rangle|0\rangle+\beta|1\rangle|1\rangle \neq
 目标是实现端到端的量子安全。
 
 \subsection{【了解】量子隐形传态（Teleportation）}
-\paragraph{提出}
-1993 年 Bennett 等提出量子隐形传态方案。
-\paragraph{协议步骤}
+
+\paragraph{提出与基本思想}
+1993 年 Bennett 等提出量子隐形传态方案。其核心思想是：
+\begin{itemize}
+  \item 将两个粒子 A 和 B 制备成一个纠缠态，A 粒子在甲地，B 粒子在乙地
+  \item 信息分为\textbf{经典信息}和\textbf{量子信息}，分别经由经典通道和量子通道传送给接受者
+  \item 甲地的人对粒子 A 和携带信息的粒子 C 构成的纠缠态完成纠缠交换，或将 C 信息附加到 A 上
+  \item 由于 A 与 B 之间原来具有纠缠性，因而粒子 B 也具有这一信息
+  \item 此时甲地对 A 和携带信息粒子 C 构成的纠缠态测量，并将测量结果通过经典通道传送给乙地
+  \item 乙地根据这一结果还原出 C 所提供的信息，从而获得全面的量子信息
+\end{itemize}
+
+\textbf{关键点}：这时的经典信息的发送者可以对量子信息一无所知。
+
+\paragraph{初始态设置}
+假设 Alice 想要传送一个未知的量子态 $|\psi\rangle$ 给 Bob。设
+\[
+|\psi\rangle = \alpha|0\rangle + \beta|1\rangle
+\]
+其中 $\alpha, \beta$ 是未知的复数系数，满足 $|\alpha|^2 + |\beta|^2 = 1$。
+
+Alice 和 Bob 事先共享一个 Bell 态（最大纠缠态）：
+\[
+|\gamma_{00}\rangle = \frac{1}{\sqrt{2}}(|00\rangle + |11\rangle)
+\]
+
+此时，整个三粒子系统的初始态为：
+\[
+|\Phi\rangle_0 = |\psi\rangle \otimes |\gamma_{00}\rangle = (\alpha|0\rangle + \beta|1\rangle) \otimes \frac{1}{\sqrt{2}}(|00\rangle + |11\rangle)
+\]
+
+展开得：
+\[
+|\Phi\rangle_0 = \frac{1}{\sqrt{2}}\left\{\alpha(|000\rangle + |011\rangle) + \beta(|100\rangle + |111\rangle)\right\}
+\]
+
+这里第一个量子比特是 Alice 想要传送的态 $|\psi\rangle$，第二、三个量子比特分别是 Alice 和 Bob 持有的纠缠对。
+
+\paragraph{步骤一：CNOT 门操作}
+Alice 对自己的两个光子（第一个和第二个量子比特）进行一个 CNOT 门操作。CNOT 门的作用是：
+\[
+\text{CNOT}:|ab\rangle \to |a, b\oplus a\rangle
+\]
+
+应用 CNOT 后：
+\begin{align*}
+|\Phi\rangle_1 &= \frac{1}{\sqrt{2}}\left\{\alpha(|000\rangle + |011\rangle) + \beta(|110\rangle + |101\rangle)\right\}
+\end{align*}
+
+详细说明：
+\begin{itemize}
+  \item $|000\rangle$ 保持不变（控制位为 0）
+  \item $|011\rangle$ 保持不变（控制位为 0）
+  \item $|100\rangle \to |110\rangle$（控制位为 1，目标位 $0 \oplus 1 = 1$）
+  \item $|111\rangle \to |101\rangle$（控制位为 1，目标位 $1 \oplus 1 = 0$）
+\end{itemize}
+
+\paragraph{步骤二：Hadamard 门操作}
+Alice 对第一个光子进行 Hadamard 门操作。Hadamard 门的作用是：
+\[
+H|0\rangle = \frac{1}{\sqrt{2}}(|0\rangle + |1\rangle), \quad H|1\rangle = \frac{1}{\sqrt{2}}(|0\rangle - |1\rangle)
+\]
+
+从 $|\Phi\rangle_1$ 出发，我们对第一个量子比特逐项应用 Hadamard 门。回顾 $|\Phi\rangle_1$：
+\[
+|\Phi\rangle_1 = \frac{1}{\sqrt{2}}\left\{\alpha(|000\rangle + |011\rangle) + \beta(|110\rangle + |101\rangle)\right\}
+\]
+
+\textbf{逐项应用 Hadamard 门}：
+
+我们需要对第一个量子比特应用 $H$ 门，对第二、三个量子比特应用恒等算符 $I$，即总算符为 $H \otimes I \otimes I$。
+
+\textbf{张量积算符的作用规则}：
+\[
+(A \otimes B \otimes C)(|a\rangle \otimes |b\rangle \otimes |c\rangle) = (A|a\rangle) \otimes (B|b\rangle) \otimes (C|c\rangle)
+\]
+
 \begin{enumerate}
-  \item Alice 与 Bob 共享 Bell 态 $|\Phi^+\rangle$。
-  \item Alice 对待传态量子比特与自己的一半纠缠比特做 CNOT。
-  \item Alice 对其第一个比特做 $H$，并在 Bell 基下测量两个比特（BSM），得到 2 个经典比特。
-  \item Alice 通过经典信道发送测量结果；Bob 据此施加校正 $I,X,Z,XZ$ 之一。
+  \item 对 $|000\rangle$：
+
+  首先将 $|000\rangle$ 写成张量积形式：
+  \[
+  |000\rangle = |0\rangle \otimes |0\rangle \otimes |0\rangle
+  \]
+
+  应用 $H \otimes I \otimes I$：
+  \begin{align*}
+  (H \otimes I \otimes I)(|0\rangle \otimes |0\rangle \otimes |0\rangle)
+  &= (H|0\rangle) \otimes (I|0\rangle) \otimes (I|0\rangle) \\
+  &= \frac{1}{\sqrt{2}}(|0\rangle + |1\rangle) \otimes |0\rangle \otimes |0\rangle \\
+  &= \frac{1}{\sqrt{2}}(|0\rangle + |1\rangle) \otimes |00\rangle \\
+  &= \frac{1}{\sqrt{2}}(|000\rangle + |100\rangle)
+  \end{align*}
+
+  其中：$H|0\rangle = \frac{1}{\sqrt{2}}(|0\rangle + |1\rangle)$，$I|0\rangle = |0\rangle$
+
+  \item 对 $|011\rangle$：
+
+  写成张量积形式：
+  \[
+  |011\rangle = |0\rangle \otimes |1\rangle \otimes |1\rangle
+  \]
+
+  应用 $H \otimes I \otimes I$：
+  \begin{align*}
+  (H \otimes I \otimes I)(|0\rangle \otimes |1\rangle \otimes |1\rangle)
+  &= (H|0\rangle) \otimes (I|1\rangle) \otimes (I|1\rangle) \\
+  &= \frac{1}{\sqrt{2}}(|0\rangle + |1\rangle) \otimes |1\rangle \otimes |1\rangle \\
+  &= \frac{1}{\sqrt{2}}(|0\rangle + |1\rangle) \otimes |11\rangle \\
+  &= \frac{1}{\sqrt{2}}(|011\rangle + |111\rangle)
+  \end{align*}
+
+  其中：$H|0\rangle = \frac{1}{\sqrt{2}}(|0\rangle + |1\rangle)$，$I|1\rangle = |1\rangle$
+
+  \item 对 $|110\rangle$：
+
+  写成张量积形式：
+  \[
+  |110\rangle = |1\rangle \otimes |1\rangle \otimes |0\rangle
+  \]
+
+  应用 $H \otimes I \otimes I$：
+  \begin{align*}
+  (H \otimes I \otimes I)(|1\rangle \otimes |1\rangle \otimes |0\rangle)
+  &= (H|1\rangle) \otimes (I|1\rangle) \otimes (I|0\rangle) \\
+  &= \frac{1}{\sqrt{2}}(|0\rangle - |1\rangle) \otimes |1\rangle \otimes |0\rangle \\
+  &= \frac{1}{\sqrt{2}}(|0\rangle - |1\rangle) \otimes |10\rangle \\
+  &= \frac{1}{\sqrt{2}}(|010\rangle - |110\rangle)
+  \end{align*}
+
+  其中：$H|1\rangle = \frac{1}{\sqrt{2}}(|0\rangle - |1\rangle)$，$I|1\rangle = |1\rangle$，$I|0\rangle = |0\rangle$
+
+  \item 对 $|101\rangle$：
+
+  写成张量积形式：
+  \[
+  |101\rangle = |1\rangle \otimes |0\rangle \otimes |1\rangle
+  \]
+
+  应用 $H \otimes I \otimes I$：
+  \begin{align*}
+  (H \otimes I \otimes I)(|1\rangle \otimes |0\rangle \otimes |1\rangle)
+  &= (H|1\rangle) \otimes (I|0\rangle) \otimes (I|1\rangle) \\
+  &= \frac{1}{\sqrt{2}}(|0\rangle - |1\rangle) \otimes |0\rangle \otimes |1\rangle \\
+  &= \frac{1}{\sqrt{2}}(|0\rangle - |1\rangle) \otimes |01\rangle \\
+  &= \frac{1}{\sqrt{2}}(|001\rangle - |101\rangle)
+  \end{align*}
+
+  其中：$H|1\rangle = \frac{1}{\sqrt{2}}(|0\rangle - |1\rangle)$，$I|0\rangle = |0\rangle$，$I|1\rangle = |1\rangle$
 \end{enumerate}
+
+将这些结果代入 $|\Phi\rangle_1$，注意 $\frac{1}{\sqrt{2}} \times \frac{1}{\sqrt{2}} = \frac{1}{2}$：
+\begin{align*}
+|\Phi\rangle_2 &= \frac{1}{\sqrt{2}} \cdot \frac{1}{\sqrt{2}} \Big\{\alpha\left[(|000\rangle + |100\rangle) + (|011\rangle + |111\rangle)\right] \\
+&\quad + \beta\left[(|010\rangle - |110\rangle) + (|001\rangle - |101\rangle)\right]\Big\} \\
+&= \frac{1}{2}\Big\{\alpha[|000\rangle + |100\rangle + |011\rangle + |111\rangle] \\
+&\quad + \beta[|010\rangle - |110\rangle + |001\rangle - |101\rangle]\Big\}
+\end{align*}
+
+重新整理（提取公因子），将前两个量子比特看作一个整体：
+\begin{align*}
+|\Phi\rangle_2 &= \frac{1}{2}\Big\{\alpha\left[(|0\rangle+|1\rangle) \otimes |00\rangle + (|0\rangle+|1\rangle) \otimes |11\rangle\right] \\
+&\quad + \beta\left[(|0\rangle-|1\rangle) \otimes |10\rangle + (|0\rangle-|1\rangle) \otimes |01\rangle\right]\Big\}
+\end{align*}
+
+验证：
+\begin{itemize}
+  \item $(|0\rangle+|1\rangle) \otimes |00\rangle = |000\rangle + |100\rangle$ ✓
+  \item $(|0\rangle+|1\rangle) \otimes |11\rangle = |011\rangle + |111\rangle$ ✓
+  \item $(|0\rangle-|1\rangle) \otimes |10\rangle = |010\rangle - |110\rangle$ ✓
+  \item $(|0\rangle-|1\rangle) \otimes |01\rangle = |001\rangle - |101\rangle$ ✓
+\end{itemize}
+
+\paragraph{步骤三：重新整理为 Bell 基表示}
+将 Alice 的两个比特特和 Bob 的比特分开，重新安排一下这些项。我们将前两个量子比特（Alice 的）的状态按照 Bell 基重新组合：
+\begin{align*}
+|\Phi\rangle_2 &= \frac{1}{2}\Big\{|00\rangle \otimes (\alpha|0\rangle + \beta|1\rangle) + |01\rangle \otimes (\alpha|1\rangle + \beta|0\rangle) \\
+&\quad + |10\rangle \otimes (\alpha|0\rangle - \beta|1\rangle) + |11\rangle \otimes (\alpha|1\rangle - \beta|0\rangle)\Big\}
+\end{align*}
+
+详细推导：将上面的展开式按照 Alice 的测量结果 $|00\rangle, |01\rangle, |10\rangle, |11\rangle$ 分组：
+\begin{itemize}
+  \item 从 $\alpha$ 项：$|0\rangle \otimes |00\rangle, |1\rangle \otimes |00\rangle, |0\rangle \otimes |11\rangle, |1\rangle \otimes |11\rangle$
+  \item 从 $\beta$ 项：$|0\rangle \otimes |10\rangle, -|1\rangle \otimes |10\rangle, |0\rangle \otimes |01\rangle, -|1\rangle \otimes |01\rangle$
+\end{itemize}
+
+重新组合后：
+\begin{itemize}
+  \item \textbf{$|00\rangle$ 系数}：Bob 的粒子处于 $\alpha|0\rangle + \beta|1\rangle = |\psi\rangle$
+  \item \textbf{$|01\rangle$ 系数}：Bob 的粒子处于 $\alpha|1\rangle + \beta|0\rangle = X|\psi\rangle$
+  \item \textbf{$|10\rangle$ 系数}：Bob 的粒子处于 $\alpha|0\rangle - \beta|1\rangle = Z|\psi\rangle$
+  \item \textbf{$|11\rangle$ 系数}：Bob 的粒子处于 $\alpha|1\rangle - \beta|0\rangle = ZX|\psi\rangle$
+\end{itemize}
+
+\paragraph{步骤四：Alice 的 Bell 基测量}
+Alice 对自己的两个光子进行 Bell 基测量，并把测量结果通过经典信道传送给 Bob。测量会使系统塌缩到四种可能状态之一，每种概率均为 $1/4$。
+
+\paragraph{步骤五：Bob 的操作}
+Bob 根据 Alice 通过经典通道发送的测量结果，对自己的粒子施加相应的幺正变换：
+
+\begin{center}
+\begin{tabular}{c|c|c}
+\hline
+\textbf{Alice 测量结果} & \textbf{Bob 的光子处于态} & \textbf{Bob 操作} \\
+\hline
+$|00\rangle$ & $\alpha|0\rangle + \beta|1\rangle = |\psi\rangle$ & $I$（不操作） \\
+$|01\rangle$ & $\alpha|1\rangle + \beta|0\rangle$ & $X$ 门后得到 $|\psi\rangle$ \\
+$|10\rangle$ & $\alpha|0\rangle - \beta|1\rangle$ & $Z$ 门后得到 $|\psi\rangle$ \\
+$|11\rangle$ & $\alpha|1\rangle - \beta|0\rangle$ & $ZX$ 门后得到 $|\psi\rangle$ \\
+\hline
+\end{tabular}
+\end{center}
+
+其中：
+\begin{itemize}
+  \item $X = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}$：Pauli-X 门，比特翻转
+  \item $Z = \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}$：Pauli-Z 门，相位翻转
+\end{itemize}
+
+经过相应操作后，Bob 的光子恰好处于态 $|\psi\rangle = \alpha|0\rangle + \beta|1\rangle$。
+
+\paragraph{完整操作流程——Alice 与 Bob 的视角}
+
+下面从时间顺序展示 Alice 和 Bob 各自的操作：
+
+\begin{center}
+\begin{tabular}{|c|p{6cm}|p{6cm}|}
+\hline
+\textbf{阶段} & \textbf{Alice 的操作} & \textbf{Bob 的操作} \\
+\hline
+\textbf{准备阶段} &
+持有待传送的量子态 $|\psi\rangle = \alpha|0\rangle + \beta|1\rangle$（第1个粒子），以及纠缠对的一半（第2个粒子） &
+持有纠缠对的另一半（第3个粒子），等待 Alice 的信息 \\
+\hline
+\textbf{第一步} &
+对第1和第2个粒子执行 CNOT 门操作（第1个粒子作为控制位，第2个粒子作为目标位） &
+（无操作，等待中） \\
+\hline
+\textbf{第二步} &
+对第1个粒子执行 Hadamard 门操作 &
+（无操作，等待中） \\
+\hline
+\textbf{第三步} &
+在计算基 $\{|00\rangle, |01\rangle, |10\rangle, |11\rangle\}$ 下测量第1和第2个粒子，得到2个经典比特的测量结果 &
+（无操作，等待中）\\
+& \textit{注：此时 Alice 的两个粒子已被测量破坏，$|\psi\rangle$ 的原始载体不复存在} & \textit{注：此时 Bob 的粒子处于混合态，如果他测量只能得到随机结果} \\
+\hline
+\textbf{第四步} &
+通过\textbf{经典信道}（如电话、互联网等）将测量结果（2个经典比特）发送给 Bob &
+接收 Alice 发来的2个经典比特 \\
+\hline
+\textbf{第五步} &
+（完成任务，无后续操作） &
+根据收到的经典比特执行相应的幺正操作：
+\begin{itemize}
+  \item 收到 $00$ $\rightarrow$ 执行 $I$（不操作）
+  \item 收到 $01$ $\rightarrow$ 执行 $X$ 门
+  \item 收到 $10$ $\rightarrow$ 执行 $Z$ 门
+  \item 收到 $11$ $\rightarrow$ 执行 $ZX$ 门
+\end{itemize} \\
+\hline
+\textbf{结果} &
+Alice 处的 $|\psi\rangle$ 已被破坏 &
+Bob 处的第3个粒子现在处于态 $|\psi\rangle = \alpha|0\rangle + \beta|1\rangle$ \\
+\hline
+\end{tabular}
+\end{center}
+
+\textbf{关键时间节点}：
+\begin{enumerate}
+  \item \textbf{$t_0$（很久以前）}：Alice 和 Bob 获得纠缠对，可能相隔数天、数月甚至数年
+
+  \item \textbf{$t_1$}：Alice 获得需要传送的量子态 $|\psi\rangle$（可能来自量子计算、量子测量等）
+
+  \item \textbf{$t_2$}：Alice 执行 CNOT 门（耗时：纳秒级）
+
+  \item \textbf{$t_3$}：Alice 执行 Hadamard 门（耗时：纳秒级）
+
+  \item \textbf{$t_4$}：Alice 完成测量（耗时：微秒级）
+
+  \item \textbf{$t_5$}：Alice 的经典信息通过经典信道到达 Bob（耗时：取决于距离，受光速限制）
+  \begin{itemize}
+    \item 如果相距 1 公里：约 3 微秒
+    \item 如果相距 1000 公里：约 3 毫秒
+    \item 如果在地球两端：约 67 毫秒
+  \end{itemize}
+
+  \item \textbf{$t_6$}：Bob 执行纠正操作（耗时：纳秒级）
+
+  \item \textbf{总耗时}：主要瓶颈在 $t_5$（经典信息传输），无法超越光速
+\end{enumerate}
+
+\textbf{重要观察}：
+\begin{itemize}
+  \item 在 $t_4$ 到 $t_5$ 之间，Bob 的粒子\textbf{已经}包含了关于 $|\psi\rangle$ 的信息（通过与 Alice 粒子的纠缠），但 Bob \textbf{无法访问}这些信息，因为他不知道如何纠正
+
+  \item 只有在 $t_5$ 收到经典信息后，Bob 才能"解锁"这些信息
+
+  \item 这确保了\textbf{因果律}：信息传递的有效速度受经典信道限制，不能超光速
+\end{itemize}
 
 \begin{figure}[htbp]
   \centering
@@ -5306,21 +5789,140 @@ U|\psi\rangle|0\rangle=\alpha|0\rangle|0\rangle+\beta|1\rangle|1\rangle \neq
   \caption{量子隐形传态示意：纠缠对 + 经典信道共同完成态的传输。}
 \end{figure}
 
-\paragraph{【了解】纠正映射}
+\paragraph{纠正映射的验证}
+我们验证 $|01\rangle$ 的情况：
 \[
-\begin{array}{c|c}
-\text{Alice测量结果} & \text{Bob操作} \\
-\hline
-00 & I \\
-01 & X \\
-10 & Z \\
-11 & XZ
-\end{array}
+X(\alpha|1\rangle + \beta|0\rangle) = \alpha X|1\rangle + \beta X|0\rangle = \alpha|0\rangle + \beta|1\rangle = |\psi\rangle
 \]
 
-\paragraph{重要说明}
-传输的是\textbf{量子态}而非物质本体；需要经典信道，\textbf{不能超光速}；测量破坏原态，不违背不可克隆定理。
-发送者与接收者对该未知量子态的具体参数可以始终\textbf{一无所知}。
+验证 $|10\rangle$ 的情况：
+\[
+Z(\alpha|0\rangle - \beta|1\rangle) = \alpha Z|0\rangle - \beta Z|1\rangle = \alpha|0\rangle + \beta|1\rangle = |\psi\rangle
+\]
+
+验证 $|11\rangle$ 的情况：
+\[
+ZX(\alpha|1\rangle - \beta|0\rangle) = Z(\alpha|0\rangle - \beta|1\rangle) = \alpha|0\rangle + \beta|1\rangle = |\psi\rangle
+\]
+
+\paragraph{信息传递机制详解}
+
+\textbf{问题}：在整个量子隐形传态过程中，什么信息通过经典信道传递？什么信息通过量子信道传递？这样做有什么意义？
+
+\textbf{答案}：
+
+\textbf{1. 通过量子信道传递的信息——共享纠缠对}
+
+\begin{itemize}
+  \item \textbf{传递内容}：Alice 和 Bob 事先共享的 Bell 态 $|\gamma_{00}\rangle = \frac{1}{\sqrt{2}}(|00\rangle + |11\rangle)$
+
+  \item \textbf{传递时机}：在协议开始\textbf{之前}就已经分发完成，可以是很久以前建立的
+
+  \item \textbf{关键特性}：这个纠缠对本身\textbf{不携带}任何关于待传送态 $|\psi\rangle = \alpha|0\rangle + \beta|1\rangle$ 的信息。如果 Bob 单独测量自己的粒子，他只能得到完全随机的结果（$|0\rangle$ 或 $|1\rangle$ 各占 50\%），无法获得任何关于 $\alpha, \beta$ 的信息
+
+  \item \textbf{物理意义}：纠缠对建立了 Alice 和 Bob 之间的\textbf{量子关联}，这是一种非经典的关联，但单独使用它无法传递信息
+\end{itemize}
+
+\textbf{2. 通过经典信道传递的信息——测量结果}
+
+\begin{itemize}
+  \item \textbf{传递内容}：Alice 对自己的两个粒子进行 Bell 基测量后得到的 2 个经典比特，可能是 $00, 01, 10, 11$ 之一
+
+  \item \textbf{传递时机}：在 Alice 完成 CNOT、Hadamard 和测量操作\textbf{之后}
+
+  \item \textbf{关键特性}：这 2 个经典比特告诉 Bob 应该对自己的粒子施加什么操作（$I, X, Z$ 或 $ZX$）。但是：
+  \begin{itemize}
+    \item 这 2 个比特本身是\textbf{随机的}，每种结果出现的概率都是 $1/4$
+    \item 如果窃听者 Eve 截获了这 2 个比特，她\textbf{无法}从中推断出 $\alpha, \beta$ 的值
+    \item 这 2 个比特\textbf{不携带}关于 $|\psi\rangle$ 的完整信息
+  \end{itemize}
+
+  \item \textbf{物理意义}：经典信息的作用是\textbf{激活}量子信道中的纠缠关联，告诉 Bob 如何"解码"
+\end{itemize}
+
+\textbf{3. 为什么需要两个信道？}
+
+\begin{itemize}
+  \item \textbf{单独的量子信道不够}：Bob 如果只有纠缠对的一半，测量得到的是完全随机的结果，无法恢复 $|\psi\rangle$
+
+  \item \textbf{单独的经典信道不够}：Alice 的 2 个经典比特是随机的，不包含 $|\psi\rangle$ 的完整信息。事实上，要完整描述一个量子态 $\alpha|0\rangle + \beta|1\rangle$ 需要 2 个连续参数（$\alpha, \beta$ 的实部和虚部），而 2 个经典比特只能表示 4 种离散情况
+
+  \item \textbf{两个信道结合}：量子纠缠 + 经典信息 = 完整的量子态传送
+  \begin{itemize}
+    \item 纠缠对提供了"量子带宽"
+    \item 经典比特提供了"解码密钥"
+    \item 两者缺一不可
+  \end{itemize}
+\end{itemize}
+
+\textbf{4. 一个形象的比喻}
+
+可以把量子隐形传态理解为：
+\begin{itemize}
+  \item 纠缠对就像一对\textbf{神奇的骰子}，Alice 和 Bob 各拿一个。这对骰子的结果总是关联的，但单独看任何一个都是随机的
+
+  \item Alice 要传送的量子态 $|\psi\rangle$ 就像一个\textbf{秘密图案}
+
+  \item Alice 通过特殊操作（CNOT + H + 测量）将"秘密图案"的信息\textbf{编码}到她的骰子和待传送粒子的联合测量结果中
+
+  \item 由于骰子的关联性，Bob 的骰子已经\textbf{隐含}了部分信息，但他还不知道如何解读
+
+  \item Alice 通过电话（经典信道）告诉 Bob 她的测量结果（2 个经典比特）
+
+  \item Bob 根据这个提示，对自己的粒子施加相应操作，就能\textbf{还原}出完整的"秘密图案" $|\psi\rangle$
+\end{itemize}
+
+\textbf{5. 这样传递信息有什么用？}
+
+\begin{itemize}
+  \item \textbf{传送未知量子态}：Alice 可以传送她自己都不知道具体参数的量子态。这在经典通信中是不可能的——如果 Alice 不知道要传送什么，她怎么传？但量子隐形传态可以做到！
+
+  \item \textbf{量子网络的基础}：量子隐形传态是构建量子互联网、量子中继器的核心协议
+
+  \item \textbf{分布式量子计算}：可以在不同地点的量子计算机之间传递量子态，实现分布式量子计算
+
+  \item \textbf{量子通信安全性}：原始粒子在 Alice 处被破坏（测量），Bob 处重建，任何窃听都无法同时获得经典信息和量子纠缠，因此无法恢复量子态
+
+  \item \textbf{理论意义}：证明了量子信息可以从一个粒子转移到另一个粒子，而不需要直接传送粒子本身，这是量子信息论的里程碑
+\end{itemize}
+
+\textbf{6. 重要的澄清}
+
+\begin{itemize}
+  \item \textbf{不是"超距传送"}：量子态的传送\textbf{不是瞬时的}，必须等待经典信息到达，因此不能超光速
+
+  \item \textbf{不是"复制"}：原始粒子的量子态在测量时被破坏，这符合量子不可克隆定理
+
+  \item \textbf{不能传送经典信息}：由于 Bob 必须等待经典信道的信息才能解码，所以无法用来传送经典信息（否则会出现悖论）
+
+  \item \textbf{效率问题}：需要 1 个纠缠对 + 2 个经典比特 才能传送 1 个量子比特的状态，看起来"不划算"，但考虑到量子态包含无限多信息（连续参数），这实际上是非常高效的
+\end{itemize}
+
+\paragraph{重要说明与物理意义}
+\begin{enumerate}
+  \item \textbf{不能实现超光速通信}：量子隐形传态需要借助经典信道才能实现，因此\textbf{并不能实现超光速通信}。在没有收到 Alice 的经典信息之前，Bob 的粒子处于混合态，无法获得任何有用信息。
+
+  \item \textbf{原物始终留在发送者处}：在这个过程中，原物（即携带量子态的粒子）始终留在发送者（Alice）处，\textbf{被传送的仅仅是原物的量子态}，而且发送者对这个量子态\textbf{始终一无所知}。
+
+  \item \textbf{不违背量子不可克隆定理}：接受者（Bob）是将别的物质单元（如粒子）制备成为与原物完全相同的量子态，他对这个量子态也\textbf{始终一无所知}。原物的量子态在测量时已被破坏，这\textbf{不违背量子不可克隆定理}。
+
+  \item \textbf{经典信息的必要性}：未知量子态的传送，需要经典信道传送经典信息（即发送者的测量结果），传送速度不可能超过光速，\textbf{不违背相对论的原理}。
+
+  \item \textbf{测量的作用}：Alice 的 Bell 基测量起到了\textbf{纠缠交换}的作用，使得原本与 Alice 的第二个粒子纠缠的 Bob 的粒子，现在与待传送态发生了关联。
+
+  \item \textbf{保真度}：理想情况下，量子隐形传态的保真度为 100\%。实际实验中会受到纠缠源质量、探测效率、信道损耗等因素影响。
+\end{enumerate}
+
+\paragraph{量子线路图解释}
+量子隐形传态的标准量子线路包含：
+\begin{enumerate}
+  \item 三条量子比特线：第一条是待传送态 $|\psi\rangle$，第二、三条是 Bell 态对 $|\gamma_{00}\rangle$
+  \item CNOT 门：作用于第一、二条线
+  \item Hadamard 门：作用于第一条线
+  \item 测量 $M_1, M_2$：对第一、二条线进行计算基测量
+  \item 经典控制的量子门：根据测量结果 $M_1, M_2$，对第三条线施加 $X^{M_2} Z^{M_1}$ 操作
+  \item 最终第三条线输出 $|\psi\rangle$
+\end{enumerate}
 
 \subsection{【了解】量子密钥分发（QKD）}
 QKD 只生成共享密钥，不直接传输消息。任何窃听测量都会扰动量子态并引入可检测错误（如 BB84/E91 思想）。

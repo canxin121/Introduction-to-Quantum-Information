@@ -1089,7 +1089,183 @@ $(1, 1)$ & $(0, 1)$ \\
 
 注意到 $(0,1)$ 和 $(1,0)$ 都映射到 $(1,0)$。
 
-如果考虑 Bell 态输入（线路(a)的输出作为线路(b)的输入），这个线路可以部分区分 Bell 态。实际上，这个线路实现的是一个更复杂的量子态转换和测量功能，常用于量子通信协议中。
+\textbf{扩展分析：Bell 态输入的情况}
+
+如果考虑 Bell 态输入（线路(a)的输出作为线路(b)的输入），这个线路可以部分区分 Bell 态。实际上，这个线路实现的是一个更复杂的量子态转换和测量功能，常用于量子通信协议中。下面详细分析：
+
+\textbf{Bell 态回顾：}
+
+线路(a)可以产生四个 Bell 态：
+\begin{align*}
+|\Phi^+\rangle &= \frac{1}{\sqrt{2}}(|00\rangle+|11\rangle) \\
+|\Psi^+\rangle &= \frac{1}{\sqrt{2}}(|01\rangle+|10\rangle) \\
+|\Phi^-\rangle &= \frac{1}{\sqrt{2}}(|00\rangle-|11\rangle) \\
+|\Psi^-\rangle &= \frac{1}{\sqrt{2}}(|01\rangle-|10\rangle)
+\end{align*}
+
+现在将这些 Bell 态作为线路(b)的前两个量子比特输入（第三个量子比特仍为辅助 $|0\rangle$）。
+
+\textbf{情况1：输入 $|\Phi^+\rangle = \frac{1}{\sqrt{2}}(|00\rangle+|11\rangle)$}
+
+初始态：$|\Phi^+\rangle \otimes |0\rangle = \frac{1}{\sqrt{2}}(|000\rangle+|110\rangle)$
+
+\textbf{步骤1：}$x_2$ 和辅助位的 CNOT（$x_2$ 为控制位）
+\begin{align*}
+\frac{1}{\sqrt{2}}(|000\rangle+|110\rangle) &\xrightarrow{\text{CNOT}_{x_2 \to \text{aux}}} \frac{1}{\sqrt{2}}(|000\rangle+|111\rangle)
+\end{align*}
+说明：$|000\rangle$ 中 $x_2=0$ 不翻转辅助位；$|110\rangle$ 中 $x_2=1$ 翻转辅助位 $0 \to 1$
+
+\textbf{步骤2：}受控 SWAP（辅助位控制，交换 $x_1$ 和 $x_2$）
+\begin{align*}
+\frac{1}{\sqrt{2}}(|000\rangle+|111\rangle) &\xrightarrow{\text{C-SWAP}} \frac{1}{\sqrt{2}}(|000\rangle+|111\rangle)
+\end{align*}
+说明：$|000\rangle$ 辅助位为 0 不交换；$|111\rangle$ 辅助位为 1 交换 $x_1$ 和 $x_2$，但 $|11\rangle \to |11\rangle$ 不变
+
+\textbf{步骤3：}$x_2$ 和 $x_1$ 的 CNOT（$x_2$ 为控制位，$x_1$ 为目标位）
+\begin{align*}
+\frac{1}{\sqrt{2}}(|000\rangle+|111\rangle) &\xrightarrow{\text{CNOT}_{x_2 \to x_1}} \frac{1}{\sqrt{2}}(|000\rangle+|011\rangle)
+\end{align*}
+说明：$|000\rangle$ 中 $x_2=0$ 不作用；$|111\rangle$ 中 $x_2=1$ 翻转 $x_1$: $1 \oplus 1 = 0$
+
+\textbf{测量结果：}测量 $x_1, x_2$ 得到 $(0,0)$ 或 $(0,1)$，各占 50\% 概率
+
+---
+
+\textbf{情况2：输入 $|\Psi^+\rangle = \frac{1}{\sqrt{2}}(|01\rangle+|10\rangle)$}
+
+初始态：$|\Psi^+\rangle \otimes |0\rangle = \frac{1}{\sqrt{2}}(|010\rangle+|100\rangle)$
+
+\textbf{步骤1：}CNOT（$x_2 \to$ 辅助）
+\begin{align*}
+\frac{1}{\sqrt{2}}(|010\rangle+|100\rangle) &\xrightarrow{\text{CNOT}} \frac{1}{\sqrt{2}}(|011\rangle+|100\rangle)
+\end{align*}
+说明：$|010\rangle$ 中 $x_2=1$ 翻转辅助位；$|100\rangle$ 中 $x_2=0$ 不翻转
+
+\textbf{步骤2：}C-SWAP
+\begin{align*}
+\frac{1}{\sqrt{2}}(|011\rangle+|100\rangle) &\xrightarrow{\text{C-SWAP}} \frac{1}{\sqrt{2}}(|101\rangle+|100\rangle)
+\end{align*}
+说明：$|011\rangle$ 辅助位为 1，交换 $x_1$ 和 $x_2$：$|01\rangle \to |10\rangle$；$|100\rangle$ 辅助位为 0 不交换
+
+\textbf{步骤3：}CNOT（$x_2 \to x_1$）
+\begin{align*}
+\frac{1}{\sqrt{2}}(|101\rangle+|100\rangle) &\xrightarrow{\text{CNOT}} \frac{1}{\sqrt{2}}(|101\rangle+|100\rangle)
+\end{align*}
+说明：$|101\rangle$ 中 $x_2=0$（不是1！），不翻转 $x_1$；$|100\rangle$ 中 $x_2=0$，不翻转 $x_1$
+
+\textbf{测量结果：}测量 $x_1, x_2$ \textbf{确定性地得到 $(1,0)$}（两项都给出相同结果）
+
+---
+
+\textbf{情况3：输入 $|\Phi^-\rangle = \frac{1}{\sqrt{2}}(|00\rangle-|11\rangle)$}
+
+初始态：$|\Phi^-\rangle \otimes |0\rangle = \frac{1}{\sqrt{2}}(|000\rangle-|110\rangle)$
+
+类似地逐步计算：
+
+\textbf{步骤1：}
+\begin{align*}
+\frac{1}{\sqrt{2}}(|000\rangle-|110\rangle) &\xrightarrow{\text{CNOT}} \frac{1}{\sqrt{2}}(|000\rangle-|111\rangle)
+\end{align*}
+
+\textbf{步骤2：}
+\begin{align*}
+\frac{1}{\sqrt{2}}(|000\rangle-|111\rangle) &\xrightarrow{\text{C-SWAP}} \frac{1}{\sqrt{2}}(|000\rangle-|111\rangle)
+\end{align*}
+
+\textbf{步骤3：}
+\begin{align*}
+\frac{1}{\sqrt{2}}(|000\rangle-|111\rangle) &\xrightarrow{\text{CNOT}} \frac{1}{\sqrt{2}}(|000\rangle-|011\rangle)
+\end{align*}
+
+\textbf{测量结果：}测量 $x_1, x_2$ 得到 $(0,0)$ 或 $(0,1)$，各占 50\% 概率（注意负号不影响测量概率）
+
+---
+
+\textbf{情况4：输入 $|\Psi^-\rangle = \frac{1}{\sqrt{2}}(|01\rangle-|10\rangle)$}
+
+初始态：$|\Psi^-\rangle \otimes |0\rangle = \frac{1}{\sqrt{2}}(|010\rangle-|100\rangle)$
+
+\textbf{步骤1：}
+\begin{align*}
+\frac{1}{\sqrt{2}}(|010\rangle-|100\rangle) &\xrightarrow{\text{CNOT}} \frac{1}{\sqrt{2}}(|011\rangle-|100\rangle)
+\end{align*}
+
+\textbf{步骤2：}
+\begin{align*}
+\frac{1}{\sqrt{2}}(|011\rangle-|100\rangle) &\xrightarrow{\text{C-SWAP}} \frac{1}{\sqrt{2}}(|101\rangle-|100\rangle)
+\end{align*}
+
+\textbf{步骤3：}
+\begin{align*}
+\frac{1}{\sqrt{2}}(|101\rangle-|100\rangle) &\xrightarrow{\text{CNOT}} \frac{1}{\sqrt{2}}(|101\rangle-|100\rangle)
+\end{align*}
+说明：$|101\rangle$ 中 $x_2=0$，不翻转 $x_1$；$|100\rangle$ 中 $x_2=0$，不翻转 $x_1$
+
+\textbf{测量结果：}测量 $x_1, x_2$ \textbf{确定性地得到 $(1,0)$}（两项都给出相同结果，负号不影响测量结果）
+
+---
+
+\textbf{总结：Bell 态的部分区分}
+
+\begin{center}
+\begin{tabular}{c|c}
+\hline
+\textbf{输入 Bell 态} & \textbf{可能的测量结果} \\
+\hline
+$|\Phi^+\rangle = \frac{1}{\sqrt{2}}(|00\rangle+|11\rangle)$ & $(0,0)$ 或 $(0,1)$（各50\%） \\
+$|\Phi^-\rangle = \frac{1}{\sqrt{2}}(|00\rangle-|11\rangle)$ & $(0,0)$ 或 $(0,1)$（各50\%） \\
+$|\Psi^+\rangle = \frac{1}{\sqrt{2}}(|01\rangle+|10\rangle)$ & \textbf{确定性地} $(1,0)$ \\
+$|\Psi^-\rangle = \frac{1}{\sqrt{2}}(|01\rangle-|10\rangle)$ & \textbf{确定性地} $(1,0)$ \\
+\hline
+\end{tabular}
+\end{center}
+
+\textbf{关键观察：}
+
+\begin{enumerate}
+\item \textbf{部分区分能力}：线路(b)可以区分两类 Bell 态：
+\begin{itemize}
+  \item $\Phi$ 类（$|\Phi^+\rangle$ 和 $|\Phi^-\rangle$）：测量结果可能是 $(0,0)$ 或 $(0,1)$，各占50\%
+  \item $\Psi$ 类（$|\Psi^+\rangle$ 和 $|\Psi^-\rangle$）：测量结果\textbf{确定性地}是 $(1,0)$
+\end{itemize}
+
+\item \textbf{无法完全区分}：
+\begin{itemize}
+  \item 无法区分 $|\Phi^+\rangle$ 和 $|\Phi^-\rangle$（相同的测量结果分布）
+  \item 无法区分 $|\Psi^+\rangle$ 和 $|\Psi^-\rangle$（相同的测量结果，都是确定性的(1,0)）
+  \item 对于 $\Phi$ 类，这是因为测量只能获得概率信息，而 $|\Phi^+\rangle$ 和 $|\Phi^-\rangle$ 只相差一个整体相位
+  \item 对于 $\Psi$ 类，两个态经过线路后都演化到相同测量结果的态（可能相差整体相位）
+\end{itemize}
+
+\item \textbf{测量结果的区分能力}：
+\begin{itemize}
+  \item 如果测量得到 $(0,0)$，可以确定输入是 $\Phi$ 类（$|\Phi^+\rangle$ 或 $|\Phi^-\rangle$）
+  \item 如果测量得到 $(0,1)$，可以确定输入是 $\Phi$ 类（$|\Phi^+\rangle$ 或 $|\Phi^-\rangle$）
+  \item 如果测量得到 $(1,0)$，可以确定输入是 $\Psi$ 类（$|\Psi^+\rangle$ 或 $|\Psi^-\rangle$）
+  \item 测量结果 $(1,1)$ 不会出现
+\end{itemize}
+
+\item \textbf{量子通信应用}：
+\begin{itemize}
+  \item 这种部分区分能力在量子通信协议中有重要应用
+  \item 例如在量子密钥分发（QKD）中，可以用来检测窃听
+  \item 在超密编码中，类似的线路用于解码经典信息
+  \item 在纠缠交换中，部分 Bell 态测量可以建立远距离纠缠
+\end{itemize}
+
+\item \textbf{完全 Bell 态测量的困难性}：
+\begin{itemize}
+  \item 使用仅线性光学元件和单光子探测器，无法实现完全的 Bell 态测量
+  \item 理论上只能确定性地区分 4 个 Bell 态中的 2 个
+  \item 这是量子通信实验中的一个基本限制
+  \item 需要使用非线性相互作用或辅助纠缠才能实现完全 Bell 态测量
+\end{itemize}
+\end{enumerate}
+
+\textbf{物理意义：}
+
+这个例子展示了量子测量的一个深刻性质：即使是最优的测量策略，也可能无法完全区分所有的量子态。Bell 态是最大纠缠态，它们构成了两量子比特系统的一组正交基，但用局部操作和经典通信（LOCC）无法完全区分它们。线路(b)实现的是一种特殊的 LOCC 测量，只能部分区分 Bell 态。
 
 \paragraph{题目4} 设有一个具有特征值 $\pm1$ 的单量子比特门上的算子 U，U 既是 Hermite 的又是西的，故可以作此门是一个可观测量，又是一个幺正门。假设我们希望测量量子观测量 U，即我们希望获得指示两个特征值之一的测量结果，并将测量后的状态带到相应的特征向量。证明下面的线路可实现 U 的一个测量。
 
@@ -1130,6 +1306,20 @@ Controlled-U 门的作用是：当控制位（第一个量子比特）为 $|1\ra
 \]
 
 将 $|\psi_{\text{in}}\rangle$ 按照 U 的本征态展开：$|\psi_{\text{in}}\rangle = c_+|u_+\rangle + c_-|u_-\rangle$，其中 $|c_+|^2+|c_-|^2=1$。
+
+\textbf{关键步骤：利用特征值 $\pm 1$}
+
+由于 $|u_+\rangle$ 和 $|u_-\rangle$ 是 $U$ 的本征态，满足：
+\[
+U|u_+\rangle = (+1)|u_+\rangle = |u_+\rangle, \quad U|u_-\rangle = (-1)|u_-\rangle = -|u_-\rangle
+\]
+
+因此：
+\[
+U|\psi_{\text{in}}\rangle = U(c_+|u_+\rangle + c_-|u_-\rangle) = c_+ U|u_+\rangle + c_- U|u_-\rangle = c_+|u_+\rangle - c_-|u_-\rangle
+\]
+
+注意这里出现了负号！这正是特征值 $-1$ 的作用。
 
 代入得：
 \begin{align*}
