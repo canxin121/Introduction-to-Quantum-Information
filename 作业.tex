@@ -1,0 +1,1315 @@
+\documentclass[12pt]{article}
+
+\usepackage[a4paper,margin=2.2cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{xeCJK}
+\usepackage{hyperref}
+\usepackage{graphicx}
+
+\setCJKmainfont{Source Han Serif CN}
+\setCJKsansfont{Source Han Sans CN}
+\setCJKmonofont{Source Han Sans CN}
+\setlist[itemize]{leftmargin=*,nosep}
+\setlist[enumerate]{leftmargin=*,nosep}
+
+\title{量子信息导论：作业解答}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{量子信息}
+\subsection{1}
+
+\subsubsection*{练习2.2（矩阵表示例子）}
+\textbf{题目：}设 $V$ 是以 $|0\rangle$ 和 $|1\rangle$ 为基向量的向量空间，$A$ 是从 $V$ 到 $V$ 的线性算子，使 $A|0\rangle=|1\rangle$，$A|1\rangle=|0\rangle$。给出 $A$ 相对于输入基 $|0\rangle,|1\rangle$ 和输出基 $|0\rangle,|1\rangle$ 的矩阵表示。找出使 $A$ 具有不同矩阵表示的输入输出基。
+
+\textbf{解：}
+先写出算符本身（与基无关）的表达式。由
+\[
+A|0\rangle=|1\rangle,\qquad A|1\rangle=|0\rangle
+\]
+并利用完备关系 $I=|0\rangle\langle 0|+|1\rangle\langle 1|$，
+\[
+A=A I=A|0\rangle\langle 0|+A|1\rangle\langle 1|
+=|1\rangle\langle 0|+|0\rangle\langle 1|
+\]
+这就是 Pauli-$X$ 算符。
+
+\textbf{(1) 输入基与输出基同为 $\{|0\rangle,|1\rangle\}$：}
+按 3.4 节的记号，矩阵元
+\[
+A^{(0,1)}_{ij}=\langle i|A|j\rangle
+\]
+且第 $j$ 列是 $A|j\rangle$ 在基 $\{|0\rangle,|1\rangle\}$ 下的展开系数。由
+\[
+A|0\rangle=|1\rangle,\quad A|1\rangle=|0\rangle
+\]
+得到
+\[
+A^{(0,1)}=\begin{pmatrix}0&1\\1&0\end{pmatrix}.
+\]
+
+\textbf{(2) 取不同基得到不同矩阵表示：}
+令新基为 Hadamard 基
+\[
+|+\rangle=\frac{|0\rangle+|1\rangle}{\sqrt{2}},\quad
+|-\rangle=\frac{|0\rangle-|1\rangle}{\sqrt{2}}.
+\]
+基变换矩阵（按 2.7 节定义）为
+\[
+U_{ij}=\langle e_i|f_j\rangle,\quad
+U=\frac{1}{\sqrt{2}}\begin{pmatrix}1&1\\1&-1\end{pmatrix}.
+\]
+于是算符在新基下的矩阵表示为
+\[
+A^{(+,-)}=U^\dagger A^{(0,1)}U
+=\begin{pmatrix}1&0\\0&-1\end{pmatrix},
+\]
+与 $A^{(0,1)}$ 不同。
+
+\subsubsection*{练习2.11（Pauli 矩阵的特征分解）}
+\textbf{题目：}找出 Pauli 矩阵 $X,Y,Z$ 的特征向量、特征值和对角表示。
+
+\textbf{解：}
+\[ X=\begin{pmatrix}0&1\\1&0\end{pmatrix},\quad
+Y=\begin{pmatrix}0&-i\\ i&0\end{pmatrix},\quad
+Z=\begin{pmatrix}1&0\\0&-1\end{pmatrix}
+\]
+
+\paragraph{(1) $X$ 的特征分解}
+解特征方程 $\det(X-\lambda I)=0$：
+\[
+\det\!\begin{pmatrix}-\lambda&1\\1&-\lambda\end{pmatrix}
+=\lambda^2-1=0
+\Rightarrow \lambda=\pm 1.
+\]
+当 $\lambda=+1$ 时，解 $(X-I)\vec v=0$：
+\[
+\begin{pmatrix}-1&1\\1&-1\end{pmatrix}
+\begin{pmatrix}a\\b\end{pmatrix}=0
+\Rightarrow a=b.
+\]
+取归一化向量
+\[
+|+\rangle=\frac{|0\rangle+|1\rangle}{\sqrt{2}} \quad(\lambda=+1).
+\]
+当 $\lambda=-1$ 时，解 $(X+I)\vec v=0$：
+\[
+\begin{pmatrix}1&1\\1&1\end{pmatrix}
+\begin{pmatrix}a\\b\end{pmatrix}=0
+\Rightarrow a=-b.
+\]
+取归一化向量
+\[
+|-\rangle=\frac{|0\rangle-|1\rangle}{\sqrt{2}} \quad(\lambda=-1).
+\]
+因此在基 $\{|+\rangle,|-\rangle\}$ 下，
+\[
+X \sim \mathrm{diag}(1,-1).
+\]
+具体计算如下：令
+\[
+U=\big(|+\rangle\ |-\rangle\big)
+=\frac{1}{\sqrt{2}}\begin{pmatrix}1&1\\1&-1\end{pmatrix},
+\quad U^\dagger=U.
+\]
+则
+\[
+U^\dagger X U
+=\frac{1}{2}\begin{pmatrix}1&1\\1&-1\end{pmatrix}
+\begin{pmatrix}0&1\\1&0\end{pmatrix}
+\begin{pmatrix}1&1\\1&-1\end{pmatrix}
+=\begin{pmatrix}1&0\\0&-1\end{pmatrix}.
+\]
+
+\paragraph{(2) $Y$ 的特征分解}
+解特征方程 $\det(Y-\lambda I)=0$：
+\[
+\det\!\begin{pmatrix}-\lambda&-i\\ i&-\lambda\end{pmatrix}
+=\lambda^2-1=0
+\Rightarrow \lambda=\pm 1.
+\]
+当 $\lambda=+1$ 时，解 $(Y-I)\vec v=0$：
+\[
+\begin{pmatrix}-1&-i\\ i&-1\end{pmatrix}
+\begin{pmatrix}a\\b\end{pmatrix}=0
+\Rightarrow -a-ib=0 \Rightarrow a=-ib.
+\]
+取 $b=1$，归一化为
+\[
+|y_+\rangle=\frac{|0\rangle+i|1\rangle}{\sqrt{2}} \quad(\lambda=+1).
+\]
+当 $\lambda=-1$ 时，解 $(Y+I)\vec v=0$：
+\[
+\begin{pmatrix}1&-i\\ i&1\end{pmatrix}
+\begin{pmatrix}a\\b\end{pmatrix}=0
+\Rightarrow a=ib.
+\]
+取 $b=1$，归一化为
+\[
+|y_-\rangle=\frac{|0\rangle-i|1\rangle}{\sqrt{2}} \quad(\lambda=-1).
+\]
+因此在基 $\{|y_+\rangle,|y_-\rangle\}$ 下，
+\[
+Y \sim \mathrm{diag}(1,-1).
+\]
+具体计算如下：令
+\[
+U=\big(|y_+\rangle\ |y_-\rangle\big)
+=\frac{1}{\sqrt{2}}\begin{pmatrix}1&1\\ i&-i\end{pmatrix},
+\quad U^\dagger=\frac{1}{\sqrt{2}}\begin{pmatrix}1&-i\\ 1&i\end{pmatrix}.
+\]
+则
+\[
+U^\dagger Y U
+=\frac{1}{2}\begin{pmatrix}1&-i\\ 1&i\end{pmatrix}
+\begin{pmatrix}0&-i\\ i&0\end{pmatrix}
+\begin{pmatrix}1&1\\ i&-i\end{pmatrix}
+=\begin{pmatrix}1&0\\0&-1\end{pmatrix}.
+\]
+
+\paragraph{(3) $Z$ 的特征分解}
+解特征方程 $\det(Z-\lambda I)=0$：
+\[
+\det\!\begin{pmatrix}1-\lambda&0\\0&-1-\lambda\end{pmatrix}
+=(1-\lambda)(-1-\lambda)=\lambda^2-1=0
+\Rightarrow \lambda=\pm 1.
+\]
+当 $\lambda=+1$ 时，解 $(Z-I)\vec v=0$：
+\[
+\begin{pmatrix}0&0\\0&-2\end{pmatrix}
+\begin{pmatrix}a\\b\end{pmatrix}=0
+\Rightarrow b=0,
+\]
+取归一化向量 $|0\rangle$。
+当 $\lambda=-1$ 时，解 $(Z+I)\vec v=0$：
+\[
+\begin{pmatrix}2&0\\0&0\end{pmatrix}
+\begin{pmatrix}a\\b\end{pmatrix}=0
+\Rightarrow a=0,
+\]
+取归一化向量 $|1\rangle$。
+因此在基 $\{|0\rangle,|1\rangle\}$ 下，
+\[
+Z \sim \mathrm{diag}(1,-1).
+\]
+具体计算如下：令
+\[
+U=\big(|0\rangle\ |1\rangle\big)=\begin{pmatrix}1&0\\0&1\end{pmatrix}=I,\quad U^\dagger=I.
+\]
+则
+\[
+U^\dagger Z U = Z = \begin{pmatrix}1&0\\0&-1\end{pmatrix}.
+\]
+
+\subsubsection*{练习2.20（更换基）}
+\textbf{题目：}设 $A'$ 和 $A''$ 是向量空间 $V$ 上一个算子 $A$ 对两个不同的标准正交基 $\{|v_i\rangle\}$ 和 $\{|w_i\rangle\}$ 的矩阵表示，则
+\[
+A'_{ij}=\langle v_i|A|v_j\rangle,\quad
+A''_{ij}=\langle w_i|A|w_j\rangle
+\]
+刻画 $A'$ 和 $A''$ 之间的关系。
+
+\textbf{解：}
+设基变换矩阵 $U$ 的元素为
+\[
+U_{ij}=\langle v_i|w_j\rangle
+\]
+则 $U$ 为酉矩阵，并有
+\[
+|w_j\rangle=\sum_i |v_i\rangle U_{ij}
+\]
+代入可得
+\[
+A'' = U^{\dagger} A' U
+\]
+因此两者相似（酉相似），对应同一线性算子的不同基表示。
+
+\subsubsection*{练习2.26}
+\textbf{题目：}令 $|\psi\rangle=(|0\rangle+|1\rangle)/\sqrt{2}$，以 $|0\rangle,|1\rangle$ 的张量积形式，并采用 Kronecker 积，具体写出 $|\psi\rangle^{\otimes 2}$ 和 $|\psi\rangle^{\otimes 3}$。
+
+\textbf{解：}
+\[
+|\psi\rangle=\frac{1}{\sqrt{2}}\begin{pmatrix}1\\1\end{pmatrix}
+\]
+因此
+\[
+|\psi\rangle^{\otimes 2}=|\psi\rangle\otimes|\psi\rangle
+=\frac{1}{2}\begin{pmatrix}1\\1\\1\\1\end{pmatrix}
+=\frac{1}{2}(|00\rangle+|01\rangle+|10\rangle+|11\rangle)
+\]
+其中列向量顺序为 $|00\rangle,|01\rangle,|10\rangle,|11\rangle$。
+
+同理
+\[
+|\psi\rangle^{\otimes 3}=|\psi\rangle\otimes|\psi\rangle\otimes|\psi\rangle
+=\frac{1}{2\sqrt{2}}\begin{pmatrix}1\\1\\1\\1\\1\\1\\1\\1\end{pmatrix}
+\]
+即
+\[
+|\psi\rangle^{\otimes 3}=\frac{1}{2\sqrt{2}}\sum_{b\in\{0,1\}^3}|b\rangle
+\]
+列向量顺序为 $|000\rangle,|001\rangle,|010\rangle,|011\rangle,|100\rangle,|101\rangle,|110\rangle,|111\rangle$。
+
+\subsection{2}
+
+\subsubsection*{请利用布洛赫球表示以下量子态}
+
+布洛赫球表示中，单量子比特纯态可写为
+\[
+|\psi\rangle=\cos\frac{\theta}{2}|0\rangle+e^{i\phi}\sin\frac{\theta}{2}|1\rangle
+\]
+其中 $\theta\in[0,\pi]$ 为极角，$\phi\in[0,2\pi)$ 为方位角。
+
+\paragraph{(1)} \textbf{题目：}利用布洛赫球表示量子态 $|\psi\rangle=\frac{|0\rangle+|1\rangle}{\sqrt{2}}$。
+
+\textbf{解：}$|\psi\rangle=\frac{|0\rangle+|1\rangle}{\sqrt{2}}=|+\rangle$
+
+比较系数：
+\[
+\cos\frac{\theta}{2}=\frac{1}{\sqrt{2}},\quad
+e^{i\phi}\sin\frac{\theta}{2}=\frac{1}{\sqrt{2}}
+\]
+得到 $\theta=\pi/2$，$\phi=0$。
+
+布洛赫球坐标为 $(\theta,\phi)=(\pi/2,0)$，即赤道上 $+x$ 方向。
+
+\paragraph{(2)} \textbf{题目：}利用布洛赫球表示量子态 $|\psi\rangle=\frac{|0\rangle-|1\rangle}{\sqrt{2}}$。
+
+\textbf{解：}$|\psi\rangle=\frac{|0\rangle-|1\rangle}{\sqrt{2}}=|-\rangle$
+
+比较系数：
+\[
+\cos\frac{\theta}{2}=\frac{1}{\sqrt{2}},\quad
+e^{i\phi}\sin\frac{\theta}{2}=-\frac{1}{\sqrt{2}}=e^{i\pi}\frac{1}{\sqrt{2}}
+\]
+得到 $\theta=\pi/2$，$\phi=\pi$。
+
+布洛赫球坐标为 $(\theta,\phi)=(\pi/2,\pi)$，即赤道上 $-x$ 方向。
+
+\paragraph{(3)} \textbf{题目：}利用布洛赫球表示量子态 $|\psi\rangle=\frac{|0\rangle+i|1\rangle}{\sqrt{2}}$。
+
+\textbf{解：}比较系数：
+\[
+\cos\frac{\theta}{2}=\frac{1}{\sqrt{2}},\quad
+e^{i\phi}\sin\frac{\theta}{2}=\frac{i}{\sqrt{2}}=e^{i\pi/2}\frac{1}{\sqrt{2}}
+\]
+得到 $\theta=\pi/2$，$\phi=\pi/2$。
+
+布洛赫球坐标为 $(\theta,\phi)=(\pi/2,\pi/2)$，即赤道上 $+y$ 方向。
+
+\paragraph{(4)} \textbf{题目：}利用布洛赫球表示量子态 $|\psi\rangle=\frac{|0\rangle-i|1\rangle}{\sqrt{2}}$。
+
+\textbf{解：}比较系数：
+\[
+\cos\frac{\theta}{2}=\frac{1}{\sqrt{2}},\quad
+e^{i\phi}\sin\frac{\theta}{2}=-\frac{i}{\sqrt{2}}=e^{i3\pi/2}\frac{1}{\sqrt{2}}
+\]
+得到 $\theta=\pi/2$，$\phi=3\pi/2$。
+
+布洛赫球坐标为 $(\theta,\phi)=(\pi/2,3\pi/2)$，即赤道上 $-y$ 方向。
+
+\subsection{3}
+
+\subsubsection*{施特恩-格拉赫实验与量子测量}
+
+\paragraph{题目1} 用 $\{|0\rangle,|1\rangle\}$ 基测量量子态 $|+\rangle$，会得到什么结果？其中 $|0\rangle$ 发生的概率是多少？
+
+\textbf{解：}$|+\rangle=\frac{|0\rangle+|1\rangle}{\sqrt{2}}$
+
+在 $\{|0\rangle,|1\rangle\}$ 基下测量，测量结果为 $|0\rangle$ 或 $|1\rangle$。
+\[
+P(|0\rangle)=|\langle 0|+\rangle|^2=\left|\frac{1}{\sqrt{2}}\right|^2=\frac{1}{2}
+\]
+\[
+P(|1\rangle)=|\langle 1|+\rangle|^2=\left|\frac{1}{\sqrt{2}}\right|^2=\frac{1}{2}
+\]
+因此测量结果为 $|0\rangle$ 或 $|1\rangle$，各以 $1/2$ 的概率出现。
+
+\paragraph{题目2} 在施特恩-格拉赫实验中，对由高温炉产生的银原子施加Z方向的不均匀磁场，对这个银原子进行测量，测量结果是自旋向上的概率是 $p_1=a$，结果是自旋向下的概率是 $p_2=b$。
+
+\begin{enumerate}
+\item[(1)] 请写出高温炉射出的银原子的自旋状态 $|\varphi\rangle$。
+\item[(2)] 在施特恩-格拉赫实验中，沿 Z 方向施加磁场，对应的可观测算子是泡利矩阵 Z，请计算自旋状态为 $|\varphi\rangle$ 系统的可观测算子 Z 的测量不确定度（标准偏差）。
+\end{enumerate}
+
+\textbf{解：}
+
+\textbf{(1)} 由题意，测量 Z 方向自旋，向上（$|0\rangle$）的概率为 $a$，向下（$|1\rangle$）的概率为 $b$，且 $a+b=1$。
+
+因此初态为
+\[
+|\varphi\rangle=\sqrt{a}|0\rangle+\sqrt{b}|1\rangle
+\]
+（取实数系数，全局相位任意）。
+
+\textbf{(2)} 泡利矩阵 $Z=|0\rangle\langle 0|-|1\rangle\langle 1|$，特征值为 $\pm 1$。
+
+期望值：
+\[
+\langle Z\rangle=\langle\varphi|Z|\varphi\rangle
+=a\cdot(+1)+b\cdot(-1)=a-b
+\]
+期望的平方：
+\[
+\langle Z^2\rangle=\langle\varphi|Z^2|\varphi\rangle
+=\langle\varphi|I|\varphi\rangle=1
+\]
+方差：
+\[
+\Delta Z^2=\langle Z^2\rangle-\langle Z\rangle^2=1-(a-b)^2
+\]
+标准偏差（测量不确定度）：
+\[
+\Delta Z=\sqrt{1-(a-b)^2}=\sqrt{1-(a-b)^2}=\sqrt{4ab}=2\sqrt{ab}
+\]
+其中用到了 $a+b=1$。
+
+\paragraph{题目3} 如图所示施特恩-格拉赫实验，请填出每次测量坍缩到的量子态，并给出详细计算过程。图示为：初态 $|0\rangle$ 依次经过 Z 测量、X 测量、Z 测量、Z 测量的量子线路。
+
+\begin{center}
+\includegraphics[width=0.95\textwidth]{assets/作业/量子信息/3/3_pic.png}
+\end{center}
+
+\textbf{解：}量子线路的演化过程：
+
+第一次 Z 测量后得到 $|0\rangle$（上方输出）。从 $|0\rangle$ 开始后续测量。
+
+\textbf{步骤1：}X 测量
+
+$X$ 的本征态为 $|+\rangle=\frac{|0\rangle+|1\rangle}{\sqrt{2}}$（本征值 $+1$）和 $|-\rangle=\frac{|0\rangle-|1\rangle}{\sqrt{2}}$（本征值 $-1$）。
+
+将 $|0\rangle$ 投影到 X 基：
+\[
+|0\rangle=\frac{1}{\sqrt{2}}|+\rangle+\frac{1}{\sqrt{2}}|-\rangle
+\]
+测量后，以各 $1/2$ 概率坍缩到 $|+\rangle$（上方输出）或 $|-\rangle$（下方输出）。
+
+\textbf{步骤2：}第一次 Z 测量
+
+\textbf{(a) 若 X 测量得到 $|+\rangle$：}
+
+将 $|+\rangle$ 投影到 Z 基：
+\[
+|+\rangle=\frac{|0\rangle+|1\rangle}{\sqrt{2}}
+\]
+测量后，以各 $1/2$ 概率坍缩到 $|0\rangle$（上方输出）或 $|1\rangle$（下方输出）。
+
+\textbf{(b) 若 X 测量得到 $|-\rangle$：}
+
+将 $|-\rangle$ 投影到 Z 基：
+\[
+|-\rangle=\frac{|0\rangle-|1\rangle}{\sqrt{2}}
+\]
+测量后，以各 $1/2$ 概率坍缩到 $|0\rangle$（上方输出）或 $|1\rangle$（下方输出）。
+
+\textbf{步骤3：}第二次 Z 测量
+
+无论前面路径如何，经过第一次 Z 测量后得到的是 $Z$ 的本征态 $|0\rangle$ 或 $|1\rangle$。
+对 $Z$ 的本征态再次进行 Z 测量，结果确定不变。
+
+从图中可以看出，只有从 $|0\rangle$ 路径继续进行第二次 Z 测量，输出确定为 $|0\rangle$。
+
+\textbf{图中6个空白处应填写的量子态：}
+
+图中标记的空白 $|\quad\rangle$ 应填写为：
+\begin{enumerate}
+\item X 测量上方输出：$|+\rangle$
+\item X 测量下方输出：$|-\rangle$
+\item 第一次 Z 测量上方输出（从 $|+\rangle$ 或 $|-\rangle$ 路径）：$|0\rangle$
+\item 第一次 Z 测量下方输出（从 $|+\rangle$ 或 $|-\rangle$ 路径）：$|1\rangle$
+\item 第二次 Z 测量输出（从 $|0\rangle$ 路径）：$|0\rangle$
+\item （图中此处若有标记）从 $|1\rangle$ 路径的输出：$|1\rangle$（或不填写，因为测量本征态结果确定）
+\end{enumerate}
+
+\textbf{说明：}
+\begin{itemize}
+\item 对 $Z$ 的本征态进行 Z 测量，结果确定，不产生新的分支
+\item $|0\rangle$ 经 Z 测量仍为 $|0\rangle$（本征值 $+1$）
+\item $|1\rangle$ 经 Z 测量仍为 $|1\rangle$（本征值 $-1$）
+\item 图中最后的测量主要追踪从 $|0\rangle$ 路径的演化
+\end{itemize}
+
+\subsection{4}
+
+\subsubsection*{双自旋纠缠态}
+
+\paragraph{题目} 如图为比特施特恩-格拉赫实验，蒸发炉能够产生一对一对的自旋，两个自旋具有相反的动量，图中示意地描绘了仅有的两种可能观测结果，即如果自旋1处于向上的状态那么自旋2处于向下的状态；如果自旋1处于向下的状态那么自旋2处于向上的状态。
+
+\begin{center}
+\includegraphics[width=0.7\textwidth]{assets/作业/量子信息/4/1_pic.png}
+\end{center}
+
+\begin{enumerate}
+\item[(1)] 请写出该双自旋量子态 $|\varphi\rangle$ 的表达式。
+\item[(2)] 测量的是沿 Z 方向的自旋，对应的可观测算子是泡利矩阵 $Z_1Z_2$，请计算状态 $|\varphi\rangle$ 系统可观测量 $Z_1Z_2$ 的平均值。
+\item[(3)] 计算 $|\varphi\rangle$ 的密度算子，并判断它是否为纯态。
+\item[(4)] 计算对第一个量子比特的约化密度算子（对第二量子比特取迹），并判断第一个量子比特是否为纯态。
+\end{enumerate}
+
+\textbf{解：}
+
+\textbf{(1)} 根据题意，两个自旋反关联：自旋1向上则自旋2向下，反之亦然。
+
+这意味着量子态只在 $|01\rangle$ 和 $|10\rangle$ 两个基态上有振幅，可以写为：
+\[
+|\varphi\rangle=\alpha|01\rangle+\beta|10\rangle
+\]
+其中 $|\alpha|^2+|\beta|^2=1$（归一化条件）。
+
+从图中可以看出，两种测量结果（自旋1上/自旋2下 或 自旋1下/自旋2上）出现的概率相等，因此 $|\alpha|^2=|\beta|^2=\frac{1}{2}$，即 $|\alpha|=|\beta|=\frac{1}{\sqrt{2}}$。
+
+最一般的形式为：
+\[
+|\varphi\rangle=\frac{1}{\sqrt{2}}(|01\rangle+e^{i\phi}|10\rangle)
+\]
+其中 $\phi$ 是相对相位。
+
+\textbf{特殊情况：}如果该态是\textbf{单态}（singlet state，总自旋为0的态），则相对相位 $\phi=\pi$，得到：
+\[
+|\varphi\rangle_{\text{singlet}}=\frac{1}{\sqrt{2}}(|01\rangle-|10\rangle)
+=\frac{1}{\sqrt{2}}(|0\rangle_1\otimes|1\rangle_2-|1\rangle_1\otimes|0\rangle_2)
+\]
+
+\textbf{注：}仅从"反关联"这一条件无法唯一确定相对相位。物理上，单态是最常见的自旋反关联态，因此通常默认为单态。后续计算我们采用单态形式。
+
+\textbf{(2)} 可观测算子 $Z_1Z_2=Z\otimes Z$，其中
+\[
+Z=|0\rangle\langle 0|-|1\rangle\langle 1|
+\]
+因此
+\[
+Z_1Z_2=(|0\rangle\langle 0|-|1\rangle\langle 1|)\otimes(|0\rangle\langle 0|-|1\rangle\langle 1|)
+\]
+计算期望值：
+\[
+\langle Z_1Z_2\rangle=\langle\varphi|Z_1Z_2|\varphi\rangle
+\]
+注意到
+\[
+Z_1Z_2|01\rangle=(Z|0\rangle)\otimes(Z|1\rangle)=(+|0\rangle)\otimes(-|1\rangle)=-|01\rangle
+\]
+\[
+Z_1Z_2|10\rangle=(Z|1\rangle)\otimes(Z|0\rangle)=(-|1\rangle)\otimes(+|0\rangle)=-|10\rangle
+\]
+因此
+\[
+Z_1Z_2|\varphi\rangle=\frac{-|01\rangle-(-|10\rangle)}{\sqrt{2}}
+=\frac{-|01\rangle+|10\rangle}{\sqrt{2}}=-|\varphi\rangle
+\]
+所以
+\[
+\langle Z_1Z_2\rangle=\langle\varphi|(-|\varphi\rangle)=-1
+\]
+
+\textbf{(3)} 密度算子为
+\[
+\rho=|\varphi\rangle\langle\varphi|
+=\frac{1}{2}(|01\rangle-|10\rangle)(\langle 01|-\langle 10|)
+\]
+\[
+=\frac{1}{2}(|01\rangle\langle 01|-|01\rangle\langle 10|-|10\rangle\langle 01|+|10\rangle\langle 10|)
+\]
+计算 $\rho^2$：
+\[
+\rho^2=|\varphi\rangle\langle\varphi|\varphi\rangle\langle\varphi|
+=|\varphi\rangle\langle\varphi|=\rho
+\]
+因为 $\mathrm{Tr}(\rho^2)=\mathrm{Tr}(\rho)=1$，且 $\rho^2=\rho$，所以 $|\varphi\rangle$ 是纯态。
+
+\textbf{(4)} 对第二个量子比特取迹，得到第一个量子比特的约化密度算子：
+\[
+\rho_1=\mathrm{Tr}_2(\rho)=\sum_{i\in\{0,1\}}\langle i|_2\rho|i\rangle_2
+\]
+计算：
+\[
+\langle 0|_2\rho|0\rangle_2
+=\frac{1}{2}\langle 0|_2(|01\rangle\langle 01|-|01\rangle\langle 10|-|10\rangle\langle 01|+|10\rangle\langle 10|)|0\rangle_2
+\]
+注意到 $\langle 0|_2|01\rangle=|0\rangle_1$，$\langle 0|_2|10\rangle=0$，所以
+\[
+\langle 0|_2\rho|0\rangle_2=\frac{1}{2}|0\rangle_1\langle 0|_1
+\]
+类似地
+\[
+\langle 1|_2\rho|1\rangle_2=\frac{1}{2}|1\rangle_1\langle 1|_1
+\]
+因此
+\[
+\rho_1=\frac{1}{2}(|0\rangle\langle 0|+|1\rangle\langle 1|)=\frac{I}{2}
+\]
+这是最大混合态。计算 $\mathrm{Tr}(\rho_1^2)$：
+\[
+\rho_1^2=\frac{I}{4},\quad
+\mathrm{Tr}(\rho_1^2)=\frac{1}{2}<1
+\]
+因此第一个量子比特不是纯态，而是混合态。这表明纠缠态的子系统总是混合态。
+
+\subsection{5}
+
+\subsubsection*{Bell态与纠缠判断}
+
+量子态 $|\psi\rangle_{AB}$ 是纠缠态当且仅当它不能写成张量积形式 $|\phi\rangle_A\otimes|\chi\rangle_B$。
+
+\paragraph{题目1} 判断 $|\psi_1\rangle=\frac{1}{\sqrt{2}}(|00\rangle+|11\rangle)$ 是否为纠缠态，并说明理由。
+
+\textbf{解：}假设 $|\psi_1\rangle=(a|0\rangle+b|1\rangle)\otimes(c|0\rangle+d|1\rangle)$，则
+\[
+|\psi_1\rangle=ac|00\rangle+ad|01\rangle+bc|10\rangle+bd|11\rangle
+\]
+比较系数：$ac=\frac{1}{\sqrt{2}}$，$ad=0$，$bc=0$，$bd=\frac{1}{\sqrt{2}}$。
+
+由 $ad=0$ 得 $a=0$ 或 $d=0$；由 $bc=0$ 得 $b=0$ 或 $c=0$。
+若 $a=0$，则 $ac=0\neq\frac{1}{\sqrt{2}}$，矛盾。
+若 $d=0$，则 $bd=0\neq\frac{1}{\sqrt{2}}$，矛盾。
+
+因此 $|\psi_1\rangle$ 不能分解为张量积，是纠缠态（Bell态 $|\Phi^+\rangle$）。
+
+\paragraph{题目2} 判断 $|\psi_2\rangle=\frac{1}{2}(|00\rangle+|01\rangle+|10\rangle+|11\rangle)$ 是否为纠缠态，并说明理由。
+
+\textbf{解：}注意到
+\[
+|\psi_2\rangle=\frac{1}{2}(|0\rangle+|1\rangle)\otimes(|0\rangle+|1\rangle)
+=|+\rangle\otimes|+\rangle
+\]
+其中 $|+\rangle=\frac{|0\rangle+|1\rangle}{\sqrt{2}}$。
+
+因此 $|\psi_2\rangle$ 可以分解为张量积，不是纠缠态（是可分离态）。
+
+\paragraph{题目3} 判断 $|\psi_3\rangle=\frac{1}{\sqrt{3}}|00\rangle+\sqrt{\frac{2}{3}}|11\rangle$ 是否为纠缠态，并说明理由。
+
+\textbf{解：}假设 $|\psi_3\rangle=(a|0\rangle+b|1\rangle)\otimes(c|0\rangle+d|1\rangle)$，则
+\[
+|\psi_3\rangle=ac|00\rangle+ad|01\rangle+bc|10\rangle+bd|11\rangle
+\]
+比较系数：$ac=\frac{1}{\sqrt{3}}$，$ad=0$，$bc=0$，$bd=\sqrt{\frac{2}{3}}$。
+
+由 $ad=0$ 得 $a=0$ 或 $d=0$；由 $bc=0$ 得 $b=0$ 或 $c=0$。
+若 $a=0$，则 $ac=0\neq\frac{1}{\sqrt{3}}$，矛盾。
+若 $d=0$，则 $bd=0\neq\sqrt{\frac{2}{3}}$，矛盾。
+
+因此 $|\psi_3\rangle$ 不能分解为张量积，是纠缠态。
+
+\subsubsection*{Bell态测量}
+
+已知四个贝尔态（Bell states）为：
+\[
+|\Phi^+\rangle=\frac{1}{\sqrt{2}}(|00\rangle+|11\rangle),\quad
+|\Phi^-\rangle=\frac{1}{\sqrt{2}}(|00\rangle-|11\rangle)
+\]
+\[
+|\Psi^+\rangle=\frac{1}{\sqrt{2}}(|01\rangle+|10\rangle),\quad
+|\Psi^-\rangle=\frac{1}{\sqrt{2}}(|01\rangle-|10\rangle)
+\]
+
+若 Alice 和 Bob 共享一对处于 $|\Phi^+\rangle$ 的纠缠粒子，Alice 对她手中的量子比特在计算基 $\{|0\rangle,|1\rangle\}$ 下进行测量。
+
+\paragraph{题目1} Alice 测量得到结果 $|0\rangle$，Bob 手中的量子比特立即处于什么状态？
+
+\textbf{解：}初态为 $|\Phi^+\rangle=\frac{1}{\sqrt{2}}(|00\rangle+|11\rangle)$
+
+Alice 在计算基下测量，投影算子为 $P_0=|0\rangle\langle 0|\otimes I$，$P_1=|1\rangle\langle 1|\otimes I$。
+
+测量后态为
+\[
+P_0|\Phi^+\rangle=\frac{1}{\sqrt{2}}(|0\rangle\langle 0||0\rangle\otimes|0\rangle+|0\rangle\langle 0||1\rangle\otimes|1\rangle)
+=\frac{1}{\sqrt{2}}|00\rangle
+\]
+归一化后
+\[
+|\psi'\rangle=\frac{|00\rangle}{\||00\rangle\|}=|00\rangle=|0\rangle_A\otimes|0\rangle_B
+\]
+因此 Bob 手中的量子比特处于 $|0\rangle$ 状态。
+
+\paragraph{题目2} 若 Alice 测量得到 $|1\rangle$，Bob 的量子比特状态如何？
+
+\textbf{解：}
+\[
+P_1|\Phi^+\rangle=\frac{1}{\sqrt{2}}|11\rangle
+\]
+归一化后
+\[
+|\psi'\rangle=|11\rangle=|1\rangle_A\otimes|1\rangle_B
+\]
+因此 Bob 手中的量子比特处于 $|1\rangle$ 状态。
+
+\paragraph{题目3} 若 Alice 改为在基 $\{|+\rangle,|-\rangle\}$ 下测量，得到 $|+\rangle$，问 Bob 的量子比特状态是什么？
+
+\textbf{解：}先将 $|\Phi^+\rangle$ 用 Hadamard 基表示。注意到
+\[
+|0\rangle=\frac{|+\rangle+|-\rangle}{\sqrt{2}},\quad
+|1\rangle=\frac{|+\rangle-|-\rangle}{\sqrt{2}}
+\]
+代入：
+\[
+|\Phi^+\rangle=\frac{1}{\sqrt{2}}(|00\rangle+|11\rangle)
+=\frac{1}{\sqrt{2}}\left(\frac{|+\rangle+|-\rangle}{\sqrt{2}}\otimes\frac{|+\rangle+|-\rangle}{\sqrt{2}}+\frac{|+\rangle-|-\rangle}{\sqrt{2}}\otimes\frac{|+\rangle-|-\rangle}{\sqrt{2}}\right)
+\]
+\[
+=\frac{1}{2\sqrt{2}}\Big[(|+\rangle+|-\rangle)\otimes(|+\rangle+|-\rangle)+(|+\rangle-|-\rangle)\otimes(|+\rangle-|-\rangle)\Big]
+\]
+\[
+=\frac{1}{2\sqrt{2}}\Big[|++\rangle+|+-\rangle+|-+\rangle+|--\rangle+|++\rangle-|+-\rangle-|-+\rangle+|--\rangle\Big]
+\]
+\[
+=\frac{1}{2\sqrt{2}}\cdot 2(|++\rangle+|--\rangle)=\frac{1}{\sqrt{2}}(|++\rangle+|--\rangle)
+\]
+
+若 Alice 测量得到 $|+\rangle$，投影后态为
+\[
+(|+\rangle\langle +|\otimes I)|\Phi^+\rangle\propto|+\rangle\otimes|+\rangle
+\]
+因此 Bob 的量子比特处于 $|+\rangle=\frac{|0\rangle+|1\rangle}{\sqrt{2}}$ 状态。
+
+\subsubsection*{超密编码}
+
+\paragraph{题目1} 写出超密编码的详细步骤，包括：初始共享的纠缠态、Alice 根据她要发送的两位经典信息（00, 01, 10, 11）如何操作她手中的量子比特（列出对应的酉变换）、Alice 将操作后的量子比特发送给 Bob 后，Bob 如何进行联合测量以解码信息。
+
+\textbf{解：超密编码协议详细步骤：}
+
+\textbf{初始态：}Alice 和 Bob 共享 Bell 态
+\[
+|\Phi^+\rangle=\frac{1}{\sqrt{2}}(|00\rangle+|11\rangle)
+\]
+其中 Alice 持有第一个量子比特，Bob 持有第二个。
+
+\textbf{编码：}Alice 根据要发送的两位经典信息，对她的量子比特进行如下酉操作：
+
+\begin{itemize}
+\item 发送"00"：不做操作（$I$），态保持为 $|\Phi^+\rangle=\frac{1}{\sqrt{2}}(|00\rangle+|11\rangle)$
+
+\item 发送"01"：施加 $Z$ 门，态变为 $|\Phi^-\rangle=\frac{1}{\sqrt{2}}(|00\rangle-|11\rangle)$
+
+\textbf{详细计算：}
+\begin{align*}
+(Z\otimes I)|\Phi^+\rangle &= (Z\otimes I)\frac{1}{\sqrt{2}}(|00\rangle+|11\rangle) \\
+&= \frac{1}{\sqrt{2}}[(Z\otimes I)|00\rangle + (Z\otimes I)|11\rangle] \\
+&= \frac{1}{\sqrt{2}}[Z|0\rangle\otimes I|0\rangle + Z|1\rangle\otimes I|1\rangle] \\
+&= \frac{1}{\sqrt{2}}[(+1)|0\rangle\otimes|0\rangle + (-1)|1\rangle\otimes|1\rangle] \\
+&= \frac{1}{\sqrt{2}}(|00\rangle - |11\rangle) = |\Phi^-\rangle
+\end{align*}
+其中用到了 $Z|0\rangle=|0\rangle$（本征值$+1$），$Z|1\rangle=-|1\rangle$（本征值$-1$）。
+
+\item 发送"10"：施加 $X$ 门，态变为 $|\Psi^+\rangle=\frac{1}{\sqrt{2}}(|01\rangle+|10\rangle)$
+
+\textbf{详细计算：}
+\begin{align*}
+(X\otimes I)|\Phi^+\rangle &= (X\otimes I)\frac{1}{\sqrt{2}}(|00\rangle+|11\rangle) \\
+&= \frac{1}{\sqrt{2}}[(X\otimes I)|00\rangle + (X\otimes I)|11\rangle] \\
+&= \frac{1}{\sqrt{2}}[X|0\rangle\otimes I|0\rangle + X|1\rangle\otimes I|1\rangle] \\
+&= \frac{1}{\sqrt{2}}[|1\rangle\otimes|0\rangle + |0\rangle\otimes|1\rangle] \\
+&= \frac{1}{\sqrt{2}}(|10\rangle + |01\rangle) = |\Psi^+\rangle
+\end{align*}
+其中用到了 $X|0\rangle=|1\rangle$，$X|1\rangle=|0\rangle$。
+
+\item 发送"11"：施加 $XZ=iY$ 门，态变为 $|\Psi^-\rangle=\frac{1}{\sqrt{2}}(|01\rangle-|10\rangle)$
+
+\textbf{详细计算：}先施加 $Z$ 再施加 $X$：
+\begin{align*}
+(X\otimes I)(Z\otimes I)|\Phi^+\rangle &= (X\otimes I)|\Phi^-\rangle \\
+&= (X\otimes I)\frac{1}{\sqrt{2}}(|00\rangle-|11\rangle) \\
+&= \frac{1}{\sqrt{2}}[X|0\rangle\otimes|0\rangle - X|1\rangle\otimes|1\rangle] \\
+&= \frac{1}{\sqrt{2}}[|1\rangle\otimes|0\rangle - |0\rangle\otimes|1\rangle] \\
+&= \frac{1}{\sqrt{2}}(|10\rangle - |01\rangle) = -|\Psi^-\rangle
+\end{align*}
+相差全局相位$-1$，物理上等价于 $|\Psi^-\rangle$。
+\end{itemize}
+
+\textbf{传输：}Alice 将她的量子比特发送给 Bob。
+
+\textbf{解码：}Bob 持有两个量子比特后，在 Bell 基 $\{|\Phi^+\rangle,|\Phi^-\rangle,|\Psi^+\rangle,|\Psi^-\rangle\}$ 下进行联合测量（Bell 测量）。测量结果直接对应 Alice 发送的经典信息：
+\begin{itemize}
+\item 测得 $|\Phi^+\rangle$ $\Rightarrow$ 信息为"00"
+\item 测得 $|\Phi^-\rangle$ $\Rightarrow$ 信息为"01"
+\item 测得 $|\Psi^+\rangle$ $\Rightarrow$ 信息为"10"
+\item 测得 $|\Psi^-\rangle$ $\Rightarrow$ 信息为"11"
+\end{itemize}
+
+\paragraph{题目2} 验证当 Alice 要发送"11"时，她对手中的量子比特施加 $i\sigma_y$（即 $\begin{pmatrix}0&-1\\1&0\end{pmatrix}$）后，两量子比特的整体状态变为 $|\Psi^-\rangle$。
+
+\textbf{解：}初态为 $|\Phi^+\rangle=\frac{1}{\sqrt{2}}(|00\rangle+|11\rangle)$
+
+Alice 对第一个量子比特施加 $i\sigma_y=\begin{pmatrix}0&-1\\1&0\end{pmatrix}$。注意到
+\[
+i\sigma_y|0\rangle=\begin{pmatrix}0&-1\\1&0\end{pmatrix}\begin{pmatrix}1\\0\end{pmatrix}
+=\begin{pmatrix}0\\1\end{pmatrix}=|1\rangle
+\]
+\[
+i\sigma_y|1\rangle=\begin{pmatrix}0&-1\\1&0\end{pmatrix}\begin{pmatrix}0\\1\end{pmatrix}
+=\begin{pmatrix}-1\\0\end{pmatrix}=-|0\rangle
+\]
+因此
+\[
+(i\sigma_y\otimes I)|\Phi^+\rangle
+=\frac{1}{\sqrt{2}}(i\sigma_y|0\rangle\otimes|0\rangle+i\sigma_y|1\rangle\otimes|1\rangle)
+\]
+\[
+=\frac{1}{\sqrt{2}}(|1\rangle\otimes|0\rangle-|0\rangle\otimes|1\rangle)
+=\frac{1}{\sqrt{2}}(|10\rangle-|01\rangle)
+\]
+\[
+=-\frac{1}{\sqrt{2}}(|01\rangle-|10\rangle)=-|\Psi^-\rangle
+\]
+相差一个全局相位 $-1$，物理上等价于 $|\Psi^-\rangle$。验证完毕。
+
+\subsection{6}
+
+\paragraph{题目1} （线路恒等式）能以熟知的恒等式来简化量子线路并常有用，证明如下三个恒等式：
+\begin{itemize}
+\item[(1)] $HXH = Z$
+\item[(2)] $HYH = -Y$
+\item[(3)] $HZH = X$
+\end{itemize}
+其中 H 为 Hadamard 门，X,Y,Z 分别为 Pauli X,Y,Z 门。
+
+\textbf{解：}
+
+我们先回顾各个门的矩阵表示：
+\[
+H = \frac{1}{\sqrt{2}}\begin{pmatrix}1&1\\1&-1\end{pmatrix},\quad
+X = \begin{pmatrix}0&1\\1&0\end{pmatrix},\quad
+Y = \begin{pmatrix}0&-i\\i&0\end{pmatrix},\quad
+Z = \begin{pmatrix}1&0\\0&-1\end{pmatrix}
+\]
+
+\textbf{(1) 证明 $HXH = Z$：}
+
+首先计算 $XH$：
+\[
+XH = \begin{pmatrix}0&1\\1&0\end{pmatrix}
+\frac{1}{\sqrt{2}}\begin{pmatrix}1&1\\1&-1\end{pmatrix}
+= \frac{1}{\sqrt{2}}\begin{pmatrix}1&-1\\1&1\end{pmatrix}
+\]
+
+再计算 $HXH$：
+\[
+HXH = \frac{1}{\sqrt{2}}\begin{pmatrix}1&1\\1&-1\end{pmatrix}
+\frac{1}{\sqrt{2}}\begin{pmatrix}1&-1\\1&1\end{pmatrix}
+= \frac{1}{2}\begin{pmatrix}2&0\\0&-2\end{pmatrix}
+= \begin{pmatrix}1&0\\0&-1\end{pmatrix} = Z
+\]
+
+\textbf{(2) 证明 $HYH = -Y$：}
+
+首先计算 $YH$：
+\[
+YH = \begin{pmatrix}0&-i\\i&0\end{pmatrix}
+\frac{1}{\sqrt{2}}\begin{pmatrix}1&1\\1&-1\end{pmatrix}
+= \frac{1}{\sqrt{2}}\begin{pmatrix}-i&i\\i&i\end{pmatrix}
+\]
+
+再计算 $HYH$：
+\[
+HYH = \frac{1}{\sqrt{2}}\begin{pmatrix}1&1\\1&-1\end{pmatrix}
+\frac{1}{\sqrt{2}}\begin{pmatrix}-i&i\\i&i\end{pmatrix}
+= \frac{1}{2}\begin{pmatrix}0&2i\\-2i&0\end{pmatrix}
+= \begin{pmatrix}0&i\\-i&0\end{pmatrix} = -Y
+\]
+
+\textbf{(3) 证明 $HZH = X$：}
+
+首先计算 $ZH$：
+\[
+ZH = \begin{pmatrix}1&0\\0&-1\end{pmatrix}
+\frac{1}{\sqrt{2}}\begin{pmatrix}1&1\\1&-1\end{pmatrix}
+= \frac{1}{\sqrt{2}}\begin{pmatrix}1&1\\-1&1\end{pmatrix}
+\]
+
+再计算 $HZH$：
+\[
+HZH = \frac{1}{\sqrt{2}}\begin{pmatrix}1&1\\1&-1\end{pmatrix}
+\frac{1}{\sqrt{2}}\begin{pmatrix}1&1\\-1&1\end{pmatrix}
+= \frac{1}{2}\begin{pmatrix}0&2\\2&0\end{pmatrix}
+= \begin{pmatrix}0&1\\1&0\end{pmatrix} = X
+\]
+
+三个恒等式均得证。
+
+\paragraph{题目2} （多量子比特门的矩阵表示）如下图线路（a）的 4×4 酉矩阵是什么？线路（b）的 4×4 酉矩阵是什么？
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.4\textwidth]{assets/作业/量子信息/6/2_pic.png}
+\end{figure}
+
+\textbf{解：}
+
+\textbf{线路(a)：}线路中在 $x_2$ 上施加 Hadamard 门，$x_1$ 不变。对应的 4×4 矩阵为：
+\[
+U_a = I \otimes H = \begin{pmatrix}1&0\\0&1\end{pmatrix} \otimes
+\frac{1}{\sqrt{2}}\begin{pmatrix}1&1\\1&-1\end{pmatrix}
+= \frac{1}{\sqrt{2}}\begin{pmatrix}
+1&1&0&0\\
+1&-1&0&0\\
+0&0&1&1\\
+0&0&1&-1
+\end{pmatrix}
+\]
+
+\textbf{线路(b)：}线路中在 $x_1$ 上施加 Hadamard 门，$x_2$ 不变。对应的 4×4 矩阵为：
+\[
+U_b = H \otimes I = \frac{1}{\sqrt{2}}\begin{pmatrix}1&1\\1&-1\end{pmatrix}
+\otimes \begin{pmatrix}1&0\\0&1\end{pmatrix}
+= \frac{1}{\sqrt{2}}\begin{pmatrix}
+1&0&1&0\\
+0&1&0&1\\
+1&0&-1&0\\
+0&1&0&-1
+\end{pmatrix}
+\]
+
+\paragraph{题目3} 分析以下两个量子线路各实现什么功能，并给出分析验证过程。
+
+\textbf{解：}
+
+\textbf{基本门介绍：}
+
+\textbf{1. CNOT 门：}
+
+CNOT（Controlled-NOT）门是一个双量子比特门，也称为受控非门。它有一个控制位（control qubit）和一个目标位（target qubit）：
+\begin{itemize}
+\item 当控制位为 $|0\rangle$ 时，目标位保持不变
+\item 当控制位为 $|1\rangle$ 时，对目标位施加 X 门（比特翻转）
+\end{itemize}
+
+\textbf{线路图表示：}在量子线路图中，CNOT 门用以下符号表示：
+\begin{itemize}
+\item \textbf{实心圆点（$\bullet$）：}标记控制位所在的量子比特线
+\item \textbf{带圈加号（$\oplus$）：}标记目标位所在的量子比特线
+\item \textbf{竖线：}连接控制位和目标位
+\end{itemize}
+
+CNOT 门的作用规则：
+\[
+\text{CNOT}|00\rangle = |00\rangle, \quad
+\text{CNOT}|01\rangle = |01\rangle, \quad
+\text{CNOT}|10\rangle = |11\rangle, \quad
+\text{CNOT}|11\rangle = |10\rangle
+\]
+
+\textbf{2. SWAP 门：}
+
+SWAP 门用于交换两个量子比特的状态，在线路图中用×符号表示：
+\[
+\text{SWAP}|ab\rangle = |ba\rangle
+\]
+例如：$\text{SWAP}|01\rangle = |10\rangle$，$\text{SWAP}|10\rangle = |01\rangle$
+
+\textbf{3. 测量：}
+
+仪表盘符号表示测量操作，对量子比特进行投影测量，得到经典比特结果（0或1），并使量子态塌缩到相应的本征态。
+
+---
+
+\textbf{线路(a)：}该线路实现 Bell 态制备功能。
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.3\textwidth]{assets/作业/量子信息/6/3a_pic.png}
+\end{figure}
+
+\textbf{分析过程：}
+
+这个线路由 Hadamard 门和 CNOT 门组成，可以从不同的输入态制备出不同的 Bell 态。我们分析所有可能的输入：
+
+\textbf{情况1：输入 $|00\rangle$}
+\begin{enumerate}
+\item 第一个量子比特经过 Hadamard 门：
+\[
+(H\otimes I)|00\rangle = |+\rangle\otimes|0\rangle = \frac{1}{\sqrt{2}}(|0\rangle+|1\rangle)\otimes|0\rangle
+= \frac{1}{\sqrt{2}}(|00\rangle+|10\rangle)
+\]
+\item 经过 CNOT 门（控制位为第一个量子比特，目标位为第二个）：
+\[
+\text{CNOT}\cdot\frac{1}{\sqrt{2}}(|00\rangle+|10\rangle)
+= \frac{1}{\sqrt{2}}(|00\rangle+|11\rangle) = |\Phi^+\rangle
+\]
+\end{enumerate}
+
+\textbf{情况2：输入 $|01\rangle$}
+\begin{enumerate}
+\item 经过 Hadamard 门：
+\[
+(H\otimes I)|01\rangle = \frac{1}{\sqrt{2}}(|0\rangle+|1\rangle)\otimes|1\rangle
+= \frac{1}{\sqrt{2}}(|01\rangle+|11\rangle)
+\]
+\item 经过 CNOT 门：
+\[
+\text{CNOT}\cdot\frac{1}{\sqrt{2}}(|01\rangle+|11\rangle)
+= \frac{1}{\sqrt{2}}(|01\rangle+|10\rangle) = |\Psi^+\rangle
+\]
+\end{enumerate}
+
+\textbf{情况3：输入 $|10\rangle$}
+\begin{enumerate}
+\item 经过 Hadamard 门：
+\[
+(H\otimes I)|10\rangle = \frac{1}{\sqrt{2}}(|0\rangle-|1\rangle)\otimes|0\rangle
+= \frac{1}{\sqrt{2}}(|00\rangle-|10\rangle)
+\]
+\item 经过 CNOT 门：
+\[
+\text{CNOT}\cdot\frac{1}{\sqrt{2}}(|00\rangle-|10\rangle)
+= \frac{1}{\sqrt{2}}(|00\rangle-|11\rangle) = |\Phi^-\rangle
+\]
+\end{enumerate}
+
+\textbf{情况4：输入 $|11\rangle$}
+\begin{enumerate}
+\item 经过 Hadamard 门：
+\[
+(H\otimes I)|11\rangle = \frac{1}{\sqrt{2}}(|0\rangle-|1\rangle)\otimes|1\rangle
+= \frac{1}{\sqrt{2}}(|01\rangle-|11\rangle)
+\]
+\item 经过 CNOT 门：
+\[
+\text{CNOT}\cdot\frac{1}{\sqrt{2}}(|01\rangle-|11\rangle)
+= \frac{1}{\sqrt{2}}(|01\rangle-|10\rangle) = |\Psi^-\rangle
+\]
+\end{enumerate}
+
+\textbf{总结：}线路(a)从不同的计算基态输入可以制备出所有四个 Bell 态：
+\begin{center}
+\begin{tabular}{c|c}
+\hline
+输入态 & 输出 Bell 态 \\
+\hline
+$|00\rangle$ & $|\Phi^+\rangle = \frac{1}{\sqrt{2}}(|00\rangle+|11\rangle)$ \\
+$|01\rangle$ & $|\Psi^+\rangle = \frac{1}{\sqrt{2}}(|01\rangle+|10\rangle)$ \\
+$|10\rangle$ & $|\Phi^-\rangle = \frac{1}{\sqrt{2}}(|00\rangle-|11\rangle)$ \\
+$|11\rangle$ & $|\Psi^-\rangle = \frac{1}{\sqrt{2}}(|01\rangle-|10\rangle)$ \\
+\hline
+\end{tabular}
+\end{center}
+
+因此，线路(a)是一个通用的 Bell 态制备线路，通过选择不同的输入计算基态，可以制备出任意一个 Bell 态。
+
+---
+
+\textbf{线路(b)：}该线路实现受控Bell态制备和测量功能。
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.5\textwidth]{assets/作业/量子信息/6/3b_pic.png}
+\end{figure}
+
+\textbf{分析过程：}
+
+仔细观察线路(b)，从左到右依次有三个操作：
+
+\textbf{步骤1：}$x_2$ 和第三个量子比特 $|0\rangle$ 之间的 CNOT 门，$x_2$ 为控制位，第三个量子比特为目标位
+
+\textbf{步骤2：}$x_1$ 和 $x_2$ 之间的受控 SWAP 门（Controlled-SWAP，也称 Fredkin 门），第三个量子比特 $|0\rangle$ 为控制位
+
+受控 SWAP 门的作用是：
+\begin{itemize}
+\item 当控制位为 $|0\rangle$ 时，$x_1$ 和 $x_2$ 保持不变
+\item 当控制位为 $|1\rangle$ 时，交换 $x_1$ 和 $x_2$ 的状态
+\end{itemize}
+
+\textbf{步骤3：}$x_1$ 和 $x_2$ 之间的 CNOT 门，$x_2$ 为控制位，$x_1$ 为目标位
+
+\textbf{完整态演化分析：}
+
+假设初态为：$|\psi\rangle = |x_1, x_2, 0\rangle$，其中 $x_1, x_2 \in \{0, 1\}$
+
+\textbf{步骤1后：}$x_2$ 和 $0$ 的 CNOT 操作
+\[
+|x_1, x_2, 0\rangle \xrightarrow{\text{CNOT}_{x_2 \to 0}} |x_1, x_2, x_2\rangle
+\]
+
+\textbf{步骤2后：}受控 SWAP 操作（控制位是第三个量子比特）
+\begin{itemize}
+\item 如果 $x_2 = 0$，第三个量子比特为 $|0\rangle$，不交换：
+\[
+|x_1, 0, 0\rangle \xrightarrow{\text{C-SWAP}} |x_1, 0, 0\rangle
+\]
+\item 如果 $x_2 = 1$，第三个量子比特为 $|1\rangle$，交换 $x_1$ 和 $x_2$：
+\[
+|x_1, 1, 1\rangle \xrightarrow{\text{C-SWAP}} |1, x_1, 1\rangle
+\]
+\end{itemize}
+
+\textbf{步骤3后：}$x_1$ 和 $x_2$ 的 CNOT 操作（$x_2$ 为控制位）
+
+\textbf{具体计算四种输入情况：}
+
+\textbf{输入 $|00\rangle$（$x_1=0, x_2=0$）：}
+\begin{align*}
+|0,0,0\rangle &\xrightarrow{\text{步骤1}} |0,0,0\rangle \\
+&\xrightarrow{\text{步骤2}} |0,0,0\rangle \quad (\text{控制位为0，不交换})\\
+&\xrightarrow{\text{步骤3}} |0,0,0\rangle \quad (\text{$x_2=0$，CNOT不作用})
+\end{align*}
+测量 $x_1, x_2$ 得到 $(0,0)$
+
+\textbf{输入 $|01\rangle$（$x_1=0, x_2=1$）：}
+\begin{align*}
+|0,1,0\rangle &\xrightarrow{\text{步骤1}} |0,1,1\rangle \\
+&\xrightarrow{\text{步骤2}} |1,0,1\rangle \quad (\text{控制位为1，交换})\\
+&\xrightarrow{\text{步骤3}} |1,0,1\rangle \quad (\text{$x_2=0$，CNOT不作用})
+\end{align*}
+测量 $x_1, x_2$ 得到 $(1,0)$
+
+\textbf{输入 $|10\rangle$（$x_1=1, x_2=0$）：}
+\begin{align*}
+|1,0,0\rangle &\xrightarrow{\text{步骤1}} |1,0,0\rangle \\
+&\xrightarrow{\text{步骤2}} |1,0,0\rangle \quad (\text{控制位为0，不交换})\\
+&\xrightarrow{\text{步骤3}} |1,0,0\rangle \quad (\text{$x_2=0$，CNOT不作用})
+\end{align*}
+测量 $x_1, x_2$ 得到 $(1,0)$
+
+\textbf{输入 $|11\rangle$（$x_1=1, x_2=1$）：}
+\begin{align*}
+|1,1,0\rangle &\xrightarrow{\text{步骤1}} |1,1,1\rangle \\
+&\xrightarrow{\text{步骤2}} |1,1,1\rangle \quad (\text{控制位为1，交换后还是$|1,1,1\rangle$})\\
+&\xrightarrow{\text{步骤3}} |0,1,1\rangle \quad (\text{$x_2=1$，CNOT翻转$x_1$})
+\end{align*}
+测量 $x_1, x_2$ 得到 $(0,1)$
+
+\textbf{功能总结：}
+
+线路(b)的映射关系为：
+\begin{center}
+\begin{tabular}{c|c}
+\hline
+输入 $(x_1, x_2)$ & 输出测量结果 $(m_1, m_2)$ \\
+\hline
+$(0, 0)$ & $(0, 0)$ \\
+$(0, 1)$ & $(1, 0)$ \\
+$(1, 0)$ & $(1, 0)$ \\
+$(1, 1)$ & $(0, 1)$ \\
+\hline
+\end{tabular}
+\end{center}
+
+注意到 $(0,1)$ 和 $(1,0)$ 都映射到 $(1,0)$。
+
+如果考虑 Bell 态输入（线路(a)的输出作为线路(b)的输入），这个线路可以部分区分 Bell 态。实际上，这个线路实现的是一个更复杂的量子态转换和测量功能，常用于量子通信协议中。
+
+\paragraph{题目4} 设有一个具有特征值 $\pm1$ 的单量子比特门上的算子 U，U 既是 Hermite 的又是西的，故可以作此门是一个可观测量，又是一个幺正门。假设我们希望测量量子观测量 U，即我们希望获得指示两个特征值之一的测量结果，并将测量后的状态带到相应的特征向量。证明下面的线路可实现 U 的一个测量。
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.6\textwidth]{assets/作业/量子信息/6/4_pic.png}
+\end{figure}
+
+\textbf{解：}
+
+我们逐步分析这个线路在各个阶段的量子态演化：
+
+\textbf{记号说明：}
+\begin{itemize}
+\item 初态：第一个量子比特为 $|0\rangle$，第二个量子比特为待测态 $|\psi_{\text{in}}\rangle$
+\item U 是 Hermite 算符且幺正，因此可以写为 $U = |u_+\rangle\langle u_+| - |u_-\rangle\langle u_-|$，其中 $|u_\pm\rangle$ 是特征值 $\pm1$ 对应的本征态
+\end{itemize}
+
+\textbf{态演化分析：}
+
+\textbf{阶段 $|\psi_1\rangle$：}初态
+\[
+|\psi_1\rangle = |0\rangle\otimes|\psi_{\text{in}}\rangle
+\]
+
+\textbf{阶段 $|\psi_2\rangle$：}第一个量子比特经过 Hadamard 门
+\[
+|\psi_2\rangle = (H\otimes I)(|0\rangle\otimes|\psi_{\text{in}}\rangle)
+= \frac{1}{\sqrt{2}}(|0\rangle+|1\rangle)\otimes|\psi_{\text{in}}\rangle
+= \frac{1}{\sqrt{2}}(|0\rangle|\psi_{\text{in}}\rangle+|1\rangle|\psi_{\text{in}}\rangle)
+\]
+
+\textbf{阶段 $|\psi_3\rangle$：}经过 Controlled-U 门
+
+Controlled-U 门的作用是：当控制位（第一个量子比特）为 $|1\rangle$ 时，对目标位施加 U 门；控制位为 $|0\rangle$ 时不作用。因此：
+\[
+|\psi_3\rangle = \frac{1}{\sqrt{2}}(|0\rangle|\psi_{\text{in}}\rangle+|1\rangle U|\psi_{\text{in}}\rangle)
+\]
+
+将 $|\psi_{\text{in}}\rangle$ 按照 U 的本征态展开：$|\psi_{\text{in}}\rangle = c_+|u_+\rangle + c_-|u_-\rangle$，其中 $|c_+|^2+|c_-|^2=1$。
+
+代入得：
+\begin{align*}
+|\psi_3\rangle &= \frac{1}{\sqrt{2}}[|0\rangle(c_+|u_+\rangle+c_-|u_-\rangle)+|1\rangle(c_+|u_+\rangle-c_-|u_-\rangle)]\\
+&= \frac{c_+}{\sqrt{2}}(|0\rangle+|1\rangle)|u_+\rangle + \frac{c_-}{\sqrt{2}}(|0\rangle-|1\rangle)|u_-\rangle\\
+&= c_+|+\rangle|u_+\rangle + c_-|-\rangle|u_-\rangle
+\end{align*}
+
+\textbf{阶段 $|\psi_4\rangle$：}第一个量子比特经过第二个 Hadamard 门
+
+应用 $H\otimes I$：
+\begin{align*}
+|\psi_4\rangle &= c_+(H|+\rangle)|u_+\rangle + c_-(H|-\rangle)|u_-\rangle\\
+&= c_+|0\rangle|u_+\rangle + c_-|1\rangle|u_-\rangle
+\end{align*}
+
+其中利用了 $H|+\rangle=|0\rangle$，$H|-\rangle=|1\rangle$。
+
+\textbf{测量结果：}
+
+对第一个量子比特（标记为 $a$）进行测量：
+\begin{itemize}
+\item 测得 $a=0$，概率为 $|c_+|^2$，第二个量子比特塌缩到 $|u_+\rangle$（对应本征值 $+1$）
+\item 测得 $a=1$，概率为 $|c_-|^2$，第二个量子比特塌缩到 $|u_-\rangle$（对应本征值 $-1$）
+\end{itemize}
+
+因此，该线路通过测量辅助量子比特 $a$ 的值（0或1），间接实现了对 U 的本征值测量（$+1$或$-1$），并将第二个量子比特投影到相应的本征态上。证毕。
+
+\subsection{7}
+
+\paragraph{题目1} 列举两种主流量子计算体系（如超导忽片、离子阱等），分别简述其核心工作原理及主要优缺点。
+
+\textbf{解：}
+
+\textbf{1. 超导量子计算（Superconducting Quantum Computing）}
+
+\textbf{核心工作原理：}
+\begin{itemize}
+\item 利用超导电路中的约瑟夫森结（Josephson Junction）构造人造原子（如超导量子比特）
+\item 在极低温（$\sim$10-20 mK）下工作，使电路进入超导态，消除电阻损耗
+\item 通过微波脉冲控制量子比特的状态和相互作用
+\item 常见的超导量子比特类型包括 Transmon、Flux qubit 等
+\end{itemize}
+
+\textbf{主要优点：}
+\begin{itemize}
+\item 可利用成熟的半导体制造工艺进行芯片制造，具有良好的可扩展性
+\item 量子门操作速度快（纳秒量级）
+\item 可通过微波控制实现高保真度的单比特和双比特门
+\item 目前已有商业化的超导量子计算机（如 IBM、Google）
+\end{itemize}
+
+\textbf{主要缺点：}
+\begin{itemize}
+\item 相干时间较短（微秒到毫秒量级），需要复杂的量子纠错
+\item 需要极低温环境（稀释制冷机），系统复杂且成本高
+\item 量子比特之间的串扰（crosstalk）问题需要精细调控
+\item 对电磁噪声敏感
+\end{itemize}
+
+\textbf{2. 离子阱量子计算（Ion Trap Quantum Computing）}
+
+\textbf{核心工作原理：}
+\begin{itemize}
+\item 利用电磁场将单个离子（如 $^{171}\text{Yb}^+$、$^{40}\text{Ca}^+$ 等）囚禁在真空中
+\item 量子信息编码在离子的内部电子能级或运动状态上
+\item 通过激光脉冲实现量子比特的初始化、操控和读出
+\item 离子之间通过共同的声学振动模式实现耦合，从而实现双比特门
+\end{itemize}
+
+\textbf{主要优点：}
+\begin{itemize}
+\item 相干时间长（秒到分钟量级），量子比特质量高
+\item 量子门保真度高（单比特门 $>99.9\%$，双比特门 $>99\%$）
+\item 所有离子都是相同的（天然的量子比特一致性）
+\item 可实现全连接拓扑（任意两个离子都可以相互作用）
+\end{itemize}
+
+\textbf{主要缺点：}
+\begin{itemize}
+\item 量子门操作速度慢（微秒到毫秒量级）
+\item 可扩展性受限：单个离子阱中离子数增加时，控制复杂度急剧上升
+\item 需要复杂的激光系统和真空系统，集成度较低
+\item 量子比特数量的扩展面临技术挑战
+\end{itemize}
+
+\paragraph{题目2} 下图是量子隐形传态的线路图，假设待传输量子态为 $|\psi\rangle=\alpha|0\rangle+\beta|1\rangle$，纠缠态为 $|\beta_{00}\rangle=\frac{1}{\sqrt{2}}(|01\rangle+|10\rangle)$，请给出此程中 $|\psi_0\rangle, |\psi_1\rangle, |\psi_2\rangle, |\psi_3\rangle, |\psi_4\rangle$ 结果，并简述量子隐形传态的过程。
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\textwidth]{assets/作业/量子信息/7/2_pic.png}
+\end{figure}
+
+\textbf{解：}
+
+\textbf{态演化分析：}
+
+\textbf{$|\psi_0\rangle$：}初态
+
+整体初态为待传输态 $|\psi\rangle$ 与纠缠态 $|\beta_{00}\rangle$ 的张量积：
+\[
+|\psi_0\rangle = |\psi\rangle \otimes |\beta_{00}\rangle
+= (\alpha|0\rangle+\beta|1\rangle) \otimes \frac{1}{\sqrt{2}}(|01\rangle+|10\rangle)
+\]
+\[
+= \frac{1}{\sqrt{2}}[\alpha|0\rangle(|01\rangle+|10\rangle) + \beta|1\rangle(|01\rangle+|10\rangle)]
+\]
+\[
+= \frac{1}{\sqrt{2}}(\alpha|001\rangle+\alpha|010\rangle+\beta|101\rangle+\beta|110\rangle)
+\]
+
+\textbf{$|\psi_1\rangle$：}第一个和第二个量子比特经过 CNOT 门
+
+CNOT 门作用在前两个量子比特上（第一个为控制位，第二个为目标位）：
+\[
+|\psi_1\rangle = \frac{1}{\sqrt{2}}(\alpha|001\rangle+\alpha|011\rangle+\beta|111\rangle+\beta|100\rangle)
+\]
+
+\textbf{$|\psi_2\rangle$：}第一个量子比特经过 Hadamard 门
+\[
+|\psi_2\rangle = \frac{1}{2}[\alpha(|0\rangle+|1\rangle)|01\rangle+\alpha(|0\rangle+|1\rangle)|11\rangle
++\beta(|0\rangle-|1\rangle)|11\rangle+\beta(|0\rangle-|1\rangle)|00\rangle]
+\]
+
+整理得：
+\[
+|\psi_2\rangle = \frac{1}{2}[|00\rangle(\alpha|1\rangle+\beta|0\rangle)+|01\rangle(\alpha|1\rangle-\beta|0\rangle)
++|10\rangle(\alpha|1\rangle+\beta|0\rangle)+|11\rangle(\alpha|1\rangle-\beta|0\rangle)]
+\]
+
+更简洁的形式：
+\[
+|\psi_2\rangle = \frac{1}{2}[|00\rangle(\beta|0\rangle+\alpha|1\rangle)+|01\rangle(-\beta|0\rangle+\alpha|1\rangle)
++|10\rangle(\beta|0\rangle+\alpha|1\rangle)+|11\rangle(-\beta|0\rangle+\alpha|1\rangle)]
+\]
+
+\textbf{$|\psi_3\rangle$：}测量前两个量子比特（$M_1, M_2$）
+
+测量后，根据测量结果 $(M_1, M_2)$，第三个量子比特塌缩到以下四种状态之一：
+\begin{itemize}
+\item $M_1M_2=00$：第三个量子比特为 $\beta|0\rangle+\alpha|1\rangle$
+\item $M_1M_2=01$：第三个量子比特为 $-\beta|0\rangle+\alpha|1\rangle$
+\item $M_1M_2=10$：第三个量子比特为 $\beta|0\rangle+\alpha|1\rangle$
+\item $M_1M_2=11$：第三个量子比特为 $-\beta|0\rangle+\alpha|1\rangle$
+\end{itemize}
+
+注意：这里需要根据测量结果确定具体哪种情况，因此 $|\psi_3\rangle$ 是上述四种之一（概率各为 1/4）。
+
+\textbf{$|\psi_4\rangle$：}根据测量结果施加修正操作
+
+根据测量结果 $(M_1, M_2)$，对第三个量子比特施加修正操作：
+\begin{itemize}
+\item 若 $M_2=1$：施加 $X$ 门（翻转 $|0\rangle \leftrightarrow |1\rangle$）
+\item 若 $M_1=1$：施加 $Z$ 门（相位翻转 $|1\rangle \to -|1\rangle$）
+\end{itemize}
+
+修正后，无论测量结果如何，最终态都恢复为：
+\[
+|\psi_4\rangle = \alpha|0\rangle+\beta|1\rangle = |\psi\rangle
+\]
+
+\textbf{量子隐形传态过程总结：}
+
+\begin{enumerate}
+\item \textbf{准备阶段：}Alice 持有待传输态 $|\psi\rangle$，Alice 和 Bob 共享纠缠态 $|\beta_{00}\rangle$（Alice 持有第二个量子比特，Bob 持有第三个）
+
+\item \textbf{Bell 基测量：}Alice 对手中的两个量子比特（待传输态和纠缠对的一半）进行 Bell 基测量，得到两个经典比特 $(M_1, M_2)$
+
+\item \textbf{经典通信：}Alice 将测量结果 $(M_1, M_2)$ 通过经典信道发送给 Bob
+
+\item \textbf{修正操作：}Bob 根据收到的测量结果，对自己手中的量子比特施加相应的幺正操作（$X$ 和 $Z$ 门的组合）
+
+\item \textbf{完成传输：}Bob 手中的量子比特最终恢复为原始态 $|\psi\rangle$，而 Alice 手中的量子态已被测量破坏
+\end{enumerate}
+
+\textbf{关键点：}
+\begin{itemize}
+\item 量子隐形传态不违反不可克隆定理：原始态被测量破坏
+\item 需要经典信道传输测量结果，因此不能超光速通信
+\item 利用量子纠缠和经典通信实现量子态的传输
+\end{itemize}
+
+\end{document}

@@ -55,6 +55,26 @@
       "name": "xelatex",
       "tools": ["xelatex"]
     }
-  ]
+  ],
+  "[rocket-mvbasic]": {
+    "editor.codeLens": false
+  },
+  "files.associations": {
+    "*.inc": "cpp",
+    "**/.rmv/config/*.json": "jsonc"
+  },
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/flutter/ephemeral": true,
+    "**/Flutter/ephemeral": true,
+    "**/.symlinks": true,
+    "**/.plugin_symlinks": true,
+    "**/.rmv/catalog/**": true,
+    "*/_*": false
+  }
 }
 

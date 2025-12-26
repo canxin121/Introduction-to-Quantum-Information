@@ -121,6 +121,18 @@ $\Pi$ & $\pi$ & pi & pai（派）\\
   \item \textbf{指数形式}：$z=|z|e^{i\theta}$，其中 $\theta=\arg(z)=\arctan(y/x)$
 \end{itemize}
 
+\paragraph{模方展开（常用）}
+对任意复数 $\alpha,\beta$，
+\[
+|\alpha+\beta|^2=(\alpha+\beta)(\alpha+\beta)^\ast
+=|\alpha|^2+|\beta|^2+2\operatorname{Re}(\alpha\beta^\ast)
+\]
+若 $a,b\in\mathbb{R}$ 且 $\beta=be^{i\phi}$、$\alpha=a$，则
+\[
+|a+be^{i\phi}|^2=a^2+b^2+2ab\cos\phi
+\]
+因此模方\textbf{一定是实数且非负}；相位只通过 $\cos\phi$ 进入干涉项。
+
 \paragraph{重要性质}
 \begin{align}
   (z^\ast)^\ast &= z \\
@@ -243,6 +255,17 @@ $Y$ 基：
 \item \textbf{行列式}：$\det(A)$，若 $\det(A)\neq 0$ 则 $A$ 可逆
 \item \textbf{不可交换性}：一般有 $AB\neq BA$
 \end{itemize}
+
+\paragraph{迹的直观计算（补充）}
+矩阵的\textbf{迹}就是主对角线元素之和。例如
+\[
+A=\begin{pmatrix}a&b\\c&d\end{pmatrix}\ \Rightarrow\ \mathrm{tr}(A)=a+d
+\]
+若是分块矩阵
+\[
+M=\begin{pmatrix}A&B\\C&D\end{pmatrix},
+\]
+则 $\mathrm{tr}(M)=\mathrm{tr}(A)+\mathrm{tr}(D)$（与非对角块 $B,C$ 无关）。
 
 \paragraph{行列式与可逆性（补充）}\label{para:det-invertibility}
 齐次方程 $M x = 0$ 有非零解 $\Leftrightarrow$ $M$ 不可逆。
@@ -855,6 +878,14 @@ A\left(c_1|\psi_1\rangle + c_2|\psi_2\rangle\right)
 体现"\textbf{本征值按概率加权平均}"。
 这是一个复数。在量子力学中，期望值对应测量的平均值。
 
+\textbf{重要说明：}
+\begin{itemize}
+\item 期望值 $\langle A\rangle$ 是\textbf{本征值}的加权平均，不是概率的平均
+\item 如果算符的本征值包含负数，期望值也可以是负数
+\item 概率 $|c_j|^2$ 总是非负的（$0\le |c_j|^2\le 1$），但本征值 $a_j$ 可以是任意实数（对厄米算符）
+\item 例如：$Z$ 的本征值是 $+1$ 和 $-1$，如果测到 $-1$ 的概率更大，期望值就是负数
+\end{itemize}
+
 \begin{example}
 \textbf{计算期望值}
 
@@ -867,6 +898,121 @@ A\left(c_1|\psi_1\rangle + c_2|\psi_2\rangle\right)
 &= \frac{1}{2}(1\quad 1)\begin{pmatrix}1\\-1\end{pmatrix} \\
 &= \frac{1}{2}(1-1) = 0
 \end{align*}
+\end{example}
+
+\begin{example}
+\textbf{期望值为负数的情况}
+
+设 $|\psi\rangle = |1\rangle = \begin{pmatrix}0\\1\end{pmatrix}$，$Z=\begin{pmatrix}1&0\\0&-1\end{pmatrix}$，求 $\langle Z\rangle_\psi$。
+
+\textbf{解：}
+\begin{align*}
+\langle Z\rangle_\psi &= \langle 1|Z|1\rangle \\
+&= (0\quad 1)\begin{pmatrix}1&0\\0&-1\end{pmatrix}\begin{pmatrix}0\\1\end{pmatrix} \\
+&= (0\quad 1)\begin{pmatrix}0\\-1\end{pmatrix} = -1
+\end{align*}
+
+\textbf{物理解释：}
+\begin{itemize}
+\item $|1\rangle$ 是 $Z$ 的本征态，本征值为 $-1$
+\item 测量结果100\%确定是 $-1$（概率为1）
+\item 期望值 $= (+1)\times 0 + (-1)\times 1 = -1$
+\item 这是完全正常的！期望值 $-1$ 表示"平均测量结果是 $-1$"
+\end{itemize}
+\end{example}
+
+\begin{example}
+\textbf{$Z_1Z_2$ 的期望值为 $-1$}
+
+对单态 $|\Psi^-\rangle=\frac{|01\rangle-|10\rangle}{\sqrt{2}}$，计算 $\langle Z_1Z_2\rangle$。
+
+\textbf{解：}$Z_1Z_2$ 的本征值：
+\begin{itemize}
+\item $|00\rangle$ 和 $|11\rangle$：本征值 $+1$（两个自旋方向相同）
+\item $|01\rangle$ 和 $|10\rangle$：本征值 $-1$（两个自旋方向相反）
+\end{itemize}
+
+单态 $|\Psi^-\rangle$ 只在 $|01\rangle$ 和 $|10\rangle$ 上有振幅，因此：
+\[
+\langle Z_1Z_2\rangle = (+1)\times 0 + (-1)\times 1 = -1
+\]
+
+\textbf{物理意义：}期望值 $-1$ 表示"两个自旋总是反关联的"，完美符合单态的性质！
+\end{example}
+
+\subsection{【背】测量不确定度（标准偏差）}
+
+\paragraph{定义}
+给定一个可观测算符 $A$（厄米算符）和一个归一化的态 $|\psi\rangle$，定义 $A$ 在态 $|\psi\rangle$ 下的\textbf{测量不确定度}（或标准偏差）为：
+\[
+\Delta A = \sqrt{\langle A^2\rangle - \langle A\rangle^2}
+\]
+其中：
+\begin{itemize}
+  \item $\langle A\rangle = \langle\psi|A|\psi\rangle$ 是 $A$ 的期望值（平均值）
+  \item $\langle A^2\rangle = \langle\psi|A^2|\psi\rangle$ 是 $A^2$ 的期望值
+  \item $\Delta A$ 即为测量结果的标准差
+\end{itemize}
+
+\paragraph{物理意义}
+$\Delta A$ 描述了对同一态 $|\psi\rangle$ 进行多次测量 $A$ 时，测量结果相对于平均值的\textbf{统计涨落}。
+\begin{itemize}
+  \item $\Delta A=0$ 当且仅当 $|\psi\rangle$ 是 $A$ 的本征态，此时测量结果确定为该本征值
+  \item $\Delta A>0$ 表示测量结果有量子不确定性，即使对完全相同的态重复测量也会得到不同结果
+  \item 这是量子力学的本征统计性质，而非测量仪器精度的限制
+\end{itemize}
+
+\paragraph{方差形式}
+注意到 $\Delta A^2 = \langle A^2\rangle - \langle A\rangle^2$ 就是测量结果的\textbf{方差}（variance）。
+标准偏差就是方差的平方根。
+
+\begin{example}
+\textbf{计算测量不确定度}
+
+设 $|\psi\rangle = \frac{1}{\sqrt{2}}(|0\rangle+|1\rangle)$，$Z=|0\rangle\langle 0|-|1\rangle\langle 1|$，求 $\Delta Z$。
+
+\textbf{解：}
+首先计算期望值：
+\[
+\langle Z\rangle = \langle\psi|Z|\psi\rangle
+= \frac{1}{2}(\langle 0|+\langle 1|)(|0\rangle\langle 0|-|1\rangle\langle 1|)(|0\rangle+|1\rangle)
+\]
+\[
+= \frac{1}{2}(\langle 0|+\langle 1|)(|0\rangle-|1\rangle)
+= \frac{1}{2}(1-1) = 0
+\]
+
+然后计算 $Z^2$ 的期望值。注意到 $Z^2=I$（因为 $Z$ 的本征值为 $\pm 1$），所以
+\[
+\langle Z^2\rangle = \langle\psi|I|\psi\rangle = \langle\psi|\psi\rangle = 1
+\]
+
+因此
+\[
+\Delta Z = \sqrt{\langle Z^2\rangle - \langle Z\rangle^2} = \sqrt{1-0^2} = 1
+\]
+
+\textbf{物理解释：}$|\psi\rangle=|+\rangle$ 不是 $Z$ 的本征态，测量 $Z$ 会以各 $1/2$ 概率得到 $\pm 1$，
+平均值为 $0$，标准差为 $1$。
+\end{example}
+
+\begin{example}
+\textbf{本征态的测量不确定度}
+
+设 $|\psi\rangle = |0\rangle$，$Z=|0\rangle\langle 0|-|1\rangle\langle 1|$，求 $\Delta Z$。
+
+\textbf{解：}
+\[
+\langle Z\rangle = \langle 0|Z|0\rangle = \langle 0|(|0\rangle) = 1
+\]
+\[
+\langle Z^2\rangle = \langle 0|I|0\rangle = 1
+\]
+\[
+\Delta Z = \sqrt{1-1^2} = 0
+\]
+
+\textbf{物理解释：}$|0\rangle$ 是 $Z$ 的本征态（本征值为 $+1$），测量结果确定为 $+1$，无不确定性。
 \end{example}
 
 \paragraph{对角化与酉对角化（定义）}\label{para:diagonalization}
@@ -2179,6 +2325,41 @@ $\{|e_i\rangle\otimes|f_j\rangle\}$ 构成张量积空间的正交归一基。
 (A\otimes B)(|v\rangle\otimes|w\rangle) = (A|v\rangle)\otimes(B|w\rangle)
 \]
 
+\paragraph{简化记号（常用）}
+在多比特系统中，常用简化记号：
+\begin{itemize}
+\item $A_1$ 或 $A\otimes I$ 表示 $A$ 作用在第1个量子比特，第2个比特不变
+\item $B_2$ 或 $I\otimes B$ 表示 $B$ 作用在第2个量子比特，第1个比特不变
+\item $A_1B_2$ 或 $AB$ 或 $A\otimes B$ 表示 $A$ 作用在第1个比特，$B$ 作用在第2个比特
+\end{itemize}
+
+\begin{example}
+\textbf{多种记号的等价性}
+
+以下记号都表示同一个算符：
+\[
+Z_1Z_2 = Z_1\otimes Z_2 = Z\otimes Z
+\]
+含义：第1个量子比特进行 $Z$ 测量，第2个量子比特也进行 $Z$ 测量。
+
+在计算基 $\{|00\rangle,|01\rangle,|10\rangle,|11\rangle\}$ 下的矩阵表示为：
+\[
+Z\otimes Z = \begin{pmatrix}
+1 & 0 & 0 & 0 \\
+0 & -1 & 0 & 0 \\
+0 & 0 & -1 & 0 \\
+0 & 0 & 0 & 1
+\end{pmatrix}
+\]
+因为：
+\begin{align*}
+(Z\otimes Z)|00\rangle &= Z|0\rangle\otimes Z|0\rangle = |0\rangle\otimes|0\rangle = +|00\rangle \\
+(Z\otimes Z)|01\rangle &= Z|0\rangle\otimes Z|1\rangle = |0\rangle\otimes(-|1\rangle) = -|01\rangle \\
+(Z\otimes Z)|10\rangle &= Z|1\rangle\otimes Z|0\rangle = (-|1\rangle)\otimes|0\rangle = -|10\rangle \\
+(Z\otimes Z)|11\rangle &= Z|1\rangle\otimes Z|1\rangle = (-|1\rangle)\otimes(-|1\rangle) = +|11\rangle
+\end{align*}
+\end{example}
+
 \paragraph{算符复合}
 \[
 (A\otimes B)(C\otimes D) = (AC)\otimes(BD)
@@ -2636,6 +2817,9 @@ E_m\succeq 0,\qquad \sum_m E_m=I,\qquad p(m)=\langle\psi|E_m|\psi\rangle
 
 \paragraph{【了解】POVM 小例子（补充）}
 任意满足 $0\preceq E \preceq I$ 的算符都可构成二元 POVM：$\{E,\ I-E\}$。
+这里 “$\preceq$” 表示\textbf{半正定序}：$A\preceq B$ 的意思是 $B-A\succeq 0$，
+即对任意向量 $|\psi\rangle$ 都有 $\langle\psi|(B-A)|\psi\rangle\ge 0$。
+因此 $0\preceq E\preceq I$ 等价于：$E$ 的所有测量概率都在 $[0,1]$ 范围内。
 例如“带噪 $Z$ 测量”可取
 \[
 E_0=(1-\epsilon)|0\rangle\langle 0|+\epsilon|1\rangle\langle 1|,\quad
@@ -2770,6 +2954,23 @@ p(1)=|\langle1|\psi\rangle|^2=\left|\sqrt{\frac{2}{3}}e^{i\pi/4}\right|^2=\frac{
 p(+)=\left|\frac{1}{\sqrt{6}}+\sqrt{\frac{1}{3}}e^{i\pi/4}\right|^2,\quad
 p(-)=\left|\frac{1}{\sqrt{6}}-\sqrt{\frac{1}{3}}e^{i\pi/4}\right|^2
 \]
+详细计算（以 $p(+)$ 为例）：
+\begin{align*}
+p(+)&=\left(\frac{1}{\sqrt{6}}+\frac{1}{\sqrt{3}}e^{i\pi/4}\right)
+\left(\frac{1}{\sqrt{6}}+\frac{1}{\sqrt{3}}e^{i\pi/4}\right)^\ast \\
+&=\left(\frac{1}{\sqrt{6}}+\frac{1}{\sqrt{3}}e^{i\pi/4}\right)
+\left(\frac{1}{\sqrt{6}}+\frac{1}{\sqrt{3}}e^{-i\pi/4}\right) \\
+&=\frac{1}{6}+\frac{1}{\sqrt{18}}\left(e^{i\pi/4}+e^{-i\pi/4}\right)+\frac{1}{3} \\
+&=\frac{1}{6}+\frac{1}{\sqrt{18}}\cdot 2\cos\frac{\pi}{4}+\frac{1}{3}
+=\frac{1}{6}+\frac{1}{3}+\frac{1}{3}=\frac{5}{6}
+\end{align*}
+同理
+\begin{align*}
+p(-)&=\left(\frac{1}{\sqrt{6}}-\frac{1}{\sqrt{3}}e^{i\pi/4}\right)
+\left(\frac{1}{\sqrt{6}}-\frac{1}{\sqrt{3}}e^{i\pi/4}\right)^\ast \\
+&=\frac{1}{6}-\frac{1}{\sqrt{18}}\left(e^{i\pi/4}+e^{-i\pi/4}\right)+\frac{1}{3}
+=\frac{1}{6}+\frac{1}{3}-\frac{1}{3}=\frac{1}{6}
+\end{align*}
 
 \textbf{关键观察}：相位 $e^{i\pi/4}$ 在计算基测量中不影响概率（只有模方），但在 Hadamard 基测量中会影响干涉项！
 \end{example}
@@ -2819,30 +3020,117 @@ p(-)=\left|\frac{1}{\sqrt{6}}-\sqrt{\frac{1}{3}}e^{i\pi/4}\right|^2
 
 \textbf{策略1}：投影测量到 $\{|0\rangle,|1\rangle\}$
 \begin{itemize}
-  \item 若测得 $|1\rangle$，确定是 $|+\rangle$（成功）
-  \item 若测得 $|0\rangle$，可能是 $|0\rangle$（概率1）或 $|+\rangle$（概率1/2）——无法确定！
-  \item 总错误率：$P_{\text{err}}=\frac{1}{2}\cdot\frac{1}{2}=\frac{1}{4}$
+  \item 两个候选初态：$|\psi_0\rangle=|0\rangle$，$|\psi_+\rangle=|+\rangle=\frac{|0\rangle+|1\rangle}{\sqrt{2}}$，先验各为 $1/2$
+  \item 对 $|\psi_0\rangle$ 测量：$P(0|\psi_0)=1,\ P(1|\psi_0)=0$
+  \item 对 $|\psi_+\rangle$ 测量：$P(0|\psi_+)=|\langle0|+\rangle|^2=\frac{1}{2}$，$P(1|\psi_+)=|\langle1|+\rangle|^2=\frac{1}{2}$
+  \item 若测得 $|1\rangle$，只能来自 $|\psi_+\rangle$，因此\textbf{确定}是 $|+\rangle$（成功）
+  \item 若测得 $|0\rangle$，既可能来自 $|\psi_0\rangle$（必然）也可能来自 $|\psi_+\rangle$（概率 $1/2$），因此\textbf{无法确定}来源
+  \item 若强行在“测得 $|0\rangle$ 时”猜 $|0\rangle$，错误只可能发生在真态为 $|\psi_+\rangle$ 且测得 $|0\rangle$ 的情形：
+  \[
+  P_{\text{err}}=P(\psi_+)\,P(0|\psi_+)
+  =\frac{1}{2}\cdot|\langle0|+\rangle|^2
+  =\frac{1}{2}\cdot\frac{1}{2}
+  =\frac{1}{4}
+  \]
+  \item 若反过来在“测得 $|0\rangle$ 时”猜 $|+\rangle$，错误只会来自真态为 $|\psi_0\rangle$ 的情形：
+  \[
+  P_{\text{err}}=P(\psi_0)\,P(0|\psi_0)
+  =\frac{1}{2}\cdot 1=\frac{1}{2}
+  \]
 \end{itemize}
 
 \textbf{策略2}：允许"不确定"结果的 POVM
 
-设计三元 POVM $\{E_0,E_+,E_?\}$，其中 $E_?$ 表示"不确定"：
+用更直观的话说：POVM 就是\textbf{一组“可能的测量结果”}，每个结果对应一个算符，记为
 \[
-E_0=(1-\eta)|0\rangle\langle0|,\quad E_+=\frac{1-\eta}{2}(|-\rangle\langle-|),\quad E_?=\eta I
+\{E_0,E_+,E_?\},\qquad E_0+E_++E_?=I,\ \ E_k\succeq 0
 \]
-选择 $\eta=\frac{1}{2}$，可使得在确定时永不出错，但有50\%概率得到"不确定"结果。
+物理意义是：若真实态为 $|\psi\rangle$，则出现结果 $k$ 的概率是
+\[
+P(k|\psi)=\langle\psi|E_k|\psi\rangle
+\]
+我们希望\textbf{“一旦给出结论就不出错”}，也就是
+\[
+P(0|+)=\langle+|E_0|+\rangle=0,\qquad
+P(+|0)=\langle0|E_+|0\rangle=0
+\]
+意思是：若真实态是 $|+\rangle$，就\textbf{绝不}输出“是 $|0\rangle$”；反之亦然。
+这迫使 $E_0$ 只能“响应”与 $|+\rangle$ 正交的方向（即 $|-\rangle$），而 $E_+$ 只能“响应”与 $|0\rangle$ 正交的方向（即 $|1\rangle$）。
+因此一个简单选择是
+\[
+E_0=c\,|-\rangle\langle-|,\qquad E_+=c\,|1\rangle\langle1|,\qquad
+E_?=I-E_0-E_+
+\]
+其中 $c>0$ 需要选得足够小，使得 $E_?\succeq 0$（保证“失败”结果的概率非负）。
+\textbf{如何确定最优 $c$（保证永不出错）}：在 $\{|0\rangle,|1\rangle\}$ 基下，
+\[
+E_?=\begin{pmatrix}1-\frac{c}{2}&\frac{c}{2}\\[2pt]\frac{c}{2}&1-\frac{3c}{2}\end{pmatrix}
+\]
+要求 $E_?\succeq 0$ 等价于\textbf{两个特征值均 $\ge 0$}。对 $2\times 2$ 实对称矩阵
+\(
+\begin{pmatrix}a&b\\ b&d\end{pmatrix}
+\)
+有一个常用判别：
+\[
+E_?\succeq 0\ \Longleftrightarrow\ a\ge 0,\ d\ge 0,\ ad-b^2\ge 0
+\]
+\textbf{理由}：对任意向量 $(x,y)$，有二次型
+\[
+Q(x,y)=ax^2+2bxy+dy^2\ge 0
+\]
+取 $(1,0)$、$(0,1)$ 得到 $a\ge 0,d\ge 0$。令 $t=y/x$（$x\neq 0$），
+\[
+Q(x,y)=x^2\,(a+2bt+dt^2)\ge 0\quad \forall t
+\]
+要求一元二次式对任意 $t$ 非负，等价于判别式 $(2b)^2-4ad\le 0$，即 $ad-b^2\ge 0$。
+因此只需检查这三个条件。代入本题即
+\[
+1-\frac{c}{2}\ge 0,\quad 1-\frac{3c}{2}\ge 0,\quad
+\det(E_?)=\left(1-\frac{c}{2}\right)\left(1-\frac{3c}{2}\right)-\left(\frac{c}{2}\right)^2\ge 0
+\]
+其中最后一个条件化简为
+\[
+1-2c+\frac{c^2}{2}\ge 0\ \Longleftrightarrow\ c^2-4c+2\ge 0
+\]
+解得 $c\le 2-\sqrt{2}$ 或 $c\ge 2+\sqrt{2}$。结合 $c>0$ 及前两条不等式（要求 $c\le 2/3$），
+最终\textbf{最优}为
+\[
+c=2-\sqrt{2}
+\]
+此时 $E_?$ 仍为半正定，且成功率最大。
+
+\textbf{成功/失败概率（直接代入）}：
+\[
+|+\rangle=\frac{|0\rangle+|1\rangle}{\sqrt{2}},\quad
+|-\rangle=\frac{|0\rangle-|1\rangle}{\sqrt{2}}
+\]
+于是
+\[
+P(\text{判为 }0|0)=\langle0|E_0|0\rangle=c|\langle0|-\rangle|^2=\frac{c}{2}
+\]
+\[
+P(\text{判为 }+|+)=\langle+|E_+|+\rangle=c|\langle1|+\rangle|^2=\frac{c}{2}
+\]
+因此（先验各为 $1/2$）
+\[
+P_{\text{succ}}=\frac{1}{2}\cdot\frac{c}{2}+\frac{1}{2}\cdot\frac{c}{2}=\frac{c}{2},\qquad
+P_{?}=1-P_{\text{succ}}
+\]
+说明：这里写出的只是\textbf{与成功率直接相关}的几个概率。对三元 POVM，
+每个输入态都有\textbf{三个}条件概率，且总和为 1：
+\[
+P(0|\psi)+P(+|\psi)+P(?|\psi)=1
+\]
+本例中由于“无错判别”条件，$P(+|0)=0$、$P(0|+)=0$，因此省略未写。
+若取最优 $c=2-\sqrt{2}$（使 $E_?\succeq 0$ 的最大值），则
+\[
+P_{\text{succ}}=1-\frac{1}{\sqrt{2}},\qquad
+P_{?}=\frac{1}{\sqrt{2}}
+\]
+即\textbf{永不出错}，但约有 $70.7\%$ 概率得到“不确定”结果。
 
 \textbf{权衡}：降低错误率 vs 增加失败率。
 \end{example}
-
-\paragraph{【了解】施特恩--盖拉赫测量模型（补充）}
-沿 $z$ 方向的 SG 装置对应投影算符
-\[
-P_0=|0\rangle\langle 0|,\quad P_1=|1\rangle\langle 1|
-\]
-对自旋态测量会将其塌缩到 $|0\rangle$ 或 $|1\rangle$。
-若改为沿 $x$ 方向测量，则投影算符为 $|+\rangle\langle +|$ 与 $|-\rangle\langle -|$，
-可用 $H$ 门先把 $x$ 基旋回到 $z$ 基再测量。
 
 \subsection{【背】公设四（假设四）：复合系统（Composite Systems）}
 
@@ -2876,130 +3164,44 @@ P_0=|0\rangle\langle 0|,\quad P_1=|1\rangle\langle 1|
 
 \paragraph{【背】复合系统的部分测量}
 
-在多比特系统中，我们经常需要\textbf{只测量部分比特}，而不测量其他比特。这是量子信息处理的核心操作。
+在多比特系统中，我们经常需要\textbf{只测量部分比特}，计算时可直接用张量积性质。
 
-\textbf{问题设定}：假设有两个量子比特：
+\textbf{常用张量积规则}：
 \begin{itemize}
-  \item \textbf{系统 $A$}：第一个量子比特（也叫 Alice 的比特）
-  \item \textbf{系统 $B$}：第二个量子比特（也叫 Bob 的比特）
-  \item \textbf{复合系统 $AB$}：两个比特组成的整体系统，希尔伯特空间是 $\mathcal{H}_A\otimes\mathcal{H}_B$
+  \item 线性：$(|u\rangle+|v\rangle)\otimes|w\rangle=|u\rangle\otimes|w\rangle+|v\rangle\otimes|w\rangle$
+  \item 算符作用：$(A\otimes B)(|u\rangle\otimes|v\rangle)=(A|u\rangle)\otimes(B|v\rangle)$
+  \item 内积：$\langle u\otimes v|u'\otimes v'\rangle=\langle u|u'\rangle\langle v|v'\rangle$
 \end{itemize}
 
-整个系统的态可以写成：
+\textbf{只测量第一个比特的通式}：将两比特态按第一个比特分组
 \[
-|\psi\rangle_{AB} = \sum_{i,j\in\{0,1\}} c_{ij}|i\rangle_A\otimes|j\rangle_B = \sum_{i,j} c_{ij}|ij\rangle
+|\psi\rangle=|0\rangle\otimes|\phi_0\rangle+|1\rangle\otimes|\phi_1\rangle
 \]
-其中 $|i\rangle_A$ 表示系统 $A$ 的态，$|j\rangle_B$ 表示系统 $B$ 的态。
-
-\textbf{目标}：只测量系统 $A$（第一个比特），不测量系统 $B$（第二个比特）。
-
-\textbf{数学描述}：只测量 $A$ 的算符形式为：
+其中
 \[
-M_m^A = M_m \otimes I_B
+|\phi_0\rangle=c_{00}|0\rangle+c_{01}|1\rangle,\qquad
+|\phi_1\rangle=c_{10}|0\rangle+c_{11}|1\rangle
 \]
-
-\textbf{符号解释}：
-\begin{itemize}
-  \item $M_m$：\textbf{作用在单个量子比特 $A$ 上的测量算符}（$2\times 2$ 矩阵）
-
-  例如，在计算基测量 $A$ 时：
-  \[
-  M_0 = P_0 = |0\rangle\langle0| = \begin{pmatrix}1&0\\0&0\end{pmatrix},\quad
-  M_1 = P_1 = |1\rangle\langle1| = \begin{pmatrix}0&0\\0&1\end{pmatrix}
-  \]
-
-  \item $I_B$：\textbf{作用在量子比特 $B$ 上的单位算符}（$2\times 2$ 单位矩阵）
-  \[
-  I_B = \begin{pmatrix}1&0\\0&1\end{pmatrix}
-  \]
-
-  \item $M_m \otimes I_B$：\textbf{张量积}，得到作用在复合系统 $AB$ 上的算符（$4\times 4$ 矩阵）
-\end{itemize}
-
-\textbf{物理意义}：
-\begin{itemize}
-  \item $M_m$ 对系统 $A$ 进行测量
-  \item $I_B$ 表示"对系统 $B$ 什么也不做"——让 $B$ 保持原样，不测量它
-  \item 整个算符 $M_m\otimes I_B$ 的作用是：测量 $A$，同时保留 $B$ 的信息
-\end{itemize}
-
-\textbf{具体例子}：在计算基测量第一个比特
-
-\textbf{测量算符 0}：$(P_0\otimes I_B)$ 对应"测得第一个比特为0"
+在计算基测量第一个比特时，
 \[
-P_0^A = P_0 \otimes I_B = \begin{pmatrix}1&0\\0&0\end{pmatrix}\otimes\begin{pmatrix}1&0\\0&1\end{pmatrix}
+P_0=|0\rangle\langle0|,\quad P_1=|1\rangle\langle1|,\quad
+M_0=P_0\otimes I,\quad M_1=P_1\otimes I
 \]
-
-使用张量积的定义（克罗内克积）：
+利用张量积规则，
 \[
-P_0^A = \begin{pmatrix}
-1\cdot\begin{pmatrix}1&0\\0&1\end{pmatrix} & 0\cdot\begin{pmatrix}1&0\\0&1\end{pmatrix} \\[1em]
-0\cdot\begin{pmatrix}1&0\\0&1\end{pmatrix} & 0\cdot\begin{pmatrix}1&0\\0&1\end{pmatrix}
-\end{pmatrix}
-= \begin{pmatrix}
-1&0&0&0\\
-0&1&0&0\\
-0&0&0&0\\
-0&0&0&0
-\end{pmatrix}
+(P_0\otimes I)|\psi\rangle=|0\rangle\otimes|\phi_0\rangle,\quad
+(P_1\otimes I)|\psi\rangle=|1\rangle\otimes|\phi_1\rangle
 \]
-
-\textbf{矩阵结构解释}（基序 $|00\rangle,|01\rangle,|10\rangle,|11\rangle$）：
-\begin{itemize}
-  \item 第1行第1列为1：$|00\rangle$ 保留（第一个比特是0）
-  \item 第2行第2列为1：$|01\rangle$ 保留（第一个比特是0）
-  \item 第3、4行为0：$|10\rangle,|11\rangle$ 被投影掉（第一个比特不是0）
-\end{itemize}
-
-\textbf{测量算符 1}：$(P_1\otimes I_B)$ 对应"测得第一个比特为1"
+因此测得 $A=0$ 的概率为
 \[
-P_1^A = P_1 \otimes I_B = \begin{pmatrix}0&0\\0&1\end{pmatrix}\otimes\begin{pmatrix}1&0\\0&1\end{pmatrix}
-= \begin{pmatrix}
-0&0&0&0\\
-0&0&0&0\\
-0&0&1&0\\
-0&0&0&1
-\end{pmatrix}
+p(A=0)=\langle\psi|(P_0\otimes I)|\psi\rangle=\langle\phi_0|\phi_0\rangle=|c_{00}|^2+|c_{01}|^2
 \]
-
-\textbf{矩阵结构解释}：
-\begin{itemize}
-  \item 前两行为0：$|00\rangle,|01\rangle$ 被投影掉（第一个比特不是1）
-  \item 第3行第3列为1：$|10\rangle$ 保留（第一个比特是1）
-  \item 第4行第4列为1：$|11\rangle$ 保留（第一个比特是1）
-\end{itemize}
-
-\textbf{关键观察}：
+测后态为
 \[
-P_0^A + P_1^A = \begin{pmatrix}
-1&0&0&0\\
-0&1&0&0\\
-0&0&1&0\\
-0&0&0&1
-\end{pmatrix} = I_{AB}
+|\psi_0\rangle=\frac{|0\rangle\otimes|\phi_0\rangle}{\sqrt{p(A=0)}}
+=|0\rangle\otimes\frac{c_{00}|0\rangle+c_{01}|1\rangle}{\sqrt{|c_{00}|^2+|c_{01}|^2}}
 \]
-满足完备性条件！
-
-\textbf{测量概率}：对态 $|\psi\rangle_{AB}=\sum_{i,j}c_{ij}|ij\rangle$，测得第一个比特 $A=0$ 的概率为：
-\[
-p(A=0) = \langle\psi|(P_0\otimes I)|\psi\rangle = \sum_{j\in\{0,1\}}|c_{0j}|^2 = |c_{00}|^2+|c_{01}|^2
-\]
-
-\textbf{物理解释}：把所有"第一个比特为0"的项的概率加起来。
-
-\textbf{测后态}：若测得 $A=0$，复合系统塌缩为：
-\[
-|\psi'\rangle = \frac{(P_0\otimes I)|\psi\rangle}{\sqrt{p(A=0)}}
-= \frac{c_{00}|00\rangle+c_{01}|01\rangle}{\sqrt{|c_{00}|^2+|c_{01}|^2}}
-= |0\rangle_A \otimes \frac{c_{00}|0\rangle_B+c_{01}|1\rangle_B}{\sqrt{|c_{00}|^2+|c_{01}|^2}}
-\]
-
-\textbf{物理解释}：
-\begin{itemize}
-  \item 第一个比特（系统 $A$）确定为 $|0\rangle$
-  \item 第二个比特（系统 $B$）处于叠加态，由原态中"第一个比特为0"的部分归一化得到
-  \item 原态的 $|10\rangle$ 和 $|11\rangle$ 项消失了（被测量"塌缩掉"）
-\end{itemize}
+同理可得 $p(A=1)=\langle\phi_1|\phi_1\rangle$ 与对应测后态。
 
 \textbf{一般规则}（$n$ 个量子比特）：
 \begin{itemize}
@@ -3017,7 +3219,15 @@ p(A=0) = \langle\psi|(P_0\otimes I)|\psi\rangle = \sum_{j\in\{0,1\}}|c_{0j}|^2 =
 
 \textbf{(1) 只测量第一个比特（在计算基）：}
 
-测量算符：$P_0\otimes I$，$P_1\otimes I$
+测量算符（投影）：$P_0\otimes I$，$P_1\otimes I$，其中
+\[
+P_0=|0\rangle\langle0|,\qquad P_1=|1\rangle\langle1|,\qquad I=|0\rangle\langle0|+|1\rangle\langle1|
+\]
+它们在标准基上的作用为
+\[
+(P_0\otimes I)|00\rangle=|00\rangle,\quad (P_0\otimes I)|01\rangle=|01\rangle,\quad
+(P_0\otimes I)|10\rangle=0,\quad (P_0\otimes I)|11\rangle=0
+\]
 
 计算 $p(A=0)$：
 \begin{align*}
@@ -3046,7 +3256,11 @@ p(A=0) &= \langle\psi|(P_0\otimes I)|\psi\rangle \\
 
 \textbf{(2) 只测量第二个比特（在计算基）：}
 
-测量算符：$I\otimes P_0$，$I\otimes P_1$
+测量算符：$I\otimes P_0$，$I\otimes P_1$，其中
+\[
+(I\otimes P_0)|00\rangle=|00\rangle,\quad (I\otimes P_0)|10\rangle=|10\rangle,\quad
+(I\otimes P_0)|01\rangle=0,\quad (I\otimes P_0)|11\rangle=0
+\]
 
 $p(B=0)$：
 \begin{align*}
@@ -3066,9 +3280,24 @@ p(B=0) &= \langle\psi|(I\otimes P_0)|\psi\rangle \\
 
 \textbf{(3) 同时测量两个比特：}
 
-这就是通常的测量，测量算符：$P_{ij}=|i\rangle\langle i|\otimes|j\rangle\langle j|$
-
-概率都是 $p(ij)=\frac{1}{4}$，测后态为 $|ij\rangle$（四个可能结果之一）。
+这就是通常的测量，测量算符（四个投影）：
+\[
+P_{ij}=|i\rangle\langle i|\otimes|j\rangle\langle j|,\qquad i,j\in\{0,1\}
+\]
+它们满足 $\sum_{i,j}P_{ij}=I$。对本例
+\[
+|\psi\rangle=\frac{1}{2}\sum_{i,j\in\{0,1\}}|ij\rangle
+\]
+因此
+\[
+p(ij)=\langle\psi|P_{ij}|\psi\rangle=|c_{ij}|^2=\left|\frac{1}{2}\right|^2=\frac{1}{4}
+\]
+测得结果为 $(i,j)$ 时的测后态：
+\[
+|\psi_{ij}\rangle=\frac{P_{ij}|\psi\rangle}{\sqrt{p(ij)}}
+=\frac{\frac{1}{2}|ij\rangle}{\sqrt{1/4}}=|ij\rangle
+\]
+（四个可能结果之一）。
 \end{example}
 
 \paragraph{部分迹的矩阵直观（补充）}
@@ -3576,6 +3805,12 @@ UZU^\dagger = X
 
 \section{【背】密度算子与混合态}
 
+\paragraph{纯态与混合态（前置）}
+若一个系统的状态可以用\textbf{一个态矢} $|\psi\rangle$ 完全描述，则称为\textbf{纯态}。
+若我们只知道系统\textbf{以一定概率}处于若干纯态之一（例如：以 $p_1$ 处于 $|\psi_1\rangle$，以 $p_2$ 处于 $|\psi_2\rangle$），
+这种\textbf{统计混合}称为\textbf{混合态}。混合态一般\textbf{无法用单个态矢}表示，
+需要用密度算子来统一描述。
+
 \paragraph{定义}
 若系统以概率 $p_k$ 处于纯态 $|\psi_k\rangle$，则其密度算子为
 \[
@@ -3594,6 +3829,131 @@ UZU^\dagger = X
   \item 纯态判据：$\rho^2=\rho$ 或 $\mathrm{tr}(\rho^2)=1$
 \end{itemize}
 混态满足 $\mathrm{tr}(\rho^2)<1$。
+
+\paragraph{【背】纯态与混合态的判断方法}
+
+\textbf{方法1：计算 $\rho^2$}
+\begin{itemize}
+\item 若 $\rho^2 = \rho$，则是\textbf{纯态}
+\item 若 $\rho^2 \neq \rho$，则是\textbf{混合态}
+\end{itemize}
+
+\textbf{方法2：计算 $\mathrm{tr}(\rho^2)$（纯度）}
+\begin{itemize}
+\item 若 $\mathrm{tr}(\rho^2) = 1$，则是\textbf{纯态}
+\item 若 $\mathrm{tr}(\rho^2) < 1$，则是\textbf{混合态}
+\item 纯度越接近1，态越"纯"；纯度越小，混合程度越高
+\end{itemize}
+
+\textbf{方法3：检查秩（rank）}
+\begin{itemize}
+\item 若 $\mathrm{rank}(\rho) = 1$，则是\textbf{纯态}（可以写成 $|\psi\rangle\langle\psi|$）
+\item 若 $\mathrm{rank}(\rho) > 1$，则是\textbf{混合态}
+\end{itemize}
+
+\textbf{物理意义：}
+\begin{itemize}
+\item \textbf{纯态}：系统处于确定的量子态 $|\psi\rangle$，不确定性完全来自量子测量
+\item \textbf{混合态}：系统处于多个量子态的概率混合，既有量子不确定性，又有经典概率不确定性
+\end{itemize}
+
+\begin{example}
+\textbf{判断纯态：单态}
+
+对单态 $|\Psi^-\rangle=\frac{|01\rangle-|10\rangle}{\sqrt{2}}$，其密度算子为
+\[
+\rho=|\Psi^-\rangle\langle\Psi^-|
+=\frac{1}{2}(|01\rangle-|10\rangle)(\langle 01|-\langle 10|)
+\]
+
+\textbf{方法1：}计算 $\rho^2$
+\[
+\rho^2=|\Psi^-\rangle\langle\Psi^-|\Psi^-\rangle\langle\Psi^-|
+=|\Psi^-\rangle\underbrace{\langle\Psi^-|\Psi^-\rangle}_{=1}\langle\Psi^-|
+=|\Psi^-\rangle\langle\Psi^-|=\rho
+\]
+因为 $\rho^2=\rho$，所以是\textbf{纯态}。
+
+\textbf{方法2：}计算 $\mathrm{tr}(\rho^2)$
+\[
+\mathrm{tr}(\rho^2)=\mathrm{tr}(\rho)=\mathrm{tr}(|\Psi^-\rangle\langle\Psi^-|)
+=\langle\Psi^-|\Psi^-\rangle=1
+\]
+因为 $\mathrm{tr}(\rho^2)=1$，所以是\textbf{纯态}。
+\end{example}
+
+\begin{example}
+\textbf{判断混合态：约化密度算子}
+
+考虑单态 $|\Psi^-\rangle=\frac{|01\rangle-|10\rangle}{\sqrt{2}}$ 的第一个量子比特的约化密度算子：
+\[
+\rho_1=\mathrm{tr}_2(\rho)=\frac{1}{2}(|0\rangle\langle 0|+|1\rangle\langle 1|)
+=\frac{1}{2}\begin{pmatrix}1&0\\0&1\end{pmatrix}=\frac{I}{2}
+\]
+
+\textbf{方法1：}计算 $\rho_1^2$
+\[
+\rho_1^2=\left(\frac{I}{2}\right)^2=\frac{I}{4}\neq\frac{I}{2}=\rho_1
+\]
+因为 $\rho_1^2\neq\rho_1$，所以是\textbf{混合态}。
+
+\textbf{方法2：}计算 $\mathrm{tr}(\rho_1^2)$
+\[
+\mathrm{tr}(\rho_1^2)=\mathrm{tr}\left(\frac{I}{4}\right)=\frac{1}{4}\mathrm{tr}(I)=\frac{1}{4}\times 2=\frac{1}{2}<1
+\]
+因为 $\mathrm{tr}(\rho_1^2)=\frac{1}{2}<1$，所以是\textbf{混合态}。
+
+\textbf{物理意义：}纠缠态的子系统总是混合态（除非整个态可分离）。这是量子纠缠的重要性质！
+\end{example}
+
+\begin{example}
+\textbf{判断纯态：经典概率混合的对比}
+
+考虑量子叠加态 $|+\rangle=\frac{|0\rangle+|1\rangle}{\sqrt{2}}$ 的密度算子：
+\[
+\rho_+=|+\rangle\langle+|=\frac{1}{2}\begin{pmatrix}1&1\\1&1\end{pmatrix}
+\]
+计算 $\mathrm{tr}(\rho_+^2)$：
+\[
+\rho_+^2=\frac{1}{4}\begin{pmatrix}1&1\\1&1\end{pmatrix}\begin{pmatrix}1&1\\1&1\end{pmatrix}
+=\frac{1}{4}\begin{pmatrix}2&2\\2&2\end{pmatrix}=\frac{1}{2}\begin{pmatrix}1&1\\1&1\end{pmatrix}=\rho_+
+\]
+因此 $\mathrm{tr}(\rho_+^2)=\mathrm{tr}(\rho_+)=1$，是\textbf{纯态}。
+
+\textbf{对比：}经典混合态"以 $1/2$ 概率是 $|0\rangle$，以 $1/2$ 概率是 $|1\rangle$"：
+\[
+\rho_{\text{mix}}=\frac{1}{2}|0\rangle\langle 0|+\frac{1}{2}|1\rangle\langle 1|
+=\frac{1}{2}\begin{pmatrix}1&0\\0&1\end{pmatrix}
+\]
+计算纯度：
+\[
+\mathrm{tr}(\rho_{\text{mix}}^2)=\mathrm{tr}\left(\frac{I}{4}\right)=\frac{1}{2}<1
+\]
+所以是\textbf{混合态}。注意 $\rho_+$ 和 $\rho_{\text{mix}}$ 虽然在 $Z$ 基下测量概率相同，但前者是纯态（有相干），后者是混合态（无相干）！
+\end{example}
+\paragraph{证明（简要）}
+\begin{itemize}
+  \item \textbf{厄米性}：$\rho^\dagger=\left(\sum_k p_k|\psi_k\rangle\langle\psi_k|\right)^\dagger
+  =\sum_k p_k(|\psi_k\rangle\langle\psi_k|)^\dagger
+  =\sum_k p_k|\psi_k\rangle\langle\psi_k|=\rho$。
+  \item \textbf{半正定}：对任意 $|\phi\rangle$，
+  \[
+  \langle\phi|\rho|\phi\rangle=\sum_k p_k|\langle\phi|\psi_k\rangle|^2\ge 0
+  \]
+  因此 $\rho\succeq 0$。
+  \item \textbf{迹为 1}：
+  \[
+  \mathrm{tr}(\rho)=\sum_k p_k\,\mathrm{tr}(|\psi_k\rangle\langle\psi_k|)
+  =\sum_k p_k\langle\psi_k|\psi_k\rangle=\sum_k p_k=1
+  \]
+  \item \textbf{纯态判据}：若 $\rho=|\psi\rangle\langle\psi|$，则
+  \[
+  \rho^2=|\psi\rangle\langle\psi|\psi\rangle\langle\psi|=\rho,\quad
+  \mathrm{tr}(\rho^2)=\mathrm{tr}(\rho)=1
+  \]
+  反之，若 $\rho=\sum_k p_k|k\rangle\langle k|$（谱分解）且 $\mathrm{tr}(\rho^2)=\sum_k p_k^2=1$，
+  则只有一个 $p_k=1$ 其余为 0，故 $\rho$ 必为纯态投影。
+\end{itemize}
 \paragraph{迹的基不变性（补充）}
 对任意酉变换 $U$，有 $\mathrm{tr}(U\rho U^\dagger)=\mathrm{tr}(\rho)$，
 因此 $\mathrm{tr}(\rho)=1$ 与基的选择无关。
@@ -3608,13 +3968,34 @@ UZU^\dagger = X
 其中 $p_k\in[0,1]$ 且 $\sum_k p_k=1$。这些 $p_k$ 可解释为处于本征态 $|k\rangle$ 的概率。
 
 \paragraph{【了解】相干与经典混合（补充）}
-密度矩阵的\textbf{非对角元}描述量子相干。以单比特为例，
+这里的“\textbf{相干}”指的是\textbf{量子叠加带来的相位关联}，在密度矩阵中体现为\textbf{非对角元}（$|0\rangle\langle1|$ 与 $|1\rangle\langle0|$ 项）。
+而“\textbf{经典混合}”是指系统\textbf{以概率}处于若干纯态之一（但并没有相位关系），密度矩阵是这些纯态投影的\textbf{概率加权和}，通常\textbf{对角}（在相应基下）。
+因此：有非对角元 $\Rightarrow$ 有相干；只有对角元 $\Rightarrow$ 只是经典统计混合。
+
+以单比特为例，
 \[
 |+\rangle=\frac{|0\rangle+|1\rangle}{\sqrt{2}}
 \Rightarrow \rho_{+}=\frac{1}{2}\begin{pmatrix}1&1\\1&1\end{pmatrix}
 \]
-而\textbf{经典混合} $\rho_{\text{mix}}=\frac{1}{2}(|0\rangle\langle0|+|1\rangle\langle1|)=\frac{1}{2}I$
-在 $Z$ 基测量上概率相同，但在 $X$ 基上表现不同。混态分解一般\textbf{不唯一}。
+计算过程：
+\[
+\rho_{+}=|+\rangle\langle+|
+=\frac{1}{2}(|0\rangle+|1\rangle)(\langle0|+\langle1|)
+\]
+\[
+=\frac{1}{2}\left(|0\rangle\langle0|+|0\rangle\langle1|
+|1\rangle\langle0|+|1\rangle\langle1|\right)
+\]
+在基 $\{|0\rangle,|1\rangle\}$ 下，上式对应矩阵
+\[
+\rho_{+}=\frac{1}{2}\begin{pmatrix}1&1\\1&1\end{pmatrix}
+\]
+而\textbf{经典混合}（“以 $1/2$ 的概率是 $|0\rangle$，以 $1/2$ 的概率是 $|1\rangle$”）对应
+\[
+\rho_{\text{mix}}=\frac{1}{2}(|0\rangle\langle0|+|1\rangle\langle1|)=\frac{1}{2}\begin{pmatrix}1&0\\0&1\end{pmatrix}
+\]
+它\textbf{没有非对角元}，因此没有相干。两者在 $Z$ 基测量上概率相同，但在 $X$ 基上表现不同。
+混态分解一般\textbf{不唯一}。
 混态常由与\textbf{环境耦合}、或对环境做偏迹产生，即“丢失”部分自由度导致相干衰减（退相干）。
 
 \paragraph{【了解】单比特密度矩阵与Bloch向量}
@@ -3658,15 +4039,184 @@ p_i=\langle e_i|\rho|e_i\rangle
 \]
 即密度矩阵在该基下的对角元。
 
+\paragraph{复合系统的密度算子（前置）}
+若系统由 $A,B$ 两部分组成，其状态空间为 $\mathcal H_A\otimes\mathcal H_B$。
+\begin{itemize}
+  \item \textbf{纯态}：若联合态为 $|\psi\rangle_{AB}$，则
+  \[
+  \rho_{AB}=|\psi\rangle_{AB}\langle\psi|
+  \]
+  \item \textbf{混合态}：若以概率 $p_k$ 处于 $|\psi_k\rangle_{AB}$，则
+  \[
+  \rho_{AB}=\sum_k p_k|\psi_k\rangle_{AB}\langle\psi_k|
+  \]
+\end{itemize}
+它是作用在 $\mathcal H_A\otimes\mathcal H_B$ 上的算符；只有当需要写成矩阵时，才会选基
+$\{|a_i\rangle\}$ 与 $\{|b_j\rangle\}$，并用张量积基 $\{|a_i\rangle\otimes|b_j\rangle\}$ 表示。
+
+\textbf{具体例子}：
+\begin{itemize}
+  \item \textbf{纯态（可分态）}：取 $|\psi\rangle_{AB}=|0\rangle\otimes|+\rangle$，
+  \[
+  \rho_{AB}=|\psi\rangle\langle\psi|
+  =(|0\rangle\langle0|)\otimes(|+\rangle\langle+|)
+  \]
+  在基 $\{|00\rangle,|01\rangle,|10\rangle,|11\rangle\}$ 下，
+  \[
+  \rho_{AB}=\frac12
+  \begin{pmatrix}
+  1&1&0&0\\
+  1&1&0&0\\
+  0&0&0&0\\
+  0&0&0&0
+  \end{pmatrix}
+  \]
+  \item \textbf{混合态（经典混合）}：取“以 $1/2$ 是 $|00\rangle$，以 $1/2$ 是 $|11\rangle$”，
+  \[
+  \rho_{AB}=\tfrac12|00\rangle\langle00|+\tfrac12|11\rangle\langle11|
+  =\frac12
+  \begin{pmatrix}
+  1&0&0&0\\
+  0&0&0&0\\
+  0&0&0&0\\
+  0&0&0&1
+  \end{pmatrix}
+  \]
+\end{itemize}
+
 \paragraph{约化密度算子（偏迹）}
-对复合系统 $AB$ 的密度算子 $\rho_{AB}$，子系统 $A$ 的约化态为
+当我们\textbf{只关心子系统 $A$}、而\textbf{忽略 $B$} 时，用\textbf{偏迹}把 $B$ 的信息“求和掉”。
+直观上，它就像经典概率里的“把联合分布对 $B$ 求和得到边缘分布”。
+
+\textbf{最常用的计算公式（记住这个就够用）}：  
+若
 \[
-\rho_A=\mathrm{tr}_B(\rho_{AB})
+|\psi\rangle=a|00\rangle+b|01\rangle+c|10\rangle+d|11\rangle
 \]
-在 $B$ 的正交归一基 $\{|b_k\rangle\}$ 下可写为
+则
 \[
-\rho_A=\sum_k (I\otimes \langle b_k|)\,\rho_{AB}\,(I\otimes |b_k\rangle)
+\rho_A=\mathrm{tr}_B(|\psi\rangle\langle\psi|)
+=\begin{pmatrix}
+|a|^2+|b|^2 & a c^\ast + b d^\ast\\
+a^\ast c + b^\ast d & |c|^2+|d|^2
+\end{pmatrix}
 \]
+其中“把 $B$ 的同一指标配对后相加”就是偏迹的本质。
+
+\textbf{立即算一个数值例子}：取
+\[
+|\psi\rangle=\frac{1}{2}(|00\rangle+|01\rangle+|10\rangle+|11\rangle)
+\]
+则 $a=b=c=d=\frac{1}{2}$，代入得
+\[
+\rho_A=\begin{pmatrix}\frac14+\frac14 & \frac14+\frac14\\[2pt]\frac14+\frac14 & \frac14+\frac14\end{pmatrix}
+=\begin{pmatrix}\frac12&\frac12\\[2pt]\frac12&\frac12\end{pmatrix}
+\]
+这就是 $|+\rangle\langle+|$，说明只看 $A$ 时它处于 $|+\rangle$ 态。
+
+\textbf{三步法（操作版）}：
+\begin{enumerate}
+  \item 写出 $\rho_{AB}$ 在基 $\{|00\rangle,|01\rangle,|10\rangle,|11\rangle\}$ 下的矩阵；
+  \item 把它分成 $2\times2$ 子块：$\rho_{AB}=\begin{pmatrix}A & B\\ C & D\end{pmatrix}$；
+  \item 对每个子块取迹，得到 $\rho_A=\begin{pmatrix}\mathrm{tr}(A) & \mathrm{tr}(B)\\ \mathrm{tr}(C) & \mathrm{tr}(D)\end{pmatrix}$。
+\end{enumerate}
+
+\textbf{（形式化定义，供需要时查看）}：  
+符号说明：
+\begin{itemize}
+  \item $\mathrm{tr}_A(\cdot)$：\textbf{只对系统 $A$ 做迹}（把 $A$ 的指标求和），也叫对 $A$ 的偏迹。
+  \item $\mathrm{tr}_{AB}(\cdot)$：\textbf{对整个系统 $AB$ 做迹}（全迹）。
+  \item $\rho_A X$：\textbf{矩阵乘法}，表示先有 $A$ 的状态 $\rho_A$，再取可观测量 $X$ 的期望值。
+\end{itemize}
+对任意 $A$ 上可观测量 $X$，
+\[
+\mathrm{tr}_A(\rho_A X)=\mathrm{tr}_{AB}(\rho_{AB}\,X\otimes I_B),
+\qquad \rho_A=\mathrm{tr}_B(\rho_{AB})
+\]
+这一定义保证 $\rho_A$ 保存了\textbf{所有关于 $A$ 的测量统计}。
+
+\textbf{详细推理（从定义到计算公式）}：
+\begin{enumerate}
+  \item 说明符号：$A,B$ 是\textbf{两个子系统}，各自的状态空间是 $\mathcal H_A,\mathcal H_B$。
+  为了描述它们的联合系统 $\mathcal H_A\otimes\mathcal H_B$，需要分别选取\textbf{两组正交归一基}
+  $\{|a_i\rangle\}$（属于 $A$）和 $\{|b_j\rangle\}$（属于 $B$）。  
+  于是复合系统的基是 $\{|a_i\rangle\otimes|b_j\rangle\}$。
+  \item 任何算符（包括密度算子）都能在“\textbf{基矢外积}”上展开，因此
+  \[
+  \rho_{AB}=\sum_{i,k}\sum_{j,l}\rho_{ij,kl}\;|a_i\rangle\langle a_k|\otimes|b_j\rangle\langle b_l|
+  \]
+  其中 $\rho_{ij,kl}$ 就是 $\rho_{AB}$ 在复合基上的矩阵元：
+  \[
+  \rho_{ij,kl}=\langle a_i b_j|\rho_{AB}|a_k b_l\rangle
+  \]
+  这就是“为什么会出现四个指标”的原因：$i,k$ 属于 $A$，$j,l$ 属于 $B$。
+  \item 先算\textbf{一个基元}的偏迹：
+  \[
+  \mathrm{tr}_B\!\left(|a_i\rangle\langle a_k|\otimes|b_j\rangle\langle b_l|\right)
+  =\sum_m (I\otimes\langle b_m|)\big(|a_i\rangle\langle a_k|\otimes|b_j\rangle\langle b_l|\big)(I\otimes|b_m\rangle)
+  \]
+  由于 $\langle b_m|b_j\rangle=\delta_{mj}$、$\langle b_l|b_m\rangle=\delta_{lm}$，上式等于
+  \[
+  \sum_m \delta_{mj}\delta_{lm}\,|a_i\rangle\langle a_k|
+  =\delta_{jl}\,|a_i\rangle\langle a_k|
+  \]
+  \item 利用线性性，把上一条推广到一般 $\rho_{AB}$：
+  \[
+  \rho_A=\sum_{i,k}\Big(\sum_j \rho_{ij,kj}\Big)\,|a_i\rangle\langle a_k|
+  \]
+  即矩阵元公式
+  \[
+  (\rho_A)_{ik}=\sum_j \rho_{ij,kj}
+  \]
+  这就是“对 $B$ 的指标求和”的来源。
+  \item 若 $\rho_{AB}$ 来自纯态 $|\psi\rangle=\sum_{i,j}c_{ij}|a_i b_j\rangle$，则
+  \[
+  \rho_{ij,kl}=c_{ij}c^\ast_{kl}\quad\Rightarrow\quad
+  (\rho_A)_{ik}=\sum_j c_{ij}c^\ast_{kj}
+  \]
+  对二比特写成 $a,b,c,d$ 就得到前面的 $2\times2$ 公式。
+\end{enumerate}
+
+\textbf{数值例子（纯态）}：取
+\[
+|\psi\rangle=\frac{|00\rangle+|11\rangle}{\sqrt{2}}
+\quad\Rightarrow\quad
+c_{00}=\frac{1}{\sqrt2},\ c_{11}=\frac{1}{\sqrt2},\ \text{其余 }0
+\]
+由公式 $(\rho_A)_{ik}=\sum_j c_{ij}c^\ast_{kj}$ 得
+\[
+(\rho_A)_{00}=|c_{00}|^2+|c_{01}|^2=\frac12,\quad
+(\rho_A)_{11}=|c_{10}|^2+|c_{11}|^2=\frac12
+\]
+且
+\[
+(\rho_A)_{01}=c_{00}c^\ast_{10}+c_{01}c^\ast_{11}=0,\quad
+(\rho_A)_{10}=0
+\]
+因此
+\[
+\rho_A=\begin{pmatrix}\frac12&0\\0&\frac12\end{pmatrix}=\frac12 I
+\]
+
+\textbf{数值例子（混合态）}：取
+\[
+\rho_{AB}=\tfrac12|00\rangle\langle00|+\tfrac12|11\rangle\langle11|
+\]
+用矩阵元公式 $(\rho_A)_{ik}=\sum_j \rho_{ij,kj}$，有
+\[
+(\rho_A)_{00}=\rho_{00,00}+\rho_{01,01}=\tfrac12+0=\tfrac12,\quad
+(\rho_A)_{11}=\rho_{10,10}+\rho_{11,11}=0+\tfrac12=\tfrac12
+\]
+且
+\[
+(\rho_A)_{01}=\rho_{00,10}+\rho_{01,11}=0,\quad
+(\rho_A)_{10}=0
+\]
+因此同样得到
+\[
+\rho_A=\frac12 I
+\]
+说明偏迹的计算只依赖于 $\rho_{AB}$，与其“纯/混”来源无关。
 
 \paragraph{局域可观测量（补充）}
 对子系统 $A$ 的可观测量 $A$，其期望值可用约化密度算子计算：
@@ -3685,10 +4235,460 @@ p_i=\langle e_i|\rho|e_i\rangle
 
 设 $|\Phi^+\rangle=\frac{|00\rangle+|11\rangle}{\sqrt{2}}$，
 \[
-\rho_{AB}=|\Phi^+\rangle\langle\Phi^+|,\quad
-\rho_A=\mathrm{tr}_B(\rho_{AB})=\frac{1}{2}I
+\rho_{AB}=|\Phi^+\rangle\langle\Phi^+|
+=\frac{1}{2}\Big(|00\rangle\langle00|+|00\rangle\langle11|+|11\rangle\langle00|+|11\rangle\langle11|\Big)
 \]
-说明纠缠态的子系统表现为混态。
+在基 $\{|00\rangle,|01\rangle,|10\rangle,|11\rangle\}$ 下，
+\[
+\rho_{AB}=\frac{1}{2}
+\begin{pmatrix}
+1&0&0&1\\
+0&0&0&0\\
+0&0&0&0\\
+1&0&0&1
+\end{pmatrix}
+\]
+\textbf{方法一（矩阵元求和公式）}：  
+对任意两比特 $\rho_{AB}$，有
+\[
+(\rho_A)_{ik}=\sum_j \rho_{ij,kj},\qquad
+(\rho_B)_{jl}=\sum_i \rho_{ij,il}
+\]
+这里 $\rho_{ij,kl}$ 表示 $\rho_{AB}$ 在计算基下的\textbf{矩阵元}：
+\[
+\rho_{ij,kl}=\langle i j|\rho_{AB}|k l\rangle
+\]
+例如 $\rho_{00,00}=\langle00|\rho_{AB}|00\rangle$。本例所有矩阵元具体为
+\[
+\begin{aligned}
+\rho_{00,00}=\tfrac12,\quad \rho_{00,01}=0,\quad \rho_{00,10}=0,\quad \rho_{00,11}=\tfrac12,\\
+\rho_{01,00}=0,\quad \rho_{01,01}=0,\quad \rho_{01,10}=0,\quad \rho_{01,11}=0,\\
+\rho_{10,00}=0,\quad \rho_{10,01}=0,\quad \rho_{10,10}=0,\quad \rho_{10,11}=0,\\
+\rho_{11,00}=\tfrac12,\quad \rho_{11,01}=0,\quad \rho_{11,10}=0,\quad \rho_{11,11}=\tfrac12.
+\end{aligned}
+\]
+把上面的矩阵元代入可得
+\[
+(\rho_A)_{00}=\rho_{00,00}+\rho_{01,01}=\tfrac12+0=\tfrac12,\quad
+(\rho_A)_{11}=\rho_{10,10}+\rho_{11,11}=0+\tfrac12=\tfrac12
+\]
+且 $(\rho_A)_{01}=\rho_{00,10}+\rho_{01,11}=0$，所以
+\[
+\rho_A=\frac12 I
+\]
+同理
+\[
+(\rho_B)_{00}=\rho_{00,00}+\rho_{10,10}=\tfrac12+0=\tfrac12,\quad
+(\rho_B)_{11}=\rho_{01,01}+\rho_{11,11}=0+\tfrac12=\tfrac12
+\]
+且 $(\rho_B)_{01}=\rho_{00,01}+\rho_{10,11}=0$，因此
+\[
+\rho_B=\frac12 I
+\]
+
+\textbf{方法二（按定义逐项偏迹）}：  
+对 $B$ 做偏迹：
+\[
+\rho_A=\mathrm{tr}_B(\rho_{AB})
+=\sum_{j=0}^1 (I\otimes\langle j|)\,\rho_{AB}\,(I\otimes|j\rangle)
+\]
+将 $\rho_{AB}=\frac12(|00\rangle\langle00|+|00\rangle\langle11|+|11\rangle\langle00|+|11\rangle\langle11|)$ 代入，
+\[
+\begin{aligned}
+(I\otimes\langle0|)\rho_{AB}(I\otimes|0\rangle)
+=\frac12\Big[&(I\otimes\langle0|)|00\rangle\langle00|(I\otimes|0\rangle)\\
+&+(I\otimes\langle0|)|00\rangle\langle11|(I\otimes|0\rangle)\\
+&+(I\otimes\langle0|)|11\rangle\langle00|(I\otimes|0\rangle)\\
+&+(I\otimes\langle0|)|11\rangle\langle11|(I\otimes|0\rangle)\Big]
+\end{aligned}
+\]
+其中
+\[
+\begin{aligned}
+(I\otimes\langle0|)|00\rangle\langle00|(I\otimes|0\rangle)
+&=|0\rangle\langle0|\,\langle0|0\rangle\langle0|0\rangle=|0\rangle\langle0|,\\
+(I\otimes\langle0|)|00\rangle\langle11|(I\otimes|0\rangle)
+&=|0\rangle\langle1|\,\langle0|0\rangle\langle1|0\rangle=0,\\
+(I\otimes\langle0|)|11\rangle\langle00|(I\otimes|0\rangle)
+&=|1\rangle\langle0|\,\langle0|1\rangle\langle0|0\rangle=0,\\
+(I\otimes\langle0|)|11\rangle\langle11|(I\otimes|0\rangle)
+&=|1\rangle\langle1|\,\langle0|1\rangle\langle1|0\rangle=0,
+\end{aligned}
+\]
+因此
+\[
+(I\otimes\langle0|)\rho_{AB}(I\otimes|0\rangle)=\frac12|0\rangle\langle0|.
+\]
+同理
+\[
+\begin{aligned}
+(I\otimes\langle1|)\rho_{AB}(I\otimes|1\rangle)
+=\frac12\Big[&(I\otimes\langle1|)|00\rangle\langle00|(I\otimes|1\rangle)\\
+&+(I\otimes\langle1|)|00\rangle\langle11|(I\otimes|1\rangle)\\
+&+(I\otimes\langle1|)|11\rangle\langle00|(I\otimes|1\rangle)\\
+&+(I\otimes\langle1|)|11\rangle\langle11|(I\otimes|1\rangle)\Big]
+\end{aligned}
+\]
+其中
+\[
+\begin{aligned}
+(I\otimes\langle1|)|00\rangle\langle00|(I\otimes|1\rangle)
+&=|0\rangle\langle0|\,\langle1|0\rangle\langle0|1\rangle=0,\\
+(I\otimes\langle1|)|00\rangle\langle11|(I\otimes|1\rangle)
+&=|0\rangle\langle1|\,\langle1|0\rangle\langle1|1\rangle=0,\\
+(I\otimes\langle1|)|11\rangle\langle00|(I\otimes|1\rangle)
+&=|1\rangle\langle0|\,\langle1|1\rangle\langle0|1\rangle=0,\\
+(I\otimes\langle1|)|11\rangle\langle11|(I\otimes|1\rangle)
+&=|1\rangle\langle1|\,\langle1|1\rangle\langle1|1\rangle=|1\rangle\langle1|,
+\end{aligned}
+\]
+因此
+\[
+(I\otimes\langle1|)\rho_{AB}(I\otimes|1\rangle)=\frac12|1\rangle\langle1|.
+\]
+相加得 $\rho_A=\frac12 I$。
+
+对 $A$ 做偏迹：
+\[
+\rho_B=\mathrm{tr}_A(\rho_{AB})
+=\sum_{i=0}^1 (\langle i|\otimes I)\,\rho_{AB}\,(|i\rangle\otimes I)
+\]
+逐项计算：
+\[
+\begin{aligned}
+(\langle0|\otimes I)\rho_{AB}(|0\rangle\otimes I)
+=\frac12\Big[&(\langle0|\otimes I)|00\rangle\langle00|(|0\rangle\otimes I)\\
+&+(\langle0|\otimes I)|00\rangle\langle11|(|0\rangle\otimes I)\\
+&+(\langle0|\otimes I)|11\rangle\langle00|(|0\rangle\otimes I)\\
+&+(\langle0|\otimes I)|11\rangle\langle11|(|0\rangle\otimes I)\Big]
+\end{aligned}
+\]
+其中
+\[
+\begin{aligned}
+(\langle0|\otimes I)|00\rangle\langle00|(|0\rangle\otimes I)
+&=\langle0|0\rangle\langle0|0\rangle\,|0\rangle\langle0|=|0\rangle\langle0|,\\
+(\langle0|\otimes I)|00\rangle\langle11|(|0\rangle\otimes I)
+&=\langle0|0\rangle\langle1|0\rangle\,|0\rangle\langle1|=0,\\
+(\langle0|\otimes I)|11\rangle\langle00|(|0\rangle\otimes I)
+&=\langle0|1\rangle\langle0|0\rangle\,|1\rangle\langle0|=0,\\
+(\langle0|\otimes I)|11\rangle\langle11|(|0\rangle\otimes I)
+&=\langle0|1\rangle\langle1|0\rangle\,|1\rangle\langle1|=0,
+\end{aligned}
+\]
+因此
+\[
+(\langle0|\otimes I)\rho_{AB}(|0\rangle\otimes I)=\frac12|0\rangle\langle0|.
+\]
+同理
+\[
+\begin{aligned}
+(\langle1|\otimes I)\rho_{AB}(|1\rangle\otimes I)
+=\frac12\Big[&(\langle1|\otimes I)|00\rangle\langle00|(|1\rangle\otimes I)\\
+&+(\langle1|\otimes I)|00\rangle\langle11|(|1\rangle\otimes I)\\
+&+(\langle1|\otimes I)|11\rangle\langle00|(|1\rangle\otimes I)\\
+&+(\langle1|\otimes I)|11\rangle\langle11|(|1\rangle\otimes I)\Big]
+\end{aligned}
+\]
+其中
+\[
+\begin{aligned}
+(\langle1|\otimes I)|00\rangle\langle00|(|1\rangle\otimes I)
+&=\langle1|0\rangle\langle0|1\rangle\,|0\rangle\langle0|=0,\\
+(\langle1|\otimes I)|00\rangle\langle11|(|1\rangle\otimes I)
+&=\langle1|0\rangle\langle1|1\rangle\,|0\rangle\langle1|=0,\\
+(\langle1|\otimes I)|11\rangle\langle00|(|1\rangle\otimes I)
+&=\langle1|1\rangle\langle0|1\rangle\,|1\rangle\langle0|=0,\\
+(\langle1|\otimes I)|11\rangle\langle11|(|1\rangle\otimes I)
+&=\langle1|1\rangle\langle1|1\rangle\,|1\rangle\langle1|=|1\rangle\langle1|,
+\end{aligned}
+\]
+因此
+\[
+(\langle1|\otimes I)\rho_{AB}(|1\rangle\otimes I)=\frac12|1\rangle\langle1|.
+\]
+相加得
+\[
+\rho_B=\frac12(|0\rangle\langle0|+|1\rangle\langle1|)=\frac12 I
+\]
+
+\textbf{方法三（子矩阵取迹）}：  
+在基 $\{|00\rangle,|01\rangle,|10\rangle,|11\rangle\}$ 下，把 $\rho_{AB}$ 按 $A$ 的索引分成子块：
+\[
+\rho_{AB}=
+\begin{pmatrix}
+A & B\\
+C & D
+\end{pmatrix},
+\quad
+A=\frac12\!\begin{pmatrix}1&0\\0&0\end{pmatrix},\ 
+B=\frac12\!\begin{pmatrix}0&1\\0&0\end{pmatrix},\ 
+C=\frac12\!\begin{pmatrix}0&0\\1&0\end{pmatrix},\ 
+D=\frac12\!\begin{pmatrix}0&0\\0&1\end{pmatrix}
+\]
+对 $B$ 做偏迹（对子块取迹）：
+\[
+\rho_A=\begin{pmatrix}\mathrm{tr}(A)&\mathrm{tr}(B)\\ \mathrm{tr}(C)&\mathrm{tr}(D)\end{pmatrix}
+=\begin{pmatrix}\frac12&0\\0&\frac12\end{pmatrix}=\frac12 I
+\]
+
+若要用子块法求 $\rho_B$，需把基按 $B$ 分组为 $\{|00\rangle,|10\rangle\}$ 与 $\{|01\rangle,|11\rangle\}$（即先固定 $B=0$、再固定 $B=1$）。
+在此顺序下，等价于把原矩阵的第 2、3 行与第 2、3 列同时对调（本例中第 2、3 行列全为零，因此数值形式不变）：
+\[
+\rho_{AB}^{(B\text{分组})}
+=\frac12
+\begin{pmatrix}
+1&0&0&1\\
+0&0&0&0\\
+0&0&0&0\\
+1&0&0&1
+\end{pmatrix}
+=\begin{pmatrix}
+A' & B'\\
+C' & D'
+\end{pmatrix}
+\]
+其中
+\[
+A'=\frac12\!\begin{pmatrix}1&0\\0&0\end{pmatrix},\quad
+B'=\frac12\!\begin{pmatrix}0&1\\0&0\end{pmatrix},\quad
+C'=\frac12\!\begin{pmatrix}0&0\\1&0\end{pmatrix},\quad
+D'=\frac12\!\begin{pmatrix}0&0\\0&1\end{pmatrix}
+\]
+对子块取迹：
+\[
+\rho_B=\begin{pmatrix}\mathrm{tr}(A')&\mathrm{tr}(B')\\ \mathrm{tr}(C')&\mathrm{tr}(D')\end{pmatrix}
+=\begin{pmatrix}\frac12&0\\0&\frac12\end{pmatrix}
+=\frac12 I
+\]
+
+说明纠缠态的任一子系统都表现为混态（完全随机）。
+\end{example}
+
+\begin{example}
+\textbf{偏迹的直观例题（可分态）}
+
+取
+\[
+|\psi\rangle=\frac{|00\rangle+|01\rangle}{\sqrt{2}}=|0\rangle\otimes|+\rangle
+\]
+先写密度算子：
+\[
+\rho_{AB}=|\psi\rangle\langle\psi|
+=\frac{1}{2}\Big(|00\rangle\langle00|+|00\rangle\langle01|+|01\rangle\langle00|+|01\rangle\langle01|\Big)
+\]
+对 $B$ 做偏迹，按公式
+\[
+\rho_A=\sum_{j=0}^1 (I\otimes\langle j|)\,\rho_{AB}\,(I\otimes|j\rangle)
+\]
+逐项计算（对每个 $j$ 把 $\rho_{AB}$ 的四项全部代入）：
+\[
+\begin{aligned}
+(I\otimes\langle0|)\rho_{AB}(I\otimes|0\rangle)
+=\frac{1}{2}\Big[&(I\otimes\langle0|)|00\rangle\langle00|(I\otimes|0\rangle)\\
+&+(I\otimes\langle0|)|00\rangle\langle01|(I\otimes|0\rangle)\\
+&+(I\otimes\langle0|)|01\rangle\langle00|(I\otimes|0\rangle)\\
+&+(I\otimes\langle0|)|01\rangle\langle01|(I\otimes|0\rangle)\Big]
+\end{aligned}
+\]
+其中
+\[
+\begin{aligned}
+(I\otimes\langle0|)|00\rangle\langle00|(I\otimes|0\rangle)
+&=|0\rangle\langle0|\,\langle0|0\rangle\langle0|0\rangle=|0\rangle\langle0|,\\
+(I\otimes\langle0|)|00\rangle\langle01|(I\otimes|0\rangle)
+&=|0\rangle\langle0|\,\langle0|0\rangle\langle1|0\rangle=0,\\
+(I\otimes\langle0|)|01\rangle\langle00|(I\otimes|0\rangle)
+&=|0\rangle\langle0|\,\langle0|1\rangle\langle0|0\rangle=0,\\
+(I\otimes\langle0|)|01\rangle\langle01|(I\otimes|0\rangle)
+&=|0\rangle\langle0|\,\langle0|1\rangle\langle1|0\rangle=0,
+\end{aligned}
+\]
+因此
+\[
+(I\otimes\langle0|)\rho_{AB}(I\otimes|0\rangle)=\frac{1}{2}|0\rangle\langle0|.
+\]
+再算 $j=1$：
+\[
+\begin{aligned}
+(I\otimes\langle1|)\rho_{AB}(I\otimes|1\rangle)
+=\frac{1}{2}\Big[&(I\otimes\langle1|)|00\rangle\langle00|(I\otimes|1\rangle)\\
+&+(I\otimes\langle1|)|00\rangle\langle01|(I\otimes|1\rangle)\\
+&+(I\otimes\langle1|)|01\rangle\langle00|(I\otimes|1\rangle)\\
+&+(I\otimes\langle1|)|01\rangle\langle01|(I\otimes|1\rangle)\Big]
+\end{aligned}
+\]
+其中
+\[
+\begin{aligned}
+(I\otimes\langle1|)|00\rangle\langle00|(I\otimes|1\rangle)
+&=|0\rangle\langle0|\,\langle1|0\rangle\langle0|1\rangle=0,\\
+(I\otimes\langle1|)|00\rangle\langle01|(I\otimes|1\rangle)
+&=|0\rangle\langle0|\,\langle1|0\rangle\langle1|1\rangle=0,\\
+(I\otimes\langle1|)|01\rangle\langle00|(I\otimes|1\rangle)
+&=|0\rangle\langle0|\,\langle1|1\rangle\langle0|1\rangle=0,\\
+(I\otimes\langle1|)|01\rangle\langle01|(I\otimes|1\rangle)
+&=|0\rangle\langle0|\,\langle1|1\rangle\langle1|1\rangle=|0\rangle\langle0|,
+\end{aligned}
+\]
+因此
+\[
+(I\otimes\langle1|)\rho_{AB}(I\otimes|1\rangle)=\frac{1}{2}|0\rangle\langle0|.
+\]
+相加得
+\[
+\rho_A=\frac{1}{2}|0\rangle\langle0|+\frac{1}{2}|0\rangle\langle0|
+=|0\rangle\langle0|
+\]
+说明对可分态，偏迹后仍是\textbf{纯态}。
+
+对 $A$ 做偏迹可得
+\[
+\rho_B=|+\rangle\langle+|=\frac{1}{2}\begin{pmatrix}1&1\\1&1\end{pmatrix}
+\]
+即子系统 $B$ 仍保留相干。
+
+\textbf{方法一（矩阵元求和公式）}：  
+对任意两比特 $\rho_{AB}$，有
+\[
+(\rho_A)_{ik}=\sum_j \rho_{ij,kj},\qquad
+(\rho_B)_{jl}=\sum_i \rho_{ij,il}
+\]
+本例 $\rho_{AB}=\tfrac12(|00\rangle\langle00|+|00\rangle\langle01|+|01\rangle\langle00|+|01\rangle\langle01|)$，因此
+\[
+(\rho_A)_{00}=\rho_{00,00}+\rho_{01,01}=\tfrac12+\tfrac12=1,\quad
+(\rho_A)_{11}=\rho_{10,10}+\rho_{11,11}=0
+\]
+且 $(\rho_A)_{01}=\rho_{00,10}+\rho_{01,11}=0$，故 $\rho_A=|0\rangle\langle0|$。
+按公式 $(\rho_B)_{jl}=\sum_i \rho_{ij,il}$，逐项得
+\[
+(\rho_B)_{00}=\rho_{00,00}+\rho_{10,10}=\tfrac12+0=\tfrac12,\quad
+(\rho_B)_{11}=\rho_{01,01}+\rho_{11,11}=\tfrac12+0=\tfrac12
+\]
+且 $(\rho_B)_{01}=\rho_{00,01}+\rho_{10,11}=\tfrac12+0=\tfrac12$，因此
+\[
+\rho_B=\frac12\begin{pmatrix}1&1\\1&1\end{pmatrix}
+\]
+
+\textbf{方法二（按定义逐项偏迹）}：  
+对 $B$ 的偏迹已在上面逐项算出得到 $\rho_A=|0\rangle\langle0|$；
+对 $A$ 的偏迹：
+\[
+\rho_B=\sum_{i=0}^1 (\langle i|\otimes I)\rho_{AB}(|i\rangle\otimes I)
+\]
+对 $i=0$：
+\[
+\begin{aligned}
+(\langle0|\otimes I)\rho_{AB}(|0\rangle\otimes I)
+=\frac{1}{2}\Big[&(\langle0|\otimes I)|00\rangle\langle00|(|0\rangle\otimes I)\\
+&+(\langle0|\otimes I)|00\rangle\langle01|(|0\rangle\otimes I)\\
+&+(\langle0|\otimes I)|01\rangle\langle00|(|0\rangle\otimes I)\\
+&+(\langle0|\otimes I)|01\rangle\langle01|(|0\rangle\otimes I)\Big]
+\end{aligned}
+\]
+其中
+\[
+\begin{aligned}
+(\langle0|\otimes I)|00\rangle\langle00|(|0\rangle\otimes I)
+&=\langle0|0\rangle\langle0|0\rangle\,|0\rangle\langle0|=|0\rangle\langle0|,\\
+(\langle0|\otimes I)|00\rangle\langle01|(|0\rangle\otimes I)
+&=\langle0|0\rangle\langle0|0\rangle\,|0\rangle\langle1|=|0\rangle\langle1|,\\
+(\langle0|\otimes I)|01\rangle\langle00|(|0\rangle\otimes I)
+&=\langle0|0\rangle\langle0|0\rangle\,|1\rangle\langle0|=|1\rangle\langle0|,\\
+(\langle0|\otimes I)|01\rangle\langle01|(|0\rangle\otimes I)
+&=\langle0|0\rangle\langle0|0\rangle\,|1\rangle\langle1|=|1\rangle\langle1|,
+\end{aligned}
+\]
+所以
+\[
+(\langle0|\otimes I)\rho_{AB}(|0\rangle\otimes I)=\frac{1}{2}\Big(|0\rangle\langle0|+|0\rangle\langle1|
++|1\rangle\langle0|+|1\rangle\langle1|\Big)=|+\rangle\langle+|.
+\]
+对 $i=1$：
+\[
+\begin{aligned}
+(\langle1|\otimes I)\rho_{AB}(|1\rangle\otimes I)
+=\frac{1}{2}\Big[&(\langle1|\otimes I)|00\rangle\langle00|(|1\rangle\otimes I)\\
+&+(\langle1|\otimes I)|00\rangle\langle01|(|1\rangle\otimes I)\\
+&+(\langle1|\otimes I)|01\rangle\langle00|(|1\rangle\otimes I)\\
+&+(\langle1|\otimes I)|01\rangle\langle01|(|1\rangle\otimes I)\Big]
+\end{aligned}
+\]
+其中
+\[
+\begin{aligned}
+(\langle1|\otimes I)|00\rangle\langle00|(|1\rangle\otimes I)
+&=\langle1|0\rangle\langle0|1\rangle\,|0\rangle\langle0|=0,\\
+(\langle1|\otimes I)|00\rangle\langle01|(|1\rangle\otimes I)
+&=\langle1|0\rangle\langle0|1\rangle\,|0\rangle\langle1|=0,\\
+(\langle1|\otimes I)|01\rangle\langle00|(|1\rangle\otimes I)
+&=\langle1|0\rangle\langle0|1\rangle\,|1\rangle\langle0|=0,\\
+(\langle1|\otimes I)|01\rangle\langle01|(|1\rangle\otimes I)
+&=\langle1|0\rangle\langle0|1\rangle\,|1\rangle\langle1|=0,
+\end{aligned}
+\]
+因此
+\[
+(\langle1|\otimes I)\rho_{AB}(|1\rangle\otimes I)=0,\qquad
+\rho_B=|+\rangle\langle+|.
+\]
+
+\textbf{方法三（子矩阵取迹）}：  
+在基 $\{|00\rangle,|01\rangle,|10\rangle,|11\rangle\}$ 下，
+\[
+\rho_{AB}=\frac12
+\begin{pmatrix}
+1&1&0&0\\
+1&1&0&0\\
+0&0&0&0\\
+0&0&0&0
+\end{pmatrix}
+=\begin{pmatrix}
+A & B\\
+C & D
+\end{pmatrix}
+\]
+其中
+\[
+A=\frac12\!\begin{pmatrix}1&1\\1&1\end{pmatrix},\quad
+B=\frac12\!\begin{pmatrix}0&0\\0&0\end{pmatrix},\quad
+C=\frac12\!\begin{pmatrix}0&0\\0&0\end{pmatrix},\quad
+D=\frac12\!\begin{pmatrix}0&0\\0&0\end{pmatrix}
+\]
+对子块取迹得
+\[
+\rho_A=\begin{pmatrix}\mathrm{tr}(A)&\mathrm{tr}(B)\\ \mathrm{tr}(C)&\mathrm{tr}(D)\end{pmatrix}
+=\begin{pmatrix}1&0\\0&0\end{pmatrix}=|0\rangle\langle0|
+\]
+按 $B$ 分组（重排基 $\{|00\rangle,|10\rangle,|01\rangle,|11\rangle\}$），
+即把原基序 $\{|00\rangle,|01\rangle,|10\rangle,|11\rangle\}$ 中的
+第二、三项对调，所以矩阵需\textbf{同时交换第 2、3 行与第 2、3 列}，得到
+\[
+\rho_{AB}=\frac12
+\begin{pmatrix}
+1&0&1&0\\
+0&0&0&0\\
+1&0&1&0\\
+0&0&0&0
+\end{pmatrix}
+=\begin{pmatrix}
+A_B & B_B\\
+C_B & D_B
+\end{pmatrix}
+\]
+其中
+\[
+A_B=\frac12\!\begin{pmatrix}1&0\\0&0\end{pmatrix},\quad
+B_B=\frac12\!\begin{pmatrix}1&0\\0&0\end{pmatrix},\quad
+C_B=\frac12\!\begin{pmatrix}1&0\\0&0\end{pmatrix},\quad
+D_B=\frac12\!\begin{pmatrix}1&0\\0&0\end{pmatrix}
+\]
+对子块取迹：
+\[
+\rho_B=\begin{pmatrix}\mathrm{tr}(A_B)&\mathrm{tr}(B_B)\\ \mathrm{tr}(C_B)&\mathrm{tr}(D_B)\end{pmatrix}
+=\frac12\begin{pmatrix}1&1\\1&1\end{pmatrix}
+=|+\rangle\langle+|
+\]
 \end{example}
 
 \paragraph{【了解】纠缠判据（纯态）（补充）}
@@ -3781,6 +4781,72 @@ Bell态是两比特最大纠缠态，可由 $H$ 门 + CNOT 电路制备。
 \[
 \sum_{\mu\in\{\Phi^\pm,\Psi^\pm\}} |\mu\rangle\langle\mu|=I
 \]
+
+\paragraph{单态与三重态（补充）}
+在量子力学中，两个自旋-1/2粒子组合的态可以按\textbf{总自旋}分类：
+\begin{itemize}
+\item \textbf{单态（Singlet）}：总自旋 $S=0$，只有一个态
+\[
+|\Psi^-\rangle=\frac{|01\rangle-|10\rangle}{\sqrt{2}}
+\]
+特点：反对称态，沿任意方向测量总是得到相反结果
+
+\item \textbf{三重态（Triplet）}：总自旋 $S=1$，有三个态
+\[
+|\Psi^+\rangle=\frac{|01\rangle+|10\rangle}{\sqrt{2}},\quad
+|\Phi^+\rangle=\frac{|00\rangle+|11\rangle}{\sqrt{2}},\quad
+|\Phi^-\rangle=\frac{|00\rangle-|11\rangle}{\sqrt{2}}
+\]
+特点：对称态（注意：$|\Phi^-\rangle$ 虽然有负号，但在空间交换下是对称的）
+\end{itemize}
+
+\textbf{贝尔态的分类总结：}
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+贝尔态 & 表达式 & 总自旋 & 对称性 \\
+\hline
+$|\Psi^-\rangle$ & $\frac{|01\rangle-|10\rangle}{\sqrt{2}}$ & $S=0$ & 反对称（单态） \\
+\hline
+$|\Psi^+\rangle$ & $\frac{|01\rangle+|10\rangle}{\sqrt{2}}$ & $S=1$ & 对称（三重态） \\
+\hline
+$|\Phi^+\rangle$ & $\frac{|00\rangle+|11\rangle}{\sqrt{2}}$ & $S=1$ & 对称（三重态） \\
+\hline
+$|\Phi^-\rangle$ & $\frac{|00\rangle-|11\rangle}{\sqrt{2}}$ & $S=1$ & 对称（三重态） \\
+\hline
+\end{tabular}
+\end{center}
+
+\textbf{物理意义：}
+\begin{enumerate}
+\item \textbf{总自旋为0}（单态）：两个自旋的角动量完全抵消，系统没有净角动量
+\item \textbf{总自旋为1}（三重态）：两个自旋的角动量叠加，系统有净角动量
+\item 单态与三重态在空间交换下有不同对称性：单态反对称，三重态对称
+\item 在原子物理、分子物理中，单态和三重态有不同的能量和性质
+\end{enumerate}
+
+\textbf{如何记忆？}
+\begin{itemize}
+\item \textbf{单态}：$|\Psi^-\rangle$ —— 唯一一个反对称的贝尔态，交换两个粒子会改变符号
+\item \textbf{三重态}：其余三个 $|\Psi^+\rangle, |\Phi^+\rangle, |\Phi^-\rangle$ —— 都是对称的
+\item 判断标准：交换 $1\leftrightarrow 2$，若变号则是单态，否则是三重态
+\end{itemize}
+
+\textbf{验证交换对称性：}
+\begin{align*}
+|\Psi^-\rangle &= \frac{|01\rangle-|10\rangle}{\sqrt{2}} \xrightarrow{1\leftrightarrow 2} \frac{|10\rangle-|01\rangle}{\sqrt{2}} = -|\Psi^-\rangle \quad \text{（反对称）} \\
+|\Psi^+\rangle &= \frac{|01\rangle+|10\rangle}{\sqrt{2}} \xrightarrow{1\leftrightarrow 2} \frac{|10\rangle+|01\rangle}{\sqrt{2}} = +|\Psi^+\rangle \quad \text{（对称）} \\
+|\Phi^+\rangle &= \frac{|00\rangle+|11\rangle}{\sqrt{2}} \xrightarrow{1\leftrightarrow 2} \frac{|00\rangle+|11\rangle}{\sqrt{2}} = +|\Phi^+\rangle \quad \text{（对称）} \\
+|\Phi^-\rangle &= \frac{|00\rangle-|11\rangle}{\sqrt{2}} \xrightarrow{1\leftrightarrow 2} \frac{|00\rangle-|11\rangle}{\sqrt{2}} = +|\Phi^-\rangle \quad \text{（对称）}
+\end{align*}
+
+\textbf{为什么单态的相位是负号？}单态的反对称性要求在交换两个粒子时波函数改变符号：
+\[
+|\Psi^-\rangle_{12} = \frac{|0\rangle_1|1\rangle_2-|1\rangle_1|0\rangle_2}{\sqrt{2}}
+\xrightarrow{\text{交换1↔2}}
+\frac{|0\rangle_2|1\rangle_1-|1\rangle_2|0\rangle_1}{\sqrt{2}} = -|\Psi^-\rangle_{12}
+\]
+这个负号（相位 $\phi=\pi$）是由量子力学的反对称性要求决定的。
 \paragraph{完美关联示例（补充）}
 对 $|\Psi^-\rangle$，若两方沿同一方向测量自旋，总是得到相反结果（完美反相关）。
 
