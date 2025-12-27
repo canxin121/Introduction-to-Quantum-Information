@@ -1034,6 +1034,137 @@ U^\dagger A U = D
 则称 $A$ \textbf{酉对角化}。这等价于：$A$ 存在一组\textbf{正交归一}本征向量作为基。
 对厄米算符（以及更一般的正规算符）一定可以酉对角化。
 
+\paragraph{可对角化的条件}
+
+矩阵 $A$ 可对角化当且仅当满足以下条件之一：
+
+\textbf{充要条件：}
+\begin{itemize}
+  \item $A$ 有 $n$ 个线性无关的本征向量（$n$ 为矩阵维数）
+\end{itemize}
+
+\textbf{充分条件（任一满足即可对角化）：}
+\begin{itemize}
+  \item $A$ 有 $n$ 个互不相同的本征值
+  \item $A$ 是\textbf{正规矩阵}（满足 $AA^\dagger = A^\dagger A$），包括：
+  \begin{itemize}
+    \item 厄米矩阵（$A=A^\dagger$）
+    \item 酉矩阵（$A^\dagger A = I$）
+    \item 反厄米矩阵（$A=-A^\dagger$）
+  \end{itemize}
+\end{itemize}
+
+\textbf{重要说明：}
+\begin{itemize}
+  \item 所有正规矩阵都可\textbf{酉对角化}（即存在酉矩阵 $U$ 使 $A=UDU^\dagger$）
+  \item 特别地，厄米矩阵（量子力学中的可观测量）一定可酉对角化
+  \item 一般矩阵若可对角化，也可能只能通过一般的可逆矩阵 $P$（非酉矩阵）对角化
+\end{itemize}
+
+\paragraph{求对角表示的完整步骤}
+
+设矩阵 $A$ 可对角化，目标是将其表示为 $A = PDP^{-1}$（一般对角化）或 $A = UDU^\dagger$（酉对角化）。
+
+\textbf{第1步：求本征值}
+
+解特征方程（久期方程）：
+\[
+\det(A - \lambda I) = 0
+\]
+得到 $n$ 个本征值 $\lambda_1, \lambda_2, \ldots, \lambda_n$（包括重根）。
+
+\textbf{第2步：对每个本征值求本征向量}
+
+对每个本征值 $\lambda_i$，解线性方程组：
+\[
+(A - \lambda_i I)|\phi\rangle = 0
+\]
+\begin{itemize}
+  \item \textbf{非简并情形}（$\lambda_i$ 不重复）：方程组的解空间是一维的，任取一个非零解即可
+  \item \textbf{简并情形}（$\lambda_i$ 是 $k$ 重根）：需找到 $k$ 个线性无关的本征向量
+\end{itemize}
+
+\textbf{第3步：归一化与正交化}
+
+\begin{itemize}
+  \item \textbf{一般对角化}（仅需线性无关）：归一化本征向量即可
+  \[
+  |\tilde\phi_i\rangle = \frac{|\phi_i\rangle}{\||\phi_i\rangle\|}
+  \]
+  \item \textbf{酉对角化}（需正交归一）：
+  \begin{enumerate}
+    \item 不同本征值对应的本征向量天然正交（对厄米矩阵等正规矩阵）
+    \item 对简并本征值对应的多个本征向量，使用 Gram--Schmidt 正交化（见前文例子）
+    \item 最后归一化所有本征向量
+  \end{enumerate}
+\end{itemize}
+
+\textbf{第4步：构造对角表示}
+
+将归一化（或正交归一）的本征向量按列排列成矩阵：
+\[
+P = \big[|\phi_1\rangle\ |\phi_2\rangle\ \cdots\ |\phi_n\rangle\big]
+\]
+对角矩阵为：
+\[
+D = \begin{pmatrix}
+\lambda_1 & 0 & \cdots & 0 \\
+0 & \lambda_2 & \cdots & 0 \\
+\vdots & \vdots & \ddots & \vdots \\
+0 & 0 & \cdots & \lambda_n
+\end{pmatrix}
+\]
+
+则有：
+\begin{itemize}
+  \item \textbf{一般情形}：$A = PDP^{-1}$ 或等价地 $P^{-1}AP = D$
+  \item \textbf{正规矩阵}（$P$ 为酉矩阵 $U$）：$A = UDU^\dagger$ 或等价地 $U^\dagger AU = D$
+\end{itemize}
+
+\begin{example}
+\textbf{求 Pauli-X 矩阵的对角表示}
+
+设 $X = \begin{pmatrix}0&1\\1&0\end{pmatrix}$。
+
+\textbf{第1步：}特征方程
+\[
+\det(X-\lambda I) = \det\begin{pmatrix}-\lambda&1\\1&-\lambda\end{pmatrix}
+= \lambda^2 - 1 = 0
+\]
+得本征值：$\lambda_1 = 1, \lambda_2 = -1$
+
+\textbf{第2步：}求本征向量
+
+对 $\lambda_1=1$：$(X-I)\begin{pmatrix}x\\y\end{pmatrix}=0$
+得 $-x+y=0$，即 $x=y$，取 $\begin{pmatrix}1\\1\end{pmatrix}$
+
+对 $\lambda_2=-1$：$(X+I)\begin{pmatrix}x\\y\end{pmatrix}=0$
+得 $x+y=0$，即 $x=-y$，取 $\begin{pmatrix}1\\-1\end{pmatrix}$
+
+\textbf{第3步：}归一化
+\[
+|\phi_1\rangle = \frac{1}{\sqrt{2}}\begin{pmatrix}1\\1\end{pmatrix},\quad
+|\phi_2\rangle = \frac{1}{\sqrt{2}}\begin{pmatrix}1\\-1\end{pmatrix}
+\]
+
+验证正交性：$\langle\phi_1|\phi_2\rangle = \frac{1}{2}(1-1) = 0$ \checkmark
+
+\textbf{第4步：}构造对角表示
+\[
+U = \frac{1}{\sqrt{2}}\begin{pmatrix}1&1\\1&-1\end{pmatrix},\quad
+D = \begin{pmatrix}1&0\\0&-1\end{pmatrix}
+\]
+
+验证：$U^\dagger = \frac{1}{\sqrt{2}}\begin{pmatrix}1&1\\1&-1\end{pmatrix} = U$（$U$ 是厄米且酉的）
+
+因此对角表示为：
+\[
+X = UDU^\dagger = \frac{1}{\sqrt{2}}\begin{pmatrix}1&1\\1&-1\end{pmatrix}
+\begin{pmatrix}1&0\\0&-1\end{pmatrix}
+\frac{1}{\sqrt{2}}\begin{pmatrix}1&1\\1&-1\end{pmatrix}
+\]
+\end{example}
+
 \subsection{【背】厄米算符（Hermitian Operators）}
 
 \paragraph{定义}
@@ -2744,7 +2875,7 @@ $(\theta,\varphi)$ 对应 Bloch 球面上一点。
 
 \begin{figure}[htbp]
   \centering
-  \reflectbox{\includegraphics[width=0.45\linewidth,angle=180]{fig_bloch_sphere.png}}
+  \includegraphics[width=0.45\linewidth]{assets/figs_used/fig_bloch_sphere2.png}
   \caption{Bloch 球：单比特纯态对应球面点，混态对应球内点。}
 \end{figure}
 
@@ -5101,43 +5232,348 @@ E(a,b)=-\cos\theta_{ab}
 
 \section{【了解】量子超密编码（Superdense Coding）}
 
-\paragraph{核心思想}
-利用纠缠作为共享资源，实现“发送 1 个量子比特传递 2 个经典比特”。
-\textbf{提出者：}Bennett 与 Wiesner（1992）。
-\textbf{对比：}经典信道中发送 1 个物理比特只能传递 1 个经典比特。
-又称\textbf{量子密集编码}。
+\paragraph{提出与基本思想}
+1992年Bennett与Wiesner提出量子超密编码（又称\textbf{量子密集编码}）方案。其核心思想是：
+\begin{itemize}
+  \item 利用\textbf{预共享的纠缠态}作为量子资源
+  \item Alice发送\textbf{1个量子比特}给Bob
+  \item Bob通过联合测量可以获得\textbf{2个经典比特}的信息
+  \item 实现了\textbf{信道容量的翻倍}：相比经典通信（1物理比特→1经典比特），量子超密编码实现（1量子比特→2经典比特）
+\end{itemize}
 
-\paragraph{协议步骤}
-\begin{enumerate}
-  \item 共享 $|\Phi^+\rangle$：Alice 和 Bob 各持一半纠缠对。
-  \item Alice 编码两比特信息，对自己量子比特施加幺正操作。
-  \item Alice 发送该量子比特给 Bob（只发送 1 个 qubit）。
-  \item Bob 对两比特做 Bell 基测量（Bell State Measurement, BSM），得到 2 个经典比特。
-\end{enumerate}
-\paragraph{Bell 基测量实现（补充）}
-对两比特先施加 CNOT（第 1 控制第 2），再对第 1 比特施加 $H$，
-随后在计算基测量即可完成 BSM（理想情况下）。
+\textbf{关键点：}信息并不是"装在"Alice发送的单个量子比特中，而是编码在\textbf{整个Bell态}上。Alice的局域操作改变了整体纠缠态的类型，Bob通过Bell基测量读出这一信息。
 
-\paragraph{【了解】编码映射（以 $|\Phi^+\rangle$ 为初态）}
+\paragraph{协议的详细步骤}
+
+\textbf{第0步：准备阶段（事先完成）}
+
+Alice和Bob预先共享一个Bell态（通常是 $|\Phi^+\rangle$）：
 \[
-\begin{array}{c|c}
-\text{经典比特} & \text{Alice 操作} \\
+|\Phi^+\rangle = \frac{1}{\sqrt{2}}(|00\rangle + |11\rangle)
+\]
+其中Alice持有第一个量子比特，Bob持有第二个量子比特。这对纠缠粒子可以在协议开始很久之前就分发完成。
+
+\textbf{第1步：Alice编码（局域操作）}
+
+假设Alice想要发送2个经典比特的信息（00, 01, 10, 11之一）。她根据要发送的信息，对\textbf{自己手中}的量子比特（第一个比特）施加相应的幺正操作：
+
+\begin{itemize}
+  \item \textbf{发送 "00"}：施加 $I$（恒等操作，什么都不做）
+  \[
+  I \otimes I \cdot |\Phi^+\rangle = |\Phi^+\rangle = \frac{1}{\sqrt{2}}(|00\rangle + |11\rangle)
+  \]
+
+  \item \textbf{发送 "01"}：施加 $X$（比特翻转门）
+  \begin{align*}
+  X \otimes I \cdot |\Phi^+\rangle
+  &= X \otimes I \cdot \frac{1}{\sqrt{2}}(|00\rangle + |11\rangle) \\
+  &= \frac{1}{\sqrt{2}}(X|0\rangle \otimes |0\rangle + X|1\rangle \otimes |1\rangle) \\
+  &= \frac{1}{\sqrt{2}}(|10\rangle + |01\rangle) \\
+  &= \frac{1}{\sqrt{2}}(|01\rangle + |10\rangle) = |\Psi^+\rangle
+  \end{align*}
+
+  \item \textbf{发送 "10"}：施加 $Z$（相位翻转门）
+  \begin{align*}
+  Z \otimes I \cdot |\Phi^+\rangle
+  &= Z \otimes I \cdot \frac{1}{\sqrt{2}}(|00\rangle + |11\rangle) \\
+  &= \frac{1}{\sqrt{2}}(Z|0\rangle \otimes |0\rangle + Z|1\rangle \otimes |1\rangle) \\
+  &= \frac{1}{\sqrt{2}}(|00\rangle - |11\rangle) = |\Phi^-\rangle
+  \end{align*}
+
+  \item \textbf{发送 "11"}：施加 $XZ$（先相位翻转再比特翻转，或等价于 $iY$）
+  \begin{align*}
+  XZ \otimes I \cdot |\Phi^+\rangle
+  &= X(Z \otimes I \cdot |\Phi^+\rangle) \\
+  &= X \otimes I \cdot |\Phi^-\rangle \\
+  &= X \otimes I \cdot \frac{1}{\sqrt{2}}(|00\rangle - |11\rangle) \\
+  &= \frac{1}{\sqrt{2}}(|10\rangle - |01\rangle) \\
+  &= \frac{1}{\sqrt{2}}(|01\rangle - |10\rangle) \cdot (-1) = -|\Psi^-\rangle = |\Psi^-\rangle
+  \end{align*}
+  （注：整体相位不影响测量结果）
+\end{itemize}
+
+\textbf{编码映射总结表：}
+\[
+\begin{array}{c|c|c}
+\text{经典信息} & \text{Alice的操作} & \text{编码后的Bell态} \\
 \hline
-00 & I \\
-01 & X \\
-10 & Z \\
-11 & iY=ZX
+00 & I & |\Phi^+\rangle = \frac{1}{\sqrt{2}}(|00\rangle + |11\rangle) \\
+01 & X & |\Psi^+\rangle = \frac{1}{\sqrt{2}}(|01\rangle + |10\rangle) \\
+10 & Z & |\Phi^-\rangle = \frac{1}{\sqrt{2}}(|00\rangle - |11\rangle) \\
+11 & XZ & |\Psi^-\rangle = \frac{1}{\sqrt{2}}(|01\rangle - |10\rangle)
 \end{array}
-\quad\Rightarrow\quad
-\text{得到四个 Bell 态之一}
-\]
-对应关系为：
-\[
-00\to|\Phi^+\rangle,\quad 01\to|\Psi^+\rangle,\quad 10\to|\Phi^-\rangle,\quad 11\to|\Psi^-\rangle
 \]
 
-\paragraph{要点}
-纠缠是核心资源；单独截获一个粒子无法读取信息；测量会破坏纠缠，具有安全性潜力。
+\textbf{关键观察：}Alice只对自己的量子比特操作，但整个两比特系统的Bell态类型发生了变化。这正是纠缠的力量——局域操作产生全局效应。
+
+\textbf{第2步：Alice发送量子比特}
+
+Alice将她操作后的量子比特通过量子信道发送给Bob。注意：
+\begin{itemize}
+  \item 她只发送\textbf{1个量子比特}（物理上传输1个粒子）
+  \item 这个量子比特本身并不"携带"2比特信息
+  \item 信息编码在\textbf{两个量子比特的关联}（Bell态类型）中
+\end{itemize}
+
+\textbf{第3步：Bob进行Bell基测量}
+
+Bob现在拥有两个量子比特（Alice发来的+他原来持有的），他对这两个量子比特进行\textbf{Bell基测量}（BSM）。
+
+\textbf{Bell基测量的线路实现：}
+\begin{enumerate}
+  \item 对两个量子比特施加CNOT门（Alice的比特为控制位，Bob的比特为目标位）
+  \item 对Alice的比特施加Hadamard门 $H$
+  \item 在计算基下测量两个比特，得到 $(M_1, M_2) \in \{00, 01, 10, 11\}$
+\end{enumerate}
+
+\textbf{Bell基测量的作用：}
+\begin{itemize}
+  \item 将四个Bell态映射到四个计算基态 $|00\rangle, |01\rangle, |10\rangle, |11\rangle$
+  \item 测量结果\textbf{确定性地}反映了输入是哪个Bell态
+\end{itemize}
+
+\textbf{测量与解码的对应关系：}
+\[
+\begin{array}{c|c|c}
+\text{Bell态} & \text{经过CNOT+H后的态} & \text{Bob的测量结果} \\
+\hline
+|\Phi^+\rangle & |00\rangle & 00 \\
+|\Psi^+\rangle & |01\rangle & 01 \\
+|\Phi^-\rangle & |10\rangle & 10 \\
+|\Psi^-\rangle & |11\rangle & 11
+\end{array}
+\]
+
+\textbf{第4步：Bob解码}
+
+Bob从测量结果中直接读出Alice想要发送的2个经典比特。协议完成。
+
+\paragraph{Bell基测量的详细计算}
+
+我们验证Bell基测量如何区分四个Bell态。以 $|\Phi^+\rangle$ 为例：
+
+\textbf{初态：}$|\Phi^+\rangle = \frac{1}{\sqrt{2}}(|00\rangle + |11\rangle)$
+
+\textbf{施加CNOT（第1比特控制第2比特）：}
+\begin{align*}
+\text{CNOT} \cdot |\Phi^+\rangle
+&= \text{CNOT} \cdot \frac{1}{\sqrt{2}}(|00\rangle + |11\rangle) \\
+&= \frac{1}{\sqrt{2}}(\text{CNOT}|00\rangle + \text{CNOT}|11\rangle) \\
+&= \frac{1}{\sqrt{2}}(|00\rangle + |10\rangle) \quad \text{（第1比特为1时翻转第2比特）}
+\end{align*}
+
+\textbf{对第1比特施加Hadamard门：}
+\begin{align*}
+H \otimes I \cdot \frac{1}{\sqrt{2}}(|00\rangle + |10\rangle)
+&= \frac{1}{\sqrt{2}}(H|0\rangle \otimes |0\rangle + H|1\rangle \otimes |0\rangle) \\
+&= \frac{1}{\sqrt{2}}\left(\frac{|0\rangle+|1\rangle}{\sqrt{2}} \otimes |0\rangle + \frac{|0\rangle-|1\rangle}{\sqrt{2}} \otimes |0\rangle\right) \\
+&= \frac{1}{2}[(|0\rangle+|1\rangle)|0\rangle + (|0\rangle-|1\rangle)|0\rangle] \\
+&= \frac{1}{2}[|00\rangle + |10\rangle + |00\rangle - |10\rangle] \\
+&= \frac{1}{2} \cdot 2|00\rangle = |00\rangle
+\end{align*}
+
+因此，$|\Phi^+\rangle$ 经过CNOT+H后确定性地变成 $|00\rangle$，Bob测量得到 "00"。
+
+类似地可以验证：
+\begin{itemize}
+  \item $|\Psi^+\rangle \xrightarrow{\text{CNOT+H}} |01\rangle$
+  \item $|\Phi^-\rangle \xrightarrow{\text{CNOT+H}} |10\rangle$
+  \item $|\Psi^-\rangle \xrightarrow{\text{CNOT+H}} |11\rangle$
+\end{itemize}
+
+\paragraph{信息传递机制详解}
+
+\textbf{问题：}在量子超密编码中，信息是如何从Alice传递到Bob的？为什么1个量子比特能传递2个经典比特的信息？
+
+\textbf{答案：}
+
+\textbf{1. 信息编码的本质}
+
+\begin{itemize}
+  \item \textbf{不是局域编码}：信息并非编码在Alice发送的单个量子比特上。如果Bob只拿到Alice发送的量子比特而没有他原来持有的那个，他无法获得任何信息。
+
+  \item \textbf{而是全局编码}：信息编码在\textbf{两个量子比特的整体Bell态类型}上。Alice的局域操作改变了整体纠缠态，这一改变只能通过联合测量才能读出。
+
+  \item \textbf{纠缠的作用}：预共享的纠缠态提供了"量子带宽"。虽然只传输了1个物理量子比特，但由于纠缠的存在，这个量子比特携带了关于整体系统的信息。
+\end{itemize}
+
+\textbf{2. 为什么能突破经典极限？}
+
+\begin{itemize}
+  \item \textbf{经典情况}：发送1个物理比特（0或1），只能编码1比特信息
+
+  \item \textbf{量子情况}：
+  \begin{itemize}
+    \item Alice有4个不同的操作选择（$I, X, Z, XZ$）
+    \item 这4个操作将初始Bell态映射到4个\textbf{正交的}Bell态
+    \item Bob的Bell基测量可以\textbf{完美区分}这4个正交态
+    \item 因此可以编码 $\log_2 4 = 2$ 比特信息
+  \end{itemize}
+
+  \item \textbf{量子优势的来源}：Bell态是\textbf{非局域的量子资源}。Alice的局域操作在整个希尔伯特空间中有4个正交方向可选，这超越了经典比特的2个状态。
+\end{itemize}
+
+\textbf{3. 纠缠资源的消耗}
+
+\begin{itemize}
+  \item 每传输2个经典比特，需要\textbf{消耗1对纠缠}
+  \item Bell基测量会\textbf{破坏纠缠}，测量后两个量子比特不再纠缠
+  \item 纠缠对是\textbf{不可重复使用}的资源
+  \item 因此协议的代价是：需要事先建立和维护纠缠态
+\end{itemize}
+
+\textbf{4. 与量子隐形传态的对比}
+
+\begin{center}
+\begin{tabular}{l|l|l}
+\hline
+& \textbf{量子隐形传态} & \textbf{量子超密编码} \\
+\hline
+传输目标 & 量子态（连续参数） & 经典信息（离散） \\
+\hline
+Alice发送 & 2经典比特 & 1量子比特 \\
+\hline
+Bob获得 & 1量子比特状态 & 2经典比特 \\
+\hline
+信息流向 & 经典→量子 & 量子→经典 \\
+\hline
+测量者 & Alice做Bell测量 & Bob做Bell测量 \\
+\hline
+纠缠消耗 & 1对纠缠 & 1对纠缠 \\
+\hline
+\end{tabular}
+\end{center}
+
+可以说，量子超密编码和量子隐形传态是\textbf{互为对偶}的两个协议。
+
+\paragraph{一个形象的比喻}
+
+可以把量子超密编码理解为：
+
+\begin{itemize}
+  \item 纠缠对就像一对\textbf{神奇的手套}，Alice和Bob各拿一只。这对手套的状态总是关联的。
+
+  \item Alice想要发送2比特信息（比如"11"）
+
+  \item Alice对她的手套做某种操作（比如旋转、翻面等），有4种不同的操作方式对应4种信息
+
+  \item Alice把她的手套邮寄给Bob
+
+  \item Bob现在有了两只手套，他把它们\textbf{放在一起观察}（联合测量）
+
+  \item 由于手套之间的神奇关联，Bob从它们的组合状态中可以看出Alice做了哪种操作
+
+  \item 从而Bob得知Alice想发送的2比特信息
+\end{itemize}
+
+关键是：
+\begin{itemize}
+  \item 如果Bob只看Alice邮寄来的手套（单独测量），他什么也看不出来——看起来完全随机
+  \item 只有当Bob把两只手套放在一起看（联合测量），神奇的关联才会显现
+  \item Alice虽然只邮寄了1只手套，但由于事先的关联，实际上传递了2比特信息
+\end{itemize}
+
+\paragraph{安全性与窃听检测}
+
+\textbf{1. 窃听的困难性}
+
+\begin{itemize}
+  \item \textbf{截获单个量子比特无用}：如果窃听者Eve只截获了Alice发送的量子比特，她对这个单独的量子比特做任何测量都只能得到随机结果，无法获得有用信息。
+
+  \item \textbf{需要两个量子比特}：Eve必须同时拥有Alice发送的量子比特和Bob持有的量子比特，才能通过Bell基测量读出信息。
+
+  \item \textbf{破坏纠缠}：如果Eve试图测量Alice发送的量子比特，会破坏原有的纠缠态。Bob收到后再测量会发现异常（错误率增加）。
+\end{itemize}
+
+\textbf{2. 与QKD的区别}
+
+\begin{itemize}
+  \item 量子超密编码的主要目标是\textbf{提升信道容量}，而非主动检测窃听
+  \item 在实际应用中，通常与QKD等安全协议结合使用
+  \item 纠缠态的质量（保真度）直接影响通信的可靠性
+\end{itemize}
+
+\paragraph{重要说明与物理意义}
+
+\begin{enumerate}
+  \item \textbf{不违反信息论极限}：虽然1个量子比特传递了2个经典比特，但这需要预共享1对纠缠。如果把建立纠缠所需的量子通信计入，总的资源消耗仍然合理。
+
+  \item \textbf{纠缠是必需的}：如果没有预共享的纠缠，协议无法工作。这说明纠缠确实提供了额外的"量子资源"。
+
+  \item \textbf{不能实现超光速通信}：虽然纠缠是瞬时的，但Alice必须物理地发送量子比特给Bob，这一过程受光速限制。在Bob收到量子比特之前，他无法获得任何信息。
+
+  \item \textbf{实际应用价值}：
+  \begin{itemize}
+    \item 在量子网络中，如果纠缠对可以提前批量分发，超密编码可以有效提升通信效率
+    \item 在卫星-地面量子通信中，由于建立量子链路成本高，超密编码可以提高单次链路的信息传输量
+    \item 在量子计算机之间的通信中，可以更高效地传递经典控制信息
+  \end{itemize}
+
+  \item \textbf{实验挑战}：
+  \begin{itemize}
+    \item 需要高质量的纠缠源（高保真度Bell态）
+    \item 需要高效的Bell基测量（在实际中完全区分4个Bell态有技术挑战）
+    \item 纠缠态在传输和存储过程中易受退相干影响
+  \end{itemize}
+
+  \item \textbf{理论意义}：量子超密编码是量子信息论中的里程碑，证明了：
+  \begin{itemize}
+    \item 量子纠缠可以作为一种\textbf{通信资源}
+    \item 量子信道在某些任务上确实优于经典信道
+    \item 为量子信息理论的容量定理提供了具体例子
+  \end{itemize}
+\end{enumerate}
+
+\paragraph{量子线路图解释}
+
+量子超密编码的标准量子线路包含：
+
+\begin{enumerate}
+  \item \textbf{准备阶段}：两条量子比特线，初始态为Bell态 $|\Phi^+\rangle$（可通过 $H \otimes I$ + CNOT从 $|00\rangle$ 制备）
+
+  \item \textbf{编码阶段}：Alice在第一条线上施加门 $U \in \{I, X, Z, XZ\}$（根据要发送的2比特信息选择）
+
+  \item \textbf{传输阶段}：第一条线代表Alice发送给Bob的量子比特（用虚线或箭头表示物理传输）
+
+  \item \textbf{解码阶段}：
+  \begin{itemize}
+    \item Bob对两条线施加CNOT门（第1线控制第2线）
+    \item 对第1线施加Hadamard门 $H$
+    \item 对两条线进行计算基测量
+  \end{itemize}
+
+  \item \textbf{输出}：两个经典测量结果 $M_1, M_2$，即Alice想要发送的信息
+\end{enumerate}
+
+\textbf{线路示意：}
+\begin{verbatim}
+Alice的比特:  ─[ U ]─────●────[ H ]─[M₁]
+                          │
+Bob的比特:    ────────────⊕─────────[M₂]
+
+              ↑           ↑         ↑
+            编码        传输      解码
+\end{verbatim}
+
+其中 $U \in \{I, X, Z, XZ\}$ 根据要发送的信息 $\{00, 01, 10, 11\}$ 选择。
+
+\paragraph{实验进展（课件提要）}
+
+\begin{itemize}
+  \item \textbf{1996}：首个超密编码实验（光子偏振编码）
+  \item \textbf{2004}：原子系综中的超密编码
+  \item \textbf{2008}：连续变量超密编码
+  \item \textbf{2012}：超导量子比特超密编码
+  \item \textbf{2017}：高维超密编码（利用高维纠缠态编码更多信息）
+\end{itemize}
+
+当前研究方向：
+\begin{itemize}
+  \item 提高Bell基测量效率（完全区分4个Bell态）
+  \item 与量子中继结合，实现长距离超密编码
+  \item 高维量子系统中的超密编码（如 $d$ 维系统可编码 $2\log_2 d$ 比特）
+  \item 在噪声环境下的鲁棒超密编码协议
+\end{itemize}
 
 \section{【了解】量子线路与量子逻辑门}
 

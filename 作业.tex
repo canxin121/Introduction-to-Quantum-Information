@@ -572,14 +572,60 @@ Z_1Z_2|\varphi\rangle=\frac{-|01\rangle-(-|10\rangle)}{\sqrt{2}}
 
 \paragraph{题目2} 判断 $|\psi_2\rangle=\frac{1}{2}(|00\rangle+|01\rangle+|10\rangle+|11\rangle)$ 是否为纠缠态，并说明理由。
 
-\textbf{解：}注意到
-\[
-|\psi_2\rangle=\frac{1}{2}(|0\rangle+|1\rangle)\otimes(|0\rangle+|1\rangle)
-=|+\rangle\otimes|+\rangle
-\]
-其中 $|+\rangle=\frac{|0\rangle+|1\rangle}{\sqrt{2}}$。
+\textbf{解：}判断纠缠态的方法是尝试将其分解为张量积形式 $|\phi\rangle_A\otimes|\chi\rangle_B$。
 
-因此 $|\psi_2\rangle$ 可以分解为张量积，不是纠缠态（是可分离态）。
+\textbf{观察与尝试：}
+
+注意到 $|\psi_2\rangle$ 包含了所有四个计算基态，且系数相等。我们尝试将其写成两个单量子比特态的张量积。
+
+定义 $|+\rangle=\frac{|0\rangle+|1\rangle}{\sqrt{2}}$（Hadamard 基）。
+
+考虑张量积 $|+\rangle\otimes|+\rangle$，利用\textbf{张量积的双线性性}（对加法的分配律）展开：
+
+\textbf{第1步：}对第一个量子比特的态展开
+\begin{align*}
+|+\rangle\otimes|+\rangle
+&= \left(\frac{|0\rangle+|1\rangle}{\sqrt{2}}\right)\otimes\left(\frac{|0\rangle+|1\rangle}{\sqrt{2}}\right) \\
+&= \frac{1}{2}(|0\rangle+|1\rangle)\otimes(|0\rangle+|1\rangle)
+\end{align*}
+
+\textbf{第2步：}应用张量积对第一个因子的分配律
+\[
+(|0\rangle+|1\rangle)\otimes(|0\rangle+|1\rangle)
+= |0\rangle\otimes(|0\rangle+|1\rangle) + |1\rangle\otimes(|0\rangle+|1\rangle)
+\]
+
+\textbf{第3步：}对每一项再应用张量积对第二个因子的分配律
+
+对第一项：
+\[
+|0\rangle\otimes(|0\rangle+|1\rangle) = |0\rangle\otimes|0\rangle + |0\rangle\otimes|1\rangle = |00\rangle + |01\rangle
+\]
+
+对第二项：
+\[
+|1\rangle\otimes(|0\rangle+|1\rangle) = |1\rangle\otimes|0\rangle + |1\rangle\otimes|1\rangle = |10\rangle + |11\rangle
+\]
+
+\textbf{第4步：}合并结果
+\begin{align*}
+|+\rangle\otimes|+\rangle
+&= \frac{1}{2}[(|00\rangle + |01\rangle) + (|10\rangle + |11\rangle)] \\
+&= \frac{1}{2}(|00\rangle + |01\rangle + |10\rangle + |11\rangle)
+\end{align*}
+
+\textbf{结论：}
+\[
+|\psi_2\rangle = \frac{1}{2}(|00\rangle+|01\rangle+|10\rangle+|11\rangle) = |+\rangle\otimes|+\rangle
+\]
+
+因此 $|\psi_2\rangle$ 可以分解为张量积形式，\textbf{不是纠缠态}（是可分离态/积态）。
+
+\textbf{使用的关键性质：}张量积的双线性性（bilinearity）：
+\begin{itemize}
+\item $(|a\rangle+|b\rangle)\otimes|c\rangle = |a\rangle\otimes|c\rangle + |b\rangle\otimes|c\rangle$
+\item $|a\rangle\otimes(|b\rangle+|c\rangle) = |a\rangle\otimes|b\rangle + |a\rangle\otimes|c\rangle$
+\end{itemize}
 
 \paragraph{题目3} 判断 $|\psi_3\rangle=\frac{1}{\sqrt{3}}|00\rangle+\sqrt{\frac{2}{3}}|11\rangle$ 是否为纠缠态，并说明理由。
 
@@ -722,13 +768,127 @@ P_1|\Phi^+\rangle=\frac{1}{\sqrt{2}}|11\rangle
 
 \textbf{传输：}Alice 将她的量子比特发送给 Bob。
 
-\textbf{解码：}Bob 持有两个量子比特后，在 Bell 基 $\{|\Phi^+\rangle,|\Phi^-\rangle,|\Psi^+\rangle,|\Psi^-\rangle\}$ 下进行联合测量（Bell 测量）。测量结果直接对应 Alice 发送的经典信息：
-\begin{itemize}
-\item 测得 $|\Phi^+\rangle$ $\Rightarrow$ 信息为"00"
-\item 测得 $|\Phi^-\rangle$ $\Rightarrow$ 信息为"01"
-\item 测得 $|\Psi^+\rangle$ $\Rightarrow$ 信息为"10"
-\item 测得 $|\Psi^-\rangle$ $\Rightarrow$ 信息为"11"
-\end{itemize}
+\textbf{解码：}Bob 持有两个量子比特后，需要进行 Bell 基测量来区分四个 Bell 态。
+
+\textbf{Bell 基测量的线路实现：}
+
+Bell 基测量不能通过简单的计算基测量完成，需要先通过量子门将 Bell 基转换到计算基，然后再测量。标准的 Bell 基测量线路包含以下步骤：
+
+\begin{enumerate}
+\item 对两个量子比特施加 CNOT 门（第1个比特为控制位，第2个比特为目标位）
+\item 对第1个比特施加 Hadamard 门 $H$
+\item 在计算基下测量两个比特，得到 $(M_1, M_2)$
+\end{enumerate}
+
+\textbf{数学推导：验证四个 Bell 态如何被映射到计算基}
+
+\textbf{情况1：}初态为 $|\Phi^+\rangle = \frac{1}{\sqrt{2}}(|00\rangle + |11\rangle)$（Alice 发送了"00"）
+
+\textbf{步骤1：}施加 CNOT 门（第1比特控制第2比特）
+
+回顾 CNOT 的作用：$|a,b\rangle \to |a, a\oplus b\rangle$
+\begin{align*}
+\text{CNOT} \cdot |\Phi^+\rangle
+&= \text{CNOT} \cdot \frac{1}{\sqrt{2}}(|00\rangle + |11\rangle) \\
+&= \frac{1}{\sqrt{2}}(\text{CNOT}|00\rangle + \text{CNOT}|11\rangle) \\
+&= \frac{1}{\sqrt{2}}(|0, 0\oplus 0\rangle + |1, 1\oplus 1\rangle) \\
+&= \frac{1}{\sqrt{2}}(|00\rangle + |10\rangle)
+\end{align*}
+
+\textbf{步骤2：}对第1比特施加 Hadamard 门
+
+回顾 $H$ 的作用：$H|0\rangle = \frac{1}{\sqrt{2}}(|0\rangle+|1\rangle)$，$H|1\rangle = \frac{1}{\sqrt{2}}(|0\rangle-|1\rangle)$
+\begin{align*}
+(H \otimes I) \cdot \frac{1}{\sqrt{2}}(|00\rangle + |10\rangle)
+&= \frac{1}{\sqrt{2}}(H|0\rangle \otimes |0\rangle + H|1\rangle \otimes |0\rangle) \\
+&= \frac{1}{\sqrt{2}}\left(\frac{|0\rangle+|1\rangle}{\sqrt{2}} \otimes |0\rangle + \frac{|0\rangle-|1\rangle}{\sqrt{2}} \otimes |0\rangle\right) \\
+&= \frac{1}{2}[(|0\rangle+|1\rangle)\otimes|0\rangle + (|0\rangle-|1\rangle)\otimes|0\rangle] \\
+&= \frac{1}{2}[|00\rangle + |10\rangle + |00\rangle - |10\rangle] \\
+&= \frac{1}{2} \cdot 2|00\rangle = |00\rangle
+\end{align*}
+
+\textbf{步骤3：}测量得到 $(M_1, M_2) = (0, 0)$，Bob 解码为"00" \checkmark
+
+\textbf{情况2：}初态为 $|\Phi^-\rangle = \frac{1}{\sqrt{2}}(|00\rangle - |11\rangle)$（Alice 发送了"01"）
+
+\textbf{步骤1：}施加 CNOT 门
+\begin{align*}
+\text{CNOT} \cdot |\Phi^-\rangle
+&= \text{CNOT} \cdot \frac{1}{\sqrt{2}}(|00\rangle - |11\rangle) \\
+&= \frac{1}{\sqrt{2}}(\text{CNOT}|00\rangle - \text{CNOT}|11\rangle) \\
+&= \frac{1}{\sqrt{2}}(|00\rangle - |10\rangle)
+\end{align*}
+
+\textbf{步骤2：}对第1比特施加 Hadamard 门
+\begin{align*}
+(H \otimes I) \cdot \frac{1}{\sqrt{2}}(|00\rangle - |10\rangle)
+&= \frac{1}{\sqrt{2}}(H|0\rangle \otimes |0\rangle - H|1\rangle \otimes |0\rangle) \\
+&= \frac{1}{\sqrt{2}}\left(\frac{|0\rangle+|1\rangle}{\sqrt{2}} \otimes |0\rangle - \frac{|0\rangle-|1\rangle}{\sqrt{2}} \otimes |0\rangle\right) \\
+&= \frac{1}{2}[(|0\rangle+|1\rangle)\otimes|0\rangle - (|0\rangle-|1\rangle)\otimes|0\rangle] \\
+&= \frac{1}{2}[|00\rangle + |10\rangle - |00\rangle + |10\rangle] \\
+&= \frac{1}{2} \cdot 2|10\rangle = |10\rangle
+\end{align*}
+
+\textbf{步骤3：}测量得到 $(M_1, M_2) = (1, 0)$，Bob 解码为"01" \checkmark
+
+\textbf{情况3：}初态为 $|\Psi^+\rangle = \frac{1}{\sqrt{2}}(|01\rangle + |10\rangle)$（Alice 发送了"10"）
+
+\textbf{步骤1：}施加 CNOT 门
+\begin{align*}
+\text{CNOT} \cdot |\Psi^+\rangle
+&= \text{CNOT} \cdot \frac{1}{\sqrt{2}}(|01\rangle + |10\rangle) \\
+&= \frac{1}{\sqrt{2}}(\text{CNOT}|01\rangle + \text{CNOT}|10\rangle) \\
+&= \frac{1}{\sqrt{2}}(|0, 0\oplus 1\rangle + |1, 1\oplus 0\rangle) \\
+&= \frac{1}{\sqrt{2}}(|01\rangle + |11\rangle)
+\end{align*}
+
+\textbf{步骤2：}对第1比特施加 Hadamard 门
+\begin{align*}
+(H \otimes I) \cdot \frac{1}{\sqrt{2}}(|01\rangle + |11\rangle)
+&= \frac{1}{\sqrt{2}}(H|0\rangle \otimes |1\rangle + H|1\rangle \otimes |1\rangle) \\
+&= \frac{1}{\sqrt{2}}\left(\frac{|0\rangle+|1\rangle}{\sqrt{2}} \otimes |1\rangle + \frac{|0\rangle-|1\rangle}{\sqrt{2}} \otimes |1\rangle\right) \\
+&= \frac{1}{2}[(|0\rangle+|1\rangle)\otimes|1\rangle + (|0\rangle-|1\rangle)\otimes|1\rangle] \\
+&= \frac{1}{2}[|01\rangle + |11\rangle + |01\rangle - |11\rangle] \\
+&= \frac{1}{2} \cdot 2|01\rangle = |01\rangle
+\end{align*}
+
+\textbf{步骤3：}测量得到 $(M_1, M_2) = (0, 1)$，Bob 解码为"10" \checkmark
+
+\textbf{情况4：}初态为 $|\Psi^-\rangle = \frac{1}{\sqrt{2}}(|01\rangle - |10\rangle)$（Alice 发送了"11"）
+
+\textbf{步骤1：}施加 CNOT 门
+\begin{align*}
+\text{CNOT} \cdot |\Psi^-\rangle
+&= \text{CNOT} \cdot \frac{1}{\sqrt{2}}(|01\rangle - |10\rangle) \\
+&= \frac{1}{\sqrt{2}}(\text{CNOT}|01\rangle - \text{CNOT}|10\rangle) \\
+&= \frac{1}{\sqrt{2}}(|01\rangle - |11\rangle)
+\end{align*}
+
+\textbf{步骤2：}对第1比特施加 Hadamard 门
+\begin{align*}
+(H \otimes I) \cdot \frac{1}{\sqrt{2}}(|01\rangle - |11\rangle)
+&= \frac{1}{\sqrt{2}}(H|0\rangle \otimes |1\rangle - H|1\rangle \otimes |1\rangle) \\
+&= \frac{1}{\sqrt{2}}\left(\frac{|0\rangle+|1\rangle}{\sqrt{2}} \otimes |1\rangle - \frac{|0\rangle-|1\rangle}{\sqrt{2}} \otimes |1\rangle\right) \\
+&= \frac{1}{2}[(|0\rangle+|1\rangle)\otimes|1\rangle - (|0\rangle-|1\rangle)\otimes|1\rangle] \\
+&= \frac{1}{2}[|01\rangle + |11\rangle - |01\rangle + |11\rangle] \\
+&= \frac{1}{2} \cdot 2|11\rangle = |11\rangle
+\end{align*}
+
+\textbf{步骤3：}测量得到 $(M_1, M_2) = (1, 1)$，Bob 解码为"11" \checkmark
+
+\textbf{Bell 基测量映射总结：}
+\[
+\begin{array}{c|c|c|c}
+\text{Bell态} & \xrightarrow{\text{CNOT}} & \xrightarrow{H\otimes I} & \text{测量结果} \\
+\hline
+|\Phi^+\rangle & \frac{1}{\sqrt{2}}(|00\rangle + |10\rangle) & |00\rangle & (0,0) \to \text{"00"} \\
+|\Phi^-\rangle & \frac{1}{\sqrt{2}}(|00\rangle - |10\rangle) & |10\rangle & (1,0) \to \text{"01"} \\
+|\Psi^+\rangle & \frac{1}{\sqrt{2}}(|01\rangle + |11\rangle) & |01\rangle & (0,1) \to \text{"10"} \\
+|\Psi^-\rangle & \frac{1}{\sqrt{2}}(|01\rangle - |11\rangle) & |11\rangle & (1,1) \to \text{"11"}
+\end{array}
+\]
+
+因此，Bob 通过 CNOT + H + 计算基测量，可以\textbf{确定性地区分}四个 Bell 态，从而完美解码 Alice 发送的 2 比特经典信息。
 
 \paragraph{题目2} 验证当 Alice 要发送"11"时，她对手中的量子比特施加 $i\sigma_y$（即 $\begin{pmatrix}0&-1\\1&0\end{pmatrix}$）后，两量子比特的整体状态变为 $|\Psi^-\rangle$。
 
@@ -1267,7 +1427,7 @@ $|\Psi^-\rangle = \frac{1}{\sqrt{2}}(|01\rangle-|10\rangle)$ & \textbf{确定性
 
 这个例子展示了量子测量的一个深刻性质：即使是最优的测量策略，也可能无法完全区分所有的量子态。Bell 态是最大纠缠态，它们构成了两量子比特系统的一组正交基，但用局部操作和经典通信（LOCC）无法完全区分它们。线路(b)实现的是一种特殊的 LOCC 测量，只能部分区分 Bell 态。
 
-\paragraph{题目4} 设有一个具有特征值 $\pm1$ 的单量子比特门上的算子 U，U 既是 Hermite 的又是西的，故可以作此门是一个可观测量，又是一个幺正门。假设我们希望测量量子观测量 U，即我们希望获得指示两个特征值之一的测量结果，并将测量后的状态带到相应的特征向量。证明下面的线路可实现 U 的一个测量。
+\paragraph{题目4} 设有一个具有特征值 $\pm1$ 的单量子比特门上的算子 U，U 既是 Hermite 的又是酉的，故可以作此门是一个可观测量，又是一个幺正门。假设我们希望测量量子观测量 U，即我们希望获得指示两个特征值之一的测量结果，并将测量后的状态带到相应的特征向量。证明下面的线路可实现 U 的一个测量。
 
 \begin{figure}[h]
 \centering
@@ -1297,6 +1457,55 @@ $|\Psi^-\rangle = \frac{1}{\sqrt{2}}(|01\rangle-|10\rangle)$ & \textbf{确定性
 = \frac{1}{\sqrt{2}}(|0\rangle+|1\rangle)\otimes|\psi_{\text{in}}\rangle
 = \frac{1}{\sqrt{2}}(|0\rangle|\psi_{\text{in}}\rangle+|1\rangle|\psi_{\text{in}}\rangle)
 \]
+
+\textbf{使用的张量积运算规则：}
+
+\textbf{第1步：}$(H\otimes I)(|0\rangle\otimes|\psi_{\text{in}}\rangle) = \frac{1}{\sqrt{2}}(|0\rangle+|1\rangle)\otimes|\psi_{\text{in}}\rangle$
+
+使用了\textbf{算符张量积的作用规则}：
+\[
+(A \otimes B)(|a\rangle \otimes |b\rangle) = A|a\rangle \otimes B|b\rangle
+\]
+
+应用到本题：
+\begin{align*}
+(H\otimes I)(|0\rangle\otimes|\psi_{\text{in}}\rangle)
+&= H|0\rangle \otimes I|\psi_{\text{in}}\rangle \\
+&= H|0\rangle \otimes |\psi_{\text{in}}\rangle \quad \text{（因为 $I|\psi_{\text{in}}\rangle = |\psi_{\text{in}}\rangle$）} \\
+&= \frac{1}{\sqrt{2}}(|0\rangle+|1\rangle) \otimes |\psi_{\text{in}}\rangle \quad \text{（因为 $H|0\rangle = \frac{1}{\sqrt{2}}(|0\rangle+|1\rangle)$）}
+\end{align*}
+
+\textbf{第2步：}$\frac{1}{\sqrt{2}}(|0\rangle+|1\rangle)\otimes|\psi_{\text{in}}\rangle = \frac{1}{\sqrt{2}}(|0\rangle|\psi_{\text{in}}\rangle+|1\rangle|\psi_{\text{in}}\rangle)$
+
+使用了\textbf{张量积的双线性性}（对加法的分配律）：
+\[
+(|a\rangle+|b\rangle)\otimes|c\rangle = |a\rangle\otimes|c\rangle + |b\rangle\otimes|c\rangle
+\]
+
+应用到本题：
+\begin{align*}
+(|0\rangle+|1\rangle)\otimes|\psi_{\text{in}}\rangle
+&= |0\rangle\otimes|\psi_{\text{in}}\rangle + |1\rangle\otimes|\psi_{\text{in}}\rangle \\
+&= |0\rangle|\psi_{\text{in}}\rangle + |1\rangle|\psi_{\text{in}}\rangle \quad \text{（简化记号：$|a\rangle\otimes|b\rangle \equiv |a\rangle|b\rangle$）}
+\end{align*}
+
+再结合\textbf{标量可交换性}：
+\[
+c(|a\rangle \otimes |b\rangle) = (c|a\rangle) \otimes |b\rangle = |a\rangle \otimes (c|b\rangle)
+\]
+
+因此：
+\[
+\frac{1}{\sqrt{2}}(|0\rangle|\psi_{\text{in}}\rangle+|1\rangle|\psi_{\text{in}}\rangle)
+= \frac{1}{\sqrt{2}}|0\rangle|\psi_{\text{in}}\rangle + \frac{1}{\sqrt{2}}|1\rangle|\psi_{\text{in}}\rangle
+\]
+
+\textbf{关键运算规则总结：}
+\begin{enumerate}
+\item \textbf{算符张量积的作用}：$(A \otimes B)(|\psi\rangle \otimes |\phi\rangle) = A|\psi\rangle \otimes B|\phi\rangle$
+\item \textbf{张量积的双线性性（分配律）}：$(|a\rangle+|b\rangle)\otimes|c\rangle = |a\rangle\otimes|c\rangle + |b\rangle\otimes|c\rangle$
+\item \textbf{标量提取}：$c(|a\rangle \otimes |b\rangle) = (c|a\rangle) \otimes |b\rangle$
+\end{enumerate}
 
 \textbf{阶段 $|\psi_3\rangle$：}经过 Controlled-U 门
 
@@ -1350,7 +1559,7 @@ U|\psi_{\text{in}}\rangle = U(c_+|u_+\rangle + c_-|u_-\rangle) = c_+ U|u_+\rangl
 
 \subsection{7}
 
-\paragraph{题目1} 列举两种主流量子计算体系（如超导忽片、离子阱等），分别简述其核心工作原理及主要优缺点。
+\paragraph{题目1} 列举两种主流量子计算体系（如超导芯片、离子阱等），分别简述其核心工作原理及主要优缺点。
 
 \textbf{解：}
 
