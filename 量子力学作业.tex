@@ -1,0 +1,1023 @@
+\documentclass[12pt]{article}
+
+\usepackage[a4paper,margin=2.2cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{xeCJK}
+\usepackage{hyperref}
+\usepackage{graphicx}
+
+\setCJKmainfont{Source Han Serif CN}
+\setCJKsansfont{Source Han Sans CN}
+\setCJKmonofont{Source Han Sans CN}
+\setlist[itemize]{leftmargin=*,nosep}
+\setlist[enumerate]{leftmargin=*,nosep}
+
+\title{量子信息导论：作业解答}
+\author{}
+\date{}
+
+\begin{document}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  一个粒子的波函数为：
+\end{enumerate}
+
+\begin{quote}
+\[\psi\left( {x,t} \right) = Aexp\left( {- \frac{1}{2}ax^{2} - i\omega t} \right)\]
+
+将该波函数归一化
+\end{quote}
+
+\[\begin{aligned}
+{\int\left| {\psi\left( {x,t} \right)} \right|}^{2} &= A^{2}{\int{exp\left( {- ax^{2}} \right)dx}} = A^{2}I = 1 \\
+I^{2} &= {\int{exp\left( {- ax^{2}} \right)dx}}{\int{exp\left( {- ay^{2}} \right)dy}} \\
+&= {\iint\limits_{}{exp\left( {- a\left( {x^{2} + y^{2}} \right)} \right)dxdy}} \\
+&= {\iint\limits_{}{rexp\left( {- ar^{2}} \right)drd\theta}} = \frac{\pi}{a} \\
+I &= \sqrt{\frac{\pi}{a}} \\
+A &= \left( \frac{a}{\pi} \right)^{\frac{1}{4}}
+\end{aligned}\]
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\item
+  证明\(\frac{d}{dt}{\int\limits_{- \infty}^{+ \infty}{\left| {\psi\left( {x,t} \right)} \right|^{2}dx}} = 0\)
+\end{enumerate}
+
+\begin{quote}
+\textbf{详细步骤：}
+\begin{align*}
+\frac{d}{dt}\int_{-\infty}^{+\infty}|\psi(x,t)|^2\,dx
+&=\int_{-\infty}^{+\infty}\frac{\partial}{\partial t}|\psi(x,t)|^2\,dx
+\quad(\text{交换求导与积分})\\
+\frac{\partial}{\partial t}|\psi|^2
+&=\frac{\partial}{\partial t}(\psi^\ast\psi)
+=\psi^\ast\frac{\partial\psi}{\partial t}
++\frac{\partial\psi^\ast}{\partial t}\psi
+\quad(\text{乘积法则})
+\end{align*}
+
+由含时薛定谔方程
+\[
+i\hslash\frac{\partial\psi}{\partial t}
+=-\frac{\hslash^2}{2m}\frac{\partial^2\psi}{\partial x^2}+V(x)\psi
+\]
+得
+\[
+\frac{\partial\psi}{\partial t}
+=\frac{i\hslash}{2m}\frac{\partial^2\psi}{\partial x^2}
+-\frac{i}{\hslash}V(x)\psi,
+\]
+对其取共轭可得
+\[
+\frac{\partial\psi^\ast}{\partial t}
+=-\frac{i\hslash}{2m}\frac{\partial^2\psi^\ast}{\partial x^2}
++\frac{i}{\hslash}V(x)\psi^\ast.
+\]
+代回得到
+\[
+\frac{\partial}{\partial t}|\psi|^2
+=\frac{i\hslash}{2m}\left(\psi^\ast\frac{\partial^2\psi}{\partial x^2}
+-\psi\frac{\partial^2\psi^\ast}{\partial x^2}\right)
+=\frac{i\hslash}{2m}\frac{\partial}{\partial x}
+\left(\psi^\ast\frac{\partial\psi}{\partial x}
+-\psi\frac{\partial\psi^\ast}{\partial x}\right).
+\]
+因此
+\begin{align*}
+\frac{d}{dt}\int_{-\infty}^{+\infty}|\psi|^2\,dx
+&=\frac{i\hslash}{2m}\int_{-\infty}^{+\infty}\frac{\partial}{\partial x}
+\left(\psi^\ast\frac{\partial\psi}{\partial x}
+-\psi\frac{\partial\psi^\ast}{\partial x}\right)\,dx\\
+&=\frac{i\hslash}{2m}\left.\left(\psi^\ast\frac{\partial\psi}{\partial x}
+-\psi\frac{\partial\psi^\ast}{\partial x}\right)\right|_{-\infty}^{+\infty}=0,
+\end{align*}
+其中最后一步使用边界条件 $\psi(\pm\infty)=0$。
+\end{quote}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\item
+  已知波函数\(\psi = \frac{1}{r}e^{ikr}\)，计算其概率流密度。
+\end{enumerate}
+
+\begin{quote}
+\textbf{详细步骤：}
+\[
+r=\sqrt{x^2+y^2+z^2},\qquad \nabla r=\left(\frac{x}{r},\frac{y}{r},\frac{z}{r}\right)=\hat{r}.
+\]
+这里
+\[
+\nabla=\left(\frac{\partial}{\partial x},\frac{\partial}{\partial y},\frac{\partial}{\partial z}\right),
+\quad
+\nabla f=\left(\frac{\partial f}{\partial x},\frac{\partial f}{\partial y},\frac{\partial f}{\partial z}\right).
+\]
+对
+\(\psi=\frac{1}{r}e^{ikr}\) 有
+\[
+\nabla\psi=\nabla\!\left(\frac{1}{r}\right)e^{ikr}
++\frac{1}{r}\nabla\!\left(e^{ikr}\right).
+\]
+其中
+\[
+\nabla\!\left(\frac{1}{r}\right)
+=-\frac{1}{r^2}\nabla r
+=-\frac{1}{r^2}\hat{r},
+\]
+以及
+\[
+\nabla\!\left(e^{ikr}\right)
+=e^{ikr}\nabla(ikr)
+=ik\,e^{ikr}\nabla r
+=ik\,e^{ikr}\hat{r}.
+\]
+这里用到多元链式法则：若 $g(\vec{r})$ 为标量函数，则
+\[
+\nabla\!\left(e^{g}\right)=e^{g}\nabla g.
+\]
+代回得
+\[
+\nabla\psi
+=-\frac{\hat{r}}{r^2}e^{ikr}+\frac{1}{r}\left(ik\,e^{ikr}\hat{r}\right)
+=\left(\frac{ik}{r}-\frac{1}{r^2}\right)e^{ikr}\hat{r}.
+\]
+同理
+\[
+\nabla\psi^\ast=\left(-\frac{ik}{r}-\frac{1}{r^2}\right)e^{-ikr}\hat{r}.
+\]
+代入
+\[
+J=\frac{i\hslash}{2m}\left(\psi\nabla\psi^{\ast}-\psi^{\ast}\nabla\psi\right)
+\]
+得
+\[
+J=\frac{\hslash k}{mr^2}\hat{r}
+=\frac{\hslash k}{mr^3}\vec{r}.
+\]
+\end{quote}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{3}
+\item
+  氢原子处于基态，\(\psi\left( {r,\theta,\varphi} \right) = \frac{1}{\sqrt{\pi a_{0}^{3}}}e^{- {r/a_{0}}}\)，求
+\end{enumerate}
+
+\begin{quote}
+\textbf{已知：}
+\[
+\psi(r,\theta,\varphi)=\frac{1}{\sqrt{\pi a_0^3}}e^{-r/a_0},\quad
+|\psi|^2=\frac{1}{\pi a_0^3}e^{-2r/a_0},
+\quad dV=r^2\sin\theta\,dr\,d\theta\,d\varphi.
+\]
+角向积分给出 $\int_0^\pi\!\int_0^{2\pi}\sin\theta\,d\theta d\varphi=4\pi$，因此只剩径向积分。
+
+\textbf{（1）$\langle r\rangle$：}
+\[
+\langle r\rangle=\int r|\psi|^2\,dV
+=\frac{4}{a_0^3}\int_0^\infty r^3 e^{-2r/a_0}\,dr.
+\]
+用公式 $\int_0^\infty x^n e^{-ax}dx=\frac{n!}{a^{n+1}}$（$a>0$），得
+\[
+\langle r\rangle=\frac{4}{a_0^3}\cdot\frac{3!}{(2/a_0)^4}
+=\frac{3}{2}a_0.
+\]
+
+\textbf{（2）$\langle V\rangle$：}
+\[
+\left\langle -\frac{e^2}{r}\right\rangle
+=-\frac{4e^2}{a_0^3}\int_0^\infty r e^{-2r/a_0}\,dr
+=-\frac{4e^2}{a_0^3}\cdot\frac{1!}{(2/a_0)^2}
+=-\frac{e^2}{a_0}.
+\]
+
+\textbf{（3）$\langle T\rangle$：}
+球对称情形
+\[
+\nabla^2\psi=\frac{1}{r^2}\frac{d}{dr}\left(r^2\frac{d\psi}{dr}\right).
+\]
+先求导：
+\[
+\frac{d\psi}{dr}=-\frac{1}{a_0}\psi,\quad
+\frac{d}{dr}\left(r^2\frac{d\psi}{dr}\right)
+=-\frac{2r}{a_0}\psi+\frac{r^2}{a_0^2}\psi.
+\]
+因此
+\[
+\nabla^2\psi=\left(\frac{1}{a_0^2}-\frac{2}{a_0 r}\right)\psi.
+\]
+动能期望值
+\[
+\langle T\rangle=-\frac{\hslash^2}{2m}\int\psi^\ast(\nabla^2\psi)\,dV
+=-\frac{\hslash^2}{2m}\left(\frac{1}{a_0^2}-\frac{2}{a_0}\left\langle\frac{1}{r}\right\rangle\right).
+\]
+而
+\[
+\left\langle\frac{1}{r}\right\rangle=\frac{4}{a_0^3}\int_0^\infty r e^{-2r/a_0}dr=\frac{1}{a_0}.
+\]
+于是
+\[
+\langle T\rangle=-\frac{\hslash^2}{2m}\left(\frac{1}{a_0^2}-\frac{2}{a_0^2}\right)
+=\frac{\hslash^2}{2m a_0^2}.
+\]
+\end{quote}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{4}
+\item
+  写出角动量算符的表达式，并且计算\(L_{x}\)和\(L_{y}\)的对易关系
+\end{enumerate}
+
+\begin{quote}
+\textbf{角动量算符：}
+\[
+\vec{L}=\vec{r}\times\vec{p},\quad
+L_x=y p_z-z p_y,\quad
+L_y=z p_x-x p_z,\quad
+L_z=x p_y-y p_x.
+\]
+在位置表象中 $p_i=-i\hslash\,\partial_i$，于是
+\[
+L_x=-i\hslash\left(y\frac{\partial}{\partial z}-z\frac{\partial}{\partial y}\right),\quad
+L_y=-i\hslash\left(z\frac{\partial}{\partial x}-x\frac{\partial}{\partial z}\right).
+\]
+
+\textbf{对易关系计算：}使用基本对易关系
+\[
+[x_i,x_j]=0,\quad [p_i,p_j]=0,\quad [x_i,p_j]=i\hslash\,\delta_{ij}.
+\]
+先展开
+\[
+[L_x,L_y]=[y p_z-z p_y,\ z p_x-x p_z].
+\]
+用线性与 $[AB,C]=A[B,C]+[A,C]B$ 得
+\[
+[L_x,L_y]=[y p_z, z p_x]-[y p_z, x p_z]-[z p_y, z p_x]+[z p_y, x p_z].
+\]
+逐项计算：
+\[
+[y p_z, z p_x]=y[p_z,z]p_x=-i\hslash\,y p_x,
+\]
+因为 $[p_z,z]=-i\hslash$，其余对易子为 0。
+\[
+[y p_z, x p_z]=0,\qquad [z p_y, z p_x]=0
+\]
+（不同分量互对易）。
+最后
+\[
+[z p_y, x p_z]=x[z,p_z]p_y=+i\hslash\,x p_y.
+\]
+合并得到
+\[
+[L_x,L_y]=i\hslash(x p_y-y p_x)=i\hslash L_z.
+\]
+\textbf{结论：}\(\,[L_x,L_y]=i\hslash L_z\)。
+\end{quote}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{5}
+\item
+  对于一个动量为\(p\)，势能为\(V(x)\)的基本微观粒子，证明牛顿力学的基本方程
+\end{enumerate}
+
+\begin{quote}
+\textbf{详细推导：}
+\[
+\langle p\rangle=\int_{-\infty}^{+\infty}\psi^\ast\left(-i\hslash\frac{\partial}{\partial x}\right)\psi\,dx.
+\]
+对时间求导：
+\begin{align*}
+\frac{d\langle p\rangle}{dt}
+&=-i\hslash\int\left(\frac{\partial\psi^\ast}{\partial t}\frac{\partial\psi}{\partial x}
++\psi^\ast\frac{\partial}{\partial x}\frac{\partial\psi}{\partial t}\right)dx\\
+&=-i\hslash\int\left(\frac{\partial\psi^\ast}{\partial t}\frac{\partial\psi}{\partial x}
+-\frac{\partial\psi}{\partial t}\frac{\partial\psi^\ast}{\partial x}\right)dx
+\end{align*}
+其中第二步对第二项分部积分，并用边界条件 $\psi(\pm\infty)=0$。
+
+含时薛定谔方程与其共轭：
+\[
+\frac{\partial\psi}{\partial t}
+=\frac{i\hslash}{2m}\frac{\partial^2\psi}{\partial x^2}
+-\frac{i}{\hslash}V\psi,\quad
+\frac{\partial\psi^\ast}{\partial t}
+=-\frac{i\hslash}{2m}\frac{\partial^2\psi^\ast}{\partial x^2}
+\frac{i}{\hslash}V\psi^\ast.
+\]
+代入得
+\[
+\frac{d\langle p\rangle}{dt}
+=-\frac{\hslash^2}{2m}\int\left(\frac{\partial^2\psi^\ast}{\partial x^2}\frac{\partial\psi}{\partial x}
++\frac{\partial^2\psi}{\partial x^2}\frac{\partial\psi^\ast}{\partial x}\right)dx
++\int V\frac{\partial}{\partial x}(|\psi|^2)\,dx.
+\]
+第一项是全导数并在边界消失，第二项分部积分：
+\[
+\int V\frac{\partial}{\partial x}(|\psi|^2)\,dx
+=\left.V|\psi|^2\right|_{-\infty}^{+\infty}
+-\int \frac{\partial V}{\partial x}|\psi|^2\,dx.
+\]
+边界项为 0，因此
+\[
+\frac{d\langle p\rangle}{dt}
+=\left\langle -\frac{\partial V}{\partial x}\right\rangle.
+\]
+\end{quote}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{6}
+\item
+  证明时间和频率的测不准关系：\(\Delta t\Delta\omega \geq \frac{1}{2}\)
+\end{enumerate}
+
+\begin{quote}
+一个信号的时域和频域表达式可以通过傅里叶变换来表示：
+
+\[F(\omega) = {\int{f(t)e^{i\omega t}dt}}\]
+
+此时\(\left| {f(t)} \right|^{2}\)可以表示瞬时的能量，信号总的能量可以表示为：\(\left\| f \right\|^{2} = {\int{\left| {f(t)} \right|^{2}dt}}\)
+
+则\(\frac{\left| {f(t)} \right|^{2}}{\left\| f \right\|^{2}}\)可以看成概率密度函数，为了简单起见，我们假设\(\left\| f \right\|^{2} = 1\)由此可以得到时间的平均值和时间的方差，我们假设均值为0，时间的方差可以表示为：
+
+\[\sigma_{t}^{2} = {\int t^{2}}\left| {f(t)} \right|^{2}dt\]
+
+同理，利用傅里叶变换关系，能量也可以在频域中表示，由此可以得到频率的方差为：
+
+\[\sigma_{\omega}^{2} = {\int\omega^{2}}\frac{\left| {F(\omega)} \right|^{2}}{2\pi}d\omega\]
+
+由此可得：
+
+\(\sigma_{t}^{2}\sigma_{\omega}^{2} = \frac{1}{2\pi}{\int t^{2}}\left| {f(t)} \right|^{2}dt{\int\omega^{2}}\left| {F(\omega)} \right|^{2}d\omega\)、
+
+由傅里叶变换的微分性质和帕斯瓦尔定理：
+
+\[f^{'}(t) = i\omega F(\omega)\]
+
+\[{\int\left| {f^{'}(t)} \right|^{2}}dt = \frac{1}{2\pi}{\int{\omega^{2}\left| {F(\omega)} \right|^{2}}}d\omega\]
+\end{quote}
+
+\(\sigma_{t}^{2}\sigma_{\omega}^{2} = {\int t^{2}}\left| {f(t)} \right|^{2}dt{\int\left| {f^{'}(t)} \right|^{2}}dt\)
+
+利用柯西-许瓦兹不等式：
+
+\[\left| {\int{f(x)g^{*}(x)dx}} \right|^{2} \leq \left( {\int{\left| {f(x)} \right|^{2}dt}} \right)\left( {\int{\left| {g(x)} \right|^{2}dx}} \right)\]
+
+因此有：
+
+\[\sigma_{t}^{2}\sigma_{\omega}^{2} = {\int t^{2}}\left| {f(t)} \right|^{2}dt{\int\left| {f^{’}(t)} \right|^{2}}dt \geq \left| {{\int t}f^{*}(t)\frac{d}{dt}f(t)dt} \right|^{2}\]
+
+注意到：
+\[\begin{split}
+{\int t}f(t)\frac{d}{dt}f^{*}(t)dt &= t\left. \left| {f(t)} \right|^{2} \right|_{- \infty}^{+ \infty} - {\int{f^{*}(t)}}d\left( {tf(t)} \right) \\
+&= - {\int{f^{*}(t)}}d\left( {tf(t)} \right) \\
+&= - {\int{f^{*}(t)\left( {f(t) + tf^{'}(t)} \right)}}dt \\
+&= - 1 - {\int{f^{*}(t)tf^{'}(t)dt}}
+\end{split}\]
+
+因此有：
+
+\[\left. {\int{f^{*}(t)tf^{'}(t)dt}} + {\int t}f(t)\frac{d}{dt}f^{*}(t)dt = - 1 \right.\]
+
+\[\Rightarrow 2Re\left( {\int{f^{*}(t)tf^{'}(t)dt}} \right) = - 1\]
+
+由于\(\int{f^{*}(t)tf^{'}(t)dt}\)是一个复数，利用\(\left. \left| {Re(z)} \right| \leq |z|\Rightarrow\left| {Re(z)} \right|^{2} \leq |z|^{2} \right.\)
+
+因此有：
+\[\frac{1}{4} = \left( {Re\left( {\int{f^{*}(t)tf^{'}(t)dt}} \right)} \right)^{2} \leq \left| {\int{f^{*}(t)tf^{'}(t)dt}} \right|^{2}\]
+
+因此有：
+\[\sigma_{t}^{2}\sigma_{\omega}^{2} = {\int t^{2}}\left| {f(t)} \right|^{2}dt{\int\left| {f^{'}(t)} \right|^{2}}dt \geq \left| {{\int t}f^{*}(t)\frac{d}{dt}f(t)dt} \right|^{2} \geq \frac{1}{4}\]
+
+因此有：\(\sigma_{t}^{}\sigma_{\omega}^{} \geq \frac{1}{2}\)
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{7}
+\item
+  粒子处于状态：
+\end{enumerate}
+
+\begin{quote}
+\[\psi(x) = \left( \frac{1}{2\pi\xi^{2}} \right)^{\frac{1}{2}}exp\left( {\frac{i}{\hslash}p_{0}x - \frac{x^{2}}{4\xi^{2}}} \right)\]
+
+求粒子的动量平均值，并且计算测不准关系\[\overline{\Delta x^{2}}\overline{\Delta p^{2}} = ?\]
+
+解：先将\(\psi(x)\)归一化，由归一化条件
+
+\[\begin{aligned}
+1 &= {\int\limits_{0}^{\infty}{\left| {\psi(x)} \right|^{2}dx}} = {\int\limits_{0}^{\infty}{\frac{1}{2\pi\xi^{2}}exp\left( {- \frac{x^{2}}{2\xi^{2}}} \right)dx}} \\
+&= \frac{1}{\sqrt{2}\xi\pi}{\int\limits_{0}^{\infty}{exp\left( {- \frac{x^{2}}{2\xi^{2}}} \right)d\left( \frac{x}{\sqrt{2}\xi} \right)}} = \frac{1}{\sqrt{2}\xi\pi}\sqrt{\pi} \\
+\xi &= \frac{1}{\sqrt{2\pi}}
+\end{aligned}\]
+
+因此，波函数为\(\psi(x) = exp\left( {\frac{i}{\hslash}p_{0}x - \frac{\pi x^{2}}{2}} \right)\)
+
+动量的平均值：
+
+\[\begin{split}
+\overline{p} &= {\int{\psi^{*}\left( {- i\hslash\frac{\partial}{\partial x}} \right)}}\psi dx \\
+&= - i\hslash{\int{exp\left( {- \frac{i}{\hslash}p_{0}x - \frac{\pi x^{2}}{2}} \right)\left( \frac{\partial}{\partial x} \right)}}exp\left( {\frac{i}{\hslash}p_{0}x - \frac{\pi x^{2}}{2}} \right)dx \\
+&= p_0
+\end{split}\]
+
+\[\overline{\Delta x^{2}}\overline{\Delta p^{2}} = ?\]
+
+\[\begin{aligned}
+\overline{x} &= {\int{\psi^{*}x}}\psi dx = {\int x}exp\left( {- \pi x^{2}} \right)dx \\
+&= 0
+\end{aligned}\]
+
+\[\begin{aligned}
+\overline{x^{2}} &= {\int{\psi^{*}x^{2}}}\psi dx = {\int x^{2}}exp\left( {- \pi x^{2}} \right)dx \\
+&= - \frac{1}{2\pi}{\int x}d\left( {exp\left( {- \pi x^{2}} \right)} \right) \\
+&= \frac{1}{2\pi}
+\end{aligned}\]
+
+\[\begin{aligned}
+\overline{p^{2}} &= - \hslash^{2}{\int{\psi^{*}\frac{d^{2}}{dx^{2}}}}\psi dx \\
+&= - \hslash^{2}{\int{exp\left( {- \frac{i}{\hslash}p_{0}x - \frac{\pi x^{2}}{2}} \right)}}\frac{d^{2}}{dx^{2}}\left( {exp\left( {\frac{i}{\hslash}p_{0}x - \frac{\pi x^{2}}{2}} \right)} \right)dx \\
+&= \hslash^{2}\left( {\pi + \frac{p_{0}^{2}}{\hslash}} \right) + i2\pi\hslash p_{0}{\int{xexp\left( {- \pi x^{2}} \right)dx}} - \pi^{2}\hslash^{2}{\int{x^{2}exp\left( {- \pi x^{2}} \right)dx}} \\
+&= \hslash^{2}\left( {\pi + \frac{p_{0}^{2}}{\hslash}} \right) + 0 - \pi^{2}\hslash^{2}\frac{1}{2\pi} \\
+&= \frac{\pi}{2}\hslash^{2} + p_{0}^{2}
+\end{aligned}\]
+
+\[\overline{\Delta x^{2}} = \overline{x^{2}} - {\overline{x}}^{2} = \frac{1}{2\pi}\]
+
+\[\begin{aligned}
+\overline{\Delta p^{2}} &= \overline{p^{2}} - {\overline{p}}^{2} \\
+&= \frac{\pi}{2}\hslash^{2} + p_{0}^{2} - p_{0}^{2} \\
+&= \frac{\pi}{2}\hslash^{2}
+\end{aligned}\]
+
+因此
+
+\[\overline{\Delta x^{2}}\overline{\Delta p^{2}} = \frac{1}{2\pi} \cdot \frac{\pi}{2}\hslash^{2} = \frac{\hslash^{2}}{4}\]
+\end{quote}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{8}
+\item
+  运用概率叠加原理解释电子的双缝干涉现象：
+
+  \begin{enumerate}
+  \def\labelenumii{\arabic{enumii}.}
+  \item
+    电子双缝干涉的解释
+  \item
+    为什么加入光源探测电子是从那一条缝通过时，干涉条纹会消失
+  \end{enumerate}
+\end{enumerate}
+
+\begin{quote}
+\includegraphics[width=1.93333in,height=3.1in]{assets/figs_used/lzlxzy_pic1.png}
+
+解答：
+\end{quote}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  假定电子从初态\(S\)出发经过缝1和缝2，最后被记录在屏幕上，末态为\(x\) ，电子通过缝1到达末态的概率幅度为：
+\end{enumerate}
+
+\begin{quote}
+\[\left\langle x \right|\left. S \right\rangle_{1} = \left\langle x \right|\left. 1 \right\rangle\left\langle 1 \right|\left. S \right\rangle = \alpha_{1} = \left| \alpha_{1} \right|e^{j\varphi_{1}}\]
+\end{quote}
+
+电子通过缝1到达末态的概率为
+
+\[I_{1}(x) = \left| {\left\langle x \right|\left. 1 \right\rangle\left\langle 1 \right|\left. S \right\rangle} \right|^{2} = \left| \alpha_{1} \right|^{2}\]
+
+同理只打开缝2，电子通过缝2到达末态的概率幅度和概率为：
+
+\[\begin{aligned}
+\left\langle x \right|\left. S \right\rangle_{2} &= \left\langle x \right|\left. 2 \right\rangle\left\langle 2 \right|\left. S \right\rangle = \alpha_{2} = \left| \alpha_{2} \right|e^{j\varphi_{2}} \\
+I_{2}(x) &= \left| {\left\langle x \right|\left. 2 \right\rangle\left\langle 2 \right|\left. S \right\rangle} \right|^{2} = \left| \alpha_{2} \right|^{2}
+\end{aligned}\]
+
+如果同时打开缝1和缝2，电子到达末态的概率幅度为：
+
+\[\left\langle x \right|\left. S \right\rangle = \left\langle x \right|\left. S \right\rangle_{1} + \left\langle x \right|\left. S \right\rangle_{2} = \alpha_{1} + \alpha_{2}\]
+
+电子到达末态的概率为：
+
+\[\begin{aligned}
+I(x) &= \left| {\left\langle x \right|\left. S \right\rangle} \right|^{2} = \left| {\left\langle x \right|\left. S \right\rangle_{1} + \left\langle x \right|\left. S \right\rangle_{2}} \right|^{2} = \left| {\alpha_{1} + \alpha_{2}} \right|^{2} \\
+&= \left| \alpha_{1} \right|^{2} + \left| \alpha_{2} \right|^{2} + \left| \alpha_{1} \right|e^{i\varphi_{1}}\left| \alpha_{2} \right|e^{- i\varphi_{2}} + \left| \alpha_{1} \right|e^{- i\varphi_{1}}\left| \alpha_{2} \right|e^{i\varphi_{2}} \\
+&= I_{1}(x) + I_{2}(x) + 2\sqrt{I_{1}(x)I_{2}(x)}cos\left( {\varphi_{1} - \varphi_{2}} \right)
+\end{aligned}\]
+
+上式中最后一项是干涉项，\(\varphi_{1}\)和\(\varphi_{2}\)在屏上的不同位置\(x\)处是不同的，因此\(I(x)\)会有极大极小的变化，因此会产生明暗相间的干涉条纹。
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\item
+  我们再看看如果加入光源后，利用光源观测电子是从哪个狭缝中通过的，此时有两个探测器 \(D_{1}\) 和 \(D_{2}\) 。此时有四个概率幅度，分别是光源发出的光子被狭缝1，狭缝2的电子散射后被探测器 \(D_{1}\) 和\(D_{2}\) 接收：
+\end{enumerate}
+
+\begin{quote}
+\[\begin{aligned}
+\left\langle D_{1} \right|\left. 1 \right\rangle\left\langle 1 \right|\left. P \right\rangle &= \left\langle D_{2} \right|\left. 2 \right\rangle\left\langle 2 \right|\left. P \right\rangle = \beta_{1} \\
+\left\langle D_{2} \right|\left. 1 \right\rangle\left\langle 1 \right|\left. P \right\rangle &= \left\langle D_{1} \right|\left. 2 \right\rangle\left\langle 2 \right|\left. P \right\rangle = \beta_{2}
+\end{aligned}\]
+
+我们可以看出，电子在 \(x\) 被记录，同时光子被\(D_{1}\) 探测，应该包括两个事件，第一个事件是电子从缝1到达\(x\) ，同时光子被缝1处的电子散射，被 \(D_{1}\) 探测，这个过程的概率幅度为：
+
+\(\left\langle {xD_{1}} \right|\left. {SP} \right\rangle_{1} = \alpha_{1}\beta_{1}\)，
+
+第二个事件是电子从缝2到\(x\)同时光子被缝2的电子散射，被\(D_{1}\)探测，这个概率幅度为：
+
+\(\left\langle {xD_{1}} \right|\left. {SP} \right\rangle_{2} = \alpha_{2}\beta_{2}\)。
+
+因此电子在\(x\)被记录，同时光子被\(D_{1}\)探测的概率幅度为：
+
+\[\left\langle {xD_{1}} \right|\left. {SP} \right\rangle = \alpha_{1}\beta_{1} + \alpha_{2}\beta_{2}\]
+
+同理电子在\(x\)被记录，同时光子被\(D_{2}\)探测的概率幅度为：
+
+\[\left\langle {xD_{2}} \right|\left. {SP} \right\rangle = \alpha_{1}\beta_{2} + \alpha_{2}\beta_{1}\]
+
+因此电子在\(x\)被记录，不管被哪个探测器被记录的概率为：
+
+\[\begin{aligned}
+\left| {\left\langle x \right|\left. S \right\rangle} \right|^{2} &= \left| {\left\langle {xD_{1}} \right|\left. {SP} \right\rangle} \right|^{2} + \left| {\left\langle {xD_{2}} \right|\left. {SP} \right\rangle} \right|^{2} \\
+&= \left( {\alpha_{1}\beta_{1} + \alpha_{2}\beta_{2}} \right)\left( {\alpha_{1}\beta_{1} + \alpha_{2}\beta_{2}} \right)^{*} + \left( {\alpha_{1}\beta_{2} + \alpha_{2}\beta_{1}} \right)\left( {\alpha_{1}\beta_{2} + \alpha_{2}\beta_{1}} \right)^{*} \\
+&= \left| \alpha_{1} \right|^{2}\left| \beta_{1} \right|^{2} + \left| \alpha_{2} \right|^{2}\left| \beta_{2} \right|^{2} + \alpha_{1}\beta_{1}\alpha_{2}^{*}\beta_{2}^{*} + \alpha_{2}\beta_{2}\alpha_{1}^{*}\beta_{1}^{*} \\
+&\quad + \left| \alpha_{1} \right|^{2}\left| \beta_{2} \right|^{2} + \left| \alpha_{2} \right|^{2}\left| \beta_{1} \right|^{2} + \alpha_{1}\beta_{2}\alpha_{2}^{*}\beta_{1}^{*} + \alpha_{1}^{*}\beta_{2}^{*}\alpha_{2}\beta_{1}
+\end{aligned}\]
+
+当我们用光能分辨电子是从哪个狭缝射出时，也就是要求：光源发出的光经过狭缝1处的电子散射时只能够被探测器\(D_{1}\)接收，不能被探测器\(D_{2}\) 接收，
+
+光源发射的光子被缝2处的电子散射时只能够被\(D_{2}\)接收，不能够被\(D_{1}\)接收，也就是\(\left. \beta_{2}\rightarrow 0 \right.\)。
+
+因此电子在\(x\)被记录的概率为：
+
+\[\left| {\left\langle x \right|\left. S \right\rangle} \right|^{2} = \left| \beta_{1} \right|^{2}\left( {\left| \alpha_{1} \right|^{2} + \left| \alpha_{2} \right|^{2}} \right)\]
+
+此时干涉项消失，不再会有干涉条纹出现
+\end{quote}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{9}
+\item
+  假设体系的势场与时间无关，波函数可以分解为各个本征态的叠加
+\end{enumerate}
+
+\begin{quote}
+\[\psi\left( {x,t} \right) = {\sum\limits_{n}^{}{c_{n}u_{n}(x)}}exp\left( {- i\frac{E_{n}}{\hslash}t} \right)\]
+
+证明体系的哈密尔顿算符和能量算符满足如下关系：
+
+\[\left\langle \hat{H} \right\rangle = \left\langle \hat{E} \right\rangle = {\sum\limits_{n}^{}{\left| c_{n} \right|^{2}E_{n}}}\]
+
+证明：
+
+\[\begin{aligned}
+\left\langle \hat{H} \right\rangle &= {\int{\psi^{*}\left( {x,t} \right)\hat{H}}}\psi\left( {x,t} \right)dx \\
+&= {\int{{\sum\limits_{m}^{}{c_{m}^{*}u_{m}^{*}(x)}}exp\left( {i\frac{E_{m}}{\hslash}t} \right)\hat{H}}}{\sum\limits_{n}^{}{c_{n}u_{n}(x)}}exp\left( {- i\frac{E_{n}}{\hslash}t} \right)dx \\
+&= {\int{{\sum\limits_{m}^{}{c_{m}^{*}u_{m}^{*}(x)}}exp\left( {i\frac{E_{m}}{\hslash}t} \right)}}{\sum\limits_{n}^{}{c_{n}E_{n}u_{n}(x)}}exp\left( {- i\frac{E_{n}}{\hslash}t} \right)dx \\
+&= {\sum\limits_{n}^{}{{\sum\limits_{m}^{}{E_{n}c_{n}c_{m}^{*}u_{m}^{*}(x)}}exp\left( {i\frac{E_{m} - E_{n}}{\hslash}t} \right)}}{\int{u_{m}^{*}(x)u_{n}(x)dx}} \\
+&= {\sum\limits_{n}^{}{{\sum\limits_{m}^{}{E_{n}c_{n}c_{m}^{*}u_{m}^{*}(x)}}exp\left( {i\frac{E_{m} - E_{n}}{\hslash}t} \right)}}\delta_{mn} \\
+&= {\sum\limits_{n}^{}{\left| c_{n} \right|^{2}E_{n}}}
+\end{aligned}\]
+
+\[\begin{aligned}
+\left\langle \hat{E} \right\rangle &= {\int{\psi^{*}\left( {x,t} \right)\left( {i\hslash\frac{\partial}{\partial t}} \right)}}\psi\left( {x,t} \right)dx \\
+&= {\int{{\sum\limits_{m}^{}{c_{m}^{*}u_{m}^{*}(x)}}exp\left( {i\frac{E_{m}}{\hslash}t} \right)\left( {i\hslash\frac{\partial}{\partial t}} \right)}}{\sum\limits_{n}^{}{c_{n}u_{n}(x)}}exp\left( {- i\frac{E_{n}}{\hslash}t} \right)dx \\
+&= {\int{{\sum\limits_{m}^{}{c_{m}^{*}u_{m}^{*}(x)}}exp\left( {i\frac{E_{m}}{\hslash}t} \right)E_{n}}}{\sum\limits_{n}^{}{c_{n}u_{n}(x)}}exp\left( {- i\frac{E_{n}}{\hslash}t} \right)dx \\
+&= {\sum\limits_{n}^{}{\left| c_{n} \right|^{2}E_{n}}}
+\end{aligned}\]
+\end{quote}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{10}
+\item
+  在一维无限深势阱中，势阱内\(0 \leq x \leq a\)，\(V(x) = 0\)，其余位置势能函数为无穷大，如果已知粒子的波函数在初始时刻\(\psi\left( {x，0} \right) = Ax\left( {a - x} \right)\)，求
+\end{enumerate}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  归一化常数\(A\)
+\item
+  任意时刻\(t\)的波函数\(\psi\left( {x，t} \right)\)。
+\end{enumerate}
+
+\begin{quote}
+解答：
+
+\[\left. {\int\limits_{0}^{a}{\left( {Ax\left( {a - x} \right)} \right)^{2}dx}} = A^{2}\frac{a^{5}}{30} = 1\Rightarrow A = \sqrt{\frac{30}{a^{5}}} \right.\]
+
+由势阱内的一维定态薛定谔方程：
+
+\[\left( {- \frac{\hslash^{2}}{2m}\frac{d^{2}}{dx^{2}}} \right)\psi(x) = E\psi(x)\]
+
+令\(k = \sqrt{\frac{2mE}{\hslash^{2}}}\)，方程的通解为：\(\psi(x) = Asin\left( {kx} \right) + Bcos\left( {kx} \right)\)
+
+由边界条件\(\psi(0) = 0\)，可知\(B = 0\)，\(\psi(a) = 0\)，可知，\(k = \frac{n\pi}{a}\)。
+
+由于波函数是归一化的，由此可得：
+
+\[\psi_{n}(x) = \sqrt{\frac{2}{a}}sin\left( {\frac{n\pi}{a}x} \right)\]
+
+\[E_{n} = \frac{n^{2}\pi^{2}\hslash^{2}}{2ma^{2}}\]
+
+\[\psi\left( {x,t} \right) = {\sum\limits_{n}^{}{c_{n}\psi_{n}(x)exp\left( {- i\frac{E_{n}}{\hslash}t} \right)}}\]
+
+\[c_{n} = {\int{\psi_{n}^{*}(x)\psi\left( {x，0} \right)}}dx\]
+
+因此：\(\psi\left( {x,t} \right) = \sqrt{\frac{30}{a}}\left( \frac{2}{\pi} \right)^{3}{\sum\limits_{n = 1,3,5,7...}^{}{\frac{1}{n^{3}}sin\left( \frac{n\pi x}{a} \right)exp\left( {- i\frac{n^{2}\pi^{2}\hslash}{2ma^{2}}t} \right)}}\)
+\end{quote}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{11}
+\item
+  1）写出位置算符\(x\)的本征值和本征函数
+\end{enumerate}
+
+\begin{quote}
+2）写出动量算符\(- i\hslash\frac{d}{dx}\)的本征值和本征函数
+\end{quote}
+
+解答：
+
+由于：\(x\delta\left( {x - x_{0}} \right) = x_{0}\delta\left( {x - x_{0}} \right)\)
+
+位置算符\(x\)的本征值是\(x_{0}\)处的坐标，其本征函数是一个冲击函数：
+
+\[\delta\left( {x - x_{0}} \right)\]
+
+设动量算符的本征函数是\(f(x)\)，根据本征函数的定义为：
+
+\[- i\hslash\frac{df(x)}{dx} = p_{x}f(x)\]
+
+因此有：
+
+\[\frac{df(x)}{f(x)} = i\frac{p_{x}}{\hslash}dx\]
+
+因此：
+
+\[f(x) = Cexp\left( {i\frac{p_{x}}{\hslash}x} \right)\]
+
+本征函数具有归一化的特点：
+\[\begin{split}
+1 &= |C|^{2}{\int{exp\left( {i\frac{p_{x} - p_{x}^{'}}{\hslash}x} \right)dx}} \\
+&= |C|^{2}\hslash{\int{exp\left( {i\frac{p_{x} - p_{x}^{'}}{\hslash}x} \right)d\left( \frac{x}{\hslash} \right)}}
+\end{split}\]
+
+做变量代换：\(x_{1} = \frac{x}{\hslash}\)，因此有
+
+\[\begin{aligned}
+1 &= |C|^{2}\hslash{\int{exp\left( {i\left( {p_{x} - p_{x}^{'}} \right)x_{1}} \right)dx_{1}}} \\
+&= 2\pi|C|^{2}\hslash
+\end{aligned}\]
+
+因此
+
+\[C = \frac{1}{\sqrt{2\pi\hslash}}\]
+
+动量算符的本征值是粒子的动量，本征函数是一个复指数函数：
+
+\[\frac{1}{\sqrt{2\pi\hslash}}exp\left( {i\frac{p_{x}}{\hslash}x} \right)\]
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{12}
+\item
+  一维无限深势阱中坐标算符和动量算符在能量表象中的矩阵元
+\end{enumerate}
+
+\begin{quote}
+解答：
+
+一维无限深势阱中，本征函数为\(u_{n}(x) = \sqrt{\frac{2}{a}}sin\left( {\frac{n\pi}{a}x} \right)\)
+
+坐标算符的对角元：
+\[\begin{split}
+x_{nn} &= {\int\limits_{0}^{a}\frac{2}{a}}sin\left( {\frac{n\pi}{a}x} \right)xsin\left( {\frac{n\pi}{a}x} \right)dx \\
+&= \frac{2}{a}{\int\limits_{0}^{a}{xsin^{2}\left( {\frac{n\pi}{a}x} \right)dx}} = \frac{a}{2}
+\end{split}\]
+
+当\(m \neq n\)时
+
+\[\begin{aligned}
+x_{mn} &= {\int\limits_{0}^{a}\frac{2}{a}}sin\left( {\frac{m\pi}{a}x} \right)xsin\left( {\frac{n\pi}{a}x} \right)dx \\
+&= \frac{1}{a}{\int\limits_{0}^{a}{x\left\lbrack {cos\left( {\frac{m - n}{a}\pi x} \right) - cos\left( {\frac{m + n}{a}\pi x} \right)} \right\rbrack}}dx \\
+&= \frac{1}{a}\Bigg[ \left. \left( {\frac{a^{2}}{\left( {m - n} \right)^{2}\pi^{2}}cos\left( {\frac{m - n}{a}\pi x} \right) + \frac{ax}{\left( {m - n} \right)\pi}sin\left( {\frac{m - n}{a}\pi x} \right)} \right) \right|_{0}^{a} \\
+&\quad - \left. \left( {\frac{a^{2}}{\left( {m + n} \right)^{2}\pi^{2}}cos\left( {\frac{m + n}{a}\pi x} \right) + \frac{ax}{\left( {m + n} \right)\pi}sin\left( {\frac{m + n}{a}\pi x} \right)} \right) \right|_{0}^{a}\Bigg] \\
+&= \frac{a}{\pi^{2}}\left\lbrack {\left( {- 1} \right)^{m - n} - 1} \right\rbrack\left\lbrack {\frac{1}{\left( {m - n} \right)^{2}} - \frac{1}{\left( {m + n} \right)^{2}}} \right\rbrack \\
+&= \frac{a}{\pi^{2}}\frac{4mn}{\left( {m^{2} - n^{2}} \right)^{2}}\left\lbrack {\left( {- 1} \right)^{m - n} - 1} \right\rbrack
+\end{aligned}\]
+
+动量算符的对角元为：
+
+\[\begin{aligned}
+p_{nn} &= {\int{u_{n}^{*}(x)\left( {- i\hslash\frac{d}{dx}} \right)u_{n}(x)dx}} \\
+&= - i\hslash{\int{\frac{2}{a}sin\left( {\frac{n\pi}{a}x} \right)\left( \frac{d}{dx} \right)sin\left( {\frac{n\pi}{a}x} \right)dx}} \\
+&= - i\hslash\frac{2n\pi}{a^{2}}{\int\limits_{0}^{a}{sin\left( {\frac{n\pi}{a}x} \right)}}cos\left( {\frac{n\pi}{a}x} \right)dx \\
+&= - i\hslash\frac{n\pi}{a^{2}}{\int\limits_{0}^{a}{sin\left( {\frac{2n\pi}{a}x} \right)}}dx \\
+&= i\hslash\frac{n\pi}{a^{2}}\frac{a}{2n\pi}{\int\limits_{0}^{a}{dcos}}\left( {\frac{2n\pi}{a}x} \right) \\
+&= i\hslash\frac{1}{2a}\left. {cos\left( {\frac{2n\pi}{a}x} \right)} \right|_{0}^{a} = 0
+\end{aligned}\]
+
+动量算符的非对角元为：
+
+\[\begin{aligned}
+p_{mn} &= {\int{u_{m}^{*}(x)\left( {- i\hslash\frac{d}{dx}} \right)u_{n}(x)dx}} \\
+&= - i\hslash{\int{\frac{2}{a}sin\left( {\frac{m\pi}{a}x} \right)\left( \frac{d}{dx} \right)sin\left( {\frac{n\pi}{a}x} \right)dx}} \\
+&= - i\hslash\frac{2n\pi}{a^{2}}{\int\limits_{0}^{a}{sin\left( {\frac{m\pi}{a}x} \right)}}cos\left( {\frac{n\pi}{a}x} \right)dx \\
+&= - i\hslash\frac{n\pi}{a^{2}}\left\lbrack {{\int\limits_{0}^{a}{sin\left( {\frac{m + n}{a}\pi x} \right)}} + sin\left( {\frac{m - n}{a}\pi x} \right)} \right\rbrack dx \\
+&= i\hslash\frac{n\pi}{a^{2}}\left. \left\lbrack {\frac{a}{\left( {m + n} \right)\pi}cos\left( {\frac{m + n}{a}\pi x} \right) + \frac{a}{\left( {m - n} \right)\pi}cos\left( {\frac{m - n}{a}\pi x} \right)} \right\rbrack \right|_{0}^{a} \\
+&= i\hslash\frac{n}{a}\left\lbrack {\frac{1}{\left( {m + n} \right)} + \frac{1}{\left( {m - n} \right)}} \right\rbrack\left\lbrack {\left( {- 1} \right)^{m - n} - 1} \right\rbrack \\
+&= \frac{i2mn\hslash}{a\left( {m^{2} - n^{2}} \right)}\left\lbrack {\left( {- 1} \right)^{m - n} - 1} \right\rbrack
+\end{aligned}\]
+\end{quote}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{13}
+\item
+  在动量表象中，角动量算符\(L_{x}\)的矩阵元。
+\end{enumerate}
+
+\begin{quote}
+解答：
+
+动量算符的本征函数为：
+\[\psi_{p}(r) = \frac{1}{\left( \sqrt{2\pi\hslash} \right)^{3}}exp\left( {\frac{i}{\hslash}\overset{\rightarrow}{p} \cdot \overset{\rightarrow}{r}} \right)\]
+
+其中\(\overset{\rightarrow}{p} \cdot \overset{\rightarrow}{r} = p_{x}x + p_{y}y + p_{z}z\)
+
+角动量算符\(\hat{L_{x}}\)的表达式为\(\hat{L_{x}} = - i\hslash\left( {y\frac{\partial}{\partial z} - z\frac{\partial}{\partial y}} \right)\)
+
+因此其矩阵元可以表示为如下的积分：
+
+\[\begin{aligned}
+\left( \hat{L_{x}} \right)_{p_{1}p} &= {\int{\psi_{p_{1}}^{*}\hat{L_{x}}}}\psi_{p}dV \\
+&= {\int{\frac{1}{\left( \sqrt{2\pi\hslash} \right)^{3}}exp\left( {- \frac{i}{\hslash}\overset{\rightarrow}{p_{1}} \cdot \overset{\rightarrow}{r}} \right)}} \\
+&\quad \times \left( {- i\hslash\left( {y\frac{\partial}{\partial z} - z\frac{\partial}{\partial y}} \right)} \right)\frac{1}{\left( \sqrt{2\pi\hslash} \right)^{3}}exp\left( {\frac{i}{\hslash}\overset{\rightarrow}{p} \cdot \overset{\rightarrow}{r}} \right)dV \\
+&= \frac{1}{\left( {2\pi\hslash} \right)^{3}}{\int{exp\left( {- \frac{i}{\hslash}\overset{\rightarrow}{p_{1}} \cdot \overset{\rightarrow}{r}} \right)}} \\
+&\quad \times \left( {- i\hslash\left( {y\frac{\partial}{\partial z}exp\left( {\frac{i}{\hslash}\overset{\rightarrow}{p} \cdot \overset{\rightarrow}{r}} \right) - z\frac{\partial}{\partial y}exp\left( {\frac{i}{\hslash}\overset{\rightarrow}{p} \cdot \overset{\rightarrow}{r}} \right)} \right)} \right)dV \\
+&= \frac{1}{\left( {2\pi\hslash} \right)^{3}}{\int{exp\left( {- \frac{i}{\hslash}\overset{\rightarrow}{p_{1}} \cdot \overset{\rightarrow}{r}} \right)}} \\
+&\quad \times \left( {- i\hslash\left( {y\left( \frac{i}{\hslash} \right)p_{z}exp\left( {\frac{i}{\hslash}\overset{\rightarrow}{p} \cdot \overset{\rightarrow}{r}} \right) - z\left( \frac{i}{\hslash} \right)p_{y}exp\left( {\frac{i}{\hslash}\overset{\rightarrow}{p} \cdot \overset{\rightarrow}{r}} \right)} \right)} \right)dV \\
+&= \frac{1}{\left( {2\pi\hslash} \right)^{3}}{\int{exp\left( {- \frac{i}{\hslash}\overset{\rightarrow}{p_{1}} \cdot \overset{\rightarrow}{r}} \right)\left( {yp_{z} - zp_{y}} \right)exp\left( {\frac{i}{\hslash}\overset{\rightarrow}{p} \cdot \overset{\rightarrow}{r}} \right)}}dV
+\end{aligned}\]
+
+注意到：
+\[\left. \frac{\partial}{\partial p_{y}}exp\left( {\frac{i}{\hslash}\overset{\rightarrow}{p} \cdot \overset{\rightarrow}{r}} \right) = \frac{i}{\hslash}yexp\left( {\frac{i}{\hslash}\overset{\rightarrow}{p} \cdot \overset{\rightarrow}{r}} \right) \right.\]
+
+\[\Rightarrow yexp\left( {\frac{i}{\hslash}\overset{\rightarrow}{p} \cdot \overset{\rightarrow}{r}} \right) = - i\hslash\frac{\partial}{\partial p_{y}}exp\left( {\frac{i}{\hslash}\overset{\rightarrow}{p} \cdot \overset{\rightarrow}{r}} \right)\]
+
+同理：\(zexp\left( {\frac{i}{\hslash}\overset{\rightarrow}{p} \cdot \overset{\rightarrow}{r}} \right) = - i\hslash\frac{\partial}{\partial p_{z}}exp\left( {\frac{i}{\hslash}\overset{\rightarrow}{p} \cdot \overset{\rightarrow}{r}} \right)\)
+
+因此有：
+
+\[\begin{aligned}
+\left( \hat{L_{x}} \right)_{p_{1}p} &= \frac{1}{\left( {2\pi\hslash} \right)^{3}}{\int{exp\left( {- \frac{i}{\hslash}\overset{\rightarrow}{p_{1}} \cdot \overset{\rightarrow}{r}} \right)\left( {yp_{z} - zp_{y}} \right)}} \\
+&\quad \times exp\left( {\frac{i}{\hslash}\overset{\rightarrow}{p} \cdot \overset{\rightarrow}{r}} \right)dV \\
+&= \frac{\left( {- i\hslash} \right)}{\left( {2\pi\hslash} \right)^{3}}{\int{exp\left( {- \frac{i}{\hslash}\overset{\rightarrow}{p_{1}} \cdot \overset{\rightarrow}{r}} \right)}} \\
+&\quad \times \left( {\frac{\partial}{\partial p_{y}}p_{z} - \frac{\partial}{\partial p_{z}}p_{y}} \right)exp\left( {\frac{i}{\hslash}\overset{\rightarrow}{p} \cdot \overset{\rightarrow}{r}} \right)dV \\
+&= \left( {- i\hslash} \right)\left( {p_{z}\frac{\partial}{\partial p_{y}} - p_{y}\frac{\partial}{\partial p_{z}}} \right) \\
+&\quad \times \left( {\frac{1}{\left( {2\pi\hslash} \right)^{3}}{\int{exp\left( {- \frac{i}{\hslash}\overset{\rightarrow}{p_{1}} \cdot \overset{\rightarrow}{r}} \right)exp\left( {\frac{i}{\hslash}\overset{\rightarrow}{p} \cdot \overset{\rightarrow}{r}} \right)}}dV} \right)
+\end{aligned}\]
+
+由正交归一性可以知道：
+\[\begin{split}
+&\frac{1}{\left( {2\pi\hslash} \right)^{3}}{\int{exp\left( {- \frac{i}{\hslash}\overset{\rightarrow}{p_{1}} \cdot \overset{\rightarrow}{r}} \right)exp\left( {\frac{i}{\hslash}\overset{\rightarrow}{p} \cdot \overset{\rightarrow}{r}} \right)}}dV \\
+&= \delta\left( {\overset{\rightarrow}{p} - \overset{\rightarrow}{p_{1}}} \right)
+\end{split}\]
+
+因此：
+\[\left( \hat{L_{x}} \right)_{p_{1}p} = \left( {- i\hslash} \right)\left( {p_{z}\frac{\partial}{\partial p_{y}} - p_{y}\frac{\partial}{\partial p_{z}}} \right)\delta\left( {\overset{\rightarrow}{p} - \overset{\rightarrow}{p_{1}}} \right)\]
+\end{quote}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{14}
+\item
+  已知在\(Q\)表象中，态矢为\(\psi\)，一个力学量\(F\)在\(Q\)表象中矩阵为\(F_{Q}\)，求该力学量\(F\)在自身表象中，处于各个本征态的概率。
+\end{enumerate}
+
+\begin{quote}
+解答：
+
+力学量\(F\)在Q表象下的平均值可以表示为：\(\overline{F} = \psi^{H}F_{Q}\psi\)，
+
+那么该力学量\(F\)在其自身表象下，平均值可以表示为\(\overline{F} = {\psi_{F}}^{H}F_{F}\psi_{F}\)，
+
+\(\psi_{F}\)是在F表象下的态矢，由于力学量是处于自身的表象中，因此矩阵\(F_{F}\)是一个对角阵，对角线上的元素是力学量F的本征值。
+
+因此，我们可以将\(F_{Q}\)对角化，\(F_{Q}\)可以表示为：\(F_{Q} = U\Lambda U^{H}\)，
+
+矩阵\(U\)是由\(F_{Q}\)的本征值对应的本征向量张成的矩阵，该矩阵的列向量都是正交归一的。
+
+\(\Lambda\)是一个对角阵，对角线的元素就是\(F_{Q}\)的本征值，也就是力学量F在其自身表象中的本征值，因此有：
+
+\[\overline{F} = \psi^{H}F_{Q}\psi = \psi^{H}U\Lambda U^{H}\psi = \psi^{H}UF_{F}U^{H}\psi = {\psi_{F}}^{H}F_{F}\psi_{F}\]
+
+此时有：\(\psi_{F} = U^{H}\psi\)，
+
+因此，\(U^{H}\psi\)是一个列向量，此时列向量元素的模平方就是该力学量在自身表象中，处于各个本征态的概率。
+\end{quote}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{15}
+\item
+  已知角动量算符的矩阵为：
+\end{enumerate}
+
+\begin{quote}
+\[L_{x} = \frac{\hslash\sqrt{2}}{2}\begin{pmatrix}
+0 & 1 & 0 \\
+1 & 0 & 1 \\
+0 & 1 & 0
+\end{pmatrix}\]
+
+求角动量算符在自身表象下的矩阵表示：。
+
+算符的本征值方程为：
+
+\[\frac{\hslash\sqrt{2}}{2}\begin{pmatrix}
+0 & 1 & 0 \\
+1 & 0 & 1 \\
+0 & 1 & 0
+\end{pmatrix}\psi = \lambda\psi\]
+
+\[\lambda = \frac{\hslash\sqrt{2}}{2}\lambda_{1}\]
+
+\[\left| \begin{matrix}
+{- \lambda_{1}} & 1 & 0 \\
+1 & {- \lambda_{1}} & 1 \\
+0 & 1 & {- \lambda_{1}}
+\end{matrix} \right| = \left( {- \lambda_{1}} \right)^{3} + 2\lambda_{1} = 0\]
+
+\[\lambda_{1,1} = 0，\lambda_{1,2} = \sqrt{2}，\lambda_{1,3} = - \sqrt{2}\]
+
+因此：
+
+\[\lambda = 0, \quad \lambda = \hslash, \quad \lambda = - \hslash\]
+
+因此：角动量算符在自身表象下的矩阵表示为：
+
+\[\begin{aligned}
+&\frac{\hslash\sqrt{2}}{2}\begin{pmatrix}
+{1/\sqrt{2}} & 0 & {- {1/\sqrt{2}}} \\
+{1/2} & {\sqrt{2}/2} & {1/2} \\
+{{- 1}/2} & {\sqrt{2}/2} & {{- 1}/2}
+\end{pmatrix}\begin{pmatrix}
+0 & 1 & 0 \\
+1 & 0 & 1 \\
+0 & 1 & 0
+\end{pmatrix}\begin{pmatrix}
+{1/\sqrt{2}} & {1/2} & {{- 1}/2} \\
+0 & {\sqrt{2}/2} & {\sqrt{2}/2} \\
+{- {1/\sqrt{2}}} & {1/2} & {{- 1}/2}
+\end{pmatrix} \\
+&= \frac{\hslash\sqrt{2}}{2}\begin{pmatrix}
+0 & 0 & 0 \\
+{\sqrt{2}/2} & 1 & {\sqrt{2}/2} \\
+{\sqrt{2}/2} & {- 1} & {\sqrt{2}/2}
+\end{pmatrix}\begin{pmatrix}
+{1/\sqrt{2}} & {1/2} & {{- 1}/2} \\
+0 & {\sqrt{2}/2} & {\sqrt{2}/2} \\
+{- {1/\sqrt{2}}} & {1/2} & {{- 1}/2}
+\end{pmatrix} = \begin{pmatrix}
+0 & 0 & 0 \\
+0 & \hslash & 0 \\
+0 & 0 & {- \hslash}
+\end{pmatrix}
+\end{aligned}\]
+
+也可以直接根据本征值写出矩阵表达式：
+
+\[\begin{pmatrix}
+0 & 0 & 0 \\
+0 & \hslash & 0 \\
+0 & 0 & {- \hslash}
+\end{pmatrix}\quad\text{或}\quad\begin{pmatrix}
+{- \hslash} & 0 & 0 \\
+0 & \hslash & 0 \\
+0 & 0 & 0
+\end{pmatrix}\quad\text{或}\quad\begin{pmatrix}
+\hslash & 0 & 0 \\
+0 & 0 & 0 \\
+0 & 0 & {- \hslash}
+\end{pmatrix}\]
+\end{quote}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{16}
+\item
+  已知态矢\(\left| \psi \right\rangle = {\sum\limits_{n}^{}{exp\left( {- \frac{1}{2}|\alpha|^{2}} \right)\frac{\alpha^{n}}{\sqrt{n!}}\left| n \right\rangle}}\)，求投影算符\(\left| k \right\rangle\left\langle k \right|\)的平均值，其中\(\alpha\)是复数。
+\end{enumerate}
+
+\begin{quote}
+\[\left\langle k \right.\left| \psi \right\rangle = {\sum\limits_{n}^{}{exp\left( {- \frac{1}{2}|\alpha|^{2}} \right)\frac{\alpha^{n}}{\sqrt{n!}}\left\langle k \right.\left| n \right\rangle}}\]
+
+\[= {\sum\limits_{n}^{}{exp\left( {- \frac{1}{2}|\alpha|^{2}} \right)\frac{\alpha^{n}}{\sqrt{n!}}\delta_{kn}}} = exp\left( {- \frac{1}{2}|\alpha|^{2}} \right)\frac{\alpha^{k}}{\sqrt{k!}}\]
+
+\[\begin{split}
+\left\langle \psi \right.\left| k \right\rangle\left\langle k \right|\left. \psi \right\rangle &= exp\left( {- \frac{1}{2}|\alpha|^{2}} \right)\frac{\left( \alpha^{*} \right)^{k}}{\sqrt{k!}}exp\left( {- \frac{1}{2}|\alpha|^{2}} \right)\frac{\alpha^{k}}{\sqrt{k!}} \\
+&= exp\left( {- |\alpha|^{2}} \right)\frac{|\alpha|^{2k}}{k!}
+\end{split}\]
+\end{quote}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{17}
+\item
+  将下列公式用狄拉克符号表示
+\end{enumerate}
+
+\begin{quote}
+1） \(F\left( {x,i\hslash\frac{\partial}{\partial x}} \right)\psi\left( {x,t} \right) = \Phi\left( {x,t} \right)\)
+
+2）\(i\hslash\frac{\partial}{\partial t}\psi\left( {x,t} \right) = H\left( {x, - i\hslash\frac{\partial}{\partial x}} \right)\psi\left( {x,t} \right)\)
+
+3）\(H\left( {x, - i\hslash\frac{\partial}{\partial x}} \right)u_{n}(x) = E_{n}u_{n}(x)\)
+
+4） \({\int{u_{m}^{*}(x)u_{n}(x)dx}} = \delta_{mn}\)
+
+5）\(\psi\left( {x,t} \right) = {\sum\limits_{n}^{}{a_{n}(t)u_{n}(x)}}\)
+
+解答
+
+（1）\(F\left( {x,i\hslash\frac{\partial}{\partial x}} \right)\psi\left( {x,t} \right) = \Phi\left( {x,t} \right)\)
+
+\[\langle x|F|\psi\rangle=\langle x|\Phi\rangle\quad\text{或}\quad F|\psi\rangle=|\Phi\rangle\]
+
+（2）\(i\hslash\frac{\partial}{\partial t}\psi\left( {x,t} \right) = H\left( {x, - i\hslash\frac{\partial}{\partial x}} \right)\psi\left( {x,t} \right)\)
+
+\[i\hbar\frac{\partial}{\partial t}\left\langle x|\psi\right\rangle=\left\langle x|H|\psi\right\rangle\quad\text{或}\quad i\hbar\frac{\partial}{\partial t}|\psi\rangle=H|\psi\rangle\]
+
+（3）\(H\left( {x, - i\hslash\frac{\partial}{\partial x}} \right)u_{n}(x) = E_{n}u_{n}(x)\)
+
+\[H|n\rangle=E_{n}|n\rangle\]
+
+（4）\({\int{u_{m}^{*}(x)u_{n}(x)dx}} = \delta_{mn}\)
+
+\[\langle n|m\rangle=\delta_{nm}\]
+
+（5）\(\psi\left( {x,t} \right) = {\sum\limits_{n}^{}{a_{n}(t)u_{n}(x)}}\)
+
+\[\left|\psi\right\rangle=\sum_{n}a_{n}\left|n\right\rangle=\sum_{n}\left|n\right\rangle\left\langle n|\psi\right\rangle\]
+
+或者在位置表象中：
+
+\[\left\langle x|\psi\right\rangle=\sum_{n}\left\langle x|n\right\rangle\left\langle n|\psi\right\rangle\]
+\end{quote}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{18}
+\item
+  已知一个算符\(\hat{F}\)在A表象中的矩阵表示为\(F^{a}\)，在B表象中的矩阵表示为\(F^{b}\)，求A表象和B表象的转换矩阵\(S\)。
+\end{enumerate}
+
+\begin{quote}
+
+解答：
+
+表象变换不改变算符的特征值，因此将\(F^{a}\)和\(F^{b}\)对角化后，对应的是同一个对角阵：
+
+因此有：
+
+\[\Lambda = A^{H}F^{a}A\]
+
+\[\Lambda = B^{H}F^{b}B\]
+
+其中\(A\)和\(B\)是将\(F^{a}\)和\(F^{b}\)对角化的酉矩阵，当\(F^{a}\)和\(F^{b}\)为已知时，\(A\)和\(B\)可以由\(F^{a}\)和\(F^{b}\)的特征向量决定。
+
+算符在A表象和B表象中的矩阵表示有如下关系：
+
+\[F^{b} = S^{H}F^{a}S\]
+
+从上面的描述可知：
+
+\[B^{H}F^{b}B = A^{H}F^{a}A\]
+
+因此有：
+
+\[F^{b} = BA^{H}F^{a}AB^{H}\]
+
+故而：
+
+\[S = AB^{H}\]
+\end{quote}
+
+\end{document}

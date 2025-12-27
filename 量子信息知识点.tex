@@ -1,0 +1,367 @@
+\documentclass[12pt]{article}
+
+\usepackage[a4paper,margin=2.2cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{xeCJK}
+\usepackage{hyperref}
+
+\setCJKmainfont{Source Han Serif CN}
+\setCJKsansfont{Source Han Sans CN}
+\setCJKmonofont{Source Han Sans CN}
+\setlist[itemize]{leftmargin=*,nosep}
+\setlist[enumerate]{leftmargin=*,nosep}
+
+\title{量子信息知识点精要}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{基础数学工具}
+
+\subsection{Dirac符号与完备关系}
+\begin{itemize}
+\item \textbf{外积：}$|i\rangle\langle j|$ 表示算符
+\item \textbf{完备关系：}$I=\sum_i |i\rangle\langle i|$
+\item \textbf{应用：}展开算符 $A = \sum_{i,j} A|i\rangle\langle i|j\rangle\langle j| = \sum_{i,j} \langle i|A|j\rangle |i\rangle\langle j|$
+\end{itemize}
+
+\subsection{线性算符的矩阵表示}
+\begin{itemize}
+\item \textbf{矩阵元：}$A_{ij} = \langle i|A|j\rangle$
+\item \textbf{基变换：}若基从 $\{|v_i\rangle\}$ 变为 $\{|w_i\rangle\}$，算符矩阵表示满足 $A'' = U^\dagger A' U$，其中 $U_{ij}=\langle v_i|w_j\rangle$
+\end{itemize}
+
+\subsection{特征分解}
+\begin{itemize}
+\item \textbf{特征方程：}$\det(A-\lambda I)=0$
+\item \textbf{对角化：}Hermite算符可对角化，$A = \sum_i \lambda_i |u_i\rangle\langle u_i|$
+\end{itemize}
+
+\subsection{张量积}
+\begin{itemize}
+\item \textbf{态的张量积：}$|a\rangle\otimes|b\rangle$ 记为 $|ab\rangle$ 或 $|a,b\rangle$
+\item \textbf{Kronecker积：}$|\psi\rangle\otimes|\phi\rangle = \begin{pmatrix}a_0\\a_1\end{pmatrix}\otimes\begin{pmatrix}b_0\\b_1\end{pmatrix} = \begin{pmatrix}a_0b_0\\a_0b_1\\a_1b_0\\a_1b_1\end{pmatrix}$
+\item \textbf{算符张量积：}$(A\otimes B)(|\psi\rangle\otimes|\phi\rangle) = (A|\psi\rangle)\otimes(B|\phi\rangle)$
+\item \textbf{分配律：}$(|a\rangle+|b\rangle)\otimes|c\rangle = |a\rangle\otimes|c\rangle + |b\rangle\otimes|c\rangle$
+\end{itemize}
+
+\section{量子态}
+
+\subsection{单量子比特态}
+\begin{itemize}
+\item \textbf{计算基：}$|0\rangle=\begin{pmatrix}1\\0\end{pmatrix}$，$|1\rangle=\begin{pmatrix}0\\1\end{pmatrix}$
+\item \textbf{一般纯态：}$|\psi\rangle = \alpha|0\rangle + \beta|1\rangle$，满足 $|\alpha|^2+|\beta|^2=1$
+\item \textbf{Hadamard基：}
+  \begin{align*}
+  |+\rangle &= \frac{|0\rangle+|1\rangle}{\sqrt{2}} \\
+  |-\rangle &= \frac{|0\rangle-|1\rangle}{\sqrt{2}}
+  \end{align*}
+\item \textbf{Y算符本征态：}
+  \begin{align*}
+  |y_+\rangle &= \frac{|0\rangle+i|1\rangle}{\sqrt{2}} \\
+  |y_-\rangle &= \frac{|0\rangle-i|1\rangle}{\sqrt{2}}
+  \end{align*}
+\end{itemize}
+
+\subsection{布洛赫球表示}
+\begin{itemize}
+\item \textbf{参数化形式：}$|\psi\rangle = \cos\frac{\theta}{2}|0\rangle + e^{i\phi}\sin\frac{\theta}{2}|1\rangle$
+\item \textbf{球坐标：}$\theta\in[0,\pi]$ 为极角，$\phi\in[0,2\pi)$ 为方位角
+\item \textbf{特殊点：}
+  \begin{itemize}
+  \item $|0\rangle$：北极 $(\theta=0)$
+  \item $|1\rangle$：南极 $(\theta=\pi)$
+  \item $|+\rangle$：赤道+x方向 $(\theta=\pi/2,\phi=0)$
+  \item $|-\rangle$：赤道-x方向 $(\theta=\pi/2,\phi=\pi)$
+  \item $|y_+\rangle$：赤道+y方向 $(\theta=\pi/2,\phi=\pi/2)$
+  \item $|y_-\rangle$：赤道-y方向 $(\theta=\pi/2,\phi=3\pi/2)$
+  \end{itemize}
+\end{itemize}
+
+\subsection{多量子比特态}
+\begin{itemize}
+\item \textbf{两比特计算基：}$|00\rangle, |01\rangle, |10\rangle, |11\rangle$（维数 $2^2=4$）
+\item \textbf{n比特计算基：}$\{|x\rangle : x\in\{0,1\}^n\}$（维数 $2^n$）
+\item \textbf{可分离态：}$|\psi\rangle = |\phi\rangle_A\otimes|\chi\rangle_B$
+\item \textbf{纠缠态：}不能写成张量积形式的态
+\end{itemize}
+
+\subsection{Bell态（最大纠缠态）}
+\begin{align*}
+|\Phi^+\rangle &= \frac{1}{\sqrt{2}}(|00\rangle+|11\rangle) \\
+|\Phi^-\rangle &= \frac{1}{\sqrt{2}}(|00\rangle-|11\rangle) \\
+|\Psi^+\rangle &= \frac{1}{\sqrt{2}}(|01\rangle+|10\rangle) \\
+|\Psi^-\rangle &= \frac{1}{\sqrt{2}}(|01\rangle-|10\rangle) \quad\text{（单态）}
+\end{align*}
+
+\section{量子算符与量子门}
+
+\subsection{Pauli算符}
+\begin{align*}
+X &= \begin{pmatrix}0&1\\1&0\end{pmatrix} = |0\rangle\langle 1| + |1\rangle\langle 0| \\
+Y &= \begin{pmatrix}0&-i\\i&0\end{pmatrix} = i|1\rangle\langle 0| - i|0\rangle\langle 1| \\
+Z &= \begin{pmatrix}1&0\\0&-1\end{pmatrix} = |0\rangle\langle 0| - |1\rangle\langle 1|
+\end{align*}
+\textbf{性质：}
+\begin{itemize}
+\item Hermite：$X^\dagger=X$，$Y^\dagger=Y$，$Z^\dagger=Z$
+\item 幺正：$X^2=Y^2=Z^2=I$
+\item 特征值：均为 $\pm 1$
+\item X特征态：$|+\rangle$ ($\lambda=+1$)，$|-\rangle$ ($\lambda=-1$)
+\item Y特征态：$|y_+\rangle$ ($\lambda=+1$)，$|y_-\rangle$ ($\lambda=-1$)
+\item Z特征态：$|0\rangle$ ($\lambda=+1$)，$|1\rangle$ ($\lambda=-1$)
+\end{itemize}
+
+\subsection{Hadamard门}
+\[
+H = \frac{1}{\sqrt{2}}\begin{pmatrix}1&1\\1&-1\end{pmatrix}
+\]
+\textbf{性质：}
+\begin{itemize}
+\item 自伴：$H=H^\dagger$
+\item 幺正：$H^2=I$
+\item 基变换：$H|0\rangle=|+\rangle$，$H|1\rangle=|-\rangle$
+\item 共轭关系：$HXH=Z$，$HZH=X$，$HYH=-Y$
+\end{itemize}
+
+\subsection{CNOT门（受控非门）}
+\[
+\text{CNOT}|a,b\rangle = |a, a\oplus b\rangle
+\]
+\[
+\text{CNOT} = \begin{pmatrix}1&0&0&0\\0&1&0&0\\0&0&0&1\\0&0&1&0\end{pmatrix} = |0\rangle\langle 0|\otimes I + |1\rangle\langle 1|\otimes X
+\]
+\textbf{应用：}Bell态制备、Bell基测量、量子隐形传态
+
+\subsection{其他重要门}
+\begin{itemize}
+\item \textbf{单位门：}$I=\begin{pmatrix}1&0\\0&1\end{pmatrix}$
+\item \textbf{$i\sigma_y$门：}$\begin{pmatrix}0&-1\\1&0\end{pmatrix} = iY$
+\item \textbf{Controlled-U：}$\text{C-}U|0,\psi\rangle = |0,\psi\rangle$，$\text{C-}U|1,\psi\rangle = |1, U\psi\rangle$
+\end{itemize}
+
+\section{量子测量}
+
+\subsection{投影测量}
+\begin{itemize}
+\item \textbf{投影算符：}$P_i = |i\rangle\langle i|$，满足 $\sum_i P_i = I$，$P_i P_j = \delta_{ij}P_i$
+\item \textbf{Born规则：}测量结果 $i$ 的概率 $P(i) = |\langle i|\psi\rangle|^2 = \langle\psi|P_i|\psi\rangle$
+\item \textbf{测量后态：}$|\psi'\rangle = \frac{P_i|\psi\rangle}{\sqrt{P(i)}} = \frac{P_i|\psi\rangle}{\|P_i|\psi\rangle\|}$
+\end{itemize}
+
+\subsection{可观测量}
+\begin{itemize}
+\item \textbf{定义：}Hermite算符，谱分解 $A = \sum_i \lambda_i P_i$
+\item \textbf{期望值：}$\langle A\rangle = \langle\psi|A|\psi\rangle = \sum_i \lambda_i P(i)$
+\item \textbf{方差：}$(\Delta A)^2 = \langle A^2\rangle - \langle A\rangle^2$
+\item \textbf{标准偏差（不确定度）：}$\Delta A = \sqrt{(\Delta A)^2}$
+\end{itemize}
+
+\subsection{特殊测量}
+\begin{itemize}
+\item \textbf{计算基测量：}投影到 $\{|0\rangle, |1\rangle\}$ 基，对应Z算符
+\item \textbf{本征态测量：}测量本征态 $|u_i\rangle$ 得到确定结果 $\lambda_i$，态不变
+\item \textbf{Bell基测量：}通过 CNOT+H+计算基测量实现，区分四个Bell态
+\end{itemize}
+
+\section{密度矩阵}
+
+\subsection{密度算符}
+\begin{itemize}
+\item \textbf{纯态：}$\rho = |\psi\rangle\langle\psi|$
+\item \textbf{混合态：}$\rho = \sum_i p_i |\psi_i\rangle\langle\psi_i|$，其中 $\sum_i p_i=1$，$p_i\geq 0$
+\item \textbf{性质：}$\rho^\dagger=\rho$，$\mathrm{Tr}(\rho)=1$，$\rho\geq 0$
+\end{itemize}
+
+\subsection{纯态判据}
+\begin{itemize}
+\item $\rho^2=\rho$ 等价于纯态
+\item $\mathrm{Tr}(\rho^2)=1$ 等价于纯态
+\item $\mathrm{Tr}(\rho^2)<1$ 则为混合态
+\end{itemize}
+
+\subsection{约化密度算符（偏迹）}
+\begin{itemize}
+\item \textbf{定义：}对复合系统 $AB$，子系统 $A$ 的约化密度算符为
+  \[
+  \rho_A = \mathrm{Tr}_B(\rho_{AB}) = \sum_j (\mathbb{I}_A\otimes\langle j|_B)\rho_{AB}(\mathbb{I}_A\otimes|j\rangle_B)
+  \]
+\item \textbf{物理意义：}子系统的统计描述
+\end{itemize}
+
+\subsection{最大混合态}
+\begin{itemize}
+\item \textbf{单比特：}$\rho = \frac{I}{2} = \frac{1}{2}\begin{pmatrix}1&0\\0&1\end{pmatrix}$
+\item \textbf{性质：}完全退相干，$\mathrm{Tr}(\rho^2)=\frac{1}{2}$
+\item \textbf{来源：}纠缠态的子系统是最大混合态
+\end{itemize}
+
+\section{量子纠缠}
+
+\subsection{纠缠判据}
+\begin{itemize}
+\item \textbf{定义：}$|\psi\rangle_{AB}$ 是纠缠态当且仅当不存在 $|\phi\rangle_A$ 和 $|\chi\rangle_B$ 使得 $|\psi\rangle_{AB}=|\phi\rangle_A\otimes|\chi\rangle_B$
+\item \textbf{检验方法：}尝试因式分解；计算约化密度矩阵的纯度
+\item \textbf{最大纠缠态：}四个Bell态
+\end{itemize}
+
+\subsection{纠缠的性质}
+\begin{itemize}
+\item \textbf{子系统混合性：}纠缠态的约化密度算符是混合态
+\item \textbf{例：}Bell态 $|\Phi^+\rangle$ 的约化态 $\rho_A = \rho_B = \frac{I}{2}$
+\item \textbf{非局域关联：}测量一个子系统会瞬间影响另一个子系统的态（但不能传递信息）
+\end{itemize}
+
+\subsection{Bell态的变换}
+Pauli算符作用在 $|\Phi^+\rangle$ 的第一个量子比特上：
+\begin{align*}
+I\otimes I|\Phi^+\rangle &= |\Phi^+\rangle \\
+X\otimes I|\Phi^+\rangle &= |\Psi^+\rangle \\
+Z\otimes I|\Phi^+\rangle &= |\Phi^-\rangle \\
+iY\otimes I|\Phi^+\rangle &= |\Psi^-\rangle
+\end{align*}
+
+\section{量子协议}
+
+\subsection{超密编码（Superdense Coding）}
+\textbf{目标：}利用一个量子比特传输两个经典比特
+
+\textbf{资源：}Alice和Bob共享Bell态 $|\Phi^+\rangle$
+
+\textbf{编码：}Alice根据要发送的2比特信息施加门：
+\begin{itemize}
+\item "00"：施加 $I$，态保持 $|\Phi^+\rangle$
+\item "01"：施加 $Z$，态变为 $|\Phi^-\rangle$
+\item "10"：施加 $X$，态变为 $|\Psi^+\rangle$
+\item "11"：施加 $iY$（或$XZ$），态变为 $|\Psi^-\rangle$
+\end{itemize}
+
+\textbf{解码：}Bob收到Alice的量子比特后，进行Bell基测量（CNOT+H+计算基测量）
+
+\subsection{量子隐形传态（Quantum Teleportation）}
+\textbf{目标：}Alice将未知量子态 $|\psi\rangle=\alpha|0\rangle+\beta|1\rangle$ 传送给Bob
+
+\textbf{资源：}共享Bell态 $|\Phi^+\rangle_{23}$（Alice持有量子比特2，Bob持有量子比特3）
+
+\textbf{步骤：}
+\begin{enumerate}
+\item \textbf{初态：}$|\psi_0\rangle = |\psi\rangle_1\otimes|\Phi^+\rangle_{23}$
+\item \textbf{Alice进行Bell基测量：}对量子比特1和2进行CNOT+H+计算基测量，得到2比特经典结果 $(M_1, M_2)$
+\item \textbf{Bob根据测量结果修正：}
+  \begin{itemize}
+  \item 若 $(M_1, M_2)=(0,0)$：施加 $I$
+  \item 若 $(M_1, M_2)=(0,1)$：施加 $X$
+  \item 若 $(M_1, M_2)=(1,0)$：施加 $Z$
+  \item 若 $(M_1, M_2)=(1,1)$：施加 $XZ$
+  \end{itemize}
+\item \textbf{结果：}Bob的量子比特3处于态 $|\psi\rangle=\alpha|0\rangle+\beta|1\rangle$
+\end{enumerate}
+
+\textbf{关键性质：}
+\begin{itemize}
+\item 需要经典信道传输测量结果，不能超光速
+\item Alice的原始态被破坏，不违反不可克隆定理
+\item 传输的是量子态，而非经典信息
+\end{itemize}
+
+\section{量子线路}
+
+\subsection{Bell态制备}
+初态 $|00\rangle$ 经过 H（作用在第一个量子比特）和 CNOT：
+\[
+|00\rangle \xrightarrow{H\otimes I} |+0\rangle \xrightarrow{\text{CNOT}} |\Phi^+\rangle
+\]
+
+其他初态：
+\begin{itemize}
+\item $|01\rangle \to |\Psi^+\rangle$
+\item $|10\rangle \to |\Phi^-\rangle$
+\item $|11\rangle \to |\Psi^-\rangle$
+\end{itemize}
+
+\subsection{Bell基测量}
+量子线路：CNOT（控制比特在前）+ H（作用在第一个量子比特）+ 计算基测量
+
+测量结果对应：
+\begin{itemize}
+\item $(0,0) \to |\Phi^+\rangle$
+\item $(0,1) \to |\Psi^+\rangle$
+\item $(1,0) \to |\Phi^-\rangle$
+\item $(1,1) \to |\Psi^-\rangle$
+\end{itemize}
+
+\subsection{线路恒等式}
+\begin{itemize}
+\item $HXH = Z$
+\item $HZH = X$
+\item $HYH = -Y$
+\item $H^2 = I$
+\end{itemize}
+
+\subsection{多量子比特门的张量积}
+\textbf{例1：}$I\otimes H$ 作用在两量子比特态 $|ab\rangle$ 上，只对第二个量子比特施加Hadamard门
+
+\textbf{例2：}$H\otimes I$ 只对第一个量子比特施加Hadamard门
+
+\textbf{矩阵形式：}
+\[
+I\otimes H = \begin{pmatrix}H & 0 \\ 0 & H\end{pmatrix}, \quad
+H\otimes I = \frac{1}{\sqrt{2}}\begin{pmatrix}I & I \\ I & -I\end{pmatrix}
+\]
+
+\subsection{辅助量子比特与间接测量}
+\textbf{原理：}通过测量辅助量子比特实现对系统的测量，避免直接破坏系统态
+
+\textbf{线路：}
+\begin{enumerate}
+\item 辅助比特初始化为 $|0\rangle$
+\item 施加Hadamard门到辅助比特
+\item 施加Controlled-U门（辅助比特为控制比特）
+\item 再次对辅助比特施加Hadamard门
+\item 测量辅助比特
+\end{enumerate}
+
+\textbf{结果：}测量辅助比特得到的期望值对应算符U的本征值
+
+\section{物理实现}
+
+\subsection{施特恩-格拉赫实验}
+\begin{itemize}
+\item \textbf{装置：}不均匀磁场使自旋向上/向下的粒子空间分离
+\item \textbf{量子对应：}自旋向上 $\leftrightarrow |0\rangle$，自旋向下 $\leftrightarrow |1\rangle$
+\item \textbf{连续测量：}不同方向测量对应不同基（Z方向、X方向等）
+\end{itemize}
+
+\subsection{量子计算物理平台}
+\begin{itemize}
+\item \textbf{超导量子计算：}基于约瑟夫森结，微波控制，低温运行
+\item \textbf{离子阱量子计算：}电磁场囚禁离子，激光操控，声学模式耦合
+\item 两种平台各有优劣，都能实现通用量子计算
+\end{itemize}
+
+\section{量子信息基本原理}
+
+\subsection{不可克隆定理}
+不存在幺正操作能够复制任意未知量子态：
+\[
+U(|\psi\rangle\otimes|0\rangle) = |\psi\rangle\otimes|\psi\rangle \quad\text{（不可能对所有$|\psi\rangle$成立）}
+\]
+
+\subsection{相位}
+\begin{itemize}
+\item \textbf{全局相位：}$e^{i\theta}|\psi\rangle$ 与 $|\psi\rangle$ 物理等价
+\item \textbf{相对相位：}$\alpha|0\rangle+\beta|1\rangle$ 中 $\beta/\alpha$ 的相位有物理意义，影响干涉和测量结果
+\end{itemize}
+
+\subsection{量子演化的可逆性}
+\begin{itemize}
+\item \textbf{幺正演化：}$|\psi(t)\rangle = U(t)|\psi(0)\rangle$，$U$ 是幺正算符，可逆
+\item \textbf{测量不可逆：}测量后态坍缩，信息损失，不可逆
+\end{itemize}
+
+\end{document}

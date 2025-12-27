@@ -1,0 +1,38 @@
+[project]
+name = "quantum-protocols"
+version = "1.0.0"
+description = "量子超密编码和量子隐形传态的Python实现"
+authors = [
+    {name = "Quantum Protocol Team"}
+]
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "cirq-core>=1.0.0",
+    "qiskit>=1.0.0",
+    "numpy>=1.20.0",
+    "matplotlib>=3.5.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "jupyter>=1.0.0",
+    "ipython>=8.0.0",
+]
+
+
+[dependency-groups]
+dev = [
+    "jupyter>=1.0.0",
+    "ipython>=8.0.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+only-include = [
+    "cirq",
+    "qiskit",
+]
