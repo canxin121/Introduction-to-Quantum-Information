@@ -1,3 +1,4 @@
 assets/figs
 build/aux
+build/docx2tex_out
 test.tex
