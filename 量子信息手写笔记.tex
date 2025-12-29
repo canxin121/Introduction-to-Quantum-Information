@@ -205,6 +205,62 @@ iY\ (XZ) & |\Psi^-\rangle
   \item \textbf{互为对偶：}超密编码“量子→经典”，隐形传态“经典→量子”。
 \end{itemize}
 
+\section{张量积与纠缠（背诵）}
+\begin{itemize}
+  \item 复合系统空间为张量积：$\mathcal{H}_{AB}=\mathcal{H}_A\otimes\mathcal{H}_B$。
+  \item 基向量：$\{|i\rangle\otimes|j\rangle\}$ 构成正交归一基。
+  \item 内积规则：$\langle v_1\!\otimes\! w_1|v_2\!\otimes\! w_2\rangle=\langle v_1|v_2\rangle\langle w_1|w_2\rangle$。
+  \item 可分态：$|\psi_{AB}\rangle=|\psi_A\rangle\otimes|\psi_B\rangle$；否则为纠缠态。
+  \item Bell 态是最大纠缠态，其子系统约化密度矩阵为最大混合态 $\frac{I}{2}$。
+\end{itemize}
+
+\section{密度矩阵与偏迹（背诵）}
+\begin{itemize}
+  \item $\rho=\sum_k p_k|\psi_k\rangle\langle\psi_k|$，满足 $\rho^\dagger=\rho$，$\rho\ge 0$，$\mathrm{tr}(\rho)=1$。
+  \item 纯态：$\rho^2=\rho$，$\mathrm{tr}(\rho^2)=1$；混态：$\mathrm{tr}(\rho^2)<1$。
+  \item 约化密度矩阵：$\rho_A=\mathrm{tr}_B(\rho_{AB})$，保留子系统 $A$ 的全部统计信息。
+  \item 期望值：$\langle A\rangle=\mathrm{tr}(\rho_A A)$。
+  \item 酉变换下不变量：$\mathrm{tr}(U\rho U^\dagger)=\mathrm{tr}(\rho)$。
+\end{itemize}
+
+\section{贝尔不等式与量子相关（背诵）}
+\begin{itemize}
+  \item CHSH 经典上界：$\langle \hat B\rangle \le 2$。
+  \item Tsirelson 上界：$\langle \hat B\rangle \le 2\sqrt{2}$（量子相关性强于经典）。
+  \item 实验违反 CHSH 说明局域隐变量理论与量子力学不相容。
+\end{itemize}
+
+\section{不可克隆定理（背诵）}
+\begin{itemize}
+  \item 不存在对任意未知态都成立的克隆变换：$U|\psi\rangle|0\rangle\neq|\psi\rangle|\psi\rangle$。
+  \item 原因来自线性性；若能克隆两态，则对任意叠加态会矛盾。
+  \item 含义：未知量子态不能复制，QKD 的安全性基础之一。
+\end{itemize}
+
+\section{量子密钥分发 QKD（背诵）}
+\begin{itemize}
+  \item QKD 只分发密钥，不直接传输消息（如 BB84/E91 思想）。
+  \item 任何窃听测量会引入扰动与错误率，可被检测。
+  \item 需要\textbf{认证的经典信道}完成基筛选、纠错与隐私放大。
+  \item 安全性根源：测量扰动与不可克隆定理。
+\end{itemize}
+
+\section{量子计算类型与平台（背诵）}
+\begin{itemize}
+  \item 两类量子计算：\textbf{通用门电路量子计算} 与 \textbf{量子退火/绝热计算}（Ising/QUBO 优化）。
+  \item 量子线路模型：初始化 $\rightarrow$ 量子门序列 $\rightarrow$ 测量，整体可逆演化。
+  \item 通用门集：任意单比特酉门 + CNOT（常用 $\{H,S,T,\mathrm{CNOT}\}$）。
+  \item 典型算法：Shor（分解）、Grover（搜索）、QFT（量子傅里叶变换）。
+  \item 平台概览：超导量子比特、离子阱、光子、核磁共振、金刚石 NV 色心、拓扑量子计算等。
+\end{itemize}
+
+\section{量子通信与网络（背诵）}
+\begin{itemize}
+  \item 典型任务：量子隐形传态、超密编码、QKD、量子中继。
+  \item 纠缠与经典信道共同完成通信；纠缠本身不传递可控信息。
+  \item 代表性网络：DARPA 量子网络、欧洲 SECOQC、日本东京量子网络、中国天地一体化量子通信网络。
+\end{itemize}
+
 \section{常见量子门（简表）}
 单比特门：
 \[
