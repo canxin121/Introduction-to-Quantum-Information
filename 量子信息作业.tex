@@ -29,16 +29,8 @@
 \textbf{题目：}设 $V$ 是以 $|0\rangle$ 和 $|1\rangle$ 为基向量的向量空间，$A$ 是从 $V$ 到 $V$ 的线性算子，使 $A|0\rangle=|1\rangle$，$A|1\rangle=|0\rangle$。给出 $A$ 相对于输入基 $|0\rangle,|1\rangle$ 和输出基 $|0\rangle,|1\rangle$ 的矩阵表示。找出使 $A$ 具有不同矩阵表示的输入输出基。
 
 \textbf{解：}
-先写出算符本身（与基无关）的表达式。由
-\[
-A|0\rangle=|1\rangle,\qquad A|1\rangle=|0\rangle
-\]
-并利用完备关系 $I=|0\rangle\langle 0|+|1\rangle\langle 1|$，
-\[
-A=A I=A|0\rangle\langle 0|+A|1\rangle\langle 1|
-=|1\rangle\langle 0|+|0\rangle\langle 1|
-\]
-这就是 Pauli-$X$ 算符。
+题意是给出线性映射 $A$ 在指定输入/输出基下的矩阵表示（第 $j$ 列是
+$A|j\rangle$ 在输出基中的坐标），不必先写出算符再做基变换。
 
 \textbf{(1) 输入基与输出基同为 $\{|0\rangle,|1\rangle\}$：}
 按 3.4 节的记号，矩阵元
@@ -55,20 +47,18 @@ A^{(0,1)}=\begin{pmatrix}0&1\\1&0\end{pmatrix}.
 \]
 
 \textbf{(2) 取不同基得到不同矩阵表示：}
-令新基为 Hadamard 基
+例如取输入基仍为 $E=\{|0\rangle,|1\rangle\}$，输出基改为
+$F=\{|1\rangle,|0\rangle\}$（交换顺序）。相对于原基
+$\{|0\rangle,|1\rangle\}$，两组基的基变换矩阵（按 2.7 节定义
+$U_{ij}=\langle e_i|f_j\rangle$）分别为
 \[
-|+\rangle=\frac{|0\rangle+|1\rangle}{\sqrt{2}},\quad
-|-\rangle=\frac{|0\rangle-|1\rangle}{\sqrt{2}}.
+U_{\text{in}}=I,\qquad
+U_{\text{out}}=\begin{pmatrix}0&1\\1&0\end{pmatrix}.
 \]
-基变换矩阵（按 2.7 节定义）为
+按矩阵表示的定义直接计算：$A|0\rangle=|1\rangle$ 是输出基第一向量，
+$A|1\rangle=|0\rangle$ 是输出基第二向量，因此
 \[
-U_{ij}=\langle e_i|f_j\rangle,\quad
-U=\frac{1}{\sqrt{2}}\begin{pmatrix}1&1\\1&-1\end{pmatrix}.
-\]
-于是算符在新基下的矩阵表示为
-\[
-A^{(+,-)}=U^\dagger A^{(0,1)}U
-=\begin{pmatrix}1&0\\0&-1\end{pmatrix},
+A^{(F\leftarrow E)}=\begin{pmatrix}1&0\\0&1\end{pmatrix},
 \]
 与 $A^{(0,1)}$ 不同。
 
