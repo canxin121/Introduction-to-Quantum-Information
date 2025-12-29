@@ -458,15 +458,10 @@ $X$ 的本征态为 $|+\rangle=\frac{|0\rangle+|1\rangle}{\sqrt{2}}$（本征值
 \[
 |\varphi\rangle=\frac{1}{\sqrt{2}}(|01\rangle+e^{i\phi}|10\rangle)
 \]
-其中 $\phi$ 是相对相位。
-
-\textbf{特殊情况：}如果该态是\textbf{单态}（singlet state，总自旋为0的态），则相对相位 $\phi=\pi$，得到：
+其中 $\phi$ 是相对相位。题目默认相对相位为 $0$，因此取：
 \[
-|\varphi\rangle_{\text{singlet}}=\frac{1}{\sqrt{2}}(|01\rangle-|10\rangle)
-=\frac{1}{\sqrt{2}}(|0\rangle_1\otimes|1\rangle_2-|1\rangle_1\otimes|0\rangle_2)
+|\varphi\rangle=\frac{1}{\sqrt{2}}(|01\rangle+|10\rangle)
 \]
-
-\textbf{注：}仅从"反关联"这一条件无法唯一确定相对相位。物理上，单态是最常见的自旋反关联态，因此通常默认为单态。后续计算我们采用单态形式。
 
 \textbf{(2)} 可观测算子 $Z_1Z_2=Z\otimes Z$，其中
 \[
@@ -489,8 +484,8 @@ Z_1Z_2|10\rangle=(Z|1\rangle)\otimes(Z|0\rangle)=(-|1\rangle)\otimes(+|0\rangle)
 \]
 因此
 \[
-Z_1Z_2|\varphi\rangle=\frac{-|01\rangle-(-|10\rangle)}{\sqrt{2}}
-=\frac{-|01\rangle+|10\rangle}{\sqrt{2}}=-|\varphi\rangle
+Z_1Z_2|\varphi\rangle=\frac{-|01\rangle-|10\rangle}{\sqrt{2}}
+=-\frac{|01\rangle+|10\rangle}{\sqrt{2}}=-|\varphi\rangle
 \]
 所以
 \[
@@ -500,10 +495,10 @@ Z_1Z_2|\varphi\rangle=\frac{-|01\rangle-(-|10\rangle)}{\sqrt{2}}
 \textbf{(3)} 密度算子为
 \[
 \rho=|\varphi\rangle\langle\varphi|
-=\frac{1}{2}(|01\rangle-|10\rangle)(\langle 01|-\langle 10|)
+=\frac{1}{2}(|01\rangle+|10\rangle)(\langle 01|+\langle 10|)
 \]
 \[
-=\frac{1}{2}(|01\rangle\langle 01|-|01\rangle\langle 10|-|10\rangle\langle 01|+|10\rangle\langle 10|)
+=\frac{1}{2}(|01\rangle\langle 01|+|01\rangle\langle 10|+|10\rangle\langle 01|+|10\rangle\langle 10|)
 \]
 计算 $\rho^2$：
 \[
@@ -519,7 +514,7 @@ Z_1Z_2|\varphi\rangle=\frac{-|01\rangle-(-|10\rangle)}{\sqrt{2}}
 计算：
 \[
 \langle 0|_2\rho|0\rangle_2
-=\frac{1}{2}\langle 0|_2(|01\rangle\langle 01|-|01\rangle\langle 10|-|10\rangle\langle 01|+|10\rangle\langle 10|)|0\rangle_2
+=\frac{1}{2}\langle 0|_2(|01\rangle\langle 01|+|01\rangle\langle 10|+|10\rangle\langle 01|+|10\rangle\langle 10|)|0\rangle_2
 \]
 注意到 $\langle 0|_2|01\rangle=|0\rangle_1$，$\langle 0|_2|10\rangle=0$，所以
 \[
@@ -1440,7 +1435,7 @@ CNOT 门作用在前两个量子比特上（第一个为控制位，第二个为
 
 根据测量结果 $(M_1, M_2)$，对第三个量子比特施加修正操作：
 \begin{itemize}
-\item 若 $M_2=1$：施加 $X$ 门（翻转 $|0\rangle \leftrightarrow |1\rangle$）
+\item 若 $M_2=0$：施加 $X$ 门（翻转 $|0\rangle \leftrightarrow |1\rangle$）
 \item 若 $M_1=1$：施加 $Z$ 门（相位翻转 $|1\rangle \to -|1\rangle$）
 \end{itemize}
 
