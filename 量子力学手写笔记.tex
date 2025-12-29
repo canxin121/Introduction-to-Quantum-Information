@@ -1,0 +1,279 @@
+\documentclass[12pt]{article}
+
+\usepackage[a4paper,margin=2.2cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{physics}
+\usepackage{enumitem}
+\usepackage{xeCJK}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+\setCJKmainfont{Source Han Serif CN}
+\setCJKsansfont{Source Han Sans CN}
+\setCJKmonofont{Source Han Sans CN}
+\setlist[itemize]{leftmargin=*,nosep}
+\setlist[enumerate]{leftmargin=*,nosep}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!55!black,
+  urlcolor=blue!55!black,
+  citecolor=blue!55!black
+}
+
+\title{量子力学手写笔记（整理与校对版）}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+\section{常用积分与体积元}
+
+\subsection{高斯积分与指数积分}
+\begin{align*}
+  \int_{-\infty}^{\infty} e^{-a x^2}\,dx &= \sqrt{\frac{\pi}{a}},\quad a>0, \\
+  \int_{-\infty}^{\infty} x e^{-a x^2}\,dx &= 0,\quad a>0, \\
+  \int_{-\infty}^{\infty} x^2 e^{-a x^2}\,dx &= \frac{\sqrt{\pi}}{2}\,a^{-3/2},\quad a>0.
+\end{align*}
+指数型积分（Gamma 函数特例）：
+\[
+  \int_{0}^{\infty} x^n e^{-a x}\,dx = \frac{n!}{a^{n+1}},\quad a>0,\ n=0,1,2,\dots
+  \]
+
+\subsection{分部积分}
+\[
+  \int u\,dv = uv - \int v\,du.
+\]
+常见写法：
+\[
+  \int_a^b g(x)\,df(x) = \left[g(x)f(x)\right]_a^b - \int_a^b f(x)\,dg(x).
+\]
+这是“把导数项借位”的常用记号：若 $f,g$ 可微，
+\[
+  \int_a^b g(x)\,f'(x)\,dx = \left[g(x)f(x)\right]_a^b - \int_a^b f(x)\,g'(x)\,dx.
+\]
+在多变量情形中，可对某一变量分部积分，例如
+\[
+  \int_a^b g(x,\dots)\,\frac{\partial f}{\partial x}\,dx
+  = \left[g f\right]_a^b - \int_a^b f(x,\dots)\,\frac{\partial g}{\partial x}\,dx,
+\]
+其余变量视为常数。
+
+\subsection{球坐标体积元与径向拉普拉斯}
+\[
+  dV = r^2 \sin\theta\,dr\,d\theta\,d\varphi.
+\]
+径向函数 $f(r)$ 的拉普拉斯：
+\[
+  \nabla^2 f(r) = f''(r) + \frac{2}{r} f'(r)
+  = \frac{1}{r^2}\frac{d}{dr}\left(r^2 \frac{df}{dr}\right).
+\]
+
+\subsection{常见边界与归一化}
+束缚态（无限域）常取
+\[
+  \psi(+\infty)=\psi(-\infty)=0,\qquad \int_{-\infty}^{\infty} |\psi|^2\,dx=1.
+\]
+无限深势阱 $0<x<a$ 中常取
+\[
+  \psi(0)=\psi(a)=0,\qquad \int_{0}^{a} |\psi|^2\,dx=1.
+\]
+
+\section{$\delta$ 函数与向量分析}
+
+\subsection{$\delta$ 函数的换元公式}
+若 $g(x_i)=0$ 且 $g'(x_i)\neq 0$，则
+\[
+  \delta\!\bigl(g(x)\bigr) = \sum_i \frac{\delta(x-x_i)}{|g'(x_i)|}.
+\]
+
+\subsection{梯度、散度、旋度与叉乘}
+\[
+  \nabla f = \left(\frac{\partial f}{\partial x},\frac{\partial f}{\partial y},\frac{\partial f}{\partial z}\right),
+  \qquad
+  \nabla = \left(\frac{\partial}{\partial x},\frac{\partial}{\partial y},\frac{\partial}{\partial z}\right).
+\]
+\[
+  \nabla\cdot\vec A,\qquad \nabla\times\vec A.
+\]
+\[
+  \vec a \times \vec b =
+  \begin{vmatrix}
+    \hat e_x & \hat e_y & \hat e_z \\
+    a_x & a_y & a_z \\
+    b_x & b_y & b_z
+  \end{vmatrix}.
+\]
+
+\section{对易关系与表象}
+
+\subsection{基本对易关系}
+\[
+  [x_i,x_j]=[p_i,p_j]=0,\qquad
+  [x_i,p_j]=i\hbar\,\delta_{ij},\qquad
+  [p_i,x_j]=-i\hbar\,\delta_{ij}.
+\]
+角动量：
+\[
+  [L_x,L_y]=i\hbar L_z\quad (\text{循环置换}).
+\]
+
+\subsection{对易子的性质}
+\[
+  [A,B]=AB-BA,
+  \quad
+  [A,B+C]=[A,B]+[A,C],
+  \quad
+  [AB,C]=A[B,C]+[A,C]B.
+\]
+
+\subsection{位置与动量表象}
+位置表象：
+\[
+  \hat x \to x,\qquad \hat p \to -i\hbar\frac{\partial}{\partial x}.
+\]
+动量表象：
+\[
+  \hat p \to p,\qquad \hat x \to i\hbar\frac{\partial}{\partial p}.
+\]
+
+\subsection{概率密度与概率流}
+\[
+  \rho = \psi^*\psi = |\psi|^2,
+  \qquad
+  \vec j = \frac{\hbar}{2mi}\left(\psi^*\nabla\psi - \psi\nabla\psi^*\right).
+\]
+连续性方程：
+\[
+  \frac{\partial \rho}{\partial t} + \nabla\cdot \vec j = 0.
+\]
+
+\section{薛定谔方程与定态解}
+
+\subsection{四大算符}
+动能算符：
+\[
+  \hat T = \frac{\hat p^2}{2m} = -\frac{\hbar^2}{2m}\nabla^2.
+\]
+势能算符：
+\[
+  \hat V = V(\vec r,t).
+\]
+哈密顿算符：
+\[
+  \hat H = \hat T + \hat V = -\frac{\hbar^2}{2m}\nabla^2 + V(\vec r,t).
+\]
+能量算符：
+\[
+  \hat E = i\hbar\frac{\partial}{\partial t}.
+\]
+
+\subsection{薛定谔方程}
+\[
+  \hat E\,\psi = \hat H \psi.
+\]
+若 $V(\vec r)$ 与时间无关，存在定态解
+\[
+  \hat H u_n = E_n u_n,\qquad
+  \psi(\vec r,t) = \sum_n C_n u_n(\vec r)\,e^{-iE_n t/\hbar}.
+\]
+能量期望值：
+\[
+  \langle H \rangle = \sum_n |C_n|^2 E_n.
+\]
+
+\subsection{一维无限深势阱（$0<x<a$）}
+\[
+  V(x)=0\quad (0<x<a),\qquad \psi(0)=\psi(a)=0.
+\]
+定态解：
+\[
+u_n(x)=\sqrt{\frac{2}{a}}\sin\left(\frac{n\pi x}{a}\right),\quad
+  E_n=\frac{1}{2m}\left(\frac{n\pi\hbar}{a}\right)^2,\quad n=1,2,\dots
+\]
+展开系数：
+\[
+  C_n=\int_0^a u_n^*(x)\,\psi(x,0)\,dx.
+\]
+初始波函数 $\psi(x,0)$ 常写成分段形式，需满足边界条件与归一化。
+
+\section{氢原子基态}
+
+\subsection{库仑势与基态波函数}
+\[
+  V(r) = -\frac{e^2}{r}.
+\]
+基态波函数（$1s$）：
+\[
+  \psi_{100}(r)=\frac{1}{\sqrt{\pi a_0^3}}\,e^{-r/a_0}.
+\]
+
+\subsection{基态期望值}
+\[
+  \langle r\rangle=\frac{3}{2}a_0,\qquad
+  \left\langle\frac{1}{r}\right\rangle=\frac{1}{a_0}.
+\]
+\[
+  \langle V\rangle=-e^2\left\langle\frac{1}{r}\right\rangle=-\frac{e^2}{a_0},\qquad
+  \langle T\rangle=\frac{e^2}{2a_0}=\frac{\hbar^2}{2m a_0^2}.
+\]
+简写说明：在 SI 制中应取 $e^2\to e^2/(4\pi\varepsilon_0)$；在高斯单位下 $a_0=\hbar^2/(m e^2)$，
+故两式等价，并有 $\langle T\rangle=-E_1$。
+
+\section{期望值随时间的演化（Ehrenfest）}
+\[
+  \langle A\rangle=\langle\psi|A|\psi\rangle,\qquad
+  i\hbar\frac{\partial\psi}{\partial t}=\hat H\psi.
+\]
+\[
+  \frac{d}{dt}\langle A\rangle
+  =\frac{i}{\hbar}\langle[\hat H,A]\rangle+\left\langle\frac{\partial A}{\partial t}\right\rangle.
+\]
+常见结果：
+\[
+  \frac{d}{dt}\langle x\rangle=\frac{\langle p\rangle}{m},\qquad
+  \frac{d}{dt}\langle p\rangle=-\langle\nabla V\rangle.
+\]
+
+\section{本征值与本征函数}
+
+\subsection{位置算符}
+位置算符本征方程：
+\[
+  \hat x\,\delta(x-x_0)=x_0\,\delta(x-x_0).
+\]
+因此 $\delta(x-x_0)$ 是 $\hat x$ 的本征函数，对应本征值 $x_0$。
+
+\subsection{动量算符}
+\[
+  \hat p\,f_p(x)=p\,f_p(x),\qquad \hat p=-i\hbar\frac{\partial}{\partial x}.
+\]
+解为
+\[
+  f_p(x)=C\,e^{ipx/\hbar},\qquad C=\frac{1}{\sqrt{2\pi\hbar}}.
+\]
+
+\section{不确定关系}
+\[
+  \Delta A\,\Delta B\ge \frac{1}{2}\bigl|\langle[A,B]\rangle\bigr|.
+\]
+位置与动量：
+\[
+  \Delta x\,\Delta p\ge \frac{\hbar}{2}.
+\]
+方差定义：
+\[
+  (\Delta x)^2=\langle x^2\rangle-\langle x\rangle^2,\qquad
+  \Delta x=\sqrt{(\Delta x)^2}.
+\]
+时间与频率（能量）：
+\[
+  \Delta t\,\Delta\omega\ge \frac{1}{2}
+  \quad \Longleftrightarrow \quad
+  \Delta t\,\Delta E\ge \frac{\hbar}{2}.
+\]
+当满足等号时为最小不确定态，例如高斯波包。
+
+\end{document}
