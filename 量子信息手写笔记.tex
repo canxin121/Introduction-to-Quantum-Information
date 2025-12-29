@@ -1,0 +1,228 @@
+\documentclass[12pt]{article}
+
+\usepackage[a4paper,margin=2.2cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{xeCJK}
+
+\setCJKmainfont{Source Han Serif CN}
+\setCJKsansfont{Source Han Sans CN}
+\setCJKmonofont{Source Han Sans CN}
+\setlist[itemize]{leftmargin=*,nosep}
+\setlist[enumerate]{leftmargin=*,nosep}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!55!black,
+  urlcolor=blue!55!black,
+  citecolor=blue!55!black
+}
+
+\title{量子信息手写笔记（整理版）}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+\section{基、基变换与酉矩阵}
+
+\subsection{基向量与基变换矩阵}
+两组基向量分别为 $\{|e_1\rangle,\ldots,|e_n\rangle\}$ 与 $\{|f_1\rangle,\ldots,|f_n\rangle\}$。
+把基向量按列排成矩阵：
+\[
+  E=\big(|e_1\rangle\ |e_2\rangle\ \cdots\ |e_n\rangle\big),\quad
+  F=\big(|f_1\rangle\ |f_2\rangle\ \cdots\ |f_n\rangle\big).
+\]
+定义基变换矩阵
+\[
+  U_{ij}=\langle e_i|f_j\rangle .
+\]
+新基向量在旧基下展开为
+\[
+  |f_j\rangle=\sum_i U_{ij}|e_i\rangle.
+\]
+矩阵形式写作
+\[
+  F=E\,U.
+\]
+对任意态 $|\psi\rangle$，在旧基与新基下分别展开：
+\[
+  |\psi\rangle=\sum_i c_i |e_i\rangle=\sum_j c'_j |f_j\rangle,
+\]
+其中
+\[
+  \vec c=\begin{pmatrix}c_1\\ \vdots\\ c_n\end{pmatrix},\qquad
+  \vec c\,'=\begin{pmatrix}c'_1\\ \vdots\\ c'_n\end{pmatrix}
+\]
+为展开系数组成的列向量。两者满足
+\[
+  \vec c\,'=U^\dagger \vec c,\qquad \vec c=U\vec c\,'.
+\]
+若 $E,F$ 为正交归一基，则 $U$ 为酉矩阵（$U^\dagger U=I$）。
+
+\subsection{算符的基变换}
+矩阵元定义（以旧基 $E$ 为例）：
+\[
+  A^{(E)}_{ij}=\langle e_i|A|e_j\rangle.
+\]
+算符在新基下的矩阵表示为
+\[
+  A^{(F)}=U^\dagger A^{(E)}U.
+\]
+
+\section{本征方程与对角化}
+\[
+  A|\phi\rangle=\lambda|\phi\rangle,\qquad
+  (A-\lambda I)|\phi\rangle=0.
+\]
+非平凡解要求
+\[
+  \det(A-\lambda I)=0
+\]
+从而求得本征值 $\lambda$，再代回求本征向量。
+
+\paragraph{厄米矩阵要点}
+若 $A=A^\dagger$，则本征值全为实数，本征向量可取正交归一基；
+因此 $A$ 可被酉对角化：$A=U\Lambda U^\dagger$，
+其中 $U$ 的列向量就是按同一顺序排列的本征向量，
+$\Lambda=\mathrm{diag}(\lambda_1,\lambda_2,\ldots)$ 为对应本征值的对角矩阵。
+
+\section{单比特态与 Bloch 球}
+任意纯态可写成
+\[
+  |\psi\rangle=\cos\frac{\theta}{2}\,|0\rangle
+  +e^{i\varphi}\sin\frac{\theta}{2}\,|1\rangle,
+\]
+其中 $\theta\in[0,\pi]$ 为极角，$\varphi\in[0,2\pi]$ 为方位角。
+纯态对应 Bloch 球面上的点。
+
+\section{密度矩阵}
+\[
+  \rho=|\psi\rangle\langle\psi|.
+\]
+基本性质：$\rho^\dagger=\rho$，$\rho\ge 0$，$\mathrm{tr}(\rho)=1$。
+
+\paragraph{纯态与混态}
+纯态满足 $\rho^2=\rho$，$\mathrm{tr}(\rho^2)=1$；
+混态满足 $\mathrm{tr}(\rho^2)<1$。
+一般混态可写成
+\[
+  \rho=\sum_k p_k|\psi_k\rangle\langle\psi_k|,\quad p_k\ge 0,\ \sum_k p_k=1,
+\]
+并可酉对角化为
+\[
+  \rho=U\,\mathrm{diag}(p_1,p_2,\ldots)\,U^\dagger.
+\]
+
+\section{Bell 态与最大纠缠}
+四个 Bell 态：
+\[
+  |\Phi^\pm\rangle=\frac{1}{\sqrt{2}}(|00\rangle\pm|11\rangle),\qquad
+  |\Psi^\pm\rangle=\frac{1}{\sqrt{2}}(|01\rangle\pm|10\rangle).
+\]
+它们都是最大纠缠态。
+
+\subsection{对 $\Phi^+$ 施加单比特门}
+在第一比特上作用（超密编码常用）：
+\[
+\begin{array}{c|c}
+\text{操作} & \text{结果} \\ \hline
+I & |\Phi^+\rangle \\
+X & |\Psi^+\rangle \\
+Z & |\Phi^-\rangle \\
+iY\ (XZ) & |\Psi^-\rangle
+\end{array}
+\]
+
+\section{量子超密编码}
+预共享 Bell 态 $|\Phi^+\rangle=\frac{1}{\sqrt{2}}(|00\rangle+|11\rangle)$。按时间顺序：
+\begin{enumerate}
+  \item $t_0$：Alice 与 Bob 共享 $|\Phi^+\rangle$（Alice 持第 1 比特，Bob 持第 2 比特）。
+  \item $t_1$：Alice 将 2 比特信息编码为本地操作
+  \[
+  00\to I,\quad 01\to X,\quad 10\to Z,\quad 11\to XZ\ (=iY),
+  \]
+  并把她的量子比特发送给 Bob。
+  \item $t_2$：Bob 进行 Bell 测量：先对第 1 比特施 CNOT（第1控第2），再对第 1 比特施 $H$，
+  最后在计算基测量两比特。
+  \item $t_3$：测量结果 $\{00,01,10,11\}$ 分别对应
+  $\{|\Phi^+\rangle,|\Psi^+\rangle,|\Phi^-\rangle,|\Psi^-\rangle\}$，解码得到 Alice 的 2 比特信息。
+\end{enumerate}
+结论：1 个量子比特 + 1 对纠缠可传 2 比特经典信息。
+
+\section{量子隐形传态}
+预共享 Bell 对，待传态为 $|\psi\rangle=\alpha|0\rangle+\beta|1\rangle$。按时间顺序：
+\begin{enumerate}
+  \item $t_0$：Alice 与 Bob 共享 Bell 对（Alice 持第 2 比特，Bob 持第 3 比特），
+  Alice 还有待传态第 1 比特 $|\psi\rangle$。
+  \item $t_1$：Alice 对第 1、2 比特执行 CNOT（第1控第2），再对第 1 比特施 $H$。
+  \item $t_2$：Alice 在计算基测量第 1、2 比特，得到 $(M_1,M_2)\in\{0,1\}^2$，
+  并通过经典信道告知 Bob。
+  \item $t_3$：Bob 对第 3 比特施加纠正
+  \[
+  X^{M_2}Z^{M_1},
+  \]
+  得到原态 $|\psi\rangle$。
+\end{enumerate}
+该过程不违反不可克隆与超光速通信（经典信道不可省）。
+
+\section{发展史与里程碑（背诵）}
+\begin{itemize}
+  \item 1992：Bennett 与 Wiesner 提出量子超密编码（量子密集编码）。
+  \item 1993：Bennett 等提出量子隐形传态方案。
+  \item 1996：首个超密编码实验（光子偏振编码）。
+  \item 2004：原子系综中的超密编码实验。
+  \item 2008：连续变量超密编码实验。
+  \item 2012：超导量子比特超密编码实验。
+  \item 2017：高维纠缠的超密编码（利用高维系统传更多信息）。
+  \item 2010：自由空间 16 km 量子隐形传态实验。
+\end{itemize}
+
+\section{实验装置与关键技术（背诵）}
+\begin{itemize}
+  \item \textbf{纠缠源：}需要高保真度 Bell 态；常见平台有光子偏振、原子系综、超导量子比特等。
+  \item \textbf{Bell 态制备：}从 $|00\rangle$ 出发，$H\otimes I$ + CNOT 可制备 $|\Phi^+\rangle$。
+  \item \textbf{Bell 基测量：}标准实现为 CNOT（第1控第2）+ $H$（第1比特）+ 计算基测量；
+        完全区分 4 个 Bell 态在实验上有技术难度。
+  \item \textbf{经典信道：}超密编码需要传送 1 个量子比特；隐形传态需要传 2 个经典比特；
+        经典信道限制整体速度，不可超光速。
+  \item \textbf{退相干与损耗：}纠缠在传输/存储中易退相干，探测效率与信道损耗会降低保真度。
+\end{itemize}
+
+\section{计算类背诵要点（导论/作业常考）}
+\begin{itemize}
+  \item \textbf{CNOT 作用：}$|ab\rangle\mapsto|a,\,b\oplus a\rangle$。
+  \item \textbf{Bell 测量映射：}
+  $|\Phi^+\rangle\to|00\rangle,\ |\Psi^+\rangle\to|01\rangle,\ |\Phi^-\rangle\to|10\rangle,\ |\Psi^-\rangle\to|11\rangle$（经 CNOT+H 后）。
+  \item \textbf{超密编码映射：}
+  $I\to|\Phi^+\rangle,\ X\to|\Psi^+\rangle,\ Z\to|\Phi^-\rangle,\ XZ(=iY)\to|\Psi^-\rangle$。
+  \item \textbf{隐形传态纠正：}Bob 按 $(M_1,M_2)$ 施加 $X^{M_2}Z^{M_1}$。
+  \item \textbf{资源消耗：}超密编码与隐形传态均消耗 1 对纠缠；隐形传态还需 2 个经典比特。
+  \item \textbf{互为对偶：}超密编码“量子→经典”，隐形传态“经典→量子”。
+\end{itemize}
+
+\section{常见量子门（简表）}
+单比特门：
+\[
+X=\begin{pmatrix}0&1\\1&0\end{pmatrix},\quad
+Z=\begin{pmatrix}1&0\\0&-1\end{pmatrix},\quad
+H=\frac{1}{\sqrt{2}}\begin{pmatrix}1&1\\1&-1\end{pmatrix},
+\]
+\[
+S=\begin{pmatrix}1&0\\0&i\end{pmatrix},\quad
+T=\begin{pmatrix}1&0\\0&e^{i\pi/4}\end{pmatrix},
+\quad
+R_\alpha(\theta)=e^{-i\theta\sigma_\alpha/2}\ (\alpha=x,y,z).
+\]
+双比特门：$\mathrm{CNOT}$ 定义为
+\[
+|ab\rangle\mapsto|a,\,b\oplus a\rangle,
+\]
+矩阵表示为 $\mathrm{CNOT}=\begin{pmatrix}1&0&0&0\\0&1&0&0\\0&0&0&1\\0&0&1&0\end{pmatrix}$。
+常用通用门集：$\{H,S,T,\mathrm{CNOT}\}$。
+
+\end{document}
