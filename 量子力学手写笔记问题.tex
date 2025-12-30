@@ -1,0 +1,171 @@
+\documentclass[12pt]{article}
+
+\usepackage[a4paper,margin=2.2cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{physics}
+\usepackage{enumitem}
+\usepackage{xeCJK}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+\setCJKmainfont{Source Han Serif CN}
+\setCJKsansfont{Source Han Sans CN}
+\setCJKmonofont{Source Han Sans CN}
+\setlist[itemize]{leftmargin=*,nosep}
+\setlist[enumerate]{leftmargin=*,nosep}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!55!black,
+  urlcolor=blue!55!black,
+  citecolor=blue!55!black
+}
+
+\title{量子力学手写笔记问题（默写版）}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+\section{常用积分与体积元}
+
+\subsection{高斯积分与指数积分}
+\begin{enumerate}
+  \item 计算高斯积分：$\displaystyle \int_{-\infty}^{\infty} e^{-a x^2}\,dx$（$a>0$）。
+  \item 计算高斯积分：$\displaystyle \int_{-\infty}^{\infty} x e^{-a x^2}\,dx$（$a>0$）。
+  \item 计算高斯积分：$\displaystyle \int_{-\infty}^{\infty} x^2 e^{-a x^2}\,dx$（$a>0$）。
+  \item 写出指数型积分：$\displaystyle \int_{0}^{\infty} x^n e^{-a x}\,dx$（$a>0,\ n=0,1,2,\dots$）。
+\end{enumerate}
+
+\subsection{分部积分}
+\begin{enumerate}
+  \item 写出分部积分公式。
+  \item 写出常见写法：$\displaystyle \int_a^b g(x)\,df(x)$ 的等价形式。
+  \item 写出 $f,g$ 可微时的“把导数项借位”公式。
+  \item 写出多变量情形下对某一变量分部积分的公式。
+\end{enumerate}
+
+\subsection{球坐标体积元与径向拉普拉斯}
+\begin{enumerate}
+  \item 写出球坐标体积元 $dV$。
+  \item 写出径向函数 $f(r)$ 的拉普拉斯 $\nabla^2 f(r)$。
+\end{enumerate}
+
+\subsection{常见边界与归一化}
+\begin{enumerate}
+  \item 写出束缚态（无限域）的边界条件与归一化条件。
+  \item 写出一维无限深势阱 $0<x<a$ 的边界条件与归一化条件。
+\end{enumerate}
+
+\section{$\delta$ 函数与向量分析}
+
+\subsection{$\delta$ 函数的换元公式}
+\begin{enumerate}
+  \item 若 $g(x_i)=0$ 且 $g'(x_i)\neq 0$，写出 $\delta(g(x))$ 的换元公式。
+\end{enumerate}
+
+\subsection{梯度、散度、旋度与叉乘}
+\begin{enumerate}
+  \item 写出 $\nabla f$ 与算符 $\nabla$ 的分量表达式。
+  \item 写出散度与旋度的符号表示。
+  \item 写出向量叉乘 $\vec a \times \vec b$ 的行列式形式。
+\end{enumerate}
+
+\section{对易关系与表象}
+
+\subsection{基本对易关系}
+\begin{enumerate}
+  \item 写出 $x_i,p_j$ 的三条基本对易关系。
+  \item 写出角动量算符 $L_x,L_y,L_z$ 的 6 个对易关系。
+\end{enumerate}
+
+\subsection{对易子的性质}
+\begin{enumerate}
+  \item 写出对易子的定义与两条常用性质。
+\end{enumerate}
+
+\subsection{位置与动量表象}
+\begin{enumerate}
+  \item 写出位置表象中 $\hat x,\hat p$ 的表示。
+  \item 写出动量表象中 $\hat p,\hat x$ 的表示。
+\end{enumerate}
+
+\subsection{矩阵元（常见例子）}
+\begin{enumerate}
+  \item 一维无限深势阱能量表象中，求 $x_{mn}=\langle m|\hat x|n\rangle$ 与 $p_{mn}=\langle m|\hat p|n\rangle$，分别给出 $m=n$ 与 $m\ne n$ 的结果。
+  \item 在动量表象中，写出 $\hat L_x^{(p)}$，并给出 $\langle \vec p_1|\hat L_x|\vec p_2\rangle$ 的表达式（写成算符作用于 $\delta$ 函数的形式）。
+\end{enumerate}
+
+\subsection{概率密度与概率流}
+\begin{enumerate}
+  \item 写出概率密度 $\rho$ 与概率流 $\vec j$ 的表达式。
+  \item 写出连续性方程。
+\end{enumerate}
+
+\section{薛定谔方程与定态解}
+
+\subsection{四大算符}
+\begin{enumerate}
+  \item 写出动能、势能、哈密顿、能量四大算符。
+\end{enumerate}
+
+\subsection{薛定谔方程}
+\begin{enumerate}
+  \item 写出薛定谔方程 $\hat E\,\psi=\hat H\psi$。
+  \item 写出时间无关势下的定态解形式与展开式。
+  \item 写出能量期望值 $\langle H\rangle$（或 $\langle E\rangle$）的表达式。
+\end{enumerate}
+
+\subsection{一维无限深势阱（$0<x<a$）}
+\begin{enumerate}
+  \item 写出势阱与边界条件。
+  \item 写出定态本征函数 $u_n(x)$ 与本征能量 $E_n$。
+  \item 写出展开系数 $C_n$ 的表达式。
+\end{enumerate}
+
+\section{氢原子基态}
+
+\subsection{库仑势与基态波函数}
+\begin{enumerate}
+  \item 写出库仑势 $V(r)$。
+  \item 写出基态（$1s$）波函数 $\psi_{100}(r)$。
+\end{enumerate}
+
+\subsection{基态期望值}
+\begin{enumerate}
+  \item 写出 $\langle r\rangle$ 与 $\left\langle\frac{1}{r}\right\rangle$。
+  \item 写出 $\langle V\rangle$ 与 $\langle T\rangle$ 的表达式，并给出 $\langle T\rangle$ 与 $E_1$ 的关系。
+\end{enumerate}
+
+\section{期望值随时间的演化（Ehrenfest）}
+\begin{enumerate}
+  \item 写出期望值定义 $\langle A\rangle$ 与薛定谔方程。
+  \item 写出 Ehrenfest 定理：$d\langle A\rangle/dt$ 的一般表达式。
+  \item 写出常见结果：$d\langle x\rangle/dt$ 与 $d\langle p\rangle/dt$。
+\end{enumerate}
+
+\section{本征值与本征函数}
+
+\subsection{位置算符}
+\begin{enumerate}
+  \item 写出位置算符的本征方程，并指出对应本征函数与本征值。
+\end{enumerate}
+
+\subsection{动量算符}
+\begin{enumerate}
+  \item 写出动量算符的本征方程。
+  \item 写出本征函数 $f_p(x)$ 的形式与归一化常数。
+\end{enumerate}
+
+\section{不确定关系}
+\begin{enumerate}
+  \item 写出一般不确定关系 $\Delta A\,\Delta B$。
+  \item 写出位置与动量的不确定关系。
+  \item 写出方差定义与 $\Delta x$ 的表达式。
+  \item 写出时间与频率（能量）的不确定关系。
+  \item 写出达到等号时的物理例子。
+\end{enumerate}
+
+\end{document}

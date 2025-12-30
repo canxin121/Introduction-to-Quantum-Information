@@ -1126,9 +1126,9 @@ p_{mn} &= {\int{u_{m}^{*}(x)\left( {- i\hslash\frac{d}{dx}} \right)u_{n}(x)dx}} 
 \[\begin{aligned}
 \left( \hat{L_{x}} \right)_{p_{1}p} &= \frac{1}{\left( {2\pi\hslash} \right)^{3}}{\int{exp\left( {- \frac{i}{\hslash}\overset{\rightarrow}{p_{1}} \cdot \overset{\rightarrow}{r}} \right)\left( {yp_{z} - zp_{y}} \right)}} \\
 &\quad \times exp\left( {\frac{i}{\hslash}\overset{\rightarrow}{p} \cdot \overset{\rightarrow}{r}} \right)dV \\
-&= \frac{\left( {- i\hslash} \right)}{\left( {2\pi\hslash} \right)^{3}}{\int{exp\left( {- \frac{i}{\hslash}\overset{\rightarrow}{p_{1}} \cdot \overset{\rightarrow}{r}} \right)}} \\
+&= \frac{i\hslash}{\left( {2\pi\hslash} \right)^{3}}{\int{exp\left( {- \frac{i}{\hslash}\overset{\rightarrow}{p_{1}} \cdot \overset{\rightarrow}{r}} \right)}} \\
 &\quad \times \left( {\frac{\partial}{\partial p_{y}}p_{z} - \frac{\partial}{\partial p_{z}}p_{y}} \right)exp\left( {\frac{i}{\hslash}\overset{\rightarrow}{p} \cdot \overset{\rightarrow}{r}} \right)dV \\
-&= \left( {- i\hslash} \right)\left( {p_{z}\frac{\partial}{\partial p_{y}} - p_{y}\frac{\partial}{\partial p_{z}}} \right) \\
+&= i\hslash\left( {p_{z}\frac{\partial}{\partial p_{y}} - p_{y}\frac{\partial}{\partial p_{z}}} \right) \\
 &\quad \times \left( {\frac{1}{\left( {2\pi\hslash} \right)^{3}}{\int{exp\left( {- \frac{i}{\hslash}\overset{\rightarrow}{p_{1}} \cdot \overset{\rightarrow}{r}} \right)exp\left( {\frac{i}{\hslash}\overset{\rightarrow}{p} \cdot \overset{\rightarrow}{r}} \right)}}dV} \right)
 \end{aligned}\]
 
@@ -1139,30 +1139,30 @@ p_{mn} &= {\int{u_{m}^{*}(x)\left( {- i\hslash\frac{d}{dx}} \right)u_{n}(x)dx}} 
 \end{split}\]
 
 因此：
-\[\left( \hat{L_{x}} \right)_{p_{1}p} = \left( {- i\hslash} \right)\left( {p_{z}\frac{\partial}{\partial p_{y}} - p_{y}\frac{\partial}{\partial p_{z}}} \right)\delta\left( {\overset{\rightarrow}{p} - \overset{\rightarrow}{p_{1}}} \right)\]
+\[\left( \hat{L_{x}} \right)_{p_{1}p} = i\hslash\left( p_{z}\frac{\partial}{\partial p_{y}} - p_{y}\frac{\partial}{\partial p_{z}} \right)\delta\left( {\overset{\rightarrow}{p} - \overset{\rightarrow}{p_{1}}} \right)\]
 \textbf{等价写法：}这就是动量空间中的角动量算符
 \[
-\hat L_x=-i\hslash(\vec p\times\nabla_p)_x
-= i\hslash\left(p_y\frac{\partial}{\partial p_z}-p_z\frac{\partial}{\partial p_y}\right),
+\hat L_x=i\hslash(\nabla_p\times\vec p)_x
+= i\hslash\left(p_z\frac{\partial}{\partial p_y}-p_y\frac{\partial}{\partial p_z}\right),
 \]
 \textbf{行列式推导：}
 \[
-\vec p\times\nabla_p=
+\nabla_p\times\vec p=
 \begin{vmatrix}
 \hat e_x & \hat e_y & \hat e_z\\
-p_x & p_y & p_z\\
-\frac{\partial}{\partial p_x} & \frac{\partial}{\partial p_y} & \frac{\partial}{\partial p_z}
+\frac{\partial}{\partial p_x} & \frac{\partial}{\partial p_y} & \frac{\partial}{\partial p_z}\\
+p_x & p_y & p_z
 \end{vmatrix},
 \]
 因此
 \[
-(\vec p\times\nabla_p)_x
-=p_y\frac{\partial}{\partial p_z}-p_z\frac{\partial}{\partial p_y},
+(\nabla_p\times\vec p)_x
+=p_z\frac{\partial}{\partial p_y}-p_y\frac{\partial}{\partial p_z},
 \]
 从而
 \[
-\hat L_x=-i\hslash(\vec p\times\nabla_p)_x
-=-i\hslash\left(p_y\frac{\partial}{\partial p_z}-p_z\frac{\partial}{\partial p_y}\right).
+\hat L_x=i\hslash(\nabla_p\times\vec p)_x
+=i\hslash\left(p_z\frac{\partial}{\partial p_y}-p_y\frac{\partial}{\partial p_z}\right).
 \]
 因此矩阵元也可写成
 \[
@@ -1178,12 +1178,12 @@ p_x & p_y & p_z\\
 \[
 \hat{\vec L}=\hat{\vec r}\times\hat{\vec p}
 \;\Rightarrow\;
-\hat{\vec L}\to i\hslash(\vec p\times\nabla_p),
+\hat{\vec L}\to i\hslash(\nabla_p\times\vec p),
 \]
 从而
 \[
 \hat L_x
-= i\hslash\left(p_y\frac{\partial}{\partial p_z}-p_z\frac{\partial}{\partial p_y}\right).
+= i\hslash\left(p_z\frac{\partial}{\partial p_y}-p_y\frac{\partial}{\partial p_z}\right).
 \]
 
 \textbf{(2) 先把“本征函数/特征值/自变量”说清楚：}
@@ -1226,7 +1226,7 @@ p_x & p_y & p_z\\
 \[
 \langle \vec p_1|\hat L_x|\vec p_2\rangle
 =\hat L_x^{(\vec p_1)}\delta(\vec p_1-\vec p_2)
-= i\hslash\left(p_{1y}\frac{\partial}{\partial p_{1z}}-p_{1z}\frac{\partial}{\partial p_{1y}}\right)
+= i\hslash\left(p_{1z}\frac{\partial}{\partial p_{1y}}-p_{1y}\frac{\partial}{\partial p_{1z}}\right)
 \delta\!\left(\vec p_1-\vec p_2\right).
 \]
 
@@ -1234,7 +1234,7 @@ p_x & p_y & p_z\\
 对动量表象波函数有
 \((U_R\phi)(\vec p)=\phi(R^{-1}\vec p)\)。
 对小旋转作一阶展开同样得到
-\(\hat{\vec L}=i\hslash(\vec p\times\nabla_p)\)，与上式一致。
+\(\hat{\vec L}=i\hslash(\nabla_p\times\vec p)\)，与上式一致。
 \end{quote}
 
 \begin{enumerate}

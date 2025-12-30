@@ -1,0 +1,158 @@
+\documentclass[12pt]{article}
+
+\usepackage[a4paper,margin=2.2cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{xeCJK}
+
+\setCJKmainfont{Source Han Serif CN}
+\setCJKsansfont{Source Han Sans CN}
+\setCJKmonofont{Source Han Sans CN}
+\setlist[itemize]{leftmargin=*,nosep}
+\setlist[enumerate]{leftmargin=*,nosep}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!55!black,
+  urlcolor=blue!55!black,
+  citecolor=blue!55!black
+}
+
+\title{量子信息手写笔记问题（默写版）}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+\section{基、基变换与酉矩阵}
+
+\subsection{基向量与基变换矩阵}
+\begin{enumerate}
+  \item 两组基向量 $\{|e_i\rangle\}$ 与 $\{|f_j\rangle\}$ 的矩阵 $E,F$ 如何定义？
+  \item 基变换矩阵 $U_{ij}$ 的定义式是什么？
+  \item 写出新基向量 $|f_j\rangle$ 在旧基下的展开式。
+  \item 写出矩阵形式 $F=E\,U$。
+  \item 写出态 $|\psi\rangle$ 在两组基下的展开，并给出系数列向量的变换关系。
+  \item 正交归一基时，$U$ 的性质是什么？
+\end{enumerate}
+
+\subsection{算符的基变换}
+\begin{enumerate}
+  \item 写出矩阵元 $A^{(E)}_{ij}$ 的定义。
+  \item 写出算符在新基下的矩阵表示公式。
+\end{enumerate}
+
+\section{本征方程与对角化}
+\begin{enumerate}
+  \item 写出本征方程与特征多项式条件。
+  \item 厄米矩阵的本征值与本征向量有什么性质？
+  \item 写出厄米矩阵的酉对角化形式及其物理含义。
+\end{enumerate}
+
+\section{单比特态与 Bloch 球}
+\begin{enumerate}
+  \item 写出任意单比特纯态在 Bloch 球参数化的表达式，并说明 $\theta,\varphi$ 的范围。
+\end{enumerate}
+
+\section{密度矩阵}
+\begin{enumerate}
+  \item 写出密度矩阵的定义与三条基本性质。
+  \item 写出纯态与混态的判据（$\rho^2$ 与 $\mathrm{tr}(\rho^2)$）。
+  \item 写出混态的一般分解形式及酉对角化形式。
+\end{enumerate}
+
+\section{Bell 态与最大纠缠}
+\begin{enumerate}
+  \item 写出四个 Bell 态。
+  \item 写出对 $|\Phi^+\rangle$ 施加 $I,X,Z,iY$ 的对应结果。
+\end{enumerate}
+
+\section{量子超密编码}
+\begin{enumerate}
+  \item 写出超密编码的时间顺序流程（$t_0\sim t_3$）。
+  \item 写出编码映射 $00,01,10,11$ 对应的局部操作。
+  \item 写出 Bob 的 Bell 测量步骤与四种测量结果对应的 Bell 态。
+  \item 写出超密编码的结论（资源消耗与信息量）。
+\end{enumerate}
+
+\section{量子隐形传态}
+\begin{enumerate}
+  \item 写出隐形传态的时间顺序流程（$t_0\sim t_3$）。
+  \item 写出 Bob 的纠正操作 $X^{M_2}Z^{M_1}$。
+  \item 写出该过程不违反不可克隆与超光速通信的原因。
+\end{enumerate}
+
+\section{发展史与里程碑（背诵）}
+\begin{enumerate}
+  \item 写出超密编码与隐形传态的重要年份与事件（列出要点）。
+\end{enumerate}
+
+\section{实验装置与关键技术（背诵）}
+\begin{enumerate}
+  \item 写出纠缠源、Bell 态制备、Bell 基测量的关键要点。
+  \item 写出经典信道与退相干/损耗的要点。
+\end{enumerate}
+
+\section{计算类背诵要点（导论/作业常考）}
+\begin{enumerate}
+  \item 写出 CNOT 的作用规则。
+  \item 写出 Bell 测量映射（经 CNOT+H 后）。
+  \item 写出超密编码映射。
+  \item 写出隐形传态纠正操作。
+  \item 写出超密编码与隐形传态的资源消耗与互为对偶关系。
+\end{enumerate}
+
+\section{张量积与纠缠（背诵）}
+\begin{enumerate}
+  \item 写出复合系统的张量积空间表示。
+  \item 写出张量积基向量与内积规则。
+  \item 写出可分态与纠缠态的定义，并说明 Bell 态的约化密度矩阵性质。
+\end{enumerate}
+
+\section{密度矩阵与偏迹（背诵）}
+\begin{enumerate}
+  \item 写出 $\rho$ 的性质与纯/混态判据。
+  \item 写出约化密度矩阵与期望值公式。
+  \item 写出酉变换下的迹不变性。
+\end{enumerate}
+
+\section{贝尔不等式与量子相关（背诵）}
+\begin{enumerate}
+  \item 写出 CHSH 经典上界与 Tsirelson 上界。
+  \item 写出违反 CHSH 的物理含义。
+\end{enumerate}
+
+\section{不可克隆定理（背诵）}
+\begin{enumerate}
+  \item 写出不可克隆定理的陈述与线性性原因。
+  \item 写出其物理含义。
+\end{enumerate}
+
+\section{量子密钥分发 QKD（背诵）}
+\begin{enumerate}
+  \item 写出 QKD 的基本思想与关键要点。
+\end{enumerate}
+
+\section{量子计算类型与平台（背诵）}
+\begin{enumerate}
+  \item 写出两类量子计算及量子线路模型要点。
+  \item 写出通用门集与典型算法。
+  \item 写出主要硬件平台。
+\end{enumerate}
+
+\section{量子通信与网络（背诵）}
+\begin{enumerate}
+  \item 写出量子通信与网络的典型任务与代表性网络。
+\end{enumerate}
+
+\section{常见量子门（简表）}
+\begin{enumerate}
+  \item 写出常见单比特门 $X,Z,H,S,T,R_\alpha(\theta)$ 的矩阵形式。
+  \item 写出 CNOT 的作用与矩阵表示，及常用通用门集。
+\end{enumerate}
+
+\end{document}

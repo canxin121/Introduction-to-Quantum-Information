@@ -35,7 +35,7 @@
 \begin{align*}
   \int_{-\infty}^{\infty} e^{-a x^2}\,dx &= \sqrt{\frac{\pi}{a}},\quad a>0, \\
   \int_{-\infty}^{\infty} x e^{-a x^2}\,dx &= 0,\quad a>0, \\
-  \int_{-\infty}^{\infty} x^2 e^{-a x^2}\,dx &= \frac{\sqrt{\pi}}{2}\,a^{-3/2},\quad a>0.
+  \int_{-\infty}^{\infty} x^2 e^{-a x^2}\,dx &= \sqrt{\frac{\pi}{4a^3}},\quad a>0.
 \end{align*}
 指数型积分（Gamma 函数特例）：
 \[
@@ -117,7 +117,11 @@
 \]
 角动量：
 \[
-  [L_x,L_y]=i\hbar L_z\quad (\text{循环置换}).
+\begin{aligned}
+  [L_x,L_y]&=i\hbar L_z, & [L_y,L_x]&=-i\hbar L_z,\\
+  [L_y,L_z]&=i\hbar L_x, & [L_z,L_y]&=-i\hbar L_x,\\
+  [L_z,L_x]&=i\hbar L_y, & [L_x,L_z]&=-i\hbar L_y.
+\end{aligned}
 \]
 
 \subsection{对易子的性质}
@@ -137,6 +141,38 @@
 动量表象：
 \[
   \hat p \to p,\qquad \hat x \to i\hbar\frac{\partial}{\partial p}.
+\]
+
+\subsection{矩阵元（常见例子）}
+\textbf{一维无限深势阱（能量表象）：} $u_n(x)=\sqrt{\frac{2}{a}}\sin\left(\frac{n\pi x}{a}\right)$。
+\[
+x_{mn}=\langle m|\hat x|n\rangle
+=\int_0^a u_m^*(x)\,x\,u_n(x)\,dx
+=
+\begin{cases}
+\dfrac{a}{2}, & m=n,\\[6pt]
+\dfrac{4nma}{\bigl[(m^{2}-n^{2})\pi\bigr]^2}\left[(-1)^{m-n}-1\right], & m\ne n.
+\end{cases}
+\]
+\[
+p_{mn}=\langle m|\hat p|n\rangle
+=\int_0^a u_m^*(x)\left(-i\hbar\frac{d}{dx}\right)u_n(x)\,dx
+=
+\begin{cases}
+0, & m=n,\\[6pt]
+\dfrac{2nm\hbar i}{(m^{2}-n^{2})a}\left[(-1)^{m-n}-1\right], & m\ne n.
+\end{cases}
+\]
+
+\textbf{动量表象角动量矩阵元：}动量表象下
+\[
+\hat L_x^{(p)}=i\hbar\left(p_z\frac{\partial}{\partial p_y}-p_y\frac{\partial}{\partial p_z}\right),
+\]
+\[
+\langle \vec p_1|\hat L_x|\vec p_2\rangle
+=\hat L_x^{(p_1)}\delta(\vec p_1-\vec p_2)
+= i\hbar\left(p_{1z}\frac{\partial}{\partial p_{1y}}-p_{1y}\frac{\partial}{\partial p_{1z}}\right)
+\delta(\vec p_1-\vec p_2).
 \]
 
 \subsection{概率密度与概率流}
@@ -181,7 +217,7 @@
 \]
 能量期望值：
 \[
-  \langle H \rangle = \sum_n |C_n|^2 E_n.
+  \langle H \rangle = \langle E \rangle = \sum_n |C_n|^2 E_n.
 \]
 
 \subsection{一维无限深势阱（$0<x<a$）}
@@ -217,10 +253,8 @@ u_n(x)=\sqrt{\frac{2}{a}}\sin\left(\frac{n\pi x}{a}\right),\quad
 \]
 \[
   \langle V\rangle=-e^2\left\langle\frac{1}{r}\right\rangle=-\frac{e^2}{a_0},\qquad
-  \langle T\rangle=\frac{e^2}{2a_0}=\frac{\hbar^2}{2m a_0^2}.
+  \langle T\rangle=\frac{\hbar^2}{2m a_0^2}.
 \]
-简写说明：在 SI 制中应取 $e^2\to e^2/(4\pi\varepsilon_0)$；在高斯单位下 $a_0=\hbar^2/(m e^2)$，
-故两式等价，并有 $\langle T\rangle=-E_1$。
 
 \section{期望值随时间的演化（Ehrenfest）}
 \[
